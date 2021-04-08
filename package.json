@@ -1,0 +1,100 @@
+{
+  "name": "atcodergui",
+  "version": "0.0.1",
+  "author": "adenohitu",
+  "description": "Get AtCoder information",
+  "homepage": ".",
+  "main": "build/electron/main.js",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"set BROWSER=none && yarn react:start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+    "build": "yarn react:build && tsc -p electron && electron-builder --mac --universal",
+    "electron:source_build": "tsc -p electron ",
+    "react:start": "react-scripts start",
+    "react:build": "react-scripts build",
+    "react:test": "react-scripts test",
+    "react:eject": "react-scripts eject",
+    "postinstall": "electron-builder install-app-deps",
+    "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\""
+  },
+  "build": {
+    "extends": null,
+    "files": [
+      "build/**/*",
+      "node_modules/"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "icon": "./public/logo512.png"
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^3.38.2",
+    "@blueprintjs/icons": "^3.24.0",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/data-grid": "^4.0.0-alpha.21",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@monaco-editor/react": "^4.0.10",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@types/react-redux": "^7.1.16",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "classnames": "^2.2.6",
+    "dayjs": "^1.10.3",
+    "electron-devtools-installer": "^3.1.1",
+    "electron-is-dev": "^2.0.0",
+    "electron-reload": "^1.5.0",
+    "electron-store": "^7.0.1",
+    "jsdom": "^16.4.0",
+    "monaco-editor": "^0.23.0",
+    "node-cache": "^5.1.2",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
+    "react-dom": "^17.0.1",
+    "react-grid-layout": "^1.2.4",
+    "react-mosaic-component": "^4.1.1",
+    "react-redux": "^7.2.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "typescript": "4.2.3"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.11",
+    "@types/electron-devtools-installer": "^2.2.0",
+    "@types/jest": "26.0.20",
+    "@types/node": "14.14.35",
+    "@types/react": "17.0.3",
+    "@types/react-dom": "17.0.2",
+    "@types/react-grid-layout": "^1.1.1",
+    "@types/react-router-dom": "^5.1.6",
+    "concurrently": "^6.0.0",
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5",
+    "wait-on": "^5.2.1"
+  }
+}

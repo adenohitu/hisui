@@ -1,0 +1,13 @@
+html,
+body,
+#root,
+.react-mosaic-app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+.table-window {
+  height: 100%;
+  /* padding: 20px;
+  text-align: center; */
+}
