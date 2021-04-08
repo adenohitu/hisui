@@ -2,14 +2,14 @@
 
 [Site](https://adenohitu.github.io/AtCoderGUI-docs/)
 
-## Projects
+## 概要
 
-Competitive programming support tool
-After supporting AtCoder, we plan to support other Competitive programming sites such as Codeforces.  
 競技プログラミングサポートツールです  
-AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です
+AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です  
+Competitive programming support tool
+After supporting AtCoder, we plan to support other Competitive programming sites such as Codeforces.
 
-## 目的
+## このプロジェクトの目的
 
 - Atcoder の操作を全て一つのアプリで完結させる
 - AtCoder のコードテストを使ってコーディングしている人に向けて、簡単に導入できるコーディング環境を提供する
