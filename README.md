@@ -5,7 +5,7 @@
 ## Projects
 
 Competitive programming support tool
-After supporting AtCoder, we plan to support other Competitive programming sites such as Codeforces.
+After supporting AtCoder, we plan to support other Competitive programming sites such as Codeforces.  
 競技プログラミングサポートツールです  
 AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です
 
