@@ -1,0 +1,59 @@
+name: CI
+on:
+  push:
+    tags:
+      # "v" で始まる Tag 名の push だけをトリガーの対象にします (e.g., "v0.0.2")
+      - "v*"
+
+jobs:
+  # macOS 用の job 定義
+  build_on_mac:
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: yarn install
+        run: yarn install
+      # ここでアプリをビルド
+      - name: build application
+        run: yarn build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Release の作成とビルドしたパッケージのアップロード
+      - name: create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          # 作成される Release は draft に留めておきたい
+          draft: true
+          # アップロード対象となるファイル名
+          files: |
+            dist/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # # Windows 用の job 定義
+  # build_on_win:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js 12.x
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12.x
+  #     - name: npm install
+  #       run: npm install
+  #     - name: build application
+  #       run: npm run build:win
+  #     - name: create release
+  #       uses: softprops/action-gh-release@v1
+  #       if: startsWith(github.ref, 'refs/tags/')
+  #       with:
+  #         draft: true
+  #         files: |
+  #           dist/*.exe
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
