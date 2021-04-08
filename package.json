@@ -1,14 +1,15 @@
 {
-  "name": "atcodergui",
+  "name": "hisui",
   "version": "0.0.1",
   "author": "adenohitu",
-  "description": "Get AtCoder information",
+  "description": "Useful tool for programming competition",
   "homepage": ".",
   "main": "build/electron/main.js",
   "private": true,
   "scripts": {
     "start": "concurrently \"set BROWSER=none && yarn react:start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
-    "build": "yarn react:build && tsc -p electron && electron-builder --mac --universal",
+    "build:mac": "yarn react:build && tsc -p electron && electron-builder --mac --universal",
+    "build:win": "yarn react:build && tsc -p electron && electron-builder --win --x64",
     "electron:source_build": "tsc -p electron ",
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
@@ -26,14 +27,34 @@
     "directories": {
       "buildResources": "assets"
     },
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
     "mac": {
+      "icon": "build/logo512.png",
       "target": [
         "dmg"
-      ],
-      "type": "distribution",
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "icon": "./public/logo512.png"
+      ]
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/logo512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": false
     }
   },
   "eslintConfig": {

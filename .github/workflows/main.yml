@@ -1,4 +1,4 @@
-name: CI
+name: Build
 on:
   push:
     tags:
@@ -19,7 +19,7 @@ jobs:
         run: yarn install
       # ここでアプリをビルド
       - name: build application
-        run: yarn build
+        run: yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Release の作成とビルドしたパッケージのアップロード
@@ -35,25 +35,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # # Windows 用の job 定義
-  # build_on_win:
-  #   runs-on: windows-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js 12.x
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 12.x
-  #     - name: npm install
-  #       run: npm install
-  #     - name: build application
-  #       run: npm run build:win
-  #     - name: create release
-  #       uses: softprops/action-gh-release@v1
-  #       if: startsWith(github.ref, 'refs/tags/')
-  #       with:
-  #         draft: true
-  #         files: |
-  #           dist/*.exe
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Windows 用の job 定義
+  build_on_win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: yarn install
+        run: yarn install
+      - name: build application
+        run: npm run build:win
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+          files: |
+            dist/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
