@@ -11,6 +11,7 @@ import {
   get_submissions_me,
 } from "./data/contestData";
 import { get_Standings, getRank, getTotal } from "./data/standing";
+import { getTasklist } from "./data/task";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -128,5 +129,11 @@ export const main_ipc = () => {
   ipcMain.on("setWindowState", (event, value) => {
     setWindowState(value);
     // console.log(value);
+  });
+  //問題情報を取得
+  ipcMain.on("getTasklist", async (event, contest_short_name) => {
+    const get = await getTasklist(contest_short_name);
+
+    event.sender.send("getTasklist_replay", get);
   });
 };

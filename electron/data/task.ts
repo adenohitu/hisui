@@ -9,13 +9,14 @@ import { scrapingTaskList } from "./scraping/tasklist";
  * @returns {taskList}
  */
 export async function getTasklist(contest_short_name: string = getContestID()) {
-  const standings_url = `https://atcoder.jp/tasks/${contest_short_name}`;
+  const standings_url = `https://atcoder.jp/contests/${contest_short_name}/tasks/`;
   const data = await Atcoder.axiosInstance.get(standings_url, {
     maxRedirects: 0,
     validateStatus: function (status) {
       return status < 500;
     },
   });
+
   if (data.status === 200) {
     const returnData = await scrapingTaskList(data.data);
     return returnData;

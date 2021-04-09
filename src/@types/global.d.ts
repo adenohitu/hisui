@@ -36,6 +36,8 @@ declare global {
       get_submissions_me_render;
       getSubmissions_send_render;
       getSubmissions_on_render;
+      getTasklist_send_render;
+      getTasklist_on_render;
     };
   }
 }

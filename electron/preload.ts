@@ -158,4 +158,14 @@ contextBridge.exposeInMainWorld("api", {
     //rendererでの受信用, funcはコールバック関数
     ipcRenderer.on("resetWindowState", func);
   },
+
+  //問題情報を取得 send on
+  getTasklist_send_render: (contest_short_name: any) => {
+    ipcRenderer.send("getTasklist", contest_short_name);
+  },
+  getTasklist_on_render: (func: any) => {
+    ipcRenderer.once("getTasklist_replay", (event, arg) => {
+      func(arg);
+    });
+  },
 });

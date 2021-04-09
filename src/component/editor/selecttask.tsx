@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   makeStyles,
   withStyles,
@@ -8,6 +8,8 @@ import {
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
+import { useDispatch, useSelector } from "react-redux";
+import { selecttaskData, sendGetTasklist } from "../../app/Slice/taskdata";
 
 interface StyledTabsProps {
   value: number;
@@ -77,7 +79,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 export function TaskSelect() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const dispatch = useDispatch();
+  const taskData = useSelector(selecttaskData);
+  useEffect(() => {
+    dispatch(sendGetTasklist());
+  }, [dispatch]);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
@@ -90,9 +96,9 @@ export function TaskSelect() {
           onChange={handleChange}
           aria-label="styled tabs example"
         >
-          <StyledTab label="Workflows" />
-          <StyledTab label="Datasets" />
-          <StyledTab label="Connections" />
+          {taskData.map((row: any) => (
+            <StyledTab key={row.taskHeader} label={row.taskHeader} />
+          ))}
         </StyledTabs>
         <Typography className={classes.padding} />
       </div>
