@@ -1,8 +1,8 @@
-import { scrapingTaskList } from "./tasklist";
 import axios from "axios";
+import { scrapingUserData } from "./userdata";
 async function runTasklist() {
-  const get = await axios.get(`https://atcoder.jp/contests/abc197/tasks`);
-  const returndata = await scrapingTaskList(get.data);
+  const get = await axios.get(`https://atcoder.jp/users/tourist?lang=ja`);
+  const returndata = await scrapingUserData(get.data);
   //   console.log(get);
 
   console.log(returndata);

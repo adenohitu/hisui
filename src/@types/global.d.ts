@@ -18,6 +18,7 @@ declare global {
       login_render;
       logout_render;
       getUsername_render;
+      getUserData_render;
       get_date_render;
       get_Standings_render;
       get_Score_render;

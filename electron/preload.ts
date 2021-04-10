@@ -68,6 +68,11 @@ contextBridge.exposeInMainWorld("api", {
     const data: any = await ipcRenderer.invoke("getUsername");
     return data;
   },
+  //ユーザー情報を返す
+  getUserData_render: async (user: any) => {
+    const data: any = await ipcRenderer.invoke("getUserData", user);
+    return data;
+  },
   //開始時間と終了時間を取得
   get_date_render: async (contest_short_name: any) => {
     const data: any = await ipcRenderer.invoke("get_date", contest_short_name);

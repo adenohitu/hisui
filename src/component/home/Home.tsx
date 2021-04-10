@@ -1,43 +1,88 @@
 // import React from "react";
 // import { Counter } from "../counter/Counter";
-import { useSelector } from "react-redux";
-import {
-  selectMyrank,
-  // selectTotal,
-} from "../../app/Slice/standings";
-// import store from "../app/store";
-// import { useEffect } from "react";
+import { Box, Container, Grid, Paper, Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import SelectContest from "../setting/select_contestlist";
+import Chart from "./Chart";
+function colorRating(rating: number | null) {
+  if (rating == null) return "gray";
+  if (rating >= 2400) return "red";
+  else if (rating >= 2100) return "#FF8C00";
+  else if (rating >= 1900) return "#a0a";
+  else if (rating >= 1600) return "blue";
+  else if (rating >= 1400) return "#03A89E";
+  else if (rating >= 1200) return "green";
+  else if (rating >= 0) return "gray";
+}
 export function Home() {
-  const Myrank = useSelector(selectMyrank);
-  // const total = useSelector(selectTotal);
-  // const dispatch = useDispatch();
+  const [loginstatus, setstatus] = useState(false);
+  const [userdata, setuserdata] = useState({
+    UserScreenName: null,
+    Rating: null,
+    AtCoderRank: null,
+    Country: null,
+    Affiliation: null,
+  });
+  useEffect(() => {
+    const run = async () => {
+      setstatus(await window.api.get_login_status_render());
+      setuserdata(await window.api.getUserData_render());
+    };
+    run();
+  }, []);
   return (
-    <div>
-      <h1>Home</h1>
-      <button
-        onClick={() => {
-          // console.log();
-        }}
-      >
-        get
-      </button>
-      <button
-        onClick={() => {
-          window.api.getRank_send_render();
-        }}
-      >
-        ipctest
-      </button>
-      <button
-        onClick={() => {
-          window.api.logout_render();
-        }}
-      >
-        logout
-      </button>
-      {/* <Counter /> */}
-      <p>{Myrank !== undefined && Myrank}</p>
-      {/* <p>{total !== undefined && total[0].allsubmission}</p> */}
-    </div>
+    <Container>
+      <Box py={1}>
+        {(loginstatus === true && (
+          <Typography variant="h3" style={{ display: "flex" }}>
+            ようこそ
+            <div style={{ color: colorRating(userdata.Rating) }}>
+              {userdata.UserScreenName}
+            </div>
+            さん
+          </Typography>
+        )) || <Typography variant="h2">ログインしてください</Typography>}
+      </Box>
+
+      <Grid container spacing={3}>
+        {/* Chart */}
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper style={{ height: 240 }}>
+            <Chart />
+          </Paper>
+        </Grid>
+        {/* Recent Deposits */}
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper style={{ height: 240 }}>
+            <Container>
+              <Typography>ユーザー情報</Typography>
+              <Typography style={{ display: "flex" }}>
+                Atcoderレート:
+                <div style={{ color: colorRating(userdata.Rating) }}>
+                  {userdata.Rating}
+                </div>
+              </Typography>
+              <Typography style={{ display: "flex" }}>
+                ランキング:{userdata.AtCoderRank}
+              </Typography>
+              {userdata.Affiliation !== null && (
+                <Typography style={{ display: "flex" }}>
+                  所属: {userdata.Affiliation}
+                </Typography>
+              )}
+              <Typography style={{ display: "flex" }}>
+                国: {userdata.Country}
+              </Typography>
+            </Container>
+          </Paper>
+        </Grid>
+        {/* Recent Orders */}
+        <Grid item xs={12}>
+          <Paper style={{ height: 240 }}>
+            <SelectContest select={false} />
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
