@@ -34,13 +34,16 @@ export function Home() {
     <Container>
       <Box py={1}>
         {(loginstatus === true && (
-          <Typography variant="h3" style={{ display: "flex" }}>
-            ようこそ
-            <div style={{ color: colorRating(userdata.Rating) }}>
+          <div style={{ display: "flex" }}>
+            <Typography variant="h3">ようこそ</Typography>
+            <Typography
+              variant="h3"
+              style={{ color: colorRating(userdata.Rating) }}
+            >
               {userdata.UserScreenName}
-            </div>
-            さん
-          </Typography>
+            </Typography>
+            <Typography variant="h3">さん</Typography>
+          </div>
         )) || <Typography variant="h2">ログインしてください</Typography>}
       </Box>
 
@@ -56,12 +59,12 @@ export function Home() {
           <Paper style={{ height: 240 }}>
             <Container>
               <Typography>ユーザー情報</Typography>
-              <Typography style={{ display: "flex" }}>
-                Atcoderレート:
-                <div style={{ color: colorRating(userdata.Rating) }}>
+              <div style={{ display: "flex" }}>
+                <Typography>Atcoderレート:</Typography>
+                <Typography style={{ color: colorRating(userdata.Rating) }}>
                   {userdata.Rating}
-                </div>
-              </Typography>
+                </Typography>
+              </div>
               <Typography style={{ display: "flex" }}>
                 ランキング:{userdata.AtCoderRank}
               </Typography>
@@ -79,7 +82,7 @@ export function Home() {
         {/* Recent Orders */}
         <Grid item xs={12}>
           <Paper style={{ height: 240 }}>
-            <SelectContest select={false} />
+            <SelectContest select="false" />
           </Paper>
         </Grid>
       </Grid>

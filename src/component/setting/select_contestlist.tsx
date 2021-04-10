@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SelectContest(prop: any) {
+export default function SelectContest(prop: any): any {
   const classes = useStyles();
   const [text, setText]: any = useContext(TextContext);
   const [rows, setrows] = useState([]);
