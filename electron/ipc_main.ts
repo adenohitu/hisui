@@ -12,6 +12,7 @@ import {
 } from "./data/contestData";
 import { get_Standings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
+import { getUserData } from "./data/userdata";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -61,6 +62,12 @@ export const main_ipc = () => {
   //ログインされているユーザーIDを返す
   ipcMain.handle("getUsername", async (event, message) => {
     const get = await Atcoder.getUsername();
+    return get;
+  });
+  //ユーザー情報を返す
+  ipcMain.handle("getUserData", async (event, user) => {
+    // console.log(Atcoder_class.axiosInstance);
+    const get = await getUserData(user);
     return get;
   });
   //開始時間と終了時間を取得
