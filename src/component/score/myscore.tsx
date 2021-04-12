@@ -49,7 +49,7 @@ export default function BasicTable() {
   // const load = useSelector(selectload);
   const dispatch = useDispatch();
   // const [rows, setrows] = useState([]);
-
+  //提出時刻を出力
   const Created = (date: string, num: number) => {
     return (
       <TableCell align="right">
@@ -63,12 +63,10 @@ export default function BasicTable() {
         <Typography variant="body2">
           {date === "0001-01-01T00:00:00Z" && num === 0 && "未提出"}
         </Typography>
-        <Typography variant="body2" color="secondary">
-          {date === "0001-01-01T00:00:00Z" && num !== 0 && "(" + num + ")"}
-        </Typography>
       </TableCell>
     );
   };
+  //問題が正解しているか不正解かで色を指定するClassを返す
   const setRowColor = (date: string, num: number) => {
     if (date !== "0001-01-01T00:00:00Z") {
       return classes.ac;
@@ -151,7 +149,7 @@ export default function BasicTable() {
               <TableCell>問題名</TableCell>
               <TableCell align="right">得点</TableCell>
               <TableCell align="right">経過時間</TableCell>
-              <TableCell align="right">提出時間</TableCell>
+              <TableCell align="right">提出時刻</TableCell>
               <TableCell className={classes.tablecellborder}>
                 <Box className={classes.actext}>AC</Box>
                 <Box>/All</Box>
