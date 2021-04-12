@@ -46,7 +46,7 @@ export default function SelectContest(prop: any): any {
               <TableCell align="left">コンテスト名</TableCell>
               <TableCell align="center">開始時刻</TableCell>
               <TableCell align="center">Status</TableCell>
-              {prop.select !== false && <TableCell align="center"></TableCell>}
+              {prop.select === true && <TableCell align="center"></TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,7 +63,7 @@ export default function SelectContest(prop: any): any {
                     <Chip size="small" label="開催予定" />
                   )}
                 </TableCell>
-                {prop.select !== false && (
+                {prop.select === true && (
                   <TableCell align="center">
                     {row.contest_short_name === text ? (
                       <Button

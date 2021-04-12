@@ -82,7 +82,7 @@ export function Home() {
         {/* Recent Orders */}
         <Grid item xs={12}>
           <Paper style={{ height: 240 }}>
-            <SelectContest select="false" />
+            <SelectContest select={false} />
           </Paper>
         </Grid>
       </Grid>

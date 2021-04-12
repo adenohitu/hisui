@@ -125,7 +125,7 @@ export default function DefaltContest() {
               }}
               helperText={messageerror}
             />
-            <SelectContest />
+            <SelectContest select={true} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
