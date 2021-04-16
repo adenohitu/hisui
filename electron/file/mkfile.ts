@@ -3,7 +3,7 @@
 //ファイル操作に関するモジュール
 // import { app } from "electron";
 import { store } from "../save/save";
-import { mkdir, readdirSync, writeFileSync, statSync, readFile } from "fs";
+import { mkdir, readdirSync, writeFileSync, statSync, readFileSync } from "fs";
 
 /**
  * デフォルトの保存フォルダを作成する
@@ -80,29 +80,50 @@ export const makeFile = async (
 
   //ファイルを新規作成（上書き禁止）
   if (exfile) {
-    console.log("すでに存在します");
+    console.log("ファイルは存在します");
     return savefolderpath;
   } else {
     await writeFileSync(savefolderpath, "", "utf8");
     return savefolderpath;
   }
 };
+type launagetype = "cpp" | "python";
+const launageselect = { cpp: ".cpp", python: ".py" };
 
 /**
- * ファイル作成、ファイル読み込み同時に行う
+ * ファイル読み込みを行う
+ * ファイルが作成されていない場合は作成される
  */
 export const getFiledata = async (
   contestname: string,
   taskname: string,
-  launage: "cpp" | "python"
+  launage: launagetype
 ) => {
-  const launageselect = { cpp: ".cpp", python: ".py" };
   const filename = await makeFile(
     `${taskname}${launageselect[launage]}`,
     contestname
   );
-  const filedata = await readFile(filename, "utf8", (err, data) => {
-    return data;
-  });
+  const filedata = await readFileSync(filename, "utf8");
   return filedata;
+};
+/**
+ * ファイルに書き込みをする
+ * ファイルが存在しない場合作成する
+ */
+export const runWritefile = async (
+  data: string,
+  contestname: string,
+  taskname: string,
+  launage: launagetype
+) => {
+  const filename = await makeFile(
+    `${taskname}${launageselect[launage]}`,
+    contestname
+  );
+  try {
+    await writeFileSync(filename, data, "utf8");
+    return true;
+  } catch (err) {
+    return false;
+  }
 };
