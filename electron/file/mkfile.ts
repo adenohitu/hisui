@@ -1,8 +1,10 @@
 //フォルダ操作に関する関数
 //Copyright © 2021 adenohitu. All rights reserved.
+//ファイル操作に関するモジュール
 // import { app } from "electron";
 import { store } from "../save/save";
-import { mkdir, readdirSync, writeFileSync, statSync } from "fs";
+import { mkdir, readdirSync, writeFileSync, statSync, readFile } from "fs";
+
 /**
  * デフォルトの保存フォルダを作成する
  * app.getPath("documents")
@@ -36,7 +38,10 @@ export const getDefaultfiledata = async () => {
  * folderdirにファイル名またさらに下の階層のフォルダーがいい場合は記入
  * 例:makeFile("a.py","abc001/a")
  */
-export const makeFile = async (foldername: string, folderdir: string = "") => {
+export const makeFile = async (
+  foldername: string,
+  folderdir: string = ""
+): Promise<string> => {
   const saveDefaultFolder = await store.get("saveDefaultFolder");
   const mkfolderpath = `${saveDefaultFolder}/${folderdir}`;
   const savefolderpath = `${saveDefaultFolder}/${folderdir}/${foldername}`;
@@ -76,11 +81,28 @@ export const makeFile = async (foldername: string, folderdir: string = "") => {
   //ファイルを新規作成（上書き禁止）
   if (exfile) {
     console.log("すでに存在します");
+    return savefolderpath;
   } else {
     await writeFileSync(savefolderpath, "", "utf8");
+    return savefolderpath;
   }
+};
 
-  /**
-   *
-   */
+/**
+ * ファイル作成、ファイル読み込み同時に行う
+ */
+export const getFiledata = async (
+  contestname: string,
+  taskname: string,
+  launage: "cpp" | "python"
+) => {
+  const launageselect = { cpp: ".cpp", python: ".py" };
+  const filename = await makeFile(
+    `${taskname}${launageselect[launage]}`,
+    contestname
+  );
+  const filedata = await readFile(filename, "utf8", (err, data) => {
+    return data;
+  });
+  return filedata;
 };
