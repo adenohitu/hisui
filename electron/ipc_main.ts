@@ -146,24 +146,22 @@ export const main_ipc = () => {
   });
   //ファイル操作
   //ファイル読み込みを行う
-  ipcMain.on("getFiledata", async (event, loadinfo) => {
+  ipcMain.handle("getFiledata", async (event, loadinfo) => {
     const get = await getFiledata(
       loadinfo.contestname,
       loadinfo.taskname,
       loadinfo.launage
     );
-
-    event.sender.send("getFiledata_replay", get);
+    return get;
   });
   //ファイルに書き込みを行う
-  ipcMain.on("runWritefile", async (event, saveinfo) => {
+  ipcMain.handle("runWritefile", async (event, saveinfo) => {
     const get = await runWritefile(
       saveinfo.data,
       saveinfo.contestname,
       saveinfo.taskname,
       saveinfo.launage
     );
-
-    event.sender.send("runWritefile_replay", get);
+    return get;
   });
 };
