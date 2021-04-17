@@ -9,57 +9,62 @@ import Editor, { loader } from "@monaco-editor/react";
 loader.config({
   paths: { vs: "./monaco-editor/min/vs" },
 });
-const files: any = {
-  "script.js": {
-    name: "script.js",
-    language: "javascript",
-    value: "script.js",
-  },
-  "style.css": {
-    name: "style.css",
-    language: "css",
-    value: "style.css",
-  },
-  "index.html": {
-    name: "index.html",
-    language: "html",
-    value: "index.html",
-  },
-};
+
 export function MainEditor() {
-  const [fileName, setFileName]: any = useState("script.js");
-  const file = files[fileName];
+  const [editorvalue, seteditorvalue] = useState("");
+  const [ID, setid] = useState("");
+  const [task, settask] = useState("");
   useEffect(() => {
-    console.log();
+    const getid = async () => {
+      setid(await window.api.get_SetContestID_render());
+    };
+    getid();
   }, []);
+
+  function handleEditorChange(value: any, event: any) {
+    console.log("here is the current model value:", value);
+    seteditorvalue(value);
+  }
+
   return (
     <>
-      <div>
-        <button
-          disabled={fileName === "script.js"}
-          onClick={() => setFileName("script.js")}
-        >
-          script.js
-        </button>
-        <button
-          disabled={fileName === "style.css"}
-          onClick={() => setFileName("style.css")}
-        >
-          style.css
-        </button>
-        <button
-          disabled={fileName === "index.html"}
-          onClick={() => setFileName("index.html")}
-        >
-          index.html
-        </button>
-      </div>
+      <input value={ID}></input>
+      <input
+        value={task}
+        onChange={(event) => {
+          settask(event.target.value);
+        }}
+      ></input>
+      <button
+        onClick={async () => {
+          const data = await window.api.getFiledata_render({
+            contestname: ID,
+            taskname: task,
+            launage: "cpp",
+          });
+          console.log(data);
+          seteditorvalue(data);
+        }}
+      >
+        update
+      </button>
+      <button
+        onClick={async () => {
+          await window.api.runWritefile_render({
+            data: editorvalue,
+            contestname: ID,
+            taskname: task,
+            launage: "cpp",
+          });
+        }}
+      >
+        save
+      </button>
       <Editor
-        height="100%"
-        loading={"loading..."}
-        path={file.name}
-        defaultLanguage={file.language}
-        defaultValue={file.value}
+        height="90vh"
+        defaultLanguage="cpp"
+        value={editorvalue}
+        onChange={handleEditorChange}
       />
     </>
   );
