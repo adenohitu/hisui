@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import path from "path";
 import Editor, { loader } from "@monaco-editor/react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveValue, selecteditorvalue } from "../../app/Slice/editor";
 // loader.config({
 //   paths: { vs: "./node_modules/monaco-editor/min/vs" },
 // });
@@ -11,60 +13,32 @@ loader.config({
 });
 
 export function MainEditor() {
-  const [editorvalue, seteditorvalue] = useState("");
-  const [ID, setid] = useState("");
-  const [task, settask] = useState("");
-  useEffect(() => {
-    const getid = async () => {
-      setid(await window.api.get_SetContestID_render());
-    };
-    getid();
-  }, []);
+  const editorvalue = useSelector(selecteditorvalue);
+  const editorRef: any = useRef(null);
 
-  function handleEditorChange(value: any, event: any) {
-    console.log("here is the current model value:", value);
-    seteditorvalue(value);
+  function handleEditorDidMount(editor: any, monaco: any) {
+    editorRef.current = editor;
   }
+
+  function showValue() {
+    return editorRef.current.getValue();
+  }
+  const dispatch = useDispatch();
 
   return (
     <>
-      <input value={ID}></input>
-      <input
-        value={task}
-        onChange={(event) => {
-          settask(event.target.value);
-        }}
-      ></input>
       <button
-        onClick={async () => {
-          const data = await window.api.getFiledata_render({
-            contestname: ID,
-            taskname: task,
-            launage: "cpp",
-          });
-          console.log(data);
-          seteditorvalue(data);
-        }}
-      >
-        update
-      </button>
-      <button
-        onClick={async () => {
-          await window.api.runWritefile_render({
-            data: editorvalue,
-            contestname: ID,
-            taskname: task,
-            launage: "cpp",
-          });
+        onClick={() => {
+          dispatch(saveValue(showValue()));
         }}
       >
         save
       </button>
       <Editor
-        height="90vh"
-        defaultLanguage="cpp"
+        height="100%"
+        defaultLanguage="python"
         value={editorvalue}
-        onChange={handleEditorChange}
+        onMount={handleEditorDidMount}
       />
     </>
   );

@@ -11,6 +11,7 @@ import scoreDataSlice from "./Slice/score";
 import submissionsSlice from "./Slice/submissions";
 import contestDataSlice from "./Slice/contestdata";
 import taskDataSlice from "./Slice/taskdata";
+import editorDataSlice from "./Slice/editor";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     submissionsData: submissionsSlice,
     contestData: contestDataSlice,
     taskData: taskDataSlice,
+    editorData: editorDataSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
