@@ -1,25 +1,23 @@
-// import React from "react";
-// import { Counter } from "../counter/Counter";
-import { Box, Container, Grid, Paper, Typography } from "@material-ui/core";
-import { useEffect } from "react";
+import { Box, Container, Grid, Paper } from "@material-ui/core";
+import { MainEditor } from "../editor/editor";
 import { Submissionstepper } from "./stepper";
 
-export function Submitmain() {
+export function Submitconsole() {
   return (
-    <Container>
+    <Box px={1}>
       <Box py={1}>
         <Submissionstepper />
       </Box>
       <Grid container spacing={3}>
-        {/* Chart */}
+        {/* codeview */}
         <Grid item xs={12} md={8} lg={9}>
           <Paper style={{ height: 240 }}>
-            <h1>test</h1>
+            <MainEditor />
           </Paper>
         </Grid>
         {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={3}>
-          <Paper style={{ height: 240 }}>
+          <Paper style={{ height: 250 }}>
             <Container>
               <h1>test</h1>
             </Container>
@@ -32,6 +30,6 @@ export function Submitmain() {
           </Paper>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 }

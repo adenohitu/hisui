@@ -27,13 +27,13 @@ export function MainEditor() {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={() => {
           dispatch(saveValue(showValue()));
         }}
       >
         save
-      </button>
+      </button> */}
       <Editor
         height="100%"
         defaultLanguage="python"
