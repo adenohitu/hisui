@@ -1,5 +1,7 @@
 import { Box, Container, Grid, Paper } from "@material-ui/core";
 import { MainEditor } from "../editor/editor";
+import { Judgetool } from "./judge";
+import { JudgeResultList } from "./judgeresult";
 import { Submissionstepper } from "./stepper";
 
 export function Submitconsole() {
@@ -10,23 +12,21 @@ export function Submitconsole() {
       </Box>
       <Grid container spacing={3}>
         {/* codeview */}
-        <Grid item xs={12} md={8} lg={9}>
+        <Grid item xs={12} md={8} lg={8}>
           <Paper style={{ height: 240 }}>
             <MainEditor />
           </Paper>
         </Grid>
         {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
-          <Paper style={{ height: 250 }}>
-            <Container>
-              <h1>test</h1>
-            </Container>
+        <Grid item xs={12} md={4} lg={4}>
+          <Paper style={{ height: 240 }}>
+            <Judgetool />
           </Paper>
         </Grid>
         {/* Recent Orders */}
         <Grid item xs={12}>
-          <Paper style={{ height: 240 }}>
-            <h1>test</h1>
+          <Paper>
+            <JudgeResultList />
           </Paper>
         </Grid>
       </Grid>
