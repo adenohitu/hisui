@@ -2,12 +2,7 @@
 //ログインや通信を管理
 //Copyright © 2021 adenohitu. All rights reserved.
 import axios, { AxiosInstance } from "axios";
-// import { log } from "console";
-// import { store } from "../save/save";
-
 import { save_session } from "../save/save_session";
-
-// import { store } from "../save/save";
 
 const url_login: string = "https://atcoder.jp/login";
 /**
@@ -27,8 +22,6 @@ class AtcoderClass {
   constructor() {
     this.setup();
   }
-  // CheckSession: boolean;
-  // SetContestID: string = store.get("SetContestID", "abc001");
 
   /**
    * セッションを使いログインされているかをチェック
@@ -79,10 +72,10 @@ class AtcoderClass {
    * ログインに必要なCSRFトークンを取得
    * axiosInstanceにログイン用のCoockieをデフォルトとして設定
    */
-  async get_csrf(session: boolean): Promise<any> {
+  async get_csrf(session: boolean, url: string = url_login): Promise<any> {
     if (session === false) {
       // cookieなしでログインページにアクセス
-      const response = await this.axiosInstance.get(url_login, {
+      const response = await this.axiosInstance.get(url, {
         headers: { Cookie: "" },
       });
       //csrf_tokenをスクレイピング
