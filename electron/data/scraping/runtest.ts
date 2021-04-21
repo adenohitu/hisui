@@ -1,10 +1,10 @@
-import axios from "axios";
-import { scrapingUserData } from "./userdata";
-async function runTasklist() {
-  const get = await axios.get(`https://atcoder.jp/users/tourist?lang=ja`);
-  const returndata = await scrapingUserData(get.data);
+import { Atcoder } from "../atcoder";
+import { scrapingSubmitlang } from "./submitlang";
+export async function runTasklist() {
+  const get = await Atcoder.axiosInstance.get(
+    `https://atcoder.jp/contests/arc117/submit`
+  );
+  const returndata = await scrapingSubmitlang(get.data);
   //   console.log(get);
-
-  console.log(returndata);
+  console.dir(returndata);
 }
-runTasklist();

@@ -15,7 +15,7 @@ class AtcoderClass {
   });
   setup() {
     this.axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting Request: ", request.url);
+      console.log("Starting", request.method, "Request: ", request.url);
       return request;
     });
   }
@@ -71,6 +71,7 @@ class AtcoderClass {
    *
    * ログインに必要なCSRFトークンを取得
    * axiosInstanceにログイン用のCoockieをデフォルトとして設定
+   * falseでcookieなし trueCookieであり
    */
   async get_csrf(session: boolean, url: string = url_login): Promise<any> {
     if (session === false) {

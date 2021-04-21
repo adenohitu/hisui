@@ -1,4 +1,4 @@
-//atcoder.jp/contests/------/tasksをスクレイピングする
+//atcoder.jp/contests/------/submitをスクレイピングする
 const { JSDOM } = require("jsdom");
 export interface taskList {
   taskHeader: string;
@@ -8,9 +8,7 @@ export interface taskList {
   taskMemory: string;
 }
 /**
- * @module scraping_contest_list
- * @param {string} body - atcoder.jp/contest/tasks/---/のソースを渡す
- * @return {taskList} - jsonにして返す
+ * 提出可能言語を取得
  */
 export async function scrapingTaskList(body: any) {
   const dom = new JSDOM(body);
