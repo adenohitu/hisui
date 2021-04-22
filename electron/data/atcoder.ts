@@ -2,6 +2,7 @@
 //ログインや通信を管理
 //Copyright © 2021 adenohitu. All rights reserved.
 import axios, { AxiosInstance } from "axios";
+import { setBrowserCoockie } from "../browser/session";
 import { save_session } from "../save/save_session";
 
 const url_login: string = "https://atcoder.jp/login";
@@ -144,6 +145,8 @@ class AtcoderClass {
             save_session.set("session", Cookie);
             save_session.set("ID", uesrname);
             save_session.set("checkLastest", Date.now());
+            // ウィンドウのセッションを同期
+            setBrowserCoockie();
             return "success";
           } else {
             // this.CheckSession = false;
@@ -188,6 +191,7 @@ class AtcoderClass {
 
           // this.CheckSession = true;
           // console.log(Cookie)
+
           return "success";
         } else {
           // this.CheckSession = false;
