@@ -1,4 +1,5 @@
 import { app, Menu } from "electron";
+import { Atcoder } from "../data/atcoder";
 import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
@@ -60,6 +61,12 @@ const template: any = [
         label: "login",
         click(item: any, focusedWindow: any, event: any) {
           focusedWindow.webContents.send("loginOpen");
+        },
+      },
+      {
+        label: "logout",
+        click(item: any, focusedWindow: any, event: any) {
+          Atcoder.logout();
         },
       },
     ],

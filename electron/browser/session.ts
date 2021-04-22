@@ -48,3 +48,16 @@ export const setBrowserCoockie = async () => {
     }
   );
 };
+
+export const sessionRemove = () => {
+  session.defaultSession.cookies
+    .remove("https://atcoder.jp", "REVEL_SESSION")
+    .then(
+      () => {
+        // 成功
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+};
