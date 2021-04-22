@@ -1,9 +1,22 @@
 //フォルダ操作に関する関数
 //Copyright © 2021 adenohitu. All rights reserved.
 //ファイル操作に関するモジュール
-// import { app } from "electron";
+import { app, dialog } from "electron";
 import { store } from "../save/save";
 import { mkdir, readdirSync, writeFileSync, statSync, readFileSync } from "fs";
+
+/**
+ * デフォルトのフォルダーを決めるダイアログを開く
+ */
+export const makeDefaultFolderDialog = async (win: any) => {
+  const filename: any = await dialog.showOpenDialog(win, {
+    properties: ["openDirectory"],
+    title: "コードを保存するフォルダーを選択してください",
+    defaultPath: app.getPath("documents"),
+  });
+
+  makeDefaultFolder(filename.filePaths[0]);
+};
 
 /**
  * デフォルトの保存フォルダを作成する

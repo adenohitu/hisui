@@ -16,7 +16,7 @@ import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
 
-let win: any = null;
+export let win: any = null;
 
 function createWindow() {
   win = new BrowserWindow({
