@@ -26,7 +26,9 @@ function getSteps() {
 
 export function Submissionstepper() {
   const classes = useStyles();
+  // eslint-disable-next-line
   const [activeStep, setActiveStep] = React.useState(1);
+  // eslint-disable-next-line
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const steps = getSteps();
 
