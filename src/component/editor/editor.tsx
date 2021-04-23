@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 // import path from "path";
 import Editor, { loader } from "@monaco-editor/react";
-import { useDispatch, useSelector } from "react-redux";
-import { saveValue, selecteditorvalue } from "../../app/Slice/editor";
+import { useSelector } from "react-redux";
+import { selecteditorvalue } from "../../app/Slice/editor";
 // loader.config({
 //   paths: { vs: "./node_modules/monaco-editor/min/vs" },
 // });
@@ -20,10 +20,10 @@ export function MainEditor() {
     editorRef.current = editor;
   }
 
-  function showValue() {
-    return editorRef.current.getValue();
-  }
-  const dispatch = useDispatch();
+  // function showValue() {
+  //   return editorRef.current.getValue();
+  // }
+  // const dispatch = useDispatch();
 
   return (
     <>
