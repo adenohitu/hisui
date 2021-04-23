@@ -9,7 +9,7 @@ const url_login: string = "https://atcoder.jp/login";
 /**
  * atcoderにアクセスする
  */
-class AtcoderClass {
+export class AtcoderClass {
   //AxiosInstanceを作成
   axiosInstance: AxiosInstance = axios.create({
     headers: { Cookie: save_session.get("session", "") },
