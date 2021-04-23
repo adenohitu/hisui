@@ -20,7 +20,7 @@
   },
   "build": {
     "productName": "Hisui",
-    "artifactName": "APPNAME_${version}_${os}.${ext}",
+    "artifactName": "Hisui-${version}-${os}.${ext}",
     "copyright": "Copyright © 2020-2021 Adenohitu",
     "extends": null,
     "files": [
