@@ -39,6 +39,8 @@ declare global {
       getSubmissions_on_render;
       getTasklist_send_render;
       getTasklist_on_render;
+      getFiledata_render;
+      runWritefile_render;
     };
   }
 }

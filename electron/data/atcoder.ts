@@ -2,12 +2,8 @@
 //ログインや通信を管理
 //Copyright © 2021 adenohitu. All rights reserved.
 import axios, { AxiosInstance } from "axios";
-// import { log } from "console";
-// import { store } from "../save/save";
-
+import { sessionRemove, setBrowserCoockie } from "../browser/session";
 import { save_session } from "../save/save_session";
-
-// import { store } from "../save/save";
 
 const url_login: string = "https://atcoder.jp/login";
 /**
@@ -20,15 +16,13 @@ class AtcoderClass {
   });
   setup() {
     this.axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting Request: ", request.url);
+      console.log("Starting", request.method, "Request: ", request.url);
       return request;
     });
   }
   constructor() {
     this.setup();
   }
-  // CheckSession: boolean;
-  // SetContestID: string = store.get("SetContestID", "abc001");
 
   /**
    * セッションを使いログインされているかをチェック
@@ -78,11 +72,12 @@ class AtcoderClass {
    *
    * ログインに必要なCSRFトークンを取得
    * axiosInstanceにログイン用のCoockieをデフォルトとして設定
+   * falseでcookieなし trueCookieであり
    */
-  async get_csrf(session: boolean): Promise<any> {
+  async get_csrf(session: boolean, url: string = url_login): Promise<any> {
     if (session === false) {
       // cookieなしでログインページにアクセス
-      const response = await this.axiosInstance.get(url_login, {
+      const response = await this.axiosInstance.get(url, {
         headers: { Cookie: "" },
       });
       //csrf_tokenをスクレイピング
@@ -150,6 +145,8 @@ class AtcoderClass {
             save_session.set("session", Cookie);
             save_session.set("ID", uesrname);
             save_session.set("checkLastest", Date.now());
+            // ウィンドウのセッションを同期
+            setBrowserCoockie();
             return "success";
           } else {
             // this.CheckSession = false;
@@ -191,9 +188,12 @@ class AtcoderClass {
           save_session.delete("ID");
           this.axiosInstance.defaults.headers.Cookie = Cookie;
           console.log(this.axiosInstance.defaults.headers.Cookie);
+          // browserwindowのセッションを削除
+          sessionRemove();
 
           // this.CheckSession = true;
           // console.log(Cookie)
+
           return "success";
         } else {
           // this.CheckSession = false;

@@ -1,4 +1,7 @@
 import { app, Menu } from "electron";
+import { Atcoder } from "../data/atcoder";
+import { makeDefaultFolderDialog } from "../file/mkfile";
+import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
 // ElectronのMenuの設定
@@ -24,11 +27,19 @@ const template: any = [
   // { role: 'fileMenu' }
   {
     label: "ファイル",
-    submenu: [isMac ? { role: "close" } : { role: "quit" }],
+    submenu: [
+      {
+        label: "保存フォルダーを設定",
+        click(item: any, focusedWindow: any, event: any) {
+          makeDefaultFolderDialog(focusedWindow);
+        },
+      },
+      isMac ? { role: "close" } : { role: "quit" },
+    ],
   },
   // { role: 'editMenu' }
   {
-    label: "Edit",
+    label: "編集",
     submenu: [
       { role: "undo" },
       { role: "redo" },
@@ -52,7 +63,7 @@ const template: any = [
   },
   // { role: 'editMenu' }
   {
-    label: "User",
+    label: "ユーザー",
     submenu: [
       { type: "separator" },
       {
@@ -61,10 +72,16 @@ const template: any = [
           focusedWindow.webContents.send("loginOpen");
         },
       },
+      {
+        label: "logout",
+        click(item: any, focusedWindow: any, event: any) {
+          Atcoder.logout();
+        },
+      },
     ],
   },
   {
-    label: "Contest",
+    label: "コンテスト",
     submenu: [
       { type: "separator" },
       {
@@ -84,7 +101,7 @@ const template: any = [
   },
   // { role: 'viewMenu' }
   {
-    label: "View",
+    label: "表示",
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
@@ -99,7 +116,7 @@ const template: any = [
   },
   // { role: 'windowMenu' }
   {
-    label: "Window",
+    label: "ウィンドウ",
     submenu: [
       {
         label: "配置を初期化する",
@@ -121,13 +138,12 @@ const template: any = [
     ],
   },
   {
-    role: "help",
+    label: "ヘルプ",
     submenu: [
       {
         label: "Learn More",
         click: async () => {
-          const { shell } = require("electron");
-          await shell.openExternal("https://electronjs.org");
+          urlOpen("https://github.com/adenohitu/Hisui-docs");
         },
       },
     ],

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -15,13 +15,13 @@ import { Box } from "@material-ui/core";
 // import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import {
   // requestStandingAsync,
-  sendGetmyrank,
+  // sendGetmyrank,
   selectTotal,
   // selectUpdateTime,
   // setRank,
   // loadEnd,
 } from "../../app/Slice/standings";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // const colorgrey = grey[200];
 const colorgreyboder = grey[300];
 // const dayjs = require("dayjs");
@@ -51,12 +51,8 @@ export function Totaltable() {
   // const [rows, setrows] = useState([]);
   // const [load, setload] = useState("ok");
   const rowdata = useSelector(selectTotal);
-  const dispatch = useDispatch();
   //初回だけ実行
-  useEffect(() => {
-    //ipc送信関数
-    dispatch(sendGetmyrank());
-  }, [dispatch]);
+
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table className={classes.table}>

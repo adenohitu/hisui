@@ -98,9 +98,7 @@ contextBridge.exposeInMainWorld("api", {
   },
   getRank_on_render: (func: any) => {
     ipcRenderer.once("getRank_replay", (event, arg) => {
-      console.log(event);
       // console.log(func);
-      console.log("onnnnnnnn");
       func(arg);
     });
   },
@@ -116,7 +114,6 @@ contextBridge.exposeInMainWorld("api", {
   },
   getTotal_on_render: (func: any) => {
     ipcRenderer.once("getTotal_replay", (event, arg) => {
-      console.log(event);
       func(arg);
     });
   },
@@ -141,8 +138,6 @@ contextBridge.exposeInMainWorld("api", {
   },
   getSubmissions_on_render: (func: any) => {
     ipcRenderer.once("getSubmissionsMe_replay", (event, arg) => {
-      console.log(arg);
-      console.log("ouuuuu");
       func(arg);
     });
   },
@@ -172,5 +167,18 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.once("getTasklist_replay", (event, arg) => {
       func(arg);
     });
+  },
+
+  //ファイル操作
+  //ファイル読み込みを行う
+
+  getFiledata_render: async (arg: any) => {
+    const data: any = await ipcRenderer.invoke("getFiledata", arg);
+    return data;
+  },
+  //ファイルに書き込みを行う
+  runWritefile_render: async (arg: any) => {
+    const data: any = await ipcRenderer.invoke("runWritefile", arg);
+    return data;
   },
 });

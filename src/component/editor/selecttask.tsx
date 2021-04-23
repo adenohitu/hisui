@@ -10,6 +10,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { selecttaskData, sendGetTasklist } from "../../app/Slice/taskdata";
+import { loadtask } from "../../app/Slice/editor";
 
 interface StyledTabsProps {
   value: number;
@@ -86,6 +87,12 @@ export function TaskSelect() {
   }, [dispatch]);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    const loadrun = async () => {
+      const ID = await window.api.get_SetContestID_render();
+      const url = `https://atcoder.jp${taskData[newValue].taskUrl}`;
+      dispatch(loadtask(ID, taskData[newValue].taskHeader, url));
+    };
+    loadrun();
   };
 
   return (

@@ -19,6 +19,9 @@
     "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\""
   },
   "build": {
+    "productName": "Hisui",
+    "artifactName": "APPNAME_${version}_${os}.${ext}",
+    "copyright": "Copyright © 2020-2021 Adenohitu",
     "extends": null,
     "files": [
       "build/**/*",
