@@ -6,7 +6,6 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
 } from "@material-ui/core";
 import { useState } from "react";
