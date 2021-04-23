@@ -55,62 +55,6 @@ export const {
   loadStart,
   loadEnd,
 } = standingsSlice.actions;
-// memo dispatchは2回以上つかっても大丈夫！
-// export const requestStandingAsync = (): AppThunk => async (
-//   dispatch,
-//   getState
-// ) => {
-//   const update = async () => {
-//     //ログイン状態とロード中かをチェック
-//     const check: boolean = await window.api.get_login_status_render();
-//     if (check && getState().standingData.load === false) {
-//       dispatch(loadStart());
-//       performance.mark("start_get_standing");
-//       // //順位表を取得
-//       // const returndata = await window.api.get_Standings_render();
-//       // performance.mark("reqend_get_standing");
-//       // dispatch(getData(returndata));
-//       performance.mark("end_get_standing");
-//       // console.log(
-//       performance.measure(
-//         "順位表取得にかかる時間",
-//         "start_get_standing",
-//         "end_get_standing"
-//       );
-//       // );
-//       //自分の順位を検索
-//       // const username = await window.api.getUsername_render();
-//       performance.mark("start_get_myrank");
-//       const myrank: myrank = await window.api.getRank_render();
-//       // const myrank = 0;
-//       //参加登録されていない時、順位表に存在しないためここで切り分け
-//       if (myrank !== undefined) {
-//         dispatch(setRank(myrank));
-//         performance.mark("end_get_myrank");
-//       } else {
-//         dispatch(setRank(undefined));
-//         performance.mark("end_get_myrank");
-//       }
-//       performance.measure(
-//         "自分の順位の取得にかかる時間",
-//         "start_get_myrank",
-//         "end_get_myrank"
-//       );
-//       //順位表を集計
-//       // const totalre = await totalfn(returndata.data);
-//       performance.mark("start_get_total");
-//       // const totalre = await window.api.getTotal_render();
-//       // console.log(totalre);
-//       // dispatch(setTotal(totalre));
-//       dispatch(loadEnd());
-//       performance.mark("end_get_total");
-//     } else {
-//       dispatch(setRank(undefined));
-//       performance.mark("end_get_total");
-//     }
-//   };
-//   await update();
-// };
 
 export const sendGetmyrank = (): AppThunk => async (dispatch, getState) => {
   if (getState().standingData.load === false) {

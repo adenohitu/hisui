@@ -12,6 +12,8 @@ import {
 } from "./data/contestData";
 import { get_Standings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
+import { getUserData } from "./data/userdata";
+import { getFiledata, runWritefile } from "./file/mkfile";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -61,6 +63,12 @@ export const main_ipc = () => {
   //ログインされているユーザーIDを返す
   ipcMain.handle("getUsername", async (event, message) => {
     const get = await Atcoder.getUsername();
+    return get;
+  });
+  //ユーザー情報を返す
+  ipcMain.handle("getUserData", async (event, user) => {
+    // console.log(Atcoder_class.axiosInstance);
+    const get = await getUserData(user);
     return get;
   });
   //開始時間と終了時間を取得
@@ -135,5 +143,25 @@ export const main_ipc = () => {
     const get = await getTasklist(contest_short_name);
 
     event.sender.send("getTasklist_replay", get);
+  });
+  //ファイル操作
+  //ファイル読み込みを行う
+  ipcMain.handle("getFiledata", async (event, loadinfo) => {
+    const get = await getFiledata(
+      loadinfo.contestname,
+      loadinfo.taskname,
+      loadinfo.launage
+    );
+    return get;
+  });
+  //ファイルに書き込みを行う
+  ipcMain.handle("runWritefile", async (event, saveinfo) => {
+    const get = await runWritefile(
+      saveinfo.data,
+      saveinfo.contestname,
+      saveinfo.taskname,
+      saveinfo.launage
+    );
+    return get;
   });
 };

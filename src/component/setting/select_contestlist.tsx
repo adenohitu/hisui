@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SelectContest() {
+export default function SelectContest(prop: any): any {
   const classes = useStyles();
   const [text, setText]: any = useContext(TextContext);
   const [rows, setrows] = useState([]);
@@ -46,7 +46,7 @@ export default function SelectContest() {
               <TableCell align="left">コンテスト名</TableCell>
               <TableCell align="center">開始時刻</TableCell>
               <TableCell align="center">Status</TableCell>
-              <TableCell align="center"></TableCell>
+              {prop.select === true && <TableCell align="center"></TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,29 +63,31 @@ export default function SelectContest() {
                     <Chip size="small" label="開催予定" />
                   )}
                 </TableCell>
-                <TableCell align="center">
-                  {row.contest_short_name === text ? (
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        setText(row.contest_short_name);
-                      }}
-                      disabled
-                    >
-                      選択
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => {
-                        setText(row.contest_short_name);
-                      }}
-                    >
-                      選択
-                    </Button>
-                  )}
-                </TableCell>
+                {prop.select === true && (
+                  <TableCell align="center">
+                    {row.contest_short_name === text ? (
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          setText(row.contest_short_name);
+                        }}
+                        disabled
+                      >
+                        選択
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {
+                          setText(row.contest_short_name);
+                        }}
+                      >
+                        選択
+                      </Button>
+                    )}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

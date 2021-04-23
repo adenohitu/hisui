@@ -6,7 +6,7 @@
 
 競技プログラミングサポートツールです  
 AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です  
-Competitive programming support tool
+Competitive programming support tool.  
 After supporting AtCoder, we plan to support other Competitive programming sites such as Codeforces.
 
 ## このプロジェクトの目的

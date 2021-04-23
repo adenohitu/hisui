@@ -8,6 +8,7 @@ import { Editor } from "./component/window/window_editor/window";
 import FormDialog from "./component/auth/login_dialog";
 import DefaltContest from "./component/setting/dafalt_contest";
 import { Home } from "./component/home/Home";
+import { Submitmain } from "./component/submit/submitwindow";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,9 @@ const App: React.FC = () => {
           </Route>
           <Route path="/editor" exact>
             <Editor />
+          </Route>
+          <Route path="/submit" exact>
+            <Submitmain />
           </Route>
           <Route path="/dashboard" exact>
             <Window />

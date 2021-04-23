@@ -4,18 +4,16 @@
 
 import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { selecttaskurl } from "../../app/Slice/editor";
 
 const useStyles = makeStyles({ hide: { display: "none" } });
 export const Taskview = (prop: any) => {
-  const [url, seturl] = useState("");
   const classes = useStyles();
+  const url = useSelector(selecttaskurl);
   useEffect(() => {
-    const update = async () => {
-      const ID = await window.api.get_SetContestID_render();
-      seturl(`https://atcoder.jp/contests/${ID}/tasks`);
-    };
-    update();
-  }, []);
+    console.log(url);
+  }, [url]);
   return (
     <iframe
       className={(prop.hide !== false && classes.hide) || ""}
