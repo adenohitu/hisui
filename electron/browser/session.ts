@@ -1,12 +1,12 @@
 // electronに保存されているCookieを操作
 import { session } from "electron";
-import { save_session } from "../save/save_session";
+import { saveSession } from "../save/save_session";
 
 /**
  * atcoder.jpで登録されているセッションを全て表示
  */
 export const logSession = () => {
-  const sessiondata: string = save_session.get("session");
+  const sessiondata: string = saveSession.get("session");
   console.log(sessiondata);
 
   session.defaultSession.cookies
@@ -24,7 +24,7 @@ export const logSession = () => {
  * save_sessionに保存してあるセッションをウィンドウにも適用する
  */
 export const setBrowserCoockie = async () => {
-  const sessiondata = save_session.get("session");
+  const sessiondata = saveSession.get("session");
   //セッションが保存されている文字列からセッションのvalueを無理矢理取り出す
   const valuestartindex = sessiondata[1].indexOf("=") + 1;
   const valueendindex = sessiondata[1].indexOf(";");

@@ -4,7 +4,7 @@
 import axios, { AxiosInstance } from "axios";
 import { sessionRemove, setBrowserCoockie } from "../browser/session";
 import { returnLogin, returnLogout } from "../interfaces";
-import { save_session } from "../save/save_session";
+import { saveSession } from "../save/save_session";
 
 const url_login: string = "https://atcoder.jp/login";
 /**
@@ -13,7 +13,7 @@ const url_login: string = "https://atcoder.jp/login";
 export class atcoderClass {
   //AxiosInstanceを作成
   axiosInstance: AxiosInstance = axios.create({
-    headers: { Cookie: save_session.get("session", "") },
+    headers: { Cookie: saveSession.get("session", "") },
   });
   setup() {
     this.axiosInstance.interceptors.request.use((request) => {
@@ -30,11 +30,8 @@ export class atcoderClass {
    */
   async checkLogin(): Promise<boolean> {
     const test_url = "https://atcoder.jp/contests/abc189/submit";
-    const status = await save_session.get(
-      "checkLastest",
-      Date.now() + 86400001
-    );
-    const ID = await save_session.get("ID");
+    const status = await saveSession.get("checkLastest", Date.now() + 86400001);
+    const ID = await saveSession.get("ID");
     const now = Date.now();
     //前回ログイン成功時の時間を使いリクエスト回数を減らす
     if (ID === undefined) {
@@ -51,7 +48,7 @@ export class atcoderClass {
         .then((responce) => {
           if (responce.status !== 302) {
             // You have already login.
-            save_session.set("checkLastest", Date.now());
+            saveSession.set("checkLastest", Date.now());
             return true;
           } else {
             return false;
@@ -123,9 +120,9 @@ export class atcoderClass {
           if (login_status) {
             const Cookie = response.headers["set-cookie"];
             this.axiosInstance.defaults.headers.Cookie = Cookie;
-            save_session.set("session", Cookie);
-            save_session.set("ID", uesrname);
-            save_session.set("checkLastest", Date.now());
+            saveSession.set("session", Cookie);
+            saveSession.set("ID", uesrname);
+            saveSession.set("checkLastest", Date.now());
             // ウィンドウのセッションを同期
             setBrowserCoockie();
             console.log("loginSuccess");
@@ -162,8 +159,8 @@ export class atcoderClass {
         const login_status = response.headers.location === "/home";
         if (login_status) {
           const Cookie = response.headers["set-cookie"];
-          save_session.delete("session");
-          save_session.delete("ID");
+          saveSession.delete("session");
+          saveSession.delete("ID");
           this.axiosInstance.defaults.headers.Cookie = Cookie;
           // browserwindowのセッションを削除
           sessionRemove();
@@ -184,7 +181,7 @@ export class atcoderClass {
   getUsername() {
     const login = this.checkLogin();
     if (login) {
-      const username = save_session.get("ID");
+      const username = saveSession.get("ID");
       return username;
     } else {
       return undefined;
