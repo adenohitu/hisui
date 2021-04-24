@@ -9,7 +9,7 @@ import {
   getContestDate,
   getContestScore,
   getSubmissionMe,
-} from "./data/contestData";
+} from "./data/contestdata";
 import { getStandings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
 import { getUserData } from "./data/userdata";

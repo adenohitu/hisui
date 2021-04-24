@@ -1,7 +1,7 @@
 //問題情報に関するモジュール
 //Copyright © 2021 adenohitu. All rights reserved.
 import { Atcoder } from "./atcoder";
-import { getDefaultContestID } from "./contestData";
+import { getDefaultContestID } from "./contestdata";
 import { scrapingTaskList } from "./scraping/tasklist";
 /**
  *
