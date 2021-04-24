@@ -10,7 +10,7 @@ import {
   getContestScore,
   getSubmissionMe,
 } from "./data/contestData";
-import { get_Standings, getRank, getTotal } from "./data/standing";
+import { getStandings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
 import { getUserData } from "./data/userdata";
 import { getFiledata, runWritefile } from "./file/mkfile";
@@ -80,7 +80,7 @@ export const main_ipc = () => {
   //順位情報リストを取得
   ipcMain.handle("get_Standings", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await get_Standings(taskScreenName);
+    const get = await getStandings(taskScreenName);
     return get;
   });
   //自分の順位を取得ipc.invoke

@@ -60,7 +60,6 @@ export async function setDefaultContestID(taskScreenName: string) {
 }
 
 /**
- * @param  {string} taskScreenName
  * コンテストが存在するかチェックする
  * 存在しない時はfalseするときはtrue
  * 認証による権限の関係でアクセスできない場合はfalse
@@ -74,8 +73,6 @@ export async function checkContestID(taskScreenName: string) {
       return status < 500;
     },
   });
-  // console.log(responce);
-
   if (responce.status === 200) {
     return true;
   } else {
@@ -142,7 +139,6 @@ export async function getContestScore(
   if (responce.status !== 302) {
     //そもそも予定されていないコンテストをSetContestIDに設定することはできないので404対策は付けない
     if (responce.data !== `"error"`) {
-      // console.log(responce.data);
       //atcoderの謎仕様に注意
       //予定されているコンテストの場合302ではなく`"error"`（ダブルクォーテーションがいる）を返す
       return responce.data;

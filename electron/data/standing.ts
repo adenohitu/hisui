@@ -3,23 +3,16 @@
 import { Atcoder } from "./atcoder";
 import { getDefaultContestID } from "./contestData";
 import { totalfn } from "./logic/standingTotal";
+import { returnStandingsData } from "../interfaces";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
-//大量アクセス防止のためキャッシュを残す
-interface returnData {
-  cache: boolean;
-  login: boolean;
-  time: number;
-  data: any | undefined;
-}
+
 /**
- * @param taskScreenName
  * 順位表情報を取得
- * @returns {json}
  */
-export async function get_Standings(
+export async function getStandings(
   taskScreenName: string = getDefaultContestID()
-): Promise<any> {
+): Promise<returnStandingsData> {
   const cache = myCache.get(`Standing_${taskScreenName}`);
   console.log("run get_Standings");
   if (cache === undefined) {
@@ -36,7 +29,7 @@ export async function get_Standings(
         30
       );
       console.log("set cache");
-      const returnData: returnData = {
+      const returnData: returnStandingsData = {
         cache: false,
         login: true,
         time: Date.now(),
@@ -45,7 +38,7 @@ export async function get_Standings(
       return returnData;
     } else {
       console.log("not login");
-      const returnData: returnData = {
+      const returnData: returnStandingsData = {
         cache: false,
         login: false,
         time: Date.now(),
@@ -55,7 +48,7 @@ export async function get_Standings(
     }
   } else {
     console.log("Load cache");
-    const returnData: returnData = {
+    const returnData: returnStandingsData = {
       cache: false,
       login: true,
       time: cache.time,
@@ -66,18 +59,21 @@ export async function get_Standings(
 }
 /**
  * 問題ごとに提出した人数と正解した人数を集計して返す
- * @param taskScreenName
- * @returns
  */
 export async function getTotal(taskScreenName: string = getDefaultContestID()) {
-  const data: returnData = await get_Standings(taskScreenName);
+  const data = await getStandings(taskScreenName);
   const returndata = await totalfn(data.data);
   return returndata;
 }
-
-export async function getRank(taskScreenName: string = getDefaultContestID()) {
-  const username: string = Atcoder.getUsername();
-  const data: returnData = await get_Standings(taskScreenName);
+/**
+ * 指定したユーザーの順位を取得
+ * ユーザー名指定しない場合ログインされているユーザの順位を返す
+ */
+export async function getRank(
+  taskScreenName: string = getDefaultContestID(),
+  username: string = Atcoder.getUsername()
+) {
+  const data = await getStandings(taskScreenName);
   const myrank: any = await data.data.StandingsData.find(
     (v: any) => v.UserScreenName === username
   );

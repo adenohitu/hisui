@@ -1,6 +1,7 @@
 // 提出に関するモジュール
 import { Atcoder } from "./atcoder";
 import { scrapingSubmitlang } from "./scraping/submitlang";
+import { returnSubmit } from "../interfaces";
 const baseUrlAtCoderContest = "https://atcoder.jp/contests/";
 
 /**
@@ -17,12 +18,12 @@ export const getSubmitLangOption = async (contestid: string) => {
 /**
  * コードを提出する
  */
-export const submit = async (
+export async function submit(
   contestid: string,
   taskScreenName: string,
   code: string,
   LanguageId: any
-) => {
+): Promise<returnSubmit> {
   //空文字判定
   if (!code) {
     return "CodeisEmpty";
@@ -34,14 +35,14 @@ export const submit = async (
     params.append("data.LanguageId", LanguageId);
     params.append("sourceCode", code);
     params.append("csrf_token", csrfToken[0]);
-    const postResponce = await Atcoder.axiosInstance
+    const postResponce: any = await Atcoder.axiosInstance
       .post(submitUrl, params, {
         maxRedirects: 0,
         validateStatus: (status) =>
           (status >= 200 && status < 300) || status === 302,
       })
       .then((responce: any) => {
-        console.log(responce);
+        console.log("runsubmit");
         if (responce.status === 302) {
           return "success";
         }
@@ -52,4 +53,4 @@ export const submit = async (
       });
     return postResponce;
   }
-};
+}

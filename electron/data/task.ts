@@ -6,7 +6,6 @@ import { scrapingTaskList } from "./scraping/tasklist";
 /**
  *
  * @param taskScreenName
- * @returns {taskList}
  */
 export async function getTasklist(
   taskScreenName: string = getDefaultContestID()

@@ -1,3 +1,6 @@
+/**
+ * 順位表データJSONから問題ごとに回答・正解ユーザー数を取得する
+ */
 export const totalfn = async (data: any) => {
   //問題データを取得
   const taskInfo = await data.TaskInfo;
