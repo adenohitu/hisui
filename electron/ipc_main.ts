@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import { Atcoder } from "./data/atcoder";
 import urlOpen from "./tool/openExternal";
-import { getWindowState, setWindowState } from "./save/renderState";
+import { getWindowState, setWindowState } from "./browser/renderState";
 import {
   setDefaultContestID,
   getDefaultContestID,
