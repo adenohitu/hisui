@@ -5,13 +5,13 @@ import { getDefaultContestID } from "./contestData";
 import { scrapingTaskList } from "./scraping/tasklist";
 /**
  *
- * @param contest_short_name
+ * @param taskScreenName
  * @returns {taskList}
  */
 export async function getTasklist(
-  contest_short_name: string = getDefaultContestID()
+  taskScreenName: string = getDefaultContestID()
 ) {
-  const standings_url = `https://atcoder.jp/contests/${contest_short_name}/tasks/`;
+  const standings_url = `https://atcoder.jp/contests/${taskScreenName}/tasks/`;
   const data = await Atcoder.axiosInstance.get(standings_url, {
     maxRedirects: 0,
     validateStatus: function (status) {

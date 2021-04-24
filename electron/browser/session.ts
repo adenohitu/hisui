@@ -2,7 +2,9 @@
 import { session } from "electron";
 import { save_session } from "../save/save_session";
 
-// atcoder.jpで登録されているセッションを全て表示
+/**
+ * atcoder.jpで登録されているセッションを全て表示
+ */
 export const logSession = () => {
   const sessiondata: string = save_session.get("session");
   console.log(sessiondata);
@@ -18,7 +20,9 @@ export const logSession = () => {
     });
 };
 
-// save_sessionに保存してあるセッションをウィンドウにも適用する
+/**
+ * save_sessionに保存してあるセッションをウィンドウにも適用する
+ */
 export const setBrowserCoockie = async () => {
   const sessiondata = save_session.get("session");
   //セッションが保存されている文字列からセッションのvalueを無理矢理取り出す
@@ -49,6 +53,9 @@ export const setBrowserCoockie = async () => {
   );
 };
 
+/**
+ * ウィンドウに保存されているセッションを全て消去
+ */
 export const sessionRemove = () => {
   session.defaultSession.cookies
     .remove("https://atcoder.jp", "REVEL_SESSION")

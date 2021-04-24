@@ -13,17 +13,17 @@ interface returnData {
   data: any | undefined;
 }
 /**
- * @param contest_short_name
+ * @param taskScreenName
  * 順位表情報を取得
  * @returns {json}
  */
 export async function get_Standings(
-  contest_short_name: string = getDefaultContestID()
+  taskScreenName: string = getDefaultContestID()
 ): Promise<any> {
-  const cache = myCache.get(`Standing_${contest_short_name}`);
+  const cache = myCache.get(`Standing_${taskScreenName}`);
   console.log("run get_Standings");
   if (cache === undefined) {
-    const standings_url = `https://atcoder.jp/contests/${contest_short_name}/standings/json`;
+    const standings_url = `https://atcoder.jp/contests/${taskScreenName}/standings/json`;
     const responce = await Atcoder.axiosInstance.get(standings_url, {
       maxRedirects: 0,
       validateStatus: (status) =>
@@ -31,7 +31,7 @@ export async function get_Standings(
     });
     if (responce.status !== 302) {
       myCache.set(
-        `Standing_${contest_short_name}`,
+        `Standing_${taskScreenName}`,
         { data: responce.data, time: Date.now() },
         30
       );
@@ -66,22 +66,18 @@ export async function get_Standings(
 }
 /**
  * 問題ごとに提出した人数と正解した人数を集計して返す
- * @param contest_short_name
+ * @param taskScreenName
  * @returns
  */
-export async function getTotal(
-  contest_short_name: string = getDefaultContestID()
-) {
-  const data: returnData = await get_Standings(contest_short_name);
+export async function getTotal(taskScreenName: string = getDefaultContestID()) {
+  const data: returnData = await get_Standings(taskScreenName);
   const returndata = await totalfn(data.data);
   return returndata;
 }
 
-export async function getRank(
-  contest_short_name: string = getDefaultContestID()
-) {
+export async function getRank(taskScreenName: string = getDefaultContestID()) {
   const username: string = Atcoder.getUsername();
-  const data: returnData = await get_Standings(contest_short_name);
+  const data: returnData = await get_Standings(taskScreenName);
   const myrank: any = await data.data.StandingsData.find(
     (v: any) => v.UserScreenName === username
   );

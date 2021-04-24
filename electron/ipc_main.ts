@@ -30,8 +30,8 @@ export const main_ipc = () => {
     urlOpen(arg);
   });
   //デフォルトのコンテストIDを設定する
-  ipcMain.handle("set_SetContestID", async (event, contest_short_name) => {
-    const get: any = await setDefaultContestID(contest_short_name);
+  ipcMain.handle("set_SetContestID", async (event, taskScreenName) => {
+    const get: any = await setDefaultContestID(taskScreenName);
     return get;
   });
   //デフォルトで設定されたコンテストIDを返す
@@ -72,64 +72,64 @@ export const main_ipc = () => {
     return get;
   });
   //開始時間と終了時間を取得
-  ipcMain.handle("get_date", async (event, contest_short_name) => {
+  ipcMain.handle("get_date", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getContestDate(contest_short_name);
+    const get = await getContestDate(taskScreenName);
     return get;
   });
   //順位情報リストを取得
-  ipcMain.handle("get_Standings", async (event, contest_short_name) => {
+  ipcMain.handle("get_Standings", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await get_Standings(contest_short_name);
+    const get = await get_Standings(taskScreenName);
     return get;
   });
   //自分の順位を取得ipc.invoke
-  ipcMain.handle("getRank", async (event, contest_short_name) => {
+  ipcMain.handle("getRank", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getRank(contest_short_name);
+    const get = await getRank(taskScreenName);
     return get;
   });
 
   //自分の順位を取得ipc,on,send
-  ipcMain.on("getRanksend", async (event, contest_short_name) => {
-    const get = await getRank(contest_short_name);
+  ipcMain.on("getRanksend", async (event, taskScreenName) => {
+    const get = await getRank(taskScreenName);
 
     event.sender.send("getRank_replay", get);
   });
 
   //順位表の集計結果を取得
-  ipcMain.handle("getTotal", async (event, contest_short_name) => {
+  ipcMain.handle("getTotal", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getTotal(contest_short_name);
+    const get = await getTotal(taskScreenName);
     return get;
   });
   //順位表の集計結果を取得ipc,on,send
-  ipcMain.on("getTotalsend", async (event, contest_short_name) => {
-    const get = await getTotal(contest_short_name);
+  ipcMain.on("getTotalsend", async (event, taskScreenName) => {
+    const get = await getTotal(taskScreenName);
     //送り返す
     event.sender.send("getTotal_replay", get);
   });
 
   //得点情報を取得
-  ipcMain.handle("get_Score", async (event, contest_short_name) => {
+  ipcMain.handle("get_Score", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getContestScore(contest_short_name);
+    const get = await getContestScore(taskScreenName);
     return get;
   });
   //自分の提出を取得
-  ipcMain.handle("get_submissions_me", async (event, contest_short_name) => {
+  ipcMain.handle("get_submissions_me", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getSubmissionMe(contest_short_name);
+    const get = await getSubmissionMe(taskScreenName);
     return get;
   });
   //自分の提出を取得ipc,on,send
-  ipcMain.on("getSubmissionsMeSend", async (event, contest_short_name) => {
-    const get = await getSubmissionMe(contest_short_name);
+  ipcMain.on("getSubmissionsMeSend", async (event, taskScreenName) => {
+    const get = await getSubmissionMe(taskScreenName);
     event.sender.send("getSubmissionsMe_replay", get);
   });
 
   //windowの状態を取得
-  ipcMain.handle("getWindowState", async (event, contest_short_name) => {
+  ipcMain.handle("getWindowState", async (event, taskScreenName) => {
     const get = await getWindowState();
     return get;
   });
@@ -139,8 +139,8 @@ export const main_ipc = () => {
     // console.log(value);
   });
   //問題情報を取得
-  ipcMain.on("getTasklist", async (event, contest_short_name) => {
-    const get = await getTasklist(contest_short_name);
+  ipcMain.on("getTasklist", async (event, taskScreenName) => {
+    const get = await getTasklist(taskScreenName);
 
     event.sender.send("getTasklist_replay", get);
   });
