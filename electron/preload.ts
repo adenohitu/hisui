@@ -32,10 +32,10 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   //デフォルトのコンテストIDを設定する
-  set_SetContestID_render: async (contest_short_name: any) => {
+  set_SetContestID_render: async (taskScreenName: any) => {
     const data: any = await ipcRenderer.invoke(
       "set_SetContestID",
-      contest_short_name
+      taskScreenName
     );
     return data;
   },
@@ -74,27 +74,24 @@ contextBridge.exposeInMainWorld("api", {
     return data;
   },
   //開始時間と終了時間を取得
-  get_date_render: async (contest_short_name: any) => {
-    const data: any = await ipcRenderer.invoke("get_date", contest_short_name);
+  get_date_render: async (taskScreenName: any) => {
+    const data: any = await ipcRenderer.invoke("get_date", taskScreenName);
     return data;
   },
   //順位情報リストを取得
-  get_Standings_render: async (contest_short_name: any) => {
-    const data: any = await ipcRenderer.invoke(
-      "get_Standings",
-      contest_short_name
-    );
+  get_Standings_render: async (taskScreenName: any) => {
+    const data: any = await ipcRenderer.invoke("get_Standings", taskScreenName);
     return data;
   },
   //自分の順位を取得
-  getRank_render: async (contest_short_name: any) => {
-    const data: any = await ipcRenderer.invoke("getRank", contest_short_name);
+  getRank_render: async (taskScreenName: any) => {
+    const data: any = await ipcRenderer.invoke("getRank", taskScreenName);
     return data;
   },
 
   //ipcrank send on
-  getRank_send_render: (contest_short_name: any) => {
-    ipcRenderer.send("getRanksend", contest_short_name);
+  getRank_send_render: (taskScreenName: any) => {
+    ipcRenderer.send("getRanksend", taskScreenName);
   },
   getRank_on_render: (func: any) => {
     ipcRenderer.once("getRank_replay", (event, arg) => {
@@ -104,13 +101,13 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   //順位表の集計情報を取得
-  getTotal_render: async (contest_short_name: any) => {
-    const data: any = await ipcRenderer.invoke("getTotal", contest_short_name);
+  getTotal_render: async (taskScreenName: any) => {
+    const data: any = await ipcRenderer.invoke("getTotal", taskScreenName);
     return data;
   },
   //ipcrank send on
-  getTotalsend_render: (contest_short_name: any) => {
-    ipcRenderer.send("getTotalsend", contest_short_name);
+  getTotalsend_render: (taskScreenName: any) => {
+    ipcRenderer.send("getTotalsend", taskScreenName);
   },
   getTotal_on_render: (func: any) => {
     ipcRenderer.once("getTotal_replay", (event, arg) => {
@@ -119,22 +116,22 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   //得点情報を取得
-  get_Score_render: async (contest_short_name: any) => {
-    const data: any = await ipcRenderer.invoke("get_Score", contest_short_name);
+  get_Score_render: async (taskScreenName: any) => {
+    const data: any = await ipcRenderer.invoke("get_Score", taskScreenName);
     return data;
   },
   //自分の提出を取得
-  get_submissions_me_render: async (contest_short_name: any) => {
+  get_submissions_me_render: async (taskScreenName: any) => {
     const data: any = await ipcRenderer.invoke(
       "get_submissions_me",
-      contest_short_name
+      taskScreenName
     );
     return data;
   },
 
   //ipcsubmission send on
-  getSubmissions_send_render: (contest_short_name: any) => {
-    ipcRenderer.send("getSubmissionsMeSend", contest_short_name);
+  getSubmissions_send_render: (taskScreenName: any) => {
+    ipcRenderer.send("getSubmissionsMeSend", taskScreenName);
   },
   getSubmissions_on_render: (func: any) => {
     ipcRenderer.once("getSubmissionsMe_replay", (event, arg) => {
@@ -160,8 +157,8 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   //問題情報を取得 send on
-  getTasklist_send_render: (contest_short_name: any) => {
-    ipcRenderer.send("getTasklist", contest_short_name);
+  getTasklist_send_render: (taskScreenName: any) => {
+    ipcRenderer.send("getTasklist", taskScreenName);
   },
   getTasklist_on_render: (func: any) => {
     ipcRenderer.once("getTasklist_replay", (event, arg) => {

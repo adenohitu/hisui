@@ -2,7 +2,14 @@
 const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
 
-function scraping_contest_list(body: any) {
+function scraping_contest_list(
+  body: any
+): {
+  contest_name: string;
+  taskScreenName: string;
+  start_time: any;
+  active: boolean;
+}[] {
   const dom = new JSDOM(body);
   var all_list = [];
   //開催中のコンテストを取得
@@ -49,9 +56,9 @@ function scraping_contest_list(body: any) {
     //出力に追加
     for (let i = 0; i < contest_list_active_name.length; i++) {
       all_list.push({
-        contest_name: contest_list_active_name[i],
-        contest_short_name: contest_list_active_url[i].substr(10),
-        start_time: contest_list_active_time_reformat[i],
+        contest_name: String(contest_list_active_name[i]),
+        taskScreenName: String(contest_list_active_url[i].substr(10)),
+        start_time: String(contest_list_active_time_reformat[i]),
         active: true,
       });
     }
@@ -97,9 +104,9 @@ function scraping_contest_list(body: any) {
     );
     for (let i = 0; i < contest_list_upcoming_name.length; i++) {
       all_list.push({
-        contest_name: contest_list_upcoming_name[i],
-        contest_short_name: contest_list_upcoming_url[i].substr(10),
-        start_time: contest_list_upcoming_time_reformat[i],
+        contest_name: String(contest_list_upcoming_name[i]),
+        taskScreenName: String(contest_list_upcoming_url[i].substr(10)),
+        start_time: String(contest_list_upcoming_time_reformat[i]),
         active: false,
       });
     }
