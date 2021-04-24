@@ -1,7 +1,7 @@
 //順位表に関するモジュール
 //Copyright © 2021 adenohitu. All rights reserved.
 import { Atcoder } from "./atcoder";
-import { getContestID } from "./contestData";
+import { getDefaultContestID } from "./contestData";
 import { totalfn } from "./logic/standingTotal";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
@@ -18,7 +18,7 @@ interface returnData {
  * @returns {json}
  */
 export async function get_Standings(
-  contest_short_name: string = getContestID()
+  contest_short_name: string = getDefaultContestID()
 ): Promise<any> {
   const cache = myCache.get(`Standing_${contest_short_name}`);
   console.log("run get_Standings");
@@ -69,13 +69,17 @@ export async function get_Standings(
  * @param contest_short_name
  * @returns
  */
-export async function getTotal(contest_short_name: string = getContestID()) {
+export async function getTotal(
+  contest_short_name: string = getDefaultContestID()
+) {
   const data: returnData = await get_Standings(contest_short_name);
   const returndata = await totalfn(data.data);
   return returndata;
 }
 
-export async function getRank(contest_short_name: string = getContestID()) {
+export async function getRank(
+  contest_short_name: string = getDefaultContestID()
+) {
   const username: string = Atcoder.getUsername();
   const data: returnData = await get_Standings(contest_short_name);
   const myrank: any = await data.data.StandingsData.find(

@@ -28,7 +28,7 @@ export const submit = async (
     return "CodeisEmpty";
   } else {
     const submitUrl = `${baseUrlAtCoderContest}${contestid}/submit`;
-    const csrfToken = await Atcoder.get_csrf(true, submitUrl);
+    const csrfToken = await Atcoder.getCsrftoken(true, submitUrl);
     const params = new URLSearchParams();
     params.append("data.TaskScreenName", taskScreenName);
     params.append("data.LanguageId", LanguageId);

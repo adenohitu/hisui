@@ -3,12 +3,12 @@ import { Atcoder } from "./data/atcoder";
 import urlOpen from "./tool/openExternal";
 import { getWindowState, setWindowState } from "./save/renderState";
 import {
-  set_SetContestID,
-  getContestID,
+  setDefaultContestID,
+  getDefaultContestID,
   getContestInfo,
-  get_date,
-  get_Score,
-  get_submissions_me,
+  getContestDate,
+  getContestScore,
+  getSubmissionMe,
 } from "./data/contestData";
 import { get_Standings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
@@ -31,12 +31,12 @@ export const main_ipc = () => {
   });
   //デフォルトのコンテストIDを設定する
   ipcMain.handle("set_SetContestID", async (event, contest_short_name) => {
-    const get: any = await set_SetContestID(contest_short_name);
+    const get: any = await setDefaultContestID(contest_short_name);
     return get;
   });
   //デフォルトで設定されたコンテストIDを返す
   ipcMain.handle("get_SetContestID", async (event, message) => {
-    const get: any = await getContestID();
+    const get: any = await getDefaultContestID();
     return get;
   });
   //開催中・開催予定のコンテストをhashで出力
@@ -46,18 +46,18 @@ export const main_ipc = () => {
   });
   //ログイン状態を確認
   ipcMain.handle("get_login_status", async (event, message) => {
-    const get = await Atcoder.check_login();
+    const get = await Atcoder.checkLogin();
     return get;
   });
   //ログイン状態処理を実行
   ipcMain.handle("login", async (event, userdata) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await Atcoder.login(userdata.username, userdata.password);
+    const get = await Atcoder.runLogin(userdata.username, userdata.password);
     return get;
   });
   //ログアウト
   ipcMain.handle("logout", async (event, message) => {
-    const get = await Atcoder.logout();
+    const get = await Atcoder.runLogout();
     return get;
   });
   //ログインされているユーザーIDを返す
@@ -74,7 +74,7 @@ export const main_ipc = () => {
   //開始時間と終了時間を取得
   ipcMain.handle("get_date", async (event, contest_short_name) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await get_date(contest_short_name);
+    const get = await getContestDate(contest_short_name);
     return get;
   });
   //順位情報リストを取得
@@ -113,18 +113,18 @@ export const main_ipc = () => {
   //得点情報を取得
   ipcMain.handle("get_Score", async (event, contest_short_name) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await get_Score(contest_short_name);
+    const get = await getContestScore(contest_short_name);
     return get;
   });
   //自分の提出を取得
   ipcMain.handle("get_submissions_me", async (event, contest_short_name) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await get_submissions_me(contest_short_name);
+    const get = await getSubmissionMe(contest_short_name);
     return get;
   });
   //自分の提出を取得ipc,on,send
   ipcMain.on("getSubmissionsMeSend", async (event, contest_short_name) => {
-    const get = await get_submissions_me(contest_short_name);
+    const get = await getSubmissionMe(contest_short_name);
     event.sender.send("getSubmissionsMe_replay", get);
   });
 

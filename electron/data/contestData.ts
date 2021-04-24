@@ -11,7 +11,7 @@ const myCache = new NodeCache();
 /**
  * デフォルトで設定されたコンテストIDを返す
  */
-export function getContestID() {
+export function getDefaultContestID() {
   return store.get("SetContestID", "abc001");
 }
 
@@ -42,9 +42,9 @@ export async function getContestInfo() {
  * 存在をチェックし存在すればデフォルトとして設定
  * しなければfalseを返す
  */
-export async function set_SetContestID(contest_short_name: string) {
+export async function setDefaultContestID(contest_short_name: string) {
   console.log("run set_SetContestID");
-  const check = await check_SetContestID(contest_short_name);
+  const check = await checkContestID(contest_short_name);
   if (check) {
     await store.set("SetContestID", contest_short_name);
     return true;
@@ -59,7 +59,7 @@ export async function set_SetContestID(contest_short_name: string) {
  * 存在しない時はfalseするときはtrue
  * 認証による権限の関係でアクセスできない場合はfalse
  */
-export async function check_SetContestID(contest_short_name: string) {
+export async function checkContestID(contest_short_name: string) {
   console.log("run check_SetContestID");
   const url = `https://atcoder.jp/contests/${contest_short_name}`;
   const responce = await Atcoder.axiosInstance.get(url, {
@@ -82,8 +82,8 @@ export async function check_SetContestID(contest_short_name: string) {
  * 開始時間と終了時間を取得
  * @return { start_time: string, end_time: string }
  */
-export async function get_date(
-  contest_short_name: string = getContestID()
+export async function getContestDate(
+  contest_short_name: string = getDefaultContestID()
 ): Promise<any> {
   console.log("run get_date");
   const cache = myCache.get(`Date_${contest_short_name}`);
@@ -122,8 +122,8 @@ export async function get_date(
  * 得点情報を取得
  * @returns {json}
  */
-export async function get_Score(
-  contest_short_name: string = getContestID()
+export async function getContestScore(
+  contest_short_name: string = getDefaultContestID()
 ): Promise<any> {
   console.log("run get_Score");
   const standings_url = `https://atcoder.jp/contests/${contest_short_name}/score/json`;
@@ -154,8 +154,8 @@ export async function get_Score(
  * @param contest_short_name
  * 自分の提出を取得
  */
-export async function get_submissions_me(
-  contest_short_name: string = getContestID()
+export async function getSubmissionMe(
+  contest_short_name: string = getDefaultContestID()
 ): Promise<any> {
   console.log("run get_submissions_me");
   const standings_url = `https://atcoder.jp/contests/${contest_short_name}/submissions/me`;

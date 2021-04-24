@@ -3,13 +3,14 @@
 //Copyright © 2021 adenohitu. All rights reserved.
 import axios, { AxiosInstance } from "axios";
 import { sessionRemove, setBrowserCoockie } from "../browser/session";
+import { returnLogin, returnLogout } from "../interfaces";
 import { save_session } from "../save/save_session";
 
 const url_login: string = "https://atcoder.jp/login";
 /**
  * atcoderにアクセスする
  */
-export class AtcoderClass {
+export class atcoderClass {
   //AxiosInstanceを作成
   axiosInstance: AxiosInstance = axios.create({
     headers: { Cookie: save_session.get("session", "") },
@@ -26,12 +27,9 @@ export class AtcoderClass {
 
   /**
    * セッションを使いログインされているかをチェック
-   * 一時的にTrueにしてる
-   * @return {boolean}
    */
-  async check_login() {
+  async checkLogin(): Promise<boolean> {
     const test_url = "https://atcoder.jp/contests/abc189/submit";
-    // if (this.CheckSession !== true) {
     const status = await save_session.get(
       "checkLastest",
       Date.now() + 86400001
@@ -66,15 +64,11 @@ export class AtcoderClass {
   }
 
   /**
-   * @function get_csrf
-   * @parem void
-   * @return {arrey}[csrf_token:string,Cookie]
-   *
    * ログインに必要なCSRFトークンを取得
-   * axiosInstanceにログイン用のCoockieをデフォルトとして設定
+   * 提出ページのURLを入力することで提出時に必要なTorkenを返す
    * falseでcookieなし trueCookieであり
    */
-  async get_csrf(session: boolean, url: string = url_login): Promise<any> {
+  async getCsrftoken(session: boolean, url: string = url_login): Promise<any> {
     if (session === false) {
       // cookieなしでログインページにアクセス
       const response = await this.axiosInstance.get(url, {
@@ -85,42 +79,34 @@ export class AtcoderClass {
       const { JSDOM } = await require("jsdom");
       const { document } = new JSDOM(response.data).window;
       const input: any = document.getElementsByName("csrf_token")[0];
-      // console.log(document);
       const returndata = input.value;
       //cookieを保存
+      //  axiosInstanceにログイン用のCoockieをデフォルトとして設定
       const Cookie = response.headers["set-cookie"];
-      // console.log(response.headers);
       this.axiosInstance.defaults.headers.Cookie = Cookie;
       return [returndata, Cookie];
     } else {
-      // cookieありでログインページにアクセス
-      const response = await this.axiosInstance.get(url_login);
+      // ログインページ以外のCsrfTorken取得
+      const response = await this.axiosInstance.get(url);
       //csrf_tokenをスクレイピング
       //jsdomの型定義ファイルを入れると競合？するのかエラーが出るのでrequireで読み込み
       const { JSDOM } = await require("jsdom");
       const { document } = new JSDOM(response.data).window;
       const input: any = document.getElementsByName("csrf_token")[0];
-      // console.log(document);
       const returndata = input.value;
-      //cookieを保存
-      const Cookie = response.headers["set-cookie"];
-      // console.log(response.headers);
-      this.axiosInstance.defaults.headers.Cookie = Cookie;
-      return [returndata, Cookie];
+      return [returndata, undefined];
     }
   }
 
   /**
-   * @param void
-   * @return {string}
    * ログイン処理をする
    * ログイン済み(already)・ログイン成功(success)・ログイン失敗(Failure_Postdata:ユーザーネームまたはパスワードが違う,Failure_requestError:リクエストに関するエラー)を返す
    */
-  async login(uesrname: string, password: string): Promise<any> {
-    if ((await this.check_login()) === true) {
+  async runLogin(uesrname: string, password: string): Promise<returnLogin> {
+    if ((await this.checkLogin()) === true) {
       return "already";
     } else {
-      const csrf_token: any = await this.get_csrf(false);
+      const csrf_token: any = await this.getCsrftoken(false);
       //配列をそのまま書くとoptionで送信してしまうためここで変換する
       const params = new URLSearchParams();
       params.append("csrf_token", csrf_token[0]);
@@ -133,26 +119,20 @@ export class AtcoderClass {
             (status >= 200 && status < 300) || status === 302,
         })
         .then((response: any) => {
-          // console.log(result.headers["set-cookie"]);
-          console.log("request_finish");
           const login_status = response.headers.location !== "/login";
           if (login_status) {
             const Cookie = response.headers["set-cookie"];
-            // console.log(Cookie);
             this.axiosInstance.defaults.headers.Cookie = Cookie;
-            // this.CheckSession = true;
-            // console.log(Cookie);
             save_session.set("session", Cookie);
             save_session.set("ID", uesrname);
             save_session.set("checkLastest", Date.now());
             // ウィンドウのセッションを同期
             setBrowserCoockie();
+            console.log("loginSuccess");
             return "success";
           } else {
-            // this.CheckSession = false;
             return "Failure_Postdata";
           }
-          // console.log(Cookie);
         })
         .catch((err: any) => {
           console.log(err);
@@ -164,9 +144,10 @@ export class AtcoderClass {
 
   /**
    * ログアウトをする
+   * Store・ブラウザ・AxiosInstanceに保存されているセッション情報、を削除する
    */
-  async logout() {
-    const csrf_token: any = await this.get_csrf(true);
+  async runLogout(): Promise<returnLogout> {
+    const csrf_token: any = await this.getCsrftoken(true);
     const url_logout = "https://atcoder.jp/logout";
     //配列をそのまま書くとoptionで送信してしまうためここで変換する
     const params = new URLSearchParams();
@@ -178,28 +159,18 @@ export class AtcoderClass {
           (status >= 200 && status < 300) || status === 302,
       })
       .then((response: any) => {
-        // console.log(result.headers["set-cookie"]);
-        console.log(response.headers.location);
         const login_status = response.headers.location === "/home";
         if (login_status) {
           const Cookie = response.headers["set-cookie"];
-          // console.log(Cookie);
           save_session.delete("session");
           save_session.delete("ID");
           this.axiosInstance.defaults.headers.Cookie = Cookie;
-          console.log(this.axiosInstance.defaults.headers.Cookie);
           // browserwindowのセッションを削除
           sessionRemove();
-
-          // this.CheckSession = true;
-          // console.log(Cookie)
-
           return "success";
         } else {
-          // this.CheckSession = false;
           return "Failure_Postdata";
         }
-        // console.log(Cookie);
       })
       .catch((err: any) => {
         console.log(err);
@@ -208,11 +179,10 @@ export class AtcoderClass {
     return await login_req;
   }
   /**ログインされているユーザーIDを返す
-   * @return {string|"nologin"}
    *
-   * **/
+   */
   getUsername() {
-    const login = this.check_login();
+    const login = this.checkLogin();
     if (login) {
       const username = save_session.get("ID");
       return username;
@@ -221,4 +191,8 @@ export class AtcoderClass {
     }
   }
 }
-export const Atcoder = new AtcoderClass();
+
+/**
+ * Atcoderclassを初期化
+ */
+export const Atcoder = new atcoderClass();

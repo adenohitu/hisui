@@ -75,7 +75,7 @@ const template: any = [
       {
         label: "logout",
         click(item: any, focusedWindow: any, event: any) {
-          Atcoder.logout();
+          Atcoder.runLogout();
         },
       },
     ],
