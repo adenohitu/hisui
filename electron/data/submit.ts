@@ -18,7 +18,7 @@ export const getSubmitLangOption = async (contestid: string) => {
 /**
  * コードを提出する
  */
-export async function submit(
+export async function runSubmit(
   contestid: string,
   taskScreenName: string,
   code: string,
