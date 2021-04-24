@@ -16,7 +16,8 @@
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\""
+    "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+    "docs": " ./node_modules/.bin/typedoc electron --hideGenerator --tsconfig electron/tsconfig.json --out ./apidocs"
   },
   "build": {
     "productName": "Hisui",
@@ -120,6 +121,7 @@
     "electron": "^12.0.1",
     "electron-builder": "^22.10.5",
     "recharts": "^2.0.9",
+    "typedoc": "^0.20.36",
     "wait-on": "^5.2.1"
   }
 }
