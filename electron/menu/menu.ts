@@ -1,6 +1,6 @@
 import { app, Menu } from "electron";
 import { Atcoder } from "../data/atcoder";
-import { makeDefaultFolderDialog } from "../file/mkfile";
+import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
@@ -31,7 +31,7 @@ const template: any = [
       {
         label: "保存フォルダーを設定",
         click(item: any, focusedWindow: any, event: any) {
-          makeDefaultFolderDialog(focusedWindow);
+          runMakeDefaultFolderDialog(focusedWindow);
         },
       },
       isMac ? { role: "close" } : { role: "quit" },
