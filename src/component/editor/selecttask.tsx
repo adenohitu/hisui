@@ -36,6 +36,7 @@ const StyledTabs = withStyles({
     style={{ height: "100%" }}
     orientation="vertical"
     variant="scrollable"
+    scrollButtons="auto"
     TabIndicatorProps={{
       children: <span />,
       style: {
