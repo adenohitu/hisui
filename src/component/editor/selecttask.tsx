@@ -23,6 +23,8 @@ const StyledTabs = withStyles({
     justifyContent: "center",
     backgroundColor: "transparent",
     "& > span": {
+      height: "100%",
+
       maxWidth: 40,
       width: "100%",
       backgroundColor: "#259B35",
@@ -31,7 +33,9 @@ const StyledTabs = withStyles({
 })((props: StyledTabsProps) => (
   <Tabs
     {...props}
+    style={{ height: "100%" }}
     orientation="vertical"
+    variant="scrollable"
     TabIndicatorProps={{
       children: <span />,
       style: {
@@ -64,13 +68,7 @@ const StyledTab = withStyles((theme: Theme) =>
 )((props: StyledTabProps) => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: "100%",
-    flexGrow: 1,
-  },
-  padding: {
-    padding: theme.spacing(3),
-  },
+  padding: {},
   demo2: {
     backgroundColor: "#eee",
     height: "100%",
@@ -96,19 +94,17 @@ export function TaskSelect() {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.demo2}>
-        <StyledTabs
-          value={value}
-          onChange={handleChange}
-          aria-label="styled tabs example"
-        >
-          {taskData.map((row: any) => (
-            <StyledTab key={row.taskHeader} label={row.taskHeader} />
-          ))}
-        </StyledTabs>
-        <Typography className={classes.padding} />
-      </div>
+    <div className={classes.demo2}>
+      <StyledTabs
+        value={value}
+        onChange={handleChange}
+        aria-label="styled tabs example"
+      >
+        {taskData.map((row: any) => (
+          <StyledTab key={row.taskHeader} label={row.taskHeader} />
+        ))}
+      </StyledTabs>
+      <Typography className={classes.padding} />
     </div>
   );
 }
