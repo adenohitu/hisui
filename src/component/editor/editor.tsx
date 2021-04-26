@@ -1,11 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import path from "path";
-import Editor, { loader } from "@monaco-editor/react";
-import { useSelector } from "react-redux";
-import { selecteditorvalue } from "../../app/Slice/editor";
-// loader.config({
-//   paths: { vs: "./node_modules/monaco-editor/min/vs" },
-// });
+import Editor, { loader, useMonaco } from "@monaco-editor/react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveValue, selecteditorvalue } from "../../app/Slice/editor";
 
 //cdnを使わずローカルファイルから読み込ませる
 loader.config({
@@ -15,28 +12,67 @@ loader.config({
 export function MainEditor() {
   const editorvalue = useSelector(selecteditorvalue);
   const editorRef: any = useRef(null);
+  const [lang, setlang] = useState("python");
 
   function handleEditorDidMount(editor: any, monaco: any) {
     editorRef.current = editor;
   }
 
-  // function showValue() {
-  //   return editorRef.current.getValue();
-  // }
-  // const dispatch = useDispatch();
+  function showValue() {
+    return editorRef.current.getValue();
+  }
+  const monaco = useMonaco();
+
+  useEffect(() => {
+    // do conditional chaining
+    monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+    // or make sure that it exists by other ways
+    if (monaco) {
+      console.log("here is the monaco instance:", monaco);
+    }
+  }, [monaco]);
+
+  const dispatch = useDispatch();
+  function viewmodule() {
+    console.log(monaco?.editor.getModels());
+  }
+  function makemodule() {
+    console.log(monaco?.editor.createModel("", "text/plain").id);
+  }
 
   return (
     <>
-      {/* <button
+      <button
         onClick={() => {
           dispatch(saveValue(showValue()));
         }}
       >
         save
-      </button> */}
+      </button>
+      <button
+        onClick={() => {
+          setlang("cpp");
+        }}
+      >
+        changecpp
+      </button>
+      <button
+        onClick={() => {
+          viewmodule();
+        }}
+      >
+        viewmodule
+      </button>
+      <button
+        onClick={() => {
+          makemodule();
+        }}
+      >
+        make
+      </button>
       <Editor
         height="100%"
-        defaultLanguage="python"
+        language={lang}
         value={editorvalue}
         onMount={handleEditorDidMount}
       />
