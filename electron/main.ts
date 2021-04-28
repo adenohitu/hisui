@@ -15,8 +15,9 @@ import installExtension, {
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
+import { setupWindowView } from "./browser/viewsetup";
 
-export let win: any = null;
+export let win: null | BrowserWindow = null;
 
 function createWindow() {
   win = new BrowserWindow({
@@ -44,13 +45,15 @@ function createWindow() {
   win.on("close", () => {
     //windowのサイズを保存
     //最大化されていても通常状態のサイズ 位置を保存
-    store.set("window.height", win.getNormalBounds().height);
-    store.set("window.width", win.getNormalBounds().width);
-    store.set("window.x", win.getNormalBounds().x);
-    store.set("window.y", win.getNormalBounds().y);
+    store.set("window.height", win?.getNormalBounds().height);
+    store.set("window.width", win?.getNormalBounds().width);
+    store.set("window.x", win?.getNormalBounds().x);
+    store.set("window.y", win?.getNormalBounds().y);
     //ウィンドウの最大化状態を保存する
-    store.set("window.isMax", win.isMaximized());
+    store.set("window.isMax", win?.isMaximized());
   });
+
+  // setupWindowView(win);
   // Hot Reloading
   if (isDev) {
     // 'node_modules/.bin/electronPath'
@@ -84,7 +87,7 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
 
   if (isDev) {
-    win.webContents.openDevTools();
+    win.webContents.openDevTools({ mode: "detach" });
   }
 }
 
