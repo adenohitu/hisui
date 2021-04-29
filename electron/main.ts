@@ -16,6 +16,7 @@ import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
 import { setupWindowView } from "./browser/viewsetup";
+import { runServiceStatus } from "./service/setvice";
 
 export let win: null | BrowserWindow = null;
 
@@ -54,6 +55,7 @@ function createWindow() {
   });
 
   // setupWindowView(win);
+  runServiceStatus();
   // Hot Reloading
   if (isDev) {
     // 'node_modules/.bin/electronPath'
