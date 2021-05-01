@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
-import { MainEditor } from "../../editor/editor";
+import { MainEditor } from "../editor";
 import { Taskview } from "../../taskview/taskview";
 // import "react-mosaic-component/react-mosaic-component.css";
 // import "@blueprintjs/core/lib/css/blueprint.css";
