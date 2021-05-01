@@ -1,6 +1,6 @@
 {
   "name": "hisui",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "author": "adenohitu",
   "description": "Useful tool for programming competition",
   "homepage": ".",
@@ -20,6 +20,11 @@
     "docs": " ./node_modules/.bin/typedoc electron --hideGenerator --tsconfig electron/tsconfig.json --out ./apidocs"
   },
   "build": {
+    "publish": {
+      "provider": "github",
+      "owner": "adenohitu",
+      "repo": "hisui"
+    },
     "productName": "Hisui",
     "artifactName": "Hisui-${version}-${os}.${ext}",
     "copyright": "Copyright © 2020-2021 Adenohitu",
