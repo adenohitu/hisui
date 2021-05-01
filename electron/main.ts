@@ -17,6 +17,7 @@ import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
 import { setupWindowView } from "./browser/viewsetup";
 import { runServiceStatus } from "./service/setvice";
+import { updateChack, updateSetup } from "./update/update";
 
 export let win: null | BrowserWindow = null;
 
@@ -56,6 +57,7 @@ function createWindow() {
 
   // setupWindowView(win);
   runServiceStatus();
+  updateChack();
   // Hot Reloading
   if (isDev) {
     // 'node_modules/.bin/electronPath'
@@ -110,3 +112,5 @@ app.on("activate", () => {
 main_ipc();
 //メニューのセット
 setmenu();
+//オートアップデートのセットアップ
+updateSetup();
