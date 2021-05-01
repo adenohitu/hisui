@@ -1,16 +1,37 @@
 import axios from "axios";
-const { dialog } = require("electron");
+import { servicestatus } from "./status";
+const { app, dialog } = require("electron");
 const statusUrl = "https://hisui-api.herokuapp.com/servicestatus";
+
 export async function runServiceStatus() {
   const data: any = await axios.get(statusUrl);
-  if (data.data.useapp === false) {
+  const statusData: servicestatus = data.data;
+  if (statusData.useapp === false && statusData.statusMessage !== null) {
+    const selectStatus = await dialog.showMessageBox({
+      type: "error",
+      title: statusData.statusMessage.title,
+      message: statusData.statusMessage.title,
+      detail: statusData.statusMessage.detail,
+      buttons: ["アプリを終了する"],
+    });
+
+    if (selectStatus.response === 0) {
+      app.quit();
+    }
+  }
+
+  if (statusData.status === "warning" && statusData.statusMessage !== null) {
     const selectStatus = await dialog.showMessageBox({
       type: "warning",
-      title: "アプリに不具合が見つかりました",
-      message: "アプリに不具合が見つかりました",
-      detail: "アプリに不具合が見つかりました ",
-      buttons: ["アプリを終了する", "了解"],
+      title: statusData.statusMessage.title,
+      message: statusData.statusMessage.title,
+      detail: statusData.statusMessage.detail,
+      buttons: ["アプリを終了する", "そのまま使用する"],
       cancelId: -1, // Esc で閉じられたときの戻り値
     });
+
+    if (selectStatus.response === 0) {
+      app.quit();
+    }
   }
 }

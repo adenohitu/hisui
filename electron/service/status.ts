@@ -8,8 +8,8 @@ export interface servicestatus {
   statusMessage: null | statusMessage;
 }
 export interface statusMessage {
-  update: Date;
-  message: string;
+  title: string;
+  detail: string;
   // 202004290001
   // 日時の後にIDをつける
   statusID: number;
