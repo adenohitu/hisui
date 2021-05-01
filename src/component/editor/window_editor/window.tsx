@@ -1,5 +1,5 @@
 import { Mosaic } from "react-mosaic-component";
-import { TaskSelect } from "../../editor/selecttask";
+import { TaskSelect } from "../selecttask";
 // import { MainEditor } from "../../editor/editor";
 import "react-mosaic-component/react-mosaic-component.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
