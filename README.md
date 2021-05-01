@@ -1,4 +1,4 @@
-# Hisui-Alpha
+# Hisui
 
 [Site](https://adenohitu.github.io/AtCoderGUI-docs/)
 

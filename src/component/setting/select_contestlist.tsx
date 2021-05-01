@@ -65,11 +65,11 @@ export default function SelectContest(prop: any): any {
                 </TableCell>
                 {prop.select === true && (
                   <TableCell align="center">
-                    {row.contest_short_name === text ? (
+                    {row.taskScreenName === text ? (
                       <Button
                         variant="contained"
                         onClick={() => {
-                          setText(row.contest_short_name);
+                          setText(row.taskScreenName);
                         }}
                         disabled
                       >
@@ -80,7 +80,7 @@ export default function SelectContest(prop: any): any {
                         variant="contained"
                         color="secondary"
                         onClick={() => {
-                          setText(row.contest_short_name);
+                          setText(row.taskScreenName);
                         }}
                       >
                         選択

@@ -8,14 +8,14 @@ import { mkdir, readdirSync, writeFileSync, statSync, readFileSync } from "fs";
 /**
  * デフォルトのフォルダーを決めるダイアログを開く
  */
-export const makeDefaultFolderDialog = async (win: any) => {
+export const runMakeDefaultFolderDialog = async (win: any) => {
   const filename: any = await dialog.showOpenDialog(win, {
     properties: ["openDirectory"],
     title: "コードを保存するフォルダーを選択してください",
     defaultPath: app.getPath("documents"),
   });
 
-  makeDefaultFolder(filename.filePaths[0]);
+  runMakeDefaultFolder(filename.filePaths[0]);
 };
 
 /**
@@ -23,7 +23,7 @@ export const makeDefaultFolderDialog = async (win: any) => {
  * app.getPath("documents")
  * デフォルトのファイル名は"hisui"
  */
-export const makeDefaultFolder = (
+export const runMakeDefaultFolder = (
   mainpath: string,
   filename: string = "hisui"
 ) => {
@@ -51,7 +51,7 @@ export const getDefaultfiledata = async () => {
  * folderdirにファイル名またさらに下の階層のフォルダーがいい場合は記入
  * 例:makeFile("a.py","abc001/a")
  */
-export const makeFile = async (
+export const runMakeFile = async (
   foldername: string,
   folderdir: string = ""
 ): Promise<string> => {
@@ -112,7 +112,7 @@ export const getFiledata = async (
   taskname: string,
   launage: launagetype
 ) => {
-  const filename = await makeFile(
+  const filename = await runMakeFile(
     `${taskname}${launageselect[launage]}`,
     contestname
   );
@@ -129,7 +129,7 @@ export const runWritefile = async (
   taskname: string,
   launage: launagetype
 ) => {
-  const filename = await makeFile(
+  const filename = await runMakeFile(
     `${taskname}${launageselect[launage]}`,
     contestname
   );

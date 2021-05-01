@@ -11,14 +11,21 @@ const myCache = new NodeCache();
 /**
  * デフォルトで設定されたコンテストIDを返す
  */
-export function getContestID() {
+export function getDefaultContestID(): string {
   return store.get("SetContestID", "abc001");
 }
 
 /**
- * 開催中・開催予定のコンテストを取得しhashで出力
+ * 開催中・開催予定のコンテストを取得し出力
  */
-export async function getContestInfo() {
+export async function getContestInfo(): Promise<
+  {
+    contest_name: string;
+    taskScreenName: string;
+    start_time: any;
+    active: boolean;
+  }[]
+> {
   console.log("run getContestInfo");
   const cache = myCache.get("ContestInfo");
   const url_contest: string = "https://atcoder.jp/contests/?lang=ja";
@@ -37,16 +44,15 @@ export async function getContestInfo() {
 }
 
 /**
- * @param  {string} contest_short_name
  * デフォルトのコンテストIDを設定する
  * 存在をチェックし存在すればデフォルトとして設定
  * しなければfalseを返す
  */
-export async function set_SetContestID(contest_short_name: string) {
+export async function setDefaultContestID(taskScreenName: string) {
   console.log("run set_SetContestID");
-  const check = await check_SetContestID(contest_short_name);
+  const check = await checkContestID(taskScreenName);
   if (check) {
-    await store.set("SetContestID", contest_short_name);
+    await store.set("SetContestID", taskScreenName);
     return true;
   } else {
     return false;
@@ -54,22 +60,19 @@ export async function set_SetContestID(contest_short_name: string) {
 }
 
 /**
- * @param  {string} contest_short_name
  * コンテストが存在するかチェックする
  * 存在しない時はfalseするときはtrue
  * 認証による権限の関係でアクセスできない場合はfalse
  */
-export async function check_SetContestID(contest_short_name: string) {
+export async function checkContestID(taskScreenName: string) {
   console.log("run check_SetContestID");
-  const url = `https://atcoder.jp/contests/${contest_short_name}`;
+  const url = `https://atcoder.jp/contests/${taskScreenName}`;
   const responce = await Atcoder.axiosInstance.get(url, {
     maxRedirects: 0,
     validateStatus: function (status) {
       return status < 500;
     },
   });
-  // console.log(responce);
-
   if (responce.status === 200) {
     return true;
   } else {
@@ -78,17 +81,17 @@ export async function check_SetContestID(contest_short_name: string) {
 }
 
 /**
- * @param contest_short_name
+ * @param taskScreenName
  * 開始時間と終了時間を取得
  * @return { start_time: string, end_time: string }
  */
-export async function get_date(
-  contest_short_name: string = getContestID()
+export async function getContestDate(
+  taskScreenName: string = getDefaultContestID()
 ): Promise<any> {
   console.log("run get_date");
-  const cache = myCache.get(`Date_${contest_short_name}`);
+  const cache = myCache.get(`Date_${taskScreenName}`);
   if (cache === undefined) {
-    const url = `https://atcoder.jp/contests/${contest_short_name}`;
+    const url = `https://atcoder.jp/contests/${taskScreenName}`;
     const responce = await Atcoder.axiosInstance.get(url, {
       maxRedirects: 0,
       validateStatus: (status) =>
@@ -98,7 +101,7 @@ export async function get_date(
       // console.log(responce.data);
       const data: any = contest_main(responce.data);
       myCache.set(
-        `Date_${contest_short_name}`,
+        `Date_${taskScreenName}`,
         { data: data, time: Date.now() },
         21600
       );
@@ -118,15 +121,15 @@ export async function get_date(
 }
 
 /**
- * @param contest_short_name
+ * @param taskScreenName
  * 得点情報を取得
  * @returns {json}
  */
-export async function get_Score(
-  contest_short_name: string = getContestID()
+export async function getContestScore(
+  taskScreenName: string = getDefaultContestID()
 ): Promise<any> {
   console.log("run get_Score");
-  const standings_url = `https://atcoder.jp/contests/${contest_short_name}/score/json`;
+  const standings_url = `https://atcoder.jp/contests/${taskScreenName}/score/json`;
   const responce = await Atcoder.axiosInstance.get(standings_url, {
     maxRedirects: 0,
     validateStatus: function (status) {
@@ -136,7 +139,6 @@ export async function get_Score(
   if (responce.status !== 302) {
     //そもそも予定されていないコンテストをSetContestIDに設定することはできないので404対策は付けない
     if (responce.data !== `"error"`) {
-      // console.log(responce.data);
       //atcoderの謎仕様に注意
       //予定されているコンテストの場合302ではなく`"error"`（ダブルクォーテーションがいる）を返す
       return responce.data;
@@ -151,14 +153,14 @@ export async function get_Score(
 }
 
 /**
- * @param contest_short_name
+ * @param taskScreenName
  * 自分の提出を取得
  */
-export async function get_submissions_me(
-  contest_short_name: string = getContestID()
+export async function getSubmissionMe(
+  taskScreenName: string = getDefaultContestID()
 ): Promise<any> {
   console.log("run get_submissions_me");
-  const standings_url = `https://atcoder.jp/contests/${contest_short_name}/submissions/me`;
+  const standings_url = `https://atcoder.jp/contests/${taskScreenName}/submissions/me`;
   const responce = await Atcoder.axiosInstance.get(standings_url, {
     maxRedirects: 0,
     validateStatus: function (status) {
