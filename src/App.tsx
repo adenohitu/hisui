@@ -9,6 +9,7 @@ import FormDialog from "./component/auth/login_dialog";
 import DefaltContest from "./component/setting/dafalt_contest";
 import { Home } from "./component/home/Home";
 import { Submitmain } from "./component/submit/submitwindow";
+import { TestCaseBoard } from "./component/case/main";
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,9 @@ const App: React.FC = () => {
           </Route>
           <Route path="/dashboard" exact>
             <Window />
+          </Route>
+          <Route path="/case" exact>
+            <TestCaseBoard />
           </Route>
         </Switch>
       </Menu>
