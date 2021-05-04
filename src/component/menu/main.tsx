@@ -161,8 +161,8 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
 
     {
       id: 4,
-      link: "/window",
-      text: "ipctest",
+      link: "/case",
+      text: "テストケース",
       icon: <AssignmentTurnedInIcon />,
     },
   ];

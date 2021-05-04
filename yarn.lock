@@ -2079,6 +2079,11 @@
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/lodash@^4.14.168":
+  version "4.14.168"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
+  integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
+
 "@types/minimatch@*":
   version "3.0.4"
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.4.tgz"
@@ -10737,7 +10742,7 @@ react-dom@^17.0.1:
 
 react-draggable@^4.0.0, react-draggable@^4.0.3:
   version "4.4.3"
-  resolved "https://registry.npmjs.org/react-draggable/-/react-draggable-4.4.3.tgz"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-4.4.3.tgz#0727f2cae5813e36b0e4962bf11b2f9ef2b406f3"
   integrity sha512-jV4TE59MBuWm7gb6Ns3Q1mxX8Azffb7oTtDtBgFkxRvhDp38YAARmRplrj0+XGkhOJB5XziArX+4HUUABtyZ0w==
   dependencies:
     classnames "^2.2.5"
@@ -10750,7 +10755,7 @@ react-error-overlay@^6.0.9:
 
 react-grid-layout@^1.2.4:
   version "1.2.4"
-  resolved "https://registry.npmjs.org/react-grid-layout/-/react-grid-layout-1.2.4.tgz"
+  resolved "https://registry.yarnpkg.com/react-grid-layout/-/react-grid-layout-1.2.4.tgz#d04f9784fe47b27d0dcd3eb92f20e1a17454003c"
   integrity sha512-AWorwRmkEyOPWF516BDbEhMjGhTCPf6zALQ3HIYrJdRmbbj1n5PDPNEI1eI818zhB07KwGVtF0WBxq2CmA2CNA==
   dependencies:
     classnames "2.x"
@@ -10840,7 +10845,7 @@ react-refresh@^0.8.3:
 
 react-resizable@^1.10.0:
   version "1.11.1"
-  resolved "https://registry.npmjs.org/react-resizable/-/react-resizable-1.11.1.tgz"
+  resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-1.11.1.tgz#02ca6850afa7a22c1b3e623e64aef71ee252af69"
   integrity sha512-S70gbLaAYqjuAd49utRHibtHLrHXInh7GuOR+6OO6RO6uleQfuBnWmZjRABfqNEx3C3Z6VPLg0/0uOYFrkfu9Q==
   dependencies:
     prop-types "15.x"

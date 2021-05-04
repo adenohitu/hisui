@@ -1,6 +1,6 @@
 # Hisui
 
-[Site](https://adenohitu.github.io/AtCoderGUI-docs/)
+[Site](https://adenohitu.github.io/Hisui-docs/)
 
 ## 概要
 
