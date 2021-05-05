@@ -105,7 +105,14 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      { role: "toggleDevTools", accelerator: "F12" },
+
+      {
+        label: "DevToolsOnMain",
+        click(item: any, focusedWindow: any, event: any) {
+          focusedWindow.webContents.openDevTools({ mode: "detach" });
+        },
+        accelerator: "F12",
+      },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },
@@ -122,6 +129,12 @@ const template: any = [
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
           focusedWindow.webContents.send("resetWindowState");
+        },
+      },
+      {
+        label: "logtest",
+        click(item: any, focusedWindow: any, event: any) {
+          console.log(focusedWindow.getBrowserViews());
         },
       },
       { type: "separator" },

@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       height: "100vh",
       overflow: "auto",
+      backgroundColor: "#666363",
     },
     container: {
       height: "100%",

@@ -15,7 +15,7 @@ import installExtension, {
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
-import { setupWindowView } from "./browser/viewsetup";
+import { setupWindowView } from "./browserview/viewsetup";
 import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
 
@@ -35,7 +35,7 @@ function createWindow() {
   });
 
   if (isDev) {
-    win.loadURL("http://localhost:3000");
+    win.loadURL("http://localhost:3000#/leftmenu");
   } else {
     // 'build/index.html'
     win.loadURL(`file://${__dirname}/../index.html`);
@@ -55,7 +55,7 @@ function createWindow() {
     store.set("window.isMax", win?.isMaximized());
   });
 
-  // setupWindowView(win);
+  setupWindowView(win);
   runServiceStatus();
   updateChack();
   // Hot Reloading
@@ -91,7 +91,7 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
 
   if (isDev) {
-    win.webContents.openDevTools({ mode: "detach" });
+    // win.webContents.openDevTools({ mode: "detach" });
   }
 }
 
