@@ -1,6 +1,6 @@
 import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
-const menuSize = 55;
+import { menuSize } from "./default";
 
 export class mainPage {
   /**
