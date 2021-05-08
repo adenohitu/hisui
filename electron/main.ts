@@ -17,7 +17,8 @@ import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
 import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
-import { mainPageapi } from "./browserview/mainwindow";
+import { mainPageapi } from "./browserview/mainpageview";
+import { dashboardapi } from "./browserview/dashboardview";
 
 export let win: null | BrowserWindow = null;
 
@@ -88,9 +89,10 @@ function createWindow() {
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log("An error occurred: ", err));
 
+  //dashboardをセットアップ
+  dashboardapi.setupWindow(win);
   //mainページをセットアップ
   mainPageapi.setupWindow(win);
-
   if (isDev) {
     // win.webContents.openDevTools({ mode: "detach" });
   }

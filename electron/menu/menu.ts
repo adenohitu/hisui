@@ -1,5 +1,6 @@
 import { app, Menu } from "electron";
-import { mainPageapi } from "../browserview/mainwindow";
+import { dashboardapi } from "../browserview/dashboardview";
+import { mainPageapi } from "../browserview/mainpageview";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
@@ -112,14 +113,12 @@ const template: any = [
         click(item: any, focusedWindow: any, event: any) {
           focusedWindow.webContents.openDevTools({ mode: "detach" });
         },
-        accelerator: "F12",
       },
       {
         label: "DevToolsOnMainpage",
         click(item: any, focusedWindow: any, event: any) {
           mainPageapi.openDevTool();
         },
-        accelerator: "F12",
       },
       { type: "separator" },
       { role: "resetZoom" },
@@ -145,6 +144,19 @@ const template: any = [
           console.log(focusedWindow.getBrowserViews());
         },
       },
+      {
+        label: "mainPageTop",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.runWindowTop();
+        },
+      },
+      {
+        label: "dashboardTop",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.runWindowTop();
+        },
+      },
+
       { type: "separator" },
       { role: "minimize" },
       { role: "zoom" },

@@ -2,51 +2,55 @@ import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
 const menuSize = 55;
 
-export class mainPage {
-  mainPageView: BrowserView | null;
-  private mainWindow: BrowserWindow | null = null;
+export class dashboard {
+  /**
+   * viewを保存
+   * 表示されていない時はnull
+   */
+  dashboardView: BrowserView | null;
+  private mainWindow: BrowserWindow | null;
   constructor() {
-    this.mainPageView = null;
-    console.log("run reset");
+    this.dashboardView = null;
+    this.mainWindow = null;
   }
 
   /**
    * BrowserViewを初期化する
    */
   async setupWindow(win: BrowserWindow | null) {
-    console.log("run Window Setup");
-
     if (!this.mainWindow && win) {
       this.mainWindow = win;
-      this.mainPageView = new BrowserView({
+      this.dashboardView = new BrowserView({
         webPreferences: {
           nodeIntegration: false,
           contextIsolation: true,
           preload: __dirname + "/../preload.js",
         },
       });
-      this.mainWindow?.addBrowserView(this.mainPageView);
+      this.mainWindow?.addBrowserView(this.dashboardView);
 
       const newBounds = win?.getContentBounds();
-      this.mainPageView.setBounds({
+      this.dashboardView.setBounds({
         x: menuSize,
         y: 0,
         width: newBounds.width - menuSize,
         height: newBounds.height,
       });
-      this.mainPageView.setAutoResize({ width: false, height: false });
+      this.dashboardView.setAutoResize({ width: false, height: false });
 
       if (isDev) {
-        this.mainPageView.webContents.loadURL("http://localhost:3000#/");
+        this.dashboardView.webContents.loadURL(
+          "http://localhost:3000#/dashboard"
+        );
       } else {
         // 'build/index.html'
-        this.mainPageView.webContents.loadURL(
-          `file://${__dirname}/../../index.html#/`
+        this.dashboardView.webContents.loadURL(
+          `file://${__dirname}/../../index.html#/dashboard`
         );
       }
 
       win.on("resize", () => {
-        this.windowSizeChange(win, this.mainPageView);
+        this.windowSizeChange(win, this.dashboardView);
       });
     } else {
       return "alrady";
@@ -57,7 +61,16 @@ export class mainPage {
    * ウィンドウのDevtoolを開く
    */
   openDevTool() {
-    this.mainPageView?.webContents.openDevTools({ mode: "detach" });
+    this.dashboardView?.webContents.openDevTools({ mode: "detach" });
+  }
+
+  /**
+   * dashboardViewを一番上に配置する
+   */
+  runWindowTop() {
+    if (this.dashboardView && this.mainWindow) {
+      this.mainWindow.setTopBrowserView(this.dashboardView);
+    }
   }
 
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {
@@ -76,4 +89,4 @@ export class mainPage {
   }
 }
 
-export const mainPageapi = new mainPage();
+export const dashboardapi = new dashboard();
