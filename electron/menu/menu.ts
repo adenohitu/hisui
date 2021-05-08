@@ -1,6 +1,7 @@
 import { app, Menu } from "electron";
 import { dashboardapi } from "../browserview/dashboardview";
 import { mainPageapi } from "../browserview/mainpageview";
+import { settingDialogOpen } from "../browserview/mgt/dialog";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
@@ -89,7 +90,8 @@ const template: any = [
       {
         label: "Select Contest",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("dafaltContest");
+          // focusedWindow.webContents.send("dafaltContest");
+          settingDialogOpen();
         },
       },
       { type: "separator" },

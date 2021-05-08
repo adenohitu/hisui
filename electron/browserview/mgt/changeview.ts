@@ -17,8 +17,6 @@ export class changeView {
         editorapi.runWindowTop();
         break;
       case "dashboard":
-        //切り替えと同時に更新をかける
-        dashboardapi.runUpdateRankdata();
         dashboardapi.runWindowTop();
         break;
       case "createSample":
