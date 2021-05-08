@@ -25,6 +25,7 @@ declare global {
       getWindowState_render;
       setWindowState_render;
       resetWindowState_render;
+      updateDashboard;
       getRank_render;
       getRank_send_render;
       getRank_on_render;

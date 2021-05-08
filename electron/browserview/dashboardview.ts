@@ -72,6 +72,13 @@ export class dashboard {
     }
   }
 
+  /**
+   * 順位表データをアップデートする
+   */
+  runUpdateRankdata() {
+    this.dashboardView?.webContents.send("updateDashboard_replay");
+  }
+
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {
     const newBounds = win.getContentBounds();
     if (view && newBounds) {

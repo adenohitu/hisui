@@ -120,6 +120,12 @@ const template: any = [
           mainPageapi.openDevTool();
         },
       },
+      {
+        label: "DevToolsOnDashboard",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.openDevTool();
+        },
+      },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },
@@ -154,6 +160,12 @@ const template: any = [
         label: "dashboardTop",
         click(item: any, focusedWindow: any, event: any) {
           dashboardapi.runWindowTop();
+        },
+      },
+      {
+        label: "dashboardRankDataUpdate",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.runUpdateRankdata();
         },
       },
 
