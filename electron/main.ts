@@ -20,6 +20,7 @@ import { updateChack, updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
 import { editorapi } from "./browserview/editorview";
+import { changeViewapi } from "./browserview/mgt/changeview";
 
 export let win: null | BrowserWindow = null;
 
@@ -89,12 +90,18 @@ function createWindow() {
   installExtension(REDUX_DEVTOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log("An error occurred: ", err));
-  //editorをセットアップ
-  editorapi.setupView(win);
-  //dashboardをセットアップ
-  dashboardapi.setupView(win);
-  //mainページをセットアップ
-  mainPageapi.setupView(win);
+  async function initView() {
+    //editorをセットアップ
+    editorapi.setupView(win);
+    //dashboardをセットアップ
+    dashboardapi.setupView(win);
+    //mainページをセットアップ
+    mainPageapi.setupView(win);
+  }
+  //初期Viewを指定
+  initView().then(() => {
+    changeViewapi.change("main");
+  });
   if (isDev) {
     // win.webContents.openDevTools({ mode: "detach" });
   }
