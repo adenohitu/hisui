@@ -19,6 +19,7 @@ import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
+import { editorapi } from "./browserview/editorview";
 
 export let win: null | BrowserWindow = null;
 
@@ -88,7 +89,8 @@ function createWindow() {
   installExtension(REDUX_DEVTOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log("An error occurred: ", err));
-
+  //editorをセットアップ
+  editorapi.setupWindow(win);
   //dashboardをセットアップ
   dashboardapi.setupWindow(win);
   //mainページをセットアップ

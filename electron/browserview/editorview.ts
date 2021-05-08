@@ -2,15 +2,15 @@ import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
 import { menuSize } from "./default";
 
-export class mainPage {
+export class editor {
   /**
    * viewを保存
    * 表示されていない時はnull
    */
-  mainPageView: BrowserView | null;
+  editorView: BrowserView | null;
   private mainWindow: BrowserWindow | null;
   constructor() {
-    this.mainPageView = null;
+    this.editorView = null;
     this.mainWindow = null;
   }
 
@@ -20,35 +20,35 @@ export class mainPage {
   async setupWindow(win: BrowserWindow | null) {
     if (!this.mainWindow && win) {
       this.mainWindow = win;
-      this.mainPageView = new BrowserView({
+      this.editorView = new BrowserView({
         webPreferences: {
           nodeIntegration: false,
           contextIsolation: true,
           preload: __dirname + "/../preload.js",
         },
       });
-      this.mainWindow?.addBrowserView(this.mainPageView);
+      this.mainWindow?.addBrowserView(this.editorView);
 
       const newBounds = win?.getContentBounds();
-      this.mainPageView.setBounds({
+      this.editorView.setBounds({
         x: menuSize,
         y: 0,
         width: newBounds.width - menuSize,
         height: newBounds.height,
       });
-      this.mainPageView.setAutoResize({ width: false, height: false });
+      this.editorView.setAutoResize({ width: false, height: false });
 
       if (isDev) {
-        this.mainPageView.webContents.loadURL("http://localhost:3000#/");
+        this.editorView.webContents.loadURL("http://localhost:3000#/editor");
       } else {
         // 'build/index.html'
-        this.mainPageView.webContents.loadURL(
-          `file://${__dirname}/../../index.html#/`
+        this.editorView.webContents.loadURL(
+          `file://${__dirname}/../../index.html#/editor`
         );
       }
 
       win.on("resize", () => {
-        this.windowSizeChange(win, this.mainPageView);
+        this.windowSizeChange(win, this.editorView);
       });
     } else {
       return "alrady";
@@ -59,15 +59,15 @@ export class mainPage {
    * ウィンドウのDevtoolを開く
    */
   openDevTool() {
-    this.mainPageView?.webContents.openDevTools({ mode: "detach" });
+    this.editorView?.webContents.openDevTools({ mode: "detach" });
   }
 
   /**
-   * mainPageViewを一番上に配置する
+   * editorViewを一番上に配置する
    */
   runWindowTop() {
-    if (this.mainPageView && this.mainWindow) {
-      this.mainWindow.setTopBrowserView(this.mainPageView);
+    if (this.editorView && this.mainWindow) {
+      this.mainWindow.setTopBrowserView(this.editorView);
     }
   }
 
@@ -87,4 +87,4 @@ export class mainPage {
   }
 }
 
-export const mainPageapi = new mainPage();
+export const editorapi = new editor();

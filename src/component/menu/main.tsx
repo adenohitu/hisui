@@ -1,34 +1,22 @@
 import React, { useState } from "react";
-
 import clsx from "clsx";
 import { createMuiTheme } from "@material-ui/core/styles";
-// import * as colors from "@material-ui/core/colors";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
-// import AppBar from "@material-ui/core/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
-// import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-// import Container from "@material-ui/core/Container";
-import { useHistory, useLocation } from "react-router-dom";
-// import IconButton from "@material-ui/core/IconButton";
-// import AccessTime from "@material-ui/icons/AccessTime";
 import blueGrey from "@material-ui/core/colors/blueGrey";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn"; // eslint-disable-next-line
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import CodeIcon from "@material-ui/icons/Code";
 import HomeIcon from "@material-ui/icons/Home";
-// import MenuIcon from "@material-ui/icons/Menu";
-// import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import LiveTv from "@material-ui/icons/LiveTv";
 import ListItem from "@material-ui/core/ListItem";
 import SendIcon from "@material-ui/icons/Send";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText"; // eslint-disable-next-line
-import SettingsIcon from "@material-ui/icons/Settings";
+import ListItemText from "@material-ui/core/ListItemText";
 const drawerWidth = 240;
 // let nowItem = 0;
 const theme = createMuiTheme({});
@@ -111,11 +99,11 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: "auto",
       flexDirection: "column",
     },
-    link: {
+    viewName: {
       textDecoration: "none",
       color: theme.palette.text.secondary,
     },
-    linkButton: { borderLeft: "10px" },
+    viewNameButton: { borderLeft: "10px" },
     iconEn: { color: blueGrey[50] },
     iconDi: { color: blueGrey[300] },
     itemText: { color: "white" },
@@ -130,9 +118,11 @@ export interface GenericTemplateProps {
 }
 export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
   //react routor hooks
-  const history = useHistory();
-  const location = useLocation();
-
+  const [location, setlocation] = useState("main");
+  const pageChange = (viewName: string) => {
+    setlocation(viewName);
+    window.api.changeView(viewName);
+  };
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -147,22 +137,22 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
   var menulist = [
     {
       id: 0,
-      link: "/",
+      viewName: "main",
       text: "ホーム",
       icon: <HomeIcon />,
     },
-    { id: 1, link: "/editor", text: "エディター", icon: <CodeIcon /> },
-    { id: 2, link: "/submit", text: "提出", icon: <SendIcon /> },
+    { id: 1, viewName: "editor", text: "エディター", icon: <CodeIcon /> },
+    { id: 2, viewName: "submit", text: "提出", icon: <SendIcon /> },
     {
       id: 3,
-      link: "/dashboard",
+      viewName: "dashboard",
       text: "ダッシュボード",
       icon: <LiveTv />,
     },
 
     {
       id: 4,
-      link: "/case",
+      viewName: "createSample",
       text: "テストケース",
       icon: <AssignmentTurnedInIcon />,
     },
@@ -184,21 +174,19 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
             {menulist.map((item) => (
               <Box
                 borderLeft={3}
-                borderColor={
-                  item.link === location.pathname ? "#eceff1" : "#424242"
-                }
-                className={classes.link}
+                borderColor={item.viewName === location ? "#eceff1" : "#424242"}
+                className={classes.viewName}
                 key={item.id}
               >
                 <ListItem
                   onClick={() => {
-                    history.push(item.link);
+                    pageChange(item.viewName);
                   }}
                   button
                 >
                   <ListItemIcon
                     className={
-                      item.link === location.pathname
+                      item.viewName === location
                         ? classes.iconEn
                         : classes.iconDi
                     }
@@ -215,7 +203,7 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
             {/* <Box
               borderLeft={3}
               borderColor={"#424242"}
-              className={classes.link}
+              className={classes.viewName}
             >
               <ListItem button>
                 <ListItemIcon className={classes.iconDi}>

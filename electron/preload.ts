@@ -184,4 +184,8 @@ contextBridge.exposeInMainWorld("api", {
     const data: any = await ipcRenderer.invoke("runWritefile", arg);
     return data;
   },
+
+  changeView: (viewName: string) => {
+    ipcRenderer.send("change_view", viewName);
+  },
 });

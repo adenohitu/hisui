@@ -42,6 +42,7 @@ declare global {
       getTasklist_on_render;
       getFiledata_render;
       runWritefile_render;
+      changeView;
     };
   }
 }
