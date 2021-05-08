@@ -90,11 +90,11 @@ function createWindow() {
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log("An error occurred: ", err));
   //editorをセットアップ
-  editorapi.setupWindow(win);
+  editorapi.setupView(win);
   //dashboardをセットアップ
-  dashboardapi.setupWindow(win);
+  dashboardapi.setupView(win);
   //mainページをセットアップ
-  mainPageapi.setupWindow(win);
+  mainPageapi.setupView(win);
   if (isDev) {
     // win.webContents.openDevTools({ mode: "detach" });
   }

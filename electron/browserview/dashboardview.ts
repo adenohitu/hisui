@@ -16,7 +16,7 @@ export class dashboard {
   /**
    * BrowserViewを初期化する
    */
-  async setupWindow(win: BrowserWindow | null) {
+  async setupView(win: BrowserWindow | null) {
     if (!this.mainWindow && win) {
       this.mainWindow = win;
       this.dashboardView = new BrowserView({

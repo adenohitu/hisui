@@ -2,7 +2,7 @@ import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
 
 const menuSize = 55;
-export function setupWindowView(win: BrowserWindow) {
+export function setupViewView(win: BrowserWindow) {
   let view = new BrowserView({
     webPreferences: {
       nodeIntegration: false,

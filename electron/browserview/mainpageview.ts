@@ -17,7 +17,7 @@ export class mainPage {
   /**
    * BrowserViewを初期化する
    */
-  async setupWindow(win: BrowserWindow | null) {
+  async setupView(win: BrowserWindow | null) {
     if (!this.mainWindow && win) {
       this.mainWindow = win;
       this.mainPageView = new BrowserView({
