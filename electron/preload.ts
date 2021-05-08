@@ -100,6 +100,12 @@ contextBridge.exposeInMainWorld("api", {
     });
   },
 
+  //updateDashboard
+  updateDashboard: async (func: any) => {
+    ipcRenderer.on("updateDashboard_replay", (event, arg) => {
+      func(arg);
+    });
+  },
   //順位表の集計情報を取得
   getTotal_render: async (taskScreenName: any) => {
     const data: any = await ipcRenderer.invoke("getTotal", taskScreenName);
@@ -177,5 +183,9 @@ contextBridge.exposeInMainWorld("api", {
   runWritefile_render: async (arg: any) => {
     const data: any = await ipcRenderer.invoke("runWritefile", arg);
     return data;
+  },
+
+  changeView: (viewName: string) => {
+    ipcRenderer.send("change_view", viewName);
   },
 });

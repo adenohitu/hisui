@@ -1,4 +1,7 @@
 import { app, Menu } from "electron";
+import { dashboardapi } from "../browserview/dashboardview";
+import { mainPageapi } from "../browserview/mainpageview";
+import { settingDialogOpen } from "../browserview/mgt/dialog";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
@@ -87,7 +90,8 @@ const template: any = [
       {
         label: "Select Contest",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("dafaltContest");
+          // focusedWindow.webContents.send("dafaltContest");
+          settingDialogOpen();
         },
       },
       { type: "separator" },
@@ -105,7 +109,25 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      { role: "toggleDevTools", accelerator: "F12" },
+
+      {
+        label: "DevToolsOnMainwindow",
+        click(item: any, focusedWindow: any, event: any) {
+          focusedWindow.webContents.openDevTools({ mode: "detach" });
+        },
+      },
+      {
+        label: "DevToolsOnMainpage",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnDashboard",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.openDevTool();
+        },
+      },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },
@@ -124,6 +146,31 @@ const template: any = [
           focusedWindow.webContents.send("resetWindowState");
         },
       },
+      {
+        label: "logtest",
+        click(item: any, focusedWindow: any, event: any) {
+          console.log(focusedWindow.getBrowserViews());
+        },
+      },
+      {
+        label: "mainPageTop",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.runWindowTop();
+        },
+      },
+      {
+        label: "dashboardTop",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.runWindowTop();
+        },
+      },
+      {
+        label: "dashboardRankDataUpdate",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.runUpdateRankdata();
+        },
+      },
+
       { type: "separator" },
       { role: "minimize" },
       { role: "zoom" },
