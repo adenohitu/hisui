@@ -1,10 +1,11 @@
-/**
+/*!
  *======================================================================
- *Project Name    : AtCoderGUI
+ *Project Name    : Hisui
  *File Name       : main.ts
  *Copyright © 2021 adenohitu. All rights reserved.
  *======================================================================
  */
+
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
