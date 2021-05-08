@@ -1,5 +1,4 @@
 import { BrowserView, BrowserWindow } from "electron";
-import { store } from "../save/save";
 import * as isDev from "electron-is-dev";
 
 const menuSize = 55;
