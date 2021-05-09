@@ -1,5 +1,7 @@
 import { app, Menu } from "electron";
+import { setBrowserCoockie } from "../browser/session";
 import { dashboardapi } from "../browserview/dashboardview";
+import { editorapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 import { Atcoder } from "../data/atcoder";
@@ -76,6 +78,12 @@ const template: any = [
         },
       },
       {
+        label: "セッション同期",
+        click(item: any, focusedWindow: any, event: any) {
+          setBrowserCoockie();
+        },
+      },
+      {
         label: "logout",
         click(item: any, focusedWindow: any, event: any) {
           Atcoder.runLogout();
@@ -126,6 +134,12 @@ const template: any = [
         label: "DevToolsOnDashboard",
         click(item: any, focusedWindow: any, event: any) {
           dashboardapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnEditor",
+        click(item: any, focusedWindow: any, event: any) {
+          editorapi.openDevTool();
         },
       },
       { type: "separator" },
