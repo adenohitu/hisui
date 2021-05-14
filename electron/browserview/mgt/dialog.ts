@@ -1,5 +1,5 @@
 import { dashboardapi } from "../dashboardview";
-import { editorapi } from "../editorview";
+import { editorViewapi } from "../editorview";
 import { mainPageapi } from "../mainpageview";
 import { changeViewapi } from "./changeview";
 
@@ -13,7 +13,7 @@ export function settingDialogOpen() {
       mainPageapi.mainPageView?.webContents.send("dafaltContest");
       break;
     case "editor":
-      editorapi.editorView?.webContents.send("dafaltContest");
+      editorViewapi.editorView?.webContents.send("dafaltContest");
       break;
     case "dashboard":
       dashboardapi.dashboardView?.webContents.send("dafaltContest");

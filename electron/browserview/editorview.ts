@@ -87,4 +87,4 @@ export class editor {
   }
 }
 
-export const editorapi = new editor();
+export const editorViewapi = new editor();

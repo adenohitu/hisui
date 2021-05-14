@@ -1,7 +1,7 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
 import { dashboardapi } from "../browserview/dashboardview";
-import { editorapi } from "../browserview/editorview";
+import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 import { Atcoder } from "../data/atcoder";
@@ -117,7 +117,6 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-
       {
         label: "DevToolsOnMainwindow",
         click(item: any, focusedWindow: any, event: any) {
@@ -139,7 +138,7 @@ const template: any = [
       {
         label: "DevToolsOnEditor",
         click(item: any, focusedWindow: any, event: any) {
-          editorapi.openDevTool();
+          editorViewapi.openDevTool();
         },
       },
       { type: "separator" },

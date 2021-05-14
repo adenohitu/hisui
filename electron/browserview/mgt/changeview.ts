@@ -1,5 +1,5 @@
 import { dashboardapi } from "../dashboardview";
-import { editorapi } from "../editorview";
+import { editorViewapi } from "../editorview";
 import { mainPageapi } from "../mainpageview";
 
 type viewName = "main" | "editor" | "dashboard" | "createSample";
@@ -14,7 +14,7 @@ export class changeView {
         mainPageapi.runWindowTop();
         break;
       case "editor":
-        editorapi.runWindowTop();
+        editorViewapi.runWindowTop();
         break;
       case "dashboard":
         dashboardapi.runWindowTop();

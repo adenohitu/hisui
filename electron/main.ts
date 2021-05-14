@@ -20,7 +20,7 @@ import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
-import { editorapi } from "./browserview/editorview";
+import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
 
 export let win: null | BrowserWindow = null;
@@ -93,7 +93,7 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     //editorをセットアップ
-    editorapi.setupView(win);
+    editorViewapi.setupView(win);
     //dashboardをセットアップ
     dashboardapi.setupView(win);
     //mainページをセットアップ
