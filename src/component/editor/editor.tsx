@@ -1,80 +1,52 @@
 import React, { useEffect, useRef, useState } from "react";
 // import path from "path";
-import Editor, { loader, useMonaco } from "@monaco-editor/react";
-import { useDispatch, useSelector } from "react-redux";
-import { saveValue, selecteditorvalue } from "../../app/Slice/editor";
-
+import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
+import { useSelector } from "react-redux";
+import { selecteditorvalue } from "../../app/Slice/editor";
+import { EditorToolbar } from "./toolbar";
+import { monacoControlApi } from "./monacoapi";
+import { editor } from "monaco-editor";
 //cdnを使わずローカルファイルから読み込ませる
 loader.config({
   paths: { vs: "./monaco-editor/min/vs" },
 });
 
 export function MainEditor() {
-  const editorvalue = useSelector(selecteditorvalue);
+  // const editorvalue = useSelector(selecteditorvalue);
   const editorRef: any = useRef(null);
+  // eslint-disable-next-line
   const [lang, setlang] = useState("python");
 
-  function handleEditorDidMount(editor: any, monaco: any) {
+  function handleEditorDidMount(
+    editor: editor.IStandaloneCodeEditor,
+    monaco: Monaco
+  ) {
     editorRef.current = editor;
+    //editorInstanceをapiに設定
+    monacoControlApi.setEditorInstance(editorRef.current);
   }
 
-  function showValue() {
-    return editorRef.current.getValue();
+  function handleEditorWillMount(monaco: Monaco) {
+    // here is the monaco instance
+    // do something before editor is mounted
+    // マウント前のインスタンスを取得
+    // テーマなどの指定が可能
+    console.log(monaco.editor);
   }
+  // マウント後のインスタンス
   const monaco = useMonaco();
-
   useEffect(() => {
-    // do conditional chaining
-    monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
-    // or make sure that it exists by other ways
-    if (monaco) {
-      console.log("here is the monaco instance:", monaco);
-    }
+    //apiにinstanceを設定
+    monacoControlApi.setuseMonaco(monaco);
   }, [monaco]);
-
-  const dispatch = useDispatch();
-  function viewmodule() {
-    console.log(monaco?.editor.getModels());
-  }
-  function makemodule() {
-    console.log(monaco?.editor.createModel("", "text/plain").id);
-  }
 
   return (
     <>
-      <button
-        onClick={() => {
-          dispatch(saveValue(showValue()));
-        }}
-      >
-        save
-      </button>
-      <button
-        onClick={() => {
-          setlang("cpp");
-        }}
-      >
-        changecpp
-      </button>
-      <button
-        onClick={() => {
-          viewmodule();
-        }}
-      >
-        viewmodule
-      </button>
-      <button
-        onClick={() => {
-          makemodule();
-        }}
-      >
-        make
-      </button>
+      <EditorToolbar />
       <Editor
         height="100%"
-        language={lang}
-        value={editorvalue}
         onMount={handleEditorDidMount}
+        beforeMount={handleEditorWillMount}
       />
     </>
   );
