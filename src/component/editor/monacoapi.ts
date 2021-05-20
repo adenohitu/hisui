@@ -4,11 +4,15 @@ type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 export class monacocontrol {
   monaco: useMonaco | null;
   editorInstance: editor.IStandaloneCodeEditor | null;
+  nowmodel: string | null;
+  modelState: any;
 
   editorModelId: { [id: string]: any } = {};
   constructor() {
     this.monaco = null;
     this.editorInstance = null;
+    this.nowmodel = null;
+    this.modelState = {};
   }
   /**
    * useMonacoを保持する
@@ -42,13 +46,5 @@ export class monacocontrol {
     // this.editorInstance.restoreViewState()
     this.editorInstance?.focus();
   }
-
-  /**
-   * モデルを削除
-   */
-  // dispose() {
-  //   this.test.dispose();
-  //   this.test = null;
-  // }
 }
 export const monacoControlApi = new monacocontrol();

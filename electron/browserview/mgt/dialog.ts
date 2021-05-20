@@ -1,3 +1,4 @@
+import { createsampleViewapi } from "../createsampleview";
 import { dashboardapi } from "../dashboardview";
 import { editorViewapi } from "../editorview";
 import { mainPageapi } from "../mainpageview";
@@ -18,7 +19,8 @@ export function settingDialogOpen() {
     case "dashboard":
       dashboardapi.dashboardView?.webContents.send("dafaltContest");
       break;
-    case "createSample":
+    case "case":
+      createsampleViewapi.createsampleView?.webContents.send("dafaltContest");
       break;
     default:
       break;

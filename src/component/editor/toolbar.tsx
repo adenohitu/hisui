@@ -43,12 +43,7 @@ export function EditorToolbar() {
       >
         <SaveIcon />
       </IconButton>
-      <IconButton
-        onClick={() => {
-          monacoControlApi.runtest();
-        }}
-        size={"small"}
-      >
+      <IconButton onClick={() => {}} size={"small"}>
         <LanguageIcon />
       </IconButton>
     </div>
