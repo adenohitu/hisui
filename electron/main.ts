@@ -1,10 +1,11 @@
-/**
+/*!
  *======================================================================
- *Project Name    : AtCoderGUI
+ *Project Name    : Hisui
  *File Name       : main.ts
  *Copyright © 2021 adenohitu. All rights reserved.
  *======================================================================
  */
+
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
@@ -19,8 +20,9 @@ import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
-import { editorapi } from "./browserview/editorview";
+import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
+import { createsampleViewapi } from "./browserview/createsampleview";
 
 export let win: null | BrowserWindow = null;
 
@@ -92,11 +94,13 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     //editorをセットアップ
-    editorapi.setupView(win);
+    // editorViewapi.setupView(win);
     //dashboardをセットアップ
     dashboardapi.setupView(win);
     //mainページをセットアップ
     mainPageapi.setupView(win);
+    //制約生成ツールをセットアップ
+    createsampleViewapi.setupView(win);
   }
   //初期Viewを指定
   initView().then(() => {

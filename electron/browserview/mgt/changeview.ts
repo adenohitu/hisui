@@ -1,8 +1,9 @@
+import { createsampleViewapi } from "../createsampleview";
 import { dashboardapi } from "../dashboardview";
-import { editorapi } from "../editorview";
+import { editorViewapi } from "../editorview";
 import { mainPageapi } from "../mainpageview";
 
-type viewName = "main" | "editor" | "dashboard" | "createSample";
+type viewName = "main" | "editor" | "dashboard" | "case";
 export class changeView {
   viewNow: null | viewName;
   constructor() {
@@ -14,15 +15,15 @@ export class changeView {
         mainPageapi.runWindowTop();
         break;
       case "editor":
-        editorapi.runWindowTop();
+        editorViewapi.runWindowTop();
         break;
       case "dashboard":
         dashboardapi.runWindowTop();
         break;
-      case "createSample":
+      case "case":
+        createsampleViewapi.runWindowTop();
         break;
       default:
-        mainPageapi.runWindowTop();
         break;
     }
     this.viewNow = viewName;

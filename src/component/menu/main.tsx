@@ -10,11 +10,11 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import blueGrey from "@material-ui/core/colors/blueGrey";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
-import CodeIcon from "@material-ui/icons/Code";
+// import CodeIcon from "@material-ui/icons/Code";
 import HomeIcon from "@material-ui/icons/Home";
 import LiveTv from "@material-ui/icons/LiveTv";
 import ListItem from "@material-ui/core/ListItem";
-import SendIcon from "@material-ui/icons/Send";
+// import SendIcon from "@material-ui/icons/Send";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 const drawerWidth = 240;
@@ -141,8 +141,8 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
       text: "ホーム",
       icon: <HomeIcon />,
     },
-    { id: 1, viewName: "editor", text: "エディター", icon: <CodeIcon /> },
-    { id: 2, viewName: "submit", text: "提出", icon: <SendIcon /> },
+    // { id: 1, viewName: "editor", text: "エディター", icon: <CodeIcon /> },
+    // { id: 2, viewName: "submit", text: "提出", icon: <SendIcon /> },
     {
       id: 3,
       viewName: "dashboard",
@@ -152,7 +152,7 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
 
     {
       id: 4,
-      viewName: "createSample",
+      viewName: "case",
       text: "テストケース",
       icon: <AssignmentTurnedInIcon />,
     },

@@ -51,33 +51,30 @@ export const {
   loadStart,
   loadEnd,
 } = editorDataSlice.actions;
-export const loadtask = (
-  contestname: string,
-  taskname: string,
-  taskurl: string
-): AppThunk => async (dispatch, getState) => {
-  dispatch(setcontestId(contestname));
-  dispatch(settaskname(taskname));
-  dispatch(settaskurl(taskurl));
-  const data = await window.api.getFiledata_render({
-    contestname,
-    taskname,
-    launage: "python",
-  });
-  dispatch(seteditorvalue(data));
-};
-export const saveValue = (editorvalue: any): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  await window.api.runWritefile_render({
-    data: editorvalue,
-    contestname: getState().editorData.contestId,
-    taskname: getState().editorData.taskname,
-    launage: "python",
-  });
-  dispatch(seteditorvalue(editorvalue));
-};
+export const loadtask =
+  (contestname: string, taskname: string, taskurl: string): AppThunk =>
+  async (dispatch, getState) => {
+    dispatch(setcontestId(contestname));
+    dispatch(settaskname(taskname));
+    dispatch(settaskurl(taskurl));
+    const data = await window.api.getFiledata_render({
+      contestname,
+      taskname,
+      language: "python",
+    });
+    dispatch(seteditorvalue(data));
+  };
+export const saveValue =
+  (editorvalue: any): AppThunk =>
+  async (dispatch, getState) => {
+    await window.api.runWritefile_render({
+      data: editorvalue,
+      contestname: getState().editorData.contestId,
+      taskname: getState().editorData.taskname,
+      language: "python",
+    });
+    dispatch(seteditorvalue(editorvalue));
+  };
 
 export const selecteditorvalue = (state: RootState) => {
   return state.editorData.editorvalue;

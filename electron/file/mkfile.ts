@@ -100,8 +100,8 @@ export const runMakeFile = async (
     return savefolderpath;
   }
 };
-type launagetype = "cpp" | "python";
-const launageselect = { cpp: ".cpp", python: ".py" };
+export type languagetype = "cpp" | "python";
+const languageselect = { cpp: ".cpp", python: ".py" };
 
 /**
  * ファイル読み込みを行う
@@ -109,11 +109,11 @@ const launageselect = { cpp: ".cpp", python: ".py" };
  */
 export const getFiledata = async (
   contestname: string,
-  taskname: string,
-  launage: launagetype
+  TaskScreenName: string,
+  lang: languagetype
 ) => {
   const filename = await runMakeFile(
-    `${taskname}${launageselect[launage]}`,
+    `${TaskScreenName}${languageselect[lang]}`,
     contestname
   );
   const filedata = await readFileSync(filename, "utf8");
@@ -126,11 +126,11 @@ export const getFiledata = async (
 export const runWritefile = async (
   data: string,
   contestname: string,
-  taskname: string,
-  launage: launagetype
+  TaskScreenName: string,
+  lang: languagetype
 ) => {
   const filename = await runMakeFile(
-    `${taskname}${launageselect[launage]}`,
+    `${TaskScreenName}${languageselect[lang]}`,
     contestname
   );
   try {

@@ -151,7 +151,7 @@ export const main_ipc = () => {
     const get = await getFiledata(
       loadinfo.contestname,
       loadinfo.taskname,
-      loadinfo.launage
+      loadinfo.language
     );
     return get;
   });
@@ -161,7 +161,7 @@ export const main_ipc = () => {
       saveinfo.data,
       saveinfo.contestname,
       saveinfo.taskname,
-      saveinfo.launage
+      saveinfo.language
     );
     return get;
   });

@@ -2,15 +2,15 @@ import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
 import { menuSize } from "./default";
 
-export class editor {
+export class createsample {
   /**
    * viewを保存
    * 表示されていない時はnull
    */
-  editorView: BrowserView | null;
+  createsampleView: BrowserView | null;
   private mainWindow: BrowserWindow | null;
   constructor() {
-    this.editorView = null;
+    this.createsampleView = null;
     this.mainWindow = null;
   }
 
@@ -20,35 +20,37 @@ export class editor {
   async setupView(win: BrowserWindow | null) {
     if (!this.mainWindow && win) {
       this.mainWindow = win;
-      this.editorView = new BrowserView({
+      this.createsampleView = new BrowserView({
         webPreferences: {
           nodeIntegration: false,
           contextIsolation: true,
           preload: __dirname + "/../preload.js",
         },
       });
-      this.mainWindow?.addBrowserView(this.editorView);
+      this.mainWindow?.addBrowserView(this.createsampleView);
 
       const newBounds = win?.getContentBounds();
-      this.editorView.setBounds({
+      this.createsampleView.setBounds({
         x: menuSize,
         y: 0,
         width: newBounds.width - menuSize,
         height: newBounds.height,
       });
-      this.editorView.setAutoResize({ width: false, height: false });
+      this.createsampleView.setAutoResize({ width: false, height: false });
 
       if (isDev) {
-        this.editorView.webContents.loadURL("http://localhost:3000#/editor");
+        this.createsampleView.webContents.loadURL(
+          "http://localhost:3000#/case"
+        );
       } else {
         // 'build/index.html'
-        this.editorView.webContents.loadURL(
-          `file://${__dirname}/../../index.html#/editor`
+        this.createsampleView.webContents.loadURL(
+          `file://${__dirname}/../../index.html#/case`
         );
       }
 
       win.on("resize", () => {
-        this.windowSizeChange(win, this.editorView);
+        this.windowSizeChange(win, this.createsampleView);
       });
     } else {
       return "alrady";
@@ -59,15 +61,15 @@ export class editor {
    * ウィンドウのDevtoolを開く
    */
   openDevTool() {
-    this.editorView?.webContents.openDevTools({ mode: "detach" });
+    this.createsampleView?.webContents.openDevTools({ mode: "detach" });
   }
 
   /**
-   * editorViewを一番上に配置する
+   * createsampleViewを一番上に配置する
    */
   runWindowTop() {
-    if (this.editorView && this.mainWindow) {
-      this.mainWindow.setTopBrowserView(this.editorView);
+    if (this.createsampleView && this.mainWindow) {
+      this.mainWindow.setTopBrowserView(this.createsampleView);
     }
   }
 
@@ -87,4 +89,4 @@ export class editor {
   }
 }
 
-export const editorViewapi = new editor();
+export const createsampleViewapi = new createsample();
