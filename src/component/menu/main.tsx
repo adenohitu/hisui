@@ -14,7 +14,7 @@ import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import HomeIcon from "@material-ui/icons/Home";
 import LiveTv from "@material-ui/icons/LiveTv";
 import ListItem from "@material-ui/core/ListItem";
-import SendIcon from "@material-ui/icons/Send";
+// import SendIcon from "@material-ui/icons/Send";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 const drawerWidth = 240;

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 // import path from "path";
 import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
-import { useSelector } from "react-redux";
-import { selecteditorvalue } from "../../app/Slice/editor";
+// import { useSelector } from "react-redux";
+// import { selecteditorvalue } from "../../app/Slice/editor";
 import { EditorToolbar } from "./toolbar";
 import { monacoControlApi } from "./monacoapi";
 import { editor } from "monaco-editor";
