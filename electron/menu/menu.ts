@@ -1,5 +1,6 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
+import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
 import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
@@ -136,9 +137,9 @@ const template: any = [
         },
       },
       {
-        label: "DevToolsOnEditor",
+        label: "DevToolsOnCaseCreate",
         click(item: any, focusedWindow: any, event: any) {
-          editorViewapi.openDevTool();
+          createsampleViewapi.openDevTool();
         },
       },
       { type: "separator" },

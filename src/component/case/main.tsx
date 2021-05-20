@@ -1,6 +1,6 @@
 import { Box, Button, Grid, makeStyles, Theme } from "@material-ui/core";
 import { CaseView } from "./caseview";
-import { CaseAddMain } from "./caseadd";
+import { CaseN1Main } from "./caseadd";
 import { useState } from "react";
 import { StyledTabs, StyledTab } from "./tab";
 import { ResultCard } from "./result";
@@ -47,7 +47,7 @@ export function TestCaseBoard() {
       </StyledTabs>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
-          <CaseAddMain />
+          <CaseN1Main />
         </Grid>
         <Grid item xs={12} sm={6}>
           <CaseView />

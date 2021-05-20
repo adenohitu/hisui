@@ -7,8 +7,14 @@ import {
   Button,
 } from "@material-ui/core";
 import React, { useState } from "react";
-export function CaseAddMain() {
-  return <CaseType />;
+
+export function CaseN1Main() {
+  return (
+    <div>
+      <SelectType />
+      <CaseIntN1 />
+    </div>
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,13 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "25ch",
+        width: "10ch",
       },
     },
     constraints: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "10ch",
+        width: "8ch",
         align: "center",
       },
     },
@@ -31,45 +37,56 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-export function CaseType() {
-  const useInput = (initialValue: any) => {
-    const [value, set] = useState(initialValue);
-    return { value, onChange: (e: any) => set(e.target.value) };
-  };
-
+const useInput = (initialValue: any) => {
+  const [value, set] = useState(initialValue);
+  return { value, onChange: (e: any) => set(e.target.value) };
+};
+/**
+ * 型を指定
+ */
+export function SelectType() {
   const classes = useStyles();
   const type = useInput("int");
+
+  const intstr = [
+    { id: 0, type: "整数", value: "int" },
+    { id: 1, type: "文字", value: "str" },
+  ];
+  return (
+    <form className={classes.root} noValidate autoComplete="off">
+      <TextField
+        id="case-select"
+        select
+        label="型"
+        {...type}
+        helperText="変数の型を選択"
+      >
+        {intstr.map((option) => (
+          <MenuItem key={option.id} value={option.value}>
+            {option.type}
+          </MenuItem>
+        ))}
+      </TextField>
+    </form>
+  );
+}
+/**
+ * 整数の時の範囲を指定
+ */
+export function CaseIntN1() {
+  const classes = useStyles();
   const variable = useInput("N");
   const min = useInput(0);
   const leftsign = useInput("<=");
   const rightsign = useInput("<=");
   const max = useInput(10);
 
-  const intstr = [
-    { id: 0, type: "数値", value: "int" },
-    { id: 1, type: "文字", value: "str" },
-  ];
   const sign = [
     { id: 0, value: "<=", sign: "≤" },
     { id: 1, value: "<", sign: "<" },
   ];
   return (
     <>
-      <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="case-select"
-          select
-          label="型"
-          {...type}
-          helperText="変数の型を選択"
-        >
-          {intstr.map((option) => (
-            <MenuItem key={option.id} value={option.value}>
-              {option.type}
-            </MenuItem>
-          ))}
-        </TextField>
-      </form>
       <form className={classes.constraints} noValidate autoComplete="off">
         <TextField id="min-input" label="Min" helperText="最小値" {...min} />
         <TextField
