@@ -7,10 +7,17 @@ import {
   addElement,
   changeLayout,
   viewStateLoad,
+  elementStatusLoad,
 } from "../../app/Slice/casecont";
 // import { layoutstate } from "./casecont";
 import "./caseview.css";
-
+export function signChangeFont(value: string) {
+  if (value === "<=") {
+    return "≤";
+  } else if (value === "<") {
+    return "<";
+  }
+}
 export function CaseView() {
   const dispatch = useDispatch();
   // const [state, setstate] = useState<layoutstate[]>([
@@ -18,6 +25,7 @@ export function CaseView() {
   //   { i: "b", x: 0, y: 1, w: 4, h: 1 },
   // ]);
   const state = useSelector(viewStateLoad);
+  const elementstatus = useSelector(elementStatusLoad);
   function onLayoutChange(layout: Layout[]) {
     dispatch(changeLayout(layout));
   }
@@ -39,14 +47,17 @@ export function CaseView() {
         width={600}
       >
         {state.map((ele) => {
+          const status = elementstatus[ele.i];
           return (
             <div key={ele.i} style={{ backgroundColor: "#eee" }}>
               <Box textAlign="center" pt={1} fontSize="h6.fontSize">
-                {"1<"}
+                {status.min}
+                {signChangeFont(status.leftsign)}
                 <Typography variant="h6" style={{ color: "#121858" }}>
                   {ele.i}
                 </Typography>
-                {"<10^6"}
+                {signChangeFont(status.rightsign)}
+                {status.max}
               </Box>
             </div>
           );

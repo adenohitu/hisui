@@ -3,10 +3,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Layout } from "react-grid-layout";
 import { AppThunk, RootState } from "../store";
 export interface elementStatus {
-  min: number;
+  min: string;
   leftsign: string;
   rightsign: string;
-  max: number;
+  max: string;
   color?: string;
 }
 interface createCase {
@@ -69,6 +69,9 @@ export const addElement =
   };
 export const viewStateLoad = (state: RootState) => {
   return state.createCase.viewState;
+};
+export const elementStatusLoad = (state: RootState) => {
+  return state.createCase.elementStatus;
 };
 
 export default createCaseSlice.reducer;

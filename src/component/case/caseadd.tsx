@@ -83,10 +83,10 @@ export function CaseIntN1() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const variable = useInputStr("N");
-  const min = useInputNum(0);
+  const min = useInputStr("0");
   const leftsign = useInputStr("<=");
   const rightsign = useInputStr("<=");
-  const max = useInputNum(10);
+  const max = useInputStr("10");
 
   const sign = [
     { id: 0, value: "<=", sign: "≤" },
