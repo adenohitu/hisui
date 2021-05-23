@@ -78,6 +78,12 @@ export class dashboard {
   runUpdateRankdata() {
     this.dashboardView?.webContents.send("updateDashboard_replay");
   }
+  /**
+   * windowの配置状態を初期化する
+   */
+  resetWindowState() {
+    this.dashboardView?.webContents.send("resetWindowState");
+  }
 
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {
     const newBounds = win.getContentBounds();

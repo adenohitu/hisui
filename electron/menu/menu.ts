@@ -2,7 +2,7 @@ import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
 import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
-import { editorViewapi } from "../browserview/editorview";
+// import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 import { Atcoder } from "../data/atcoder";
@@ -157,7 +157,7 @@ const template: any = [
       {
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("resetWindowState");
+          dashboardapi.resetWindowState();
         },
       },
       {
