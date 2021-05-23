@@ -5,6 +5,7 @@ import { dashboardapi } from "../browserview/dashboardview";
 // import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
+import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
@@ -154,6 +155,12 @@ const template: any = [
   {
     label: "ウィンドウ",
     submenu: [
+      {
+        label: "stoptimer",
+        click(item: any, focusedWindow: any, event: any) {
+          timerApi.clearTimer();
+        },
+      },
       {
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {

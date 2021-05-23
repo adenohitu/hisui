@@ -20,9 +20,10 @@ import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
-import { editorViewapi } from "./browserview/editorview";
+// import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { createsampleViewapi } from "./browserview/createsampleview";
+import { timerApi } from "./clock/timer";
 
 export let win: null | BrowserWindow = null;
 
@@ -58,6 +59,9 @@ function createWindow() {
     store.set("window.y", win?.getNormalBounds().y);
     //ウィンドウの最大化状態を保存する
     store.set("window.isMax", win?.isMaximized());
+
+    //timerをリセット
+    timerApi.clearTimer();
   });
   runServiceStatus();
   updateChack();
@@ -105,6 +109,8 @@ function createWindow() {
   //初期Viewを指定
   initView().then(() => {
     changeViewapi.change("main");
+    // timerをセットアップ
+    timerApi.startTimer();
   });
   if (isDev) {
     // win.webContents.openDevTools({ mode: "detach" });
