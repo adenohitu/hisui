@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addElement, elementStatus } from "../../app/Slice/casecont";
+import { addElement } from "../../app/Slice/casecont";
 
 export function CaseN1Main() {
   return (
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+// eslint-disable-next-line
 const useInputNum = (initialValue: number) => {
   const [value, set] = useState(initialValue);
   return { value, onChange: (e: any) => set(e.target.value) };

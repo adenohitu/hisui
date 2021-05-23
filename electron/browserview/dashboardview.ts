@@ -1,6 +1,6 @@
 import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
-import { timeData, timerApi } from "../clock/timer";
+import { timeData } from "../clock/timer";
 import { menuSize } from "./default";
 export class dashboard {
   /**

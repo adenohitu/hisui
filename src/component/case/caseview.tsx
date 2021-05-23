@@ -4,7 +4,6 @@ import "react-grid-layout/css/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import "react-resizable/css/styles.css";
 import {
-  addElement,
   changeLayout,
   viewStateLoad,
   elementStatusLoad,
