@@ -188,7 +188,7 @@ const template: any = [
       {
         label: "dashboardRankDataUpdate",
         click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.runUpdateRankdata();
+          dashboardapi.runUpdatedata();
         },
       },
 

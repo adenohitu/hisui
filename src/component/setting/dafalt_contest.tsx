@@ -68,11 +68,6 @@ export default function DefaltContest() {
       if (result) {
         setStatus_snack(`${text}に設定しました`);
         setOpen_snack(true);
-        //メインデータの更新
-        dispatch(requestScoreAsync());
-        // dispatch(requestStandingAsync());
-        dispatch(sendGetmysubmission());
-        //
         handleClose();
       } else {
         set_messageerror("存在しないコンテストまたは認証が必要です");

@@ -1,6 +1,6 @@
 import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
-import { timeData } from "../clock/timer";
+import { timeData, timerApi } from "../clock/timer";
 import { menuSize } from "./default";
 export class dashboard {
   /**
@@ -74,9 +74,9 @@ export class dashboard {
   }
 
   /**
-   * 順位表データをアップデートする
+   * dashboardのデータ全てをアップデートする
    */
-  runUpdateRankdata() {
+  runUpdatedata() {
     this.dashboardView?.webContents.send("updateDashboard_replay");
   }
   /**

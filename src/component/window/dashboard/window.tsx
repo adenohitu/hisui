@@ -12,6 +12,11 @@ import { setValue, getValue, setResetOn } from "./stateControle";
 // import classNames from "classnames";
 
 import "./style.css";
+import { useDispatch } from "react-redux";
+import { sendGetmyrank } from "../../../app/Slice/standings";
+import { sendGetTasklist } from "../../../app/Slice/taskdata";
+import { requestScoreAsync } from "../../../app/Slice/score";
+import { sendGetmysubmission } from "../../../app/Slice/submissions";
 export let [windowState, setState]: any = "";
 const theme: string = "mosaic-blueprint-theme";
 export default function DefaltContest() {
@@ -35,6 +40,21 @@ export default function DefaltContest() {
     value();
     setResetOn();
   }, []);
+  const dispatch = useDispatch();
+  // dashboardapiからの更新イベントを受け取る
+  useEffect(() => {
+    const updateStanding_event = async () => {
+      // 順位表更新
+      dispatch(sendGetmyrank());
+      // 問題情報を更新
+      dispatch(sendGetTasklist());
+      // スコアデータを更新
+      dispatch(requestScoreAsync());
+      // 提出情報を更新
+      dispatch(sendGetmysubmission());
+    };
+    window.api.updateDashboard(updateStanding_event);
+  }, [dispatch]);
   return (
     <div className="react-mosaic-app">
       <Mosaic<string>
