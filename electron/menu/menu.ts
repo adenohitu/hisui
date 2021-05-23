@@ -76,7 +76,7 @@ const template: any = [
       {
         label: "login",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("loginOpen");
+          mainPageapi.openLoginDialog();
         },
       },
       {
