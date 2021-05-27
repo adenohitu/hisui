@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import dayjs from "dayjs";
 interface State {
@@ -28,11 +28,13 @@ const convertTime = (time_ms: number) => {
 export function TimerSyncMain() {
   const [time, setTime] = useState("");
   const [status, setStatus] = useState("");
-  const update = (timeData: any) => {
-    setStatus(timeData.status);
-    setTime(convertTime(timeData.time));
-  };
-  window.api.onTimerTick(update);
+  useEffect(() => {
+    const update = (timeData: any) => {
+      setStatus(timeData.status);
+      setTime(convertTime(timeData.time));
+    };
+    window.api.onTimerTick(update);
+  }, []);
   return (
     <>
       <Typography variant="h6">{status}</Typography>
