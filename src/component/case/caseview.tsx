@@ -44,6 +44,7 @@ export function CaseView() {
         cols={6}
         rowHeight={100}
         width={600}
+        compactType={null}
       >
         {state.map((ele) => {
           const status = elementstatus[ele.i];

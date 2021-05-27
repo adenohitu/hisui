@@ -44,7 +44,6 @@ export const changeLayout =
   (layout: Layout[]): AppThunk =>
   async (dispatch, getState) => {
     dispatch(changeData(layout));
-    console.log(layout);
   };
 // 新たなElementを作成
 export const addElement =

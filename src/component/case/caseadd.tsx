@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 // eslint-disable-next-line
-const useInputNum = (initialValue: number) => {
-  const [value, set] = useState(initialValue);
-  return { value, onChange: (e: any) => set(e.target.value) };
-};
+// const useInputNum = (initialValue: number) => {
+//   const [value, set] = useState(initialValue);
+//   return { value, onChange: (e: any) => set(e.target.value) };
+// };
 const useInputStr = (initialValue: string) => {
   const [value, set] = useState(initialValue);
   return { value, onChange: (e: any) => set(e.target.value) };
@@ -94,15 +94,13 @@ export function CaseIntN1() {
     { id: 1, value: "<", sign: "<" },
   ];
   function add() {
-    console.log(
-      dispatch(
-        addElement(variable.value, 1, {
-          min: min.value,
-          leftsign: leftsign.value,
-          rightsign: rightsign.value,
-          max: max.value,
-        })
-      )
+    dispatch(
+      addElement(variable.value, 1, {
+        min: min.value,
+        leftsign: leftsign.value,
+        rightsign: rightsign.value,
+        max: max.value,
+      })
     );
   }
   return (

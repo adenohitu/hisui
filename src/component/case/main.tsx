@@ -21,10 +21,10 @@ const makeCaseList = [
     id: 0,
     casename: "1行1列データ",
   },
-  {
-    id: 1,
-    casename: "(1,N)行列データ",
-  },
+  // {
+  //   id: 1,
+  //   casename: "(1,N)行列データ",
+  // },
 ];
 export function TestCaseBoard() {
   const classes = useStyles();
@@ -48,19 +48,10 @@ export function TestCaseBoard() {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
           <CaseN1Main />
+          <ResultCard />
         </Grid>
         <Grid item xs={12} sm={6}>
           <CaseView />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Box py={1}>
-            <Button variant="contained" color="secondary">
-              ランダム生成
-            </Button>
-          </Box>
-
-          <ResultCard />
         </Grid>
       </Grid>
     </div>

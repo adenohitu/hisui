@@ -100,11 +100,12 @@ function createWindow() {
     //editorをセットアップ
     // editorViewapi.setupView(win);
     //dashboardをセットアップ
-    dashboardapi.setupView(win);
+    // dashboardapi.setupView(win);
     //mainページをセットアップ
-    mainPageapi.setupView(win);
+    // mainPageapi.setupView(win);
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
+    createsampleViewapi.openDevTool();
   }
   //初期Viewを指定
   initView().then(() => {
