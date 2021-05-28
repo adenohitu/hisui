@@ -1,9 +1,11 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
+import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
-import { editorViewapi } from "../browserview/editorview";
+// import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
+import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
@@ -74,7 +76,7 @@ const template: any = [
       {
         label: "login",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("loginOpen");
+          mainPageapi.openLoginDialog();
         },
       },
       {
@@ -136,9 +138,9 @@ const template: any = [
         },
       },
       {
-        label: "DevToolsOnEditor",
+        label: "DevToolsOnCaseCreate",
         click(item: any, focusedWindow: any, event: any) {
-          editorViewapi.openDevTool();
+          createsampleViewapi.openDevTool();
         },
       },
       { type: "separator" },
@@ -154,9 +156,15 @@ const template: any = [
     label: "ウィンドウ",
     submenu: [
       {
+        label: "stoptimer",
+        click(item: any, focusedWindow: any, event: any) {
+          timerApi.clearTimer();
+        },
+      },
+      {
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("resetWindowState");
+          dashboardapi.resetWindowState();
         },
       },
       {
@@ -180,7 +188,7 @@ const template: any = [
       {
         label: "dashboardRankDataUpdate",
         click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.runUpdateRankdata();
+          dashboardapi.runUpdatedata();
         },
       },
 

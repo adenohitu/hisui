@@ -96,7 +96,7 @@ export default function BasicTable() {
       const minute = Math.floor(ElapsedTime % 60);
       return (
         <TableCell align="right">
-          {hour}:{minute}
+          {hour}:{("00" + minute).slice(-2)}
         </TableCell>
       );
     } else {

@@ -1,5 +1,6 @@
 import { BrowserView, BrowserWindow } from "electron";
 import * as isDev from "electron-is-dev";
+import { timeData } from "../clock/timer";
 import { menuSize } from "./default";
 export class dashboard {
   /**
@@ -73,10 +74,19 @@ export class dashboard {
   }
 
   /**
-   * 順位表データをアップデートする
+   * dashboardのデータ全てをアップデートする
    */
-  runUpdateRankdata() {
+  runUpdatedata() {
     this.dashboardView?.webContents.send("updateDashboard_replay");
+  }
+  /**
+   * windowの配置状態を初期化する
+   */
+  resetWindowState() {
+    this.dashboardView?.webContents.send("resetWindowState");
+  }
+  sendTimerTick(time: timeData) {
+    this.dashboardView?.webContents.send("TimerTick", time);
   }
 
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {

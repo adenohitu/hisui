@@ -1,4 +1,4 @@
-//スコアデータを管理
+//問題情報を管理
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../store";
 

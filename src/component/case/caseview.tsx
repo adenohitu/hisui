@@ -1,62 +1,62 @@
 import { Box, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import GridLayout from "react-grid-layout";
+import GridLayout, { Layout } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
+import { useDispatch, useSelector } from "react-redux";
 import "react-resizable/css/styles.css";
+import {
+  changeLayout,
+  viewStateLoad,
+  elementStatusLoad,
+} from "../../app/Slice/casecont";
+// import { layoutstate } from "./casecont";
 import "./caseview.css";
-
-export function CaseView() {
-  const [item, setitem] = useState(<></>);
-  function Adddiv(tmp = 1) {
-    if (tmp === 1) {
-      setitem(
-        <GridLayout className="layout" cols={6} rowHeight={100} width={600}>
-          <div
-            style={{ backgroundColor: "#555" }}
-            key="a"
-            data-grid={{ x: 0, y: 0, w: 1, h: 1 }}
-          >
-            a
-          </div>
-        </GridLayout>
-      );
-    } else {
-      setitem(
-        <GridLayout className="layout" cols={6} rowHeight={100} width={600}>
-          <div
-            style={{ backgroundColor: "#a3b1ff" }}
-            key="a"
-            data-grid={{ x: 0, y: 0, w: 1, h: 1 }}
-          >
-            <Box textAlign="center" pt={1} fontSize="h6.fontSize">
-              {"1<"}
-              <Typography variant="h6" style={{ color: "#121858" }}>
-                N
-              </Typography>
-              {"<10^6"}
-            </Box>
-          </div>
-          <div
-            style={{ backgroundColor: "#d6ffa6" }}
-            key="b"
-            data-grid={{ x: 0, y: 1, w: 4, h: 1 }}
-          >
-            <Box textAlign="center" pt={4} fontSize="h6.fontSize">
-              {"A1 A2 A3...AN"}
-            </Box>
-          </div>
-        </GridLayout>
-      );
-    }
+export function signChangeFont(value: string) {
+  if (value === "<=") {
+    return "≤";
+  } else if (value === "<") {
+    return "<";
   }
-  useEffect(() => {
-    Adddiv(2);
-  }, []);
+}
+export function CaseView() {
+  const dispatch = useDispatch();
+  // const [state, setstate] = useState<layoutstate[]>([
+  //   { i: "a", x: 0, y: 0, w: 1, h: 1 },
+  //   { i: "b", x: 0, y: 1, w: 4, h: 1 },
+  // ]);
+  const state = useSelector(viewStateLoad);
+  const elementstatus = useSelector(elementStatusLoad);
+  function onLayoutChange(layout: Layout[]) {
+    dispatch(changeLayout(layout));
+  }
   return (
     <>
-      {/* <button onClick={() => Adddiv()}>test</button>
-      <button onClick={() => Adddiv(3)}>test2</button> */}
-      {item}
+      <h4>caseModel</h4>
+      <GridLayout
+        layout={state}
+        className="layout"
+        onLayoutChange={onLayoutChange}
+        cols={6}
+        rowHeight={100}
+        width={600}
+        compactType={null}
+      >
+        {state.map((ele) => {
+          const status = elementstatus[ele.i];
+          return (
+            <div key={ele.i} style={{ backgroundColor: "#eee" }}>
+              <Box textAlign="center" pt={1} fontSize="h6.fontSize">
+                {status.min}
+                {signChangeFont(status.leftsign)}
+                <Typography variant="h6" style={{ color: "#121858" }}>
+                  {ele.i}
+                </Typography>
+                {signChangeFont(status.rightsign)}
+                {status.max}
+              </Box>
+            </div>
+          );
+        })}
+      </GridLayout>
     </>
   );
 }

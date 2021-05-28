@@ -70,6 +70,10 @@ export class mainPage {
       this.mainWindow.setTopBrowserView(this.mainPageView);
     }
   }
+  openLoginDialog() {
+    this.runWindowTop();
+    this.mainPageView?.webContents.send("loginOpen");
+  }
 
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {
     const newBounds = win.getContentBounds();

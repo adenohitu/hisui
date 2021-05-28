@@ -188,4 +188,14 @@ contextBridge.exposeInMainWorld("api", {
   changeView: (viewName: string) => {
     ipcRenderer.send("change_view", viewName);
   },
+
+  //timerを更新
+  onTimerTick: async (func: any) => {
+    //初期化
+    ipcRenderer.removeAllListeners("TimerTick");
+    //rendererでの受信用, funcはコールバック関数
+    ipcRenderer.on("TimerTick", (event, arg) => {
+      func(arg);
+    });
+  },
 });

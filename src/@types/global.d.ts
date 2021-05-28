@@ -43,6 +43,7 @@ declare global {
       getFiledata_render;
       runWritefile_render;
       changeView;
+      onTimerTick;
     };
   }
 }

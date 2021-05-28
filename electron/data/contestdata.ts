@@ -6,6 +6,8 @@ import scraping_contest_list from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";
 import { store } from "../save/save";
 import { Atcoder } from "./atcoder";
+import { dashboardapi } from "../browserview/dashboardview";
+import { timerApi } from "../clock/timer";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 /**
@@ -53,6 +55,10 @@ export async function setDefaultContestID(taskScreenName: string) {
   const check = await checkContestID(taskScreenName);
   if (check) {
     await store.set("SetContestID", taskScreenName);
+    // dashboardを更新
+    dashboardapi.runUpdatedata();
+    // timerをアップデート
+    timerApi.setup();
     return true;
   } else {
     return false;

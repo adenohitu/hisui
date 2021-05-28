@@ -9,21 +9,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import SelectContest from "./select_contestlist";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-// import { update_submission } from "../submission/submission";
-// import { update_myscore } from "../score/myscore";
-import { useDispatch } from "react-redux";
-import { requestScoreAsync } from "../../app/Slice/score";
-// import { requestStandingAsync } from "../../app/Slice/standings";
-import { sendGetmysubmission } from "../../app/Slice/submissions";
-// import store from "../../app/store";
-// import { runLoad } from "../rank/get";
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 export const TextContext = createContext(["", () => {}]);
 
 export default function DefaltContest() {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [text, setText]: any = useState("");
   const handleChange = (event: any) => {
@@ -68,11 +59,6 @@ export default function DefaltContest() {
       if (result) {
         setStatus_snack(`${text}に設定しました`);
         setOpen_snack(true);
-        //メインデータの更新
-        dispatch(requestScoreAsync());
-        // dispatch(requestStandingAsync());
-        dispatch(sendGetmysubmission());
-        //
         handleClose();
       } else {
         set_messageerror("存在しないコンテストまたは認証が必要です");

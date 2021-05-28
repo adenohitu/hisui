@@ -56,13 +56,6 @@ export default function Ranktable() {
   const updateStanding = async () => {
     dispatch(sendGetmyrank());
   };
-  // dashboardapiからの更新イベントを受け取る
-  useEffect(() => {
-    const updateStanding_event = async () => {
-      dispatch(sendGetmyrank());
-    };
-    window.api.updateDashboard(updateStanding_event);
-  }, [dispatch]);
   return (
     <Card className={classes.root}>
       <CardContent>
