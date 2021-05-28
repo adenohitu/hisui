@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import dayjs from "dayjs";
 interface State {
@@ -9,7 +9,10 @@ interface State {
   status: any;
 }
 //msを{Day日とHH:MM:SS}に変換
-const convertTime = (time_ms: any) => {
+const convertTime = (time_ms: number) => {
+  if (time_ms === -1) {
+    return "--:--:--";
+  }
   const second_module = Math.floor(time_ms / 1000);
   const second = ("00" + (second_module % 60)).slice(-2);
   const minute = ("00" + (Math.floor(second_module / 60) % 60)).slice(-2);
@@ -21,6 +24,26 @@ const convertTime = (time_ms: any) => {
     return hour + ":" + minute + ":" + second;
   }
 };
+
+export function TimerSyncMain() {
+  const [time, setTime] = useState("");
+  const [status, setStatus] = useState("");
+  useEffect(() => {
+    const update = (timeData: any) => {
+      setStatus(timeData.status);
+      setTime(convertTime(timeData.time));
+    };
+    window.api.onTimerTick(update);
+  }, []);
+  return (
+    <>
+      <Typography variant="h6">{status}</Typography>
+      <Typography variant="h5" align="center">
+        {time}
+      </Typography>
+    </>
+  );
+}
 export class Clock extends React.Component<{}, State> {
   private timerID: any = undefined;
   constructor(props: string) {

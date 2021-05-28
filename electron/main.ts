@@ -1,10 +1,11 @@
-/**
+/*!
  *======================================================================
- *Project Name    : AtCoderGUI
+ *Project Name    : Hisui
  *File Name       : main.ts
  *Copyright © 2021 adenohitu. All rights reserved.
  *======================================================================
  */
+
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
@@ -15,9 +16,14 @@ import installExtension, {
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
-import { setupWindowView } from "./browser/viewsetup";
 import { runServiceStatus } from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
+import { mainPageapi } from "./browserview/mainpageview";
+import { dashboardapi } from "./browserview/dashboardview";
+// import { editorViewapi } from "./browserview/editorview";
+import { changeViewapi } from "./browserview/mgt/changeview";
+import { createsampleViewapi } from "./browserview/createsampleview";
+import { timerApi } from "./clock/timer";
 
 export let win: null | BrowserWindow = null;
 
@@ -35,11 +41,13 @@ function createWindow() {
   });
 
   if (isDev) {
-    win.loadURL("http://localhost:3000");
+    win.loadURL("http://localhost:3000#/leftmenu");
   } else {
     // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../index.html`);
+    win.loadURL(`file://${__dirname}/../index.html#/leftmenu`);
   }
+
+  // win.loadURL(`file://${__dirname}/../index.html#/leftmenu`);
 
   win.on("closed", () => (win = null));
 
@@ -53,9 +61,10 @@ function createWindow() {
     store.set("window.y", win?.getNormalBounds().y);
     //ウィンドウの最大化状態を保存する
     store.set("window.isMax", win?.isMaximized());
-  });
 
-  // setupWindowView(win);
+    //timerをリセット
+    timerApi.clearTimer();
+  });
   runServiceStatus();
   updateChack();
   // Hot Reloading
@@ -89,9 +98,24 @@ function createWindow() {
   installExtension(REDUX_DEVTOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log("An error occurred: ", err));
-
+  async function initView() {
+    //editorをセットアップ
+    // editorViewapi.setupView(win);
+    //dashboardをセットアップ
+    dashboardapi.setupView(win);
+    //mainページをセットアップ
+    mainPageapi.setupView(win);
+    //制約生成ツールをセットアップ
+    createsampleViewapi.setupView(win);
+  }
+  //初期Viewを指定
+  initView().then(() => {
+    changeViewapi.change("main");
+    // timerをセットアップ
+    timerApi.startTimer();
+  });
   if (isDev) {
-    win.webContents.openDevTools({ mode: "detach" });
+    // win.webContents.openDevTools({ mode: "detach" });
   }
 }
 

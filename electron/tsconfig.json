@@ -8,6 +8,7 @@
     "rootDir": "../",
     "noEmitOnError": true,
     "allowJs": true,
+    "esModuleInterop": true,
     "typeRoots": ["node_modules/@types"]
   }
 }

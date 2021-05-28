@@ -6,14 +6,16 @@ import SelectContest from "../setting/select_contestlist";
 import Chart from "./Chart";
 function colorRating(rating: number | null) {
   if (rating == null) return "gray";
-  if (rating >= 2400) return "red";
-  else if (rating >= 2100) return "#FF8C00";
-  else if (rating >= 1900) return "#a0a";
+  if (rating >= 2800) return "red";
+  else if (rating >= 2400) return "#FF8C00";
+  else if (rating >= 2000) return "#a0a";
   else if (rating >= 1600) return "blue";
-  else if (rating >= 1400) return "#03A89E";
-  else if (rating >= 1200) return "green";
+  else if (rating >= 1200) return "#03A89E";
+  else if (rating >= 800) return "green";
+  else if (rating >= 400) return "#795548";
   else if (rating >= 0) return "gray";
 }
+
 export function Home() {
   const [loginstatus, setstatus] = useState(false);
   const [userdata, setuserdata] = useState({

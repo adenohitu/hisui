@@ -1,4 +1,11 @@
 import { app, Menu } from "electron";
+import { setBrowserCoockie } from "../browser/session";
+import { createsampleViewapi } from "../browserview/createsampleview";
+import { dashboardapi } from "../browserview/dashboardview";
+// import { editorViewapi } from "../browserview/editorview";
+import { mainPageapi } from "../browserview/mainpageview";
+import { settingDialogOpen } from "../browserview/mgt/dialog";
+import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
@@ -69,7 +76,13 @@ const template: any = [
       {
         label: "login",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("loginOpen");
+          mainPageapi.openLoginDialog();
+        },
+      },
+      {
+        label: "セッション同期",
+        click(item: any, focusedWindow: any, event: any) {
+          setBrowserCoockie();
         },
       },
       {
@@ -87,7 +100,8 @@ const template: any = [
       {
         label: "Select Contest",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("dafaltContest");
+          // focusedWindow.webContents.send("dafaltContest");
+          settingDialogOpen();
         },
       },
       { type: "separator" },
@@ -105,7 +119,30 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      { role: "toggleDevTools", accelerator: "F12" },
+      {
+        label: "DevToolsOnMainwindow",
+        click(item: any, focusedWindow: any, event: any) {
+          focusedWindow.webContents.openDevTools({ mode: "detach" });
+        },
+      },
+      {
+        label: "DevToolsOnMainpage",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnDashboard",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnCaseCreate",
+        click(item: any, focusedWindow: any, event: any) {
+          createsampleViewapi.openDevTool();
+        },
+      },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },
@@ -119,11 +156,42 @@ const template: any = [
     label: "ウィンドウ",
     submenu: [
       {
-        label: "配置を初期化する",
+        label: "stoptimer",
         click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.send("resetWindowState");
+          timerApi.clearTimer();
         },
       },
+      {
+        label: "配置を初期化する",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.resetWindowState();
+        },
+      },
+      {
+        label: "logtest",
+        click(item: any, focusedWindow: any, event: any) {
+          console.log(focusedWindow.getBrowserViews());
+        },
+      },
+      {
+        label: "mainPageTop",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.runWindowTop();
+        },
+      },
+      {
+        label: "dashboardTop",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.runWindowTop();
+        },
+      },
+      {
+        label: "dashboardRankDataUpdate",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.runUpdatedata();
+        },
+      },
+
       { type: "separator" },
       { role: "minimize" },
       { role: "zoom" },

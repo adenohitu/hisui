@@ -14,6 +14,7 @@ import { getStandings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
 import { getUserData } from "./data/userdata";
 import { getFiledata, runWritefile } from "./file/mkfile";
+import { changeViewapi } from "./browserview/mgt/changeview";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -150,7 +151,7 @@ export const main_ipc = () => {
     const get = await getFiledata(
       loadinfo.contestname,
       loadinfo.taskname,
-      loadinfo.launage
+      loadinfo.language
     );
     return get;
   });
@@ -160,8 +161,12 @@ export const main_ipc = () => {
       saveinfo.data,
       saveinfo.contestname,
       saveinfo.taskname,
-      saveinfo.launage
+      saveinfo.language
     );
     return get;
+  });
+  //表示するViewを変更
+  ipcMain.on("change_view", (event, viewName) => {
+    changeViewapi.change(viewName);
   });
 };
