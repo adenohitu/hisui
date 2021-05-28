@@ -47,6 +47,8 @@ function createWindow() {
     win.loadURL(`file://${__dirname}/../index.html#/leftmenu`);
   }
 
+  // win.loadURL(`file://${__dirname}/../index.html#/leftmenu`);
+
   win.on("closed", () => (win = null));
 
   //ウィンドウが閉じられるときに実行
@@ -100,12 +102,11 @@ function createWindow() {
     //editorをセットアップ
     // editorViewapi.setupView(win);
     //dashboardをセットアップ
-    // dashboardapi.setupView(win);
+    dashboardapi.setupView(win);
     //mainページをセットアップ
-    // mainPageapi.setupView(win);
+    mainPageapi.setupView(win);
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
-    createsampleViewapi.openDevTool();
   }
   //初期Viewを指定
   initView().then(() => {

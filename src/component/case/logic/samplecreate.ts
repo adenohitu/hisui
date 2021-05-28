@@ -1,7 +1,7 @@
 import { max } from "lodash";
 import { Layout } from "react-grid-layout";
 import { elementStatus } from "../../../app/Slice/casecont";
-import { evaluate, mod } from "mathjs";
+import { evaluate } from "mathjs";
 const seedrandom = require("seedrandom");
 
 /**
@@ -40,18 +40,21 @@ export async function RunCreateSample(
     for (let y = 0; y < maxHeight; y++) {
       resultList[y] = new Array(maxHeight).fill("");
     }
-    console.log(resultList);
+    console.log(elementStatus);
 
     for (let index = 0; index < sortData.length; index++) {
       const element = sortData[index];
       const elementstate: elementStatus = elementStatus[element.i];
       const minEval: number = evaluate(`sqrt(${elementstate.min})`);
       const maxEvel: number = evaluate(`sqrt(${elementstate.max})`);
-      // 深さを設定
+      // 文字の深さを設定
+      // 文字のUTF-16 コードユニットを取得
+      const stringDeep = element.i.charCodeAt(0);
+      // 位置深さを設定
       // 横のサイズの最大値＊高さ＋横
       const elementDeep = element.y * maxHeight + element.x;
       // 固有のSeedを生成
-      const privateSeed = seed + elementDeep;
+      const privateSeed = seed + elementDeep + stringDeep;
       // ランダムで値を生成
       // modで制約内に丸める
       const rng = seedrandom(privateSeed);

@@ -30,13 +30,7 @@ export function CaseView() {
   }
   return (
     <>
-      <button
-        onClick={() => {
-          // dispatch(addElement("a", 1, "1<a<5"));
-        }}
-      >
-        test
-      </button>
+      <h4>caseModel</h4>
       <GridLayout
         layout={state}
         className="layout"
