@@ -45,8 +45,8 @@ export async function RunCreateSample(
     for (let index = 0; index < sortData.length; index++) {
       const element = sortData[index];
       const elementstate: elementStatus = elementStatus[element.i];
-      const minEval: number = evaluate(`sqrt(${elementstate.min})`);
-      const maxEvel: number = evaluate(`sqrt(${elementstate.max})`);
+      const minEval: number = evaluate(`${elementstate.min}`);
+      const maxEvel: number = evaluate(`${elementstate.max}`);
       // 文字の深さを設定
       // 文字のUTF-16 コードユニットを取得
       const stringDeep = element.i.charCodeAt(0);
