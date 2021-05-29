@@ -44,6 +44,8 @@ declare global {
       runWritefile_render;
       changeView;
       onTimerTick;
+      copyClipboard;
+      readClipboard;
     };
   }
 }
