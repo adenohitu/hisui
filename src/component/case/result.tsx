@@ -54,7 +54,13 @@ export function ResultCard() {
   return (
     <Grid item>
       <Box py={1}>
-        <TextField id="seed-input" label="Seed" helperText="Seed値" {...seed} />
+        <TextField
+          id="seed-input"
+          label="Seed"
+          helperText="Seed値"
+          {...seed}
+          type="number"
+        />
         <Button
           variant="contained"
           color="secondary"

@@ -1,3 +1,12 @@
+/*!
+ *======================================================================
+ *Project Name    : Hisui
+ *File Name       : samplecreate.ts
+ *Copyright © 2021 adenohitu. All rights reserved.
+ *contributors    : @altair_kyopro
+ *======================================================================
+ */
+
 import { max } from "lodash";
 import { Layout } from "react-grid-layout";
 import { elementStatus } from "../../../app/Slice/casecont";
@@ -56,11 +65,11 @@ export async function RunCreateSample(
       // 固有のSeedを生成
       const privateSeed = seed + elementDeep + stringDeep;
       // ランダムで値を生成
-      // modで制約内に丸める
       const rng = seedrandom(privateSeed);
       const randomValue = Math.abs(rng.int32());
+      // modで制約内に丸める
       const returnData = Math.floor(
-        (randomValue % (maxEvel - minEval)) + minEval
+        (randomValue % (maxEvel - minEval + 1)) + minEval
       );
       console.log(returnData);
       // 生成したものを配列に代入
@@ -69,7 +78,7 @@ export async function RunCreateSample(
     console.log(resultList);
     // 文字列を作成
     var str = "";
-    for (let i = 0; i < resultList.length; i++) {
+    for (let i = 0; i < maxHeight; i++) {
       const element = resultList[i].join(" ");
       str = str + element + "\n";
     }
