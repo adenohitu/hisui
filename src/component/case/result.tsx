@@ -48,7 +48,7 @@ export function ResultCard() {
   ) => {
     const createData = String(
       await RunCreateSample(viewState, elementStatus, seed)
-    ).replace(/r?n/g, "<br>");
+    );
     setsample(createData);
   };
   return (
@@ -83,7 +83,14 @@ export function ResultCard() {
           </p>
         </CardContent>
         <CardActions>
-          <Button size="small">コピー</Button>
+          <Button
+            onClick={() => {
+              window.api.copyClipboard(sample);
+            }}
+            size="small"
+          >
+            コピー
+          </Button>
         </CardActions>
       </Card>
     </Grid>
