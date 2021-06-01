@@ -1,5 +1,5 @@
-import { BrowserView, BrowserWindow } from "electron";
-import * as isDev from "electron-is-dev";
+import { app, BrowserView, BrowserWindow } from "electron";
+const isDev = !app.isPackaged;
 
 const menuSize = 55;
 export function setupViewView(win: BrowserWindow) {
