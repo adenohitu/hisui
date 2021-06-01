@@ -1,7 +1,8 @@
-import { BrowserView, BrowserWindow } from "electron";
-import * as isDev from "electron-is-dev";
+import { app, BrowserView, BrowserWindow } from "electron";
 import { timeData } from "../clock/timer";
 import { menuSize } from "./default";
+const isDev = !app.isPackaged;
+
 export class dashboard {
   /**
    * viewを保存
@@ -18,7 +19,7 @@ export class dashboard {
    * BrowserViewを初期化する
    */
   async setupView(win: BrowserWindow | null) {
-    if (!this.mainWindow && win) {
+    if (this.dashboardView === null && win !== null) {
       this.mainWindow = win;
       this.dashboardView = new BrowserView({
         webPreferences: {
@@ -54,6 +55,18 @@ export class dashboard {
       });
     } else {
       return "alrady";
+    }
+  }
+
+  /**
+   * Viewを閉じる
+   */
+  async closeView() {
+    if (this.dashboardView !== null && this.mainWindow !== null) {
+      console.log("close");
+
+      await this.mainWindow.removeBrowserView(this.dashboardView);
+      this.dashboardView = null;
     }
   }
 
