@@ -8,7 +8,6 @@
 
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import * as isDev from "electron-is-dev";
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
@@ -40,7 +39,7 @@ function createWindow() {
     },
   });
 
-  if (isDev) {
+  if (!app.isPackaged) {
     win.loadURL("http://localhost:3000#/leftmenu");
   } else {
     // 'build/index.html'
@@ -64,11 +63,15 @@ function createWindow() {
 
     //timerをリセット
     timerApi.clearTimer();
+    // windowViewを閉じる
+    createsampleViewapi.closeView();
+    dashboardapi.closeView();
+    mainPageapi.closeView();
   });
   runServiceStatus();
   updateChack();
   // Hot Reloading
-  if (isDev) {
+  if (!app.isPackaged) {
     // 'node_modules/.bin/electronPath'
     require("electron-reload")(__dirname, {
       electron: path.join(
@@ -114,7 +117,7 @@ function createWindow() {
     // timerをセットアップ
     timerApi.startTimer();
   });
-  if (isDev) {
+  if (!app.isPackaged) {
     // win.webContents.openDevTools({ mode: "detach" });
   }
 }

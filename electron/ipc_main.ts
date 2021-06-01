@@ -15,6 +15,7 @@ import { getTasklist } from "./data/task";
 import { getUserData } from "./data/userdata";
 import { getFiledata, runWritefile } from "./file/mkfile";
 import { changeViewapi } from "./browserview/mgt/changeview";
+import { copyClipboard, readClipboard } from "./tool/clipboard";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -168,5 +169,16 @@ export const main_ipc = () => {
   //表示するViewを変更
   ipcMain.on("change_view", (event, viewName) => {
     changeViewapi.change(viewName);
+  });
+
+  //クリップボードに書き込む
+  ipcMain.on("copyClipboard", (event, clipData) => {
+    copyClipboard(clipData);
+  });
+
+  //クリップボードを読み込む
+  ipcMain.handle("readClipboard", async (event, saveinfo) => {
+    const get = await readClipboard();
+    return get;
   });
 };

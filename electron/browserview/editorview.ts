@@ -1,6 +1,6 @@
-import { BrowserView, BrowserWindow } from "electron";
-import * as isDev from "electron-is-dev";
+import { app, BrowserView, BrowserWindow } from "electron";
 import { menuSize } from "./default";
+const isDev = !app.isPackaged;
 
 export class editor {
   /**
@@ -18,7 +18,7 @@ export class editor {
    * BrowserViewを初期化する
    */
   async setupView(win: BrowserWindow | null) {
-    if (!this.mainWindow && win) {
+    if (this.editorView === null && win !== null) {
       this.mainWindow = win;
       this.editorView = new BrowserView({
         webPreferences: {
@@ -52,6 +52,18 @@ export class editor {
       });
     } else {
       return "alrady";
+    }
+  }
+
+  /**
+   * Viewを閉じる
+   */
+  async closeView() {
+    if (this.editorView !== null && this.mainWindow !== null) {
+      console.log("close");
+
+      await this.mainWindow.removeBrowserView(this.editorView);
+      this.editorView = null;
     }
   }
 
