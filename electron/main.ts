@@ -16,11 +16,10 @@ import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
 import {
-  runServiceStatus,
   startCheckServiceStatus,
   stopCheckServiceStatus,
 } from "./service/setvice";
-import { updateChack, updateSetup } from "./update/update";
+import { updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
 // import { editorViewapi } from "./browserview/editorview";
