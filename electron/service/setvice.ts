@@ -1,7 +1,8 @@
 import axios from "axios";
 import { servicestatus } from "./status";
 const { app, dialog } = require("electron");
-const statusUrl = "https://hisui-api.herokuapp.com/servicestatus";
+const version = app.getVersion();
+const statusUrl = `https://hisui-api.herokuapp.com/servicestatus/api/?version=${version}`;
 let timer: any = undefined;
 
 export async function startCheckServiceStatus() {
@@ -14,7 +15,10 @@ export async function stopCheckServiceStatus() {
 
 export async function runServiceStatus() {
   const data: any = await axios.get(statusUrl);
+
   const statusData: servicestatus = data.data;
+  console.log(statusData);
+
   if (statusData.useapp === false && statusData.statusMessage !== null) {
     const selectStatus = await dialog.showMessageBox({
       type: "error",
