@@ -15,7 +15,11 @@ import installExtension, {
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { main_ipc } from "./ipc_main";
-import { runServiceStatus } from "./service/setvice";
+import {
+  runServiceStatus,
+  startCheckServiceStatus,
+  stopCheckServiceStatus,
+} from "./service/setvice";
 import { updateChack, updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
@@ -67,9 +71,11 @@ function createWindow() {
     createsampleViewapi.closeView();
     dashboardapi.closeView();
     mainPageapi.closeView();
+    //statusCheckを止める
+    stopCheckServiceStatus();
   });
-  runServiceStatus();
-  updateChack();
+  // updateChack();
+  startCheckServiceStatus();
   // Hot Reloading
   if (!app.isPackaged) {
     // 'node_modules/.bin/electronPath'
@@ -122,7 +128,9 @@ function createWindow() {
   }
 }
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
