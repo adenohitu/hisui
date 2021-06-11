@@ -18,8 +18,6 @@ export class createsample {
    */
   async setupView(win: BrowserWindow | null) {
     if (this.createsampleView === null && win !== null) {
-      console.log("open");
-
       this.mainWindow = win;
       this.createsampleView = new BrowserView({
         webPreferences: {
@@ -63,8 +61,6 @@ export class createsample {
    */
   async closeView() {
     if (this.createsampleView !== null && this.mainWindow !== null) {
-      console.log("close");
-
       await this.mainWindow.removeBrowserView(this.createsampleView);
       this.createsampleView = null;
     }

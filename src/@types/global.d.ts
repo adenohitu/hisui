@@ -46,6 +46,8 @@ declare global {
       onTimerTick;
       copyClipboard;
       readClipboard;
+      openLoginDialog;
+      openselectDafaultcontest;
     };
   }
 }

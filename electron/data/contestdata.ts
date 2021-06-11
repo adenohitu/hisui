@@ -13,7 +13,7 @@ const myCache = new NodeCache();
 /**
  * デフォルトで設定されたコンテストIDを返す
  */
-export function getDefaultContestID(): string {
+export function getDefaultContestID() {
   return store.get("SetContestID", "abc001");
 }
 
