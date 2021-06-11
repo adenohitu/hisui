@@ -16,6 +16,8 @@ import { getUserData } from "./data/userdata";
 import { getFiledata, runWritefile } from "./file/mkfile";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "./tool/clipboard";
+import { mainPageapi } from "./browserview/mainpageview";
+import { settingDialogOpen } from "./browserview/mgt/dialog";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -180,5 +182,13 @@ export const main_ipc = () => {
   ipcMain.handle("readClipboard", async (event, saveinfo) => {
     const get = await readClipboard();
     return get;
+  });
+  //loginDialogを開く
+  ipcMain.on("openLoginDialog", (event) => {
+    mainPageapi.openLoginDialog();
+  });
+  //selectDafaultcontestを開く
+  ipcMain.on("openselectDafaultcontest", (event) => {
+    settingDialogOpen();
   });
 };

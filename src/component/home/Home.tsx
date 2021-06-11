@@ -4,6 +4,7 @@ import { Box, Container, Grid, Paper, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import SelectContest from "../setting/select_contestlist";
 import Chart from "./Chart";
+import { HomeMenu } from "./menu";
 function colorRating(rating: number | null) {
   if (rating == null) return "gray";
   if (rating >= 2800) return "red";
@@ -81,7 +82,9 @@ export function Home() {
             </Container>
           </Paper>
         </Grid>
-        {/* Recent Orders */}
+        <Grid item xs={12}>
+          <HomeMenu />
+        </Grid>
         <Grid item xs={12}>
           <SelectContest select={false} />
         </Grid>

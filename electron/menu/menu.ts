@@ -1,13 +1,13 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
-import { createsampleViewapi } from "../browserview/createsampleview";
+// import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
 // import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
-import { timerApi } from "../clock/timer";
+// import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
-import { runMakeDefaultFolderDialog } from "../file/mkfile";
+// import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
@@ -35,12 +35,12 @@ const template: any = [
   {
     label: "ファイル",
     submenu: [
-      {
-        label: "保存フォルダーを設定",
-        click(item: any, focusedWindow: any, event: any) {
-          runMakeDefaultFolderDialog(focusedWindow);
-        },
-      },
+      // {
+      //   label: "保存フォルダーを設定",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     runMakeDefaultFolderDialog(focusedWindow);
+      //   },
+      // },
       isMac ? { role: "close" } : { role: "quit" },
     ],
   },
@@ -119,30 +119,30 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      {
-        label: "DevToolsOnMainwindow",
-        click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.openDevTools({ mode: "detach" });
-        },
-      },
-      {
-        label: "DevToolsOnMainpage",
-        click(item: any, focusedWindow: any, event: any) {
-          mainPageapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnDashboard",
-        click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnCaseCreate",
-        click(item: any, focusedWindow: any, event: any) {
-          createsampleViewapi.openDevTool();
-        },
-      },
+      // {
+      //   label: "DevToolsOnMainwindow",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     focusedWindow.webContents.openDevTools({ mode: "detach" });
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnMainpage",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     mainPageapi.openDevTool();
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnDashboard",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     dashboardapi.openDevTool();
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnCaseCreate",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     createsampleViewapi.openDevTool();
+      //   },
+      // },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },
@@ -155,42 +155,42 @@ const template: any = [
   {
     label: "ウィンドウ",
     submenu: [
-      {
-        label: "stoptimer",
-        click(item: any, focusedWindow: any, event: any) {
-          timerApi.clearTimer();
-        },
-      },
+      // {
+      //   label: "stoptimer",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     timerApi.clearTimer();
+      //   },
+      // },
       {
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
           dashboardapi.resetWindowState();
         },
       },
-      {
-        label: "logtest",
-        click(item: any, focusedWindow: any, event: any) {
-          console.log(focusedWindow.getBrowserViews());
-        },
-      },
-      {
-        label: "mainPageTop",
-        click(item: any, focusedWindow: any, event: any) {
-          mainPageapi.runWindowTop();
-        },
-      },
-      {
-        label: "dashboardTop",
-        click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.runWindowTop();
-        },
-      },
-      {
-        label: "dashboardRankDataUpdate",
-        click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.runUpdatedata();
-        },
-      },
+      // {
+      //   label: "logtest",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     console.log(focusedWindow.getBrowserViews());
+      //   },
+      // },
+      // {
+      //   label: "mainPageTop",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     mainPageapi.runWindowTop();
+      //   },
+      // },
+      // {
+      //   label: "dashboardTop",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     dashboardapi.runWindowTop();
+      //   },
+      // },
+      // {
+      //   label: "dashboardRankDataUpdate",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     dashboardapi.runUpdatedata();
+      //   },
+      // },
 
       { type: "separator" },
       { role: "minimize" },

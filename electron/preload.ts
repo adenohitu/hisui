@@ -208,4 +208,13 @@ contextBridge.exposeInMainWorld("api", {
     const data: any = await ipcRenderer.invoke("readClipboard");
     return data;
   },
+
+  //loginDialogを開く
+  openLoginDialog: () => {
+    ipcRenderer.send("openLoginDialog");
+  },
+  //selectDafaultcontestを開く
+  openselectDafaultcontest: () => {
+    ipcRenderer.send("openselectDafaultcontest");
+  },
 });

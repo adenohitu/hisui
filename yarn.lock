@@ -5287,11 +5287,6 @@ electron-devtools-installer@^3.1.1:
     tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
 
-electron-is-dev@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-2.0.0.tgz#833487a069b8dad21425c67a19847d9064ab19bd"
-  integrity sha512-3X99K852Yoqu9AcW50qz3ibYBWY79/pBhlMCab8ToEWS48R0T9tyxRiQhwylE7zQdXrMnx2JKqUJyMPmt5FBqA==
-
 electron-log@^4.3.5:
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-4.3.5.tgz#2aad5f93842b9b5214a1b4a10e47b5ac5c9ec104"

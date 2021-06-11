@@ -60,8 +60,6 @@ export class editor {
    */
   async closeView() {
     if (this.editorView !== null && this.mainWindow !== null) {
-      console.log("close");
-
       await this.mainWindow.removeBrowserView(this.editorView);
       this.editorView = null;
     }

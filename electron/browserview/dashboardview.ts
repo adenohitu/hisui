@@ -63,8 +63,6 @@ export class dashboard {
    */
   async closeView() {
     if (this.dashboardView !== null && this.mainWindow !== null) {
-      console.log("close");
-
       await this.mainWindow.removeBrowserView(this.dashboardView);
       this.dashboardView = null;
     }
