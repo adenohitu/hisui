@@ -3,6 +3,7 @@
 //Copyright © 2021 adenohitu. All rights reserved.
 import axios, { AxiosInstance } from "axios";
 import { sessionRemove, setBrowserCoockie } from "../browser/session";
+import { hisuiEvent } from "../event/event";
 import { returnLogin, returnLogout } from "../interfaces";
 import { saveSession } from "../save/save_session";
 
@@ -126,6 +127,8 @@ export class atcoderClass {
             // ウィンドウのセッションを同期
             setBrowserCoockie();
             console.log("loginSuccess");
+            // ログインイベントを発行
+            hisuiEvent.emit("login");
             return "success";
           } else {
             return "Failure_Postdata";
@@ -164,6 +167,7 @@ export class atcoderClass {
           this.axiosInstance.defaults.headers.Cookie = Cookie;
           // browserwindowのセッションを削除
           sessionRemove();
+          hisuiEvent.emit("logout");
           return "success";
         } else {
           return "Failure_Postdata";
