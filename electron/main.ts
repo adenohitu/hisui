@@ -26,6 +26,7 @@ import { dashboardapi } from "./browserview/dashboardview";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
+import { hisuiEvent } from "./event/event";
 
 export let win: null | BrowserWindow = null;
 
@@ -97,7 +98,9 @@ function createWindow() {
   if (store.get("window.isMax")) {
     win.maximize();
   }
-
+  if (store.get("window.width") === undefined) {
+    win.maximize();
+  }
   // DevTools
   installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
@@ -142,6 +145,12 @@ app.on("activate", () => {
     createWindow();
   }
 });
+// ログインイベントが発行された時にウィンドウを再読み込み
+hisuiEvent.on("login", async () => {
+  win?.close();
+  win?.once("closed", () => createWindow());
+});
+
 //ipcの呼び出し
 main_ipc();
 //メニューのセット
