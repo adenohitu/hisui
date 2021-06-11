@@ -5,7 +5,7 @@ import { dashboardapi } from "../browserview/dashboardview";
 import { getContestDate } from "../data/contestdata";
 import { store } from "../save/save";
 
-import { endEvent, startEvent } from "../event/event";
+import { hisuiEvent } from "../event/event";
 export interface timeData {
   status: string;
   time: number;
@@ -44,11 +44,11 @@ export class timer {
     // 時間をチェックして開始・終了タイミングならイベントを呼び出す
     if (this.starttime?.unix() === nowUnix && this.nowContestID !== undefined) {
       // コンテスト開始イベントを実行
-      startEvent.emit(this.nowContestID);
+      hisuiEvent.emit("contest-start");
     }
     if (this.endtime?.unix() === nowUnix && this.nowContestID !== undefined) {
       // コンテスト終了イベントを実行
-      endEvent.emit(this.nowContestID);
+      hisuiEvent.emit("contest-end");
     }
     // timerDataを更新
     if (this.starttime !== undefined && this.endtime !== undefined) {

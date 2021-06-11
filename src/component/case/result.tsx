@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 // import Typography from "@material-ui/core/Typography";
-import { Box, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, TextField, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {
   elementStatus,
@@ -73,14 +73,14 @@ export function ResultCard() {
       </Box>
       <Card className={classes.root} variant="outlined">
         <CardContent>
-          <p>
+          <Typography>
             {sample.split("\n").map((str, index) => (
               <React.Fragment key={index}>
                 {str}
                 <br />
               </React.Fragment>
             ))}
-          </p>
+          </Typography>
         </CardContent>
         <CardActions>
           <Button
