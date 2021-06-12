@@ -2,12 +2,13 @@ import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
 // import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
+import { editorViewapi } from "../browserview/editorview";
 // import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 // import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
-// import { runMakeDefaultFolderDialog } from "../file/mkfile";
+import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
@@ -35,12 +36,12 @@ const template: any = [
   {
     label: "ファイル",
     submenu: [
-      // {
-      //   label: "保存フォルダーを設定",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     runMakeDefaultFolderDialog(focusedWindow);
-      //   },
-      // },
+      {
+        label: "保存フォルダーを設定",
+        click(item: any, focusedWindow: any, event: any) {
+          runMakeDefaultFolderDialog(focusedWindow);
+        },
+      },
       isMac ? { role: "close" } : { role: "quit" },
     ],
   },
@@ -143,6 +144,12 @@ const template: any = [
       //     createsampleViewapi.openDevTool();
       //   },
       // },
+      {
+        label: "DevToolsOnEditor",
+        click(item: any, focusedWindow: any, event: any) {
+          editorViewapi.openDevTool();
+        },
+      },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },

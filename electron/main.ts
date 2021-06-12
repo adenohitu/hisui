@@ -22,7 +22,7 @@ import {
 import { updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
-// import { editorViewapi } from "./browserview/editorview";
+import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
@@ -111,7 +111,7 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     //editorをセットアップ
-    // editorViewapi.setupView(win);
+    editorViewapi.setupView(win);
     //dashboardをセットアップ
     dashboardapi.setupView(win);
     //mainページをセットアップ
