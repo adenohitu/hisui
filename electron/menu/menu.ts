@@ -1,5 +1,6 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
+import { taskViewWindowApi } from "../browser/taskviewwindow";
 // import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
 import { editorViewapi } from "../browserview/editorview";
@@ -144,6 +145,12 @@ const template: any = [
       //     createsampleViewapi.openDevTool();
       //   },
       // },
+      {
+        label: "testOpem",
+        click(item: any, focusedWindow: any, event: any) {
+          taskViewWindowApi.addView("abc199_a", "abc205/tasks/abc205_a");
+        },
+      },
       {
         label: "DevToolsOnEditor",
         click(item: any, focusedWindow: any, event: any) {

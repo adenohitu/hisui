@@ -27,6 +27,7 @@ import { changeViewapi } from "./browserview/mgt/changeview";
 import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
+import { taskViewWindowApi } from "./browser/taskviewwindow";
 
 export let win: null | BrowserWindow = null;
 
@@ -71,6 +72,9 @@ function createWindow() {
     createsampleViewapi.closeView();
     dashboardapi.closeView();
     mainPageapi.closeView();
+    editorViewapi.closeView();
+    // taskViewを閉じる
+    taskViewWindowApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
   });
@@ -118,6 +122,8 @@ function createWindow() {
     mainPageapi.setupView(win);
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
+    // taskViewWindowをセットアップ
+    taskViewWindowApi.open();
   }
   //初期Viewを指定
   initView().then(() => {
