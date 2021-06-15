@@ -21,14 +21,14 @@ export class taskViewWindow {
   }
   open() {
     this.win = new BrowserWindow({
-      // titleBarStyle: "hiddenInset",
+      titleBarStyle: "hidden",
       // opacity: 0.5,
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
       },
     });
-    this.win.webContents.openDevTools();
+    this.win.webContents.openDevTools({ mode: "detach" });
     // ロード
     if (!app.isPackaged) {
       this.win.loadURL("http://localhost:3000#/taskview");
