@@ -1,3 +1,4 @@
+import { hisuiEvent } from "../../event/event";
 import { createsampleViewapi } from "../createsampleview";
 import { dashboardapi } from "../dashboardview";
 import { editorViewapi } from "../editorview";
@@ -29,6 +30,8 @@ export class changeView {
       default:
         break;
     }
+    // hisui.d.tsを参照
+    hisuiEvent.emit("view-main-top", viewName);
     this.viewNow = viewName;
   }
 }
