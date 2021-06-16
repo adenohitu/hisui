@@ -2,7 +2,6 @@
 import { app, BrowserView, BrowserWindow } from "electron";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
-
 // const isDev = !app.isPackaged;
 // toolbarの分、viewの上にマージンを設定するための値
 const windowTopMargin = 28;
@@ -15,9 +14,11 @@ export class taskViewWindow {
   // initUrlはview開くときに指定したURL
   // urlはAtcoder.jp/contests/の後のパスを入れる
   view: { [id: string]: { initUrl: string; view: BrowserView } };
+  nowTop: string | null;
   constructor() {
     this.view = {};
     this.win = null;
+    this.nowTop = null;
   }
   open() {
     this.win = new BrowserWindow({
@@ -28,7 +29,7 @@ export class taskViewWindow {
         contextIsolation: true,
       },
     });
-    this.win.webContents.openDevTools({ mode: "detach" });
+    // this.win.webContents.openDevTools({ mode: "detach" });
     // ロード
     if (!app.isPackaged) {
       this.win.loadURL("http://localhost:3000#/taskview");
@@ -37,14 +38,17 @@ export class taskViewWindow {
       this.win.loadURL(`file://${__dirname}/../index.html#/taskview`);
     }
 
-    // this.win.setAlwaysOnTop(true);
+    this.win.setAlwaysOnTop(true);
     this.addView("abc199_a", "abc205/tasks/abc205_a");
+    // 透過に関する設定
+    this.win.setOpacity(0.5);
+    this.win.setIgnoreMouseEvents(true);
   }
   close() {
     this.win?.destroy();
     this.win = null;
   }
-
+  // Viewが存在する場合フォーカスする
   addView(id: string, url: string) {
     if (!(id in this.view) && this.win !== null) {
       console.log("run");
@@ -78,9 +82,14 @@ export class taskViewWindow {
       });
       // ページをロード
       createdView.webContents.loadURL(`${this.baseurl}${url}`);
+      // 最上部にセット
+      this.win.setTopBrowserView(createdView);
+      this.nowTop = id;
       return "success";
     } else {
-      return "alrady";
+      this.win?.setTopBrowserView(this.view[id].view);
+      this.nowTop = id;
+      return "already";
     }
   }
 
