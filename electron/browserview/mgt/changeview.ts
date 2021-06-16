@@ -4,6 +4,9 @@ import { editorViewapi } from "../editorview";
 import { mainPageapi } from "../mainpageview";
 
 type viewName = "main" | "editor" | "dashboard" | "case";
+/**
+ * MainWindowのViewの状態を管理するAPI
+ */
 export class changeView {
   viewNow: null | viewName;
   constructor() {
