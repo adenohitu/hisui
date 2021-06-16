@@ -1,30 +1,31 @@
 import * as React from "react";
 import Box from "@material-ui/core/Box";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
-import LanguageIcon from "@material-ui/icons/Language";
+// import HomeIcon from "@material-ui/icons/Home";
+import UndoIcon from "@material-ui/icons/Undo";
+// import LanguageIcon from "@material-ui/icons/Language";
 import "./toolbar.css";
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      // display: "inline-block",
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-    bar: {
-      backgroundColor: "#545454",
-    },
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     root: {
+//       flexGrow: 1,
+//       // display: "inline-block",
+//     },
+//     menuButton: {
+//       marginRight: theme.spacing(2),
+//     },
+//     title: {
+//       flexGrow: 1,
+//     },
+//     bar: {
+//       backgroundColor: "#545454",
+//     },
+//   })
+// );
 
 export function TaskViewToolbar() {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <div
@@ -41,17 +42,25 @@ export function TaskViewToolbar() {
           flexDirection: "row",
         }}
       >
-        <Box my="10px" mx="35px" style={{ backgroundColor: "grey" }}></Box>
-        <Box className="no-drag" style={{ backgroundColor: "grey" }}>
-          <IconButton onClick={async () => {}} size={"small"}>
-            <HomeIcon />
+        <Box my="28px" mx="35px"></Box>
+        <Box className="no-drag">
+          <IconButton
+            style={{ color: "#fff" }}
+            onClick={async () => {}}
+            size={"small"}
+          >
+            <UndoIcon />
           </IconButton>
         </Box>
-        <Box className="no-drag" style={{ backgroundColor: "grey" }}>
-          <IconButton onClick={() => {}} size={"small"}>
+        {/* <Box className="no-drag">
+          <IconButton
+            style={{ color: "#fff" }}
+            onClick={() => {}}
+            size={"small"}
+          >
             <LanguageIcon />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
     </div>
   );
