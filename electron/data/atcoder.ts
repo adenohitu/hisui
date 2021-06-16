@@ -182,8 +182,8 @@ export class atcoderClass {
   /**ログインされているユーザーIDを返す
    *
    */
-  getUsername() {
-    const login = this.checkLogin();
+  async getUsername() {
+    const login = await this.checkLogin();
     if (login) {
       const username = saveSession.get("ID");
       return username;
