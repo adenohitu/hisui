@@ -1,7 +1,6 @@
 /*!
  *======================================================================
- *Project Name    : Hisui
- *File Name       : main.ts
+ *Project Name : Hisui
  *Copyright © 2021 adenohitu. All rights reserved.
  *======================================================================
  */
@@ -123,7 +122,7 @@ function createWindow() {
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
     // taskViewWindowをセットアップ
-    taskViewWindowApi.open();
+    // taskViewWindowApi.open();
   }
   //初期Viewを指定
   initView().then(() => {
@@ -156,7 +155,9 @@ hisuiEvent.on("login", async () => {
   win?.close();
   win?.once("closed", () => createWindow());
 });
-
+hisuiEvent.on("view-main-top", (arg) => {
+  console.log(arg);
+});
 //ipcの呼び出し
 main_ipc();
 //メニューのセット
