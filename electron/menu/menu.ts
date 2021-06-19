@@ -1,6 +1,7 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { createsampleViewapi } from "../browserview/createsampleview";
 // import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
 import { editorViewapi } from "../browserview/editorview";
@@ -121,30 +122,30 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      // {
-      //   label: "DevToolsOnMainwindow",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     focusedWindow.webContents.openDevTools({ mode: "detach" });
-      //   },
-      // },
-      // {
-      //   label: "DevToolsOnMainpage",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     mainPageapi.openDevTool();
-      //   },
-      // },
-      // {
-      //   label: "DevToolsOnDashboard",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     dashboardapi.openDevTool();
-      //   },
-      // },
-      // {
-      //   label: "DevToolsOnCaseCreate",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     createsampleViewapi.openDevTool();
-      //   },
-      // },
+      {
+        label: "DevToolsOnMainwindow",
+        click(item: any, focusedWindow: any, event: any) {
+          focusedWindow.webContents.openDevTools({ mode: "detach" });
+        },
+      },
+      {
+        label: "DevToolsOnMainpage",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnDashboard",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnCaseCreate",
+        click(item: any, focusedWindow: any, event: any) {
+          createsampleViewapi.openDevTool();
+        },
+      },
       {
         label: "testOpem",
         click(item: any, focusedWindow: any, event: any) {

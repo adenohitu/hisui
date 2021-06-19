@@ -99,6 +99,17 @@ export class taskViewWindow {
       return "already";
     }
   }
+  /**
+   * 登録されている全てのViewを削除
+   */
+  async allViewRemove() {
+    if (this.win !== null) {
+      Object.keys(this.view).forEach((key) => {
+        this.win?.removeBrowserView(this.view[key].view);
+      });
+      this.view = {};
+    }
+  }
 
   // リサイズのバグがあるため実装
   // electron/electron ＃22174

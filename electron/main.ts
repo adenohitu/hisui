@@ -127,7 +127,7 @@ function createWindow() {
   //初期Viewを指定
   initView().then(() => {
     changeViewapi.change("main");
-    createsampleViewapi.openDevTool();
+    // createsampleViewapi.openDevTool();
     // timerをセットアップ
     timerApi.startTimer();
   });
