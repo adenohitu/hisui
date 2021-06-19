@@ -41,13 +41,12 @@ export function MainEditor() {
   }, [monaco]);
 
   return (
-    <>
-      <EditorToolbar />
+    <div style={{ height: "100%" }}>
+      {/* <EditorToolbar /> */}
       <Editor
-        height="100%"
         onMount={handleEditorDidMount}
         beforeMount={handleEditorWillMount}
       />
-    </>
+    </div>
   );
 }

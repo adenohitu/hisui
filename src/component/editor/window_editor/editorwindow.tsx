@@ -1,7 +1,9 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 import { MainEditor } from "../editor";
-import { Taskview } from "../../taskview/taskview";
+// import { Taskview } from "../../taskview/taskview";
+import { SubmissionTable } from "../../submission/submission";
+import { Judgetool } from "../../submit/judge";
 // import "react-mosaic-component/react-mosaic-component.css";
 // import "@blueprintjs/core/lib/css/blueprint.css";
 // import "@blueprintjs/icons/lib/css/blueprint-icons.css";
@@ -11,33 +13,39 @@ import { Taskview } from "../../taskview/taskview";
 export const TITLE_ELEMENT: {
   [viewId: string]: { name: string; component: any };
 } = {
-  time: { name: "コード", component: () => <MainEditor /> },
-  time2: { name: "問題", component: (hide?: any) => <Taskview hide={hide} /> },
+  editor: { name: "コード", component: <MainEditor /> },
+  submission: { name: "提出", component: <SubmissionTable /> },
+  submission2: { name: "ツール", component: <Judgetool /> },
 };
 
 export const Editorwindow = () => {
-  const [change, setchange] = useState(false);
+  // const [change, setchange] = useState(false);
   return (
     <Mosaic<string>
-      onChange={() => {
-        setchange(true);
-      }}
-      onRelease={() => {
-        setchange(false);
-      }}
+      // onChange={() => {
+      //   setchange(true);
+      // }}
+      // onRelease={() => {
+      //   setchange(false);
+      // }}
       renderTile={(id, path) => (
         <MosaicWindow<string>
           path={path}
           title={TITLE_ELEMENT[id].name}
           className="table-window"
         >
-          {TITLE_ELEMENT[id].component(change)}
+          {TITLE_ELEMENT[id].component}
         </MosaicWindow>
       )}
+      resize={{ minimumPaneSizePercentage: 0 }}
       initialValue={{
         direction: "row",
-        first: "time",
-        second: "time2",
+        first: "editor",
+        second: {
+          direction: "column",
+          first: "submission",
+          second: "submission2",
+        },
       }}
     />
   );

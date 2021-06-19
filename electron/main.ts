@@ -122,7 +122,7 @@ function createWindow() {
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
     // taskViewWindowをセットアップ
-    // taskViewWindowApi.open();
+    taskViewWindowApi.open();
   }
   //初期Viewを指定
   initView().then(() => {

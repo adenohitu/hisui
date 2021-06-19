@@ -38,11 +38,12 @@ export class taskViewWindow {
       this.win.loadURL(`file://${__dirname}/../index.html#/taskview`);
     }
 
-    this.win.setAlwaysOnTop(true);
     this.addView("abc199_a", "abc205/tasks/abc205_a");
+    // this.win.setAlwaysOnTop(true);
+
     // 透過に関する設定
-    this.win.setOpacity(0.5);
-    this.win.setIgnoreMouseEvents(true);
+    // this.win.setOpacity(0.5);
+    // this.win.setIgnoreMouseEvents(true);
   }
   close() {
     this.win?.destroy();
