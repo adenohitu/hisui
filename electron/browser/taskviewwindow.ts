@@ -44,10 +44,16 @@ export class taskViewWindow {
     // 透過に関する設定
     // this.win.setOpacity(0.5);
     // this.win.setIgnoreMouseEvents(true);
+
+    // Close後の処理
+    this.win.on("closed", () => {
+      this.win = null;
+      // viewは閉じた時に全て消去される
+      this.view = {};
+    });
   }
   close() {
-    this.win?.destroy();
-    this.win = null;
+    this.win?.close();
   }
   // Viewが存在する場合フォーカスする
   addView(id: string, url: string) {
