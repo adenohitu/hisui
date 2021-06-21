@@ -14,8 +14,8 @@ export async function scrapingTaskList(body: any) {
   const dom = new JSDOM(body);
 
   const tasklistBefore = dom.window.document.querySelector("tbody");
-  const taskall = tasklistBefore.querySelectorAll("tr");
-  const tasklistAfter = [].map.call(taskall, (element: any) => {
+  const taskall: NodeList = tasklistBefore.querySelectorAll("tr");
+  const tasklistAfter = Array.from(taskall).map((element: any) => {
     const taskUrl = element.querySelector("a").getAttribute("href");
     const taskName = element.querySelectorAll("a")[1].textContent.trim();
     const tmp_td = element.querySelectorAll("td");
