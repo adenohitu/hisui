@@ -89,7 +89,7 @@ export function TaskSelect() {
     const loadrun = async () => {
       const ID = await window.api.get_SetContestID_render();
       const url = `https://atcoder.jp${taskData[newValue].taskUrl}`;
-      dispatch(loadtask(ID, taskData[newValue].taskHeader, url));
+      dispatch(loadtask(ID, taskData[newValue].AssignmentName, url));
     };
     loadrun();
   };
@@ -102,7 +102,7 @@ export function TaskSelect() {
         aria-label="styled tabs example"
       >
         {taskData.map((row: any) => (
-          <StyledTab key={row.taskHeader} label={row.taskHeader} />
+          <StyledTab key={row.AssignmentName} label={row.AssignmentName} />
         ))}
       </StyledTabs>
       <Typography className={classes.padding} />

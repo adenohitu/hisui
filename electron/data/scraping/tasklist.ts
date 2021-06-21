@@ -1,7 +1,7 @@
 //atcoder.jp/contests/------/submitをスクレイピングする
 const { JSDOM } = require("jsdom");
 export interface taskList {
-  taskHeader: string;
+  AssignmentName: string;
   taskName: string;
   taskUrl: string;
   taskLimit: string;
@@ -21,9 +21,9 @@ export async function scrapingTaskList(body: any) {
     const tmp_td = element.querySelectorAll("td");
     const taskLimit = tmp_td[2].textContent.trim();
     const taskMemory = tmp_td[3].textContent.trim();
-    const taskHeader = element.querySelector("a").textContent.trim();
+    const AssignmentName = element.querySelector("a").textContent.trim();
     const returnData: taskList = {
-      taskHeader,
+      AssignmentName,
       taskName,
       taskUrl,
       taskLimit,
@@ -31,5 +31,7 @@ export async function scrapingTaskList(body: any) {
     };
     return returnData;
   });
+  console.log(tasklistAfter);
+
   return tasklistAfter;
 }
