@@ -4,6 +4,7 @@
 import { app, dialog } from "electron";
 import { store } from "../save/save";
 import { mkdir, readdirSync, writeFileSync, statSync, readFileSync } from "fs";
+import { languageselect, languagetype } from "./extension";
 
 /**
  * デフォルトのフォルダーを決めるダイアログを開く
@@ -100,8 +101,6 @@ export const runMakeFile = async (
     return savefolderpath;
   }
 };
-export type languagetype = "cpp" | "python";
-const languageselect = { cpp: ".cpp", python: ".py" };
 
 /**
  * ファイル読み込みを行う
