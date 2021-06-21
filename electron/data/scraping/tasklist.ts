@@ -1,4 +1,3 @@
-//atcoder.jp/contests/------/submitをスクレイピングする
 const { JSDOM } = require("jsdom");
 export interface taskList {
   AssignmentName: string;
@@ -35,3 +34,13 @@ export async function scrapingTaskList(body: any) {
 
   return tasklistAfter;
 }
+// SampleData
+/*
+{
+    AssignmentName: '072',
+    taskName: 'Loop Railway Plan（★4）',
+    taskUrl: '/contests/typical90/tasks/typical90_bt',
+    taskLimit: '2 sec',
+    taskMemory: '1024 MB'
+}
+ */
