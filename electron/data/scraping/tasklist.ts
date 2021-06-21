@@ -7,7 +7,7 @@ export interface taskList {
   taskMemory: string;
 }
 /**
- * 提出可能言語を取得
+ * 問題情報を取得
  */
 export async function scrapingTaskList(body: any) {
   const dom = new JSDOM(body);
