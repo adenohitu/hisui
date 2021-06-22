@@ -108,11 +108,11 @@ export const runMakeFile = async (
  */
 export const getFiledata = async (
   contestname: string,
-  TaskScreenName: string,
+  AssignmentName: string,
   lang: languagetype
 ) => {
   const filename = await runMakeFile(
-    `${TaskScreenName}${languageselect[lang]}`,
+    `${AssignmentName}${languageselect[lang]}`,
     contestname
   );
   const filedata = await readFileSync(filename, "utf8");
