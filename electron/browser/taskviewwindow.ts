@@ -56,7 +56,7 @@ export class taskViewWindow {
     this.win?.close();
   }
   // Viewが存在する場合フォーカスする
-  addView(id: string, url: string) {
+  async addView(id: string, url: string) {
     if (!(id in this.view) && this.win !== null) {
       console.log("run");
 
@@ -99,6 +99,40 @@ export class taskViewWindow {
       return "already";
     }
   }
+  /**
+   * 指定したViewを一番上に持ってくる
+   */
+  async changeViewTop(id: string) {
+    if (this.win !== null) {
+      this.win.setTopBrowserView(this.view[id].view);
+    }
+  }
+
+  /**
+   * viewをリロード
+   */
+  async reloadView(id: string) {
+    this.view[id].view.webContents.reload();
+  }
+  /**
+   * 開いた時のURLに戻す
+   */
+  async resetView(id: string) {
+    this.view[id].view.webContents.loadURL(
+      `${this.baseurl}${this.view[id].initUrl}}`
+    );
+  }
+  /**
+   * viewを閉じる
+   */
+  async removeView(id: string) {
+    if (this.win !== null) {
+      const view = this.view[id];
+      this.win.removeBrowserView(view.view);
+      delete this.view[id];
+    }
+  }
+
   /**
    * 登録されている全てのViewを削除
    */
