@@ -48,7 +48,8 @@ export const getDefaultfiledata = async () => {
   return filelist;
 };
 /**
- * 新規ファイルを作成
+ * 存在チェックをしファイルがなければ作成
+ * ファイルのフルパスを返す
  * folderdirにファイル名またさらに下の階層のフォルダーがいい場合は記入
  * 例:makeFile("a.py","abc001/a")
  */
