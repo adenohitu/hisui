@@ -4,7 +4,7 @@ import "react-mosaic-component/react-mosaic-component.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "./style.css";
-import { TaskSelect } from "../editor/selecttask";
+import { TaskSelect } from "../editor/tool/selecttask";
 import { Submitconsole } from "./submitconsole";
 
 // const useStyles = makeStyles({});

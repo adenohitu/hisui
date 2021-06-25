@@ -9,8 +9,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import { selecttaskData, sendGetTasklist } from "../../app/Slice/taskdata";
-import { loadtask } from "../../app/Slice/editor";
+import { selecttaskData, sendGetTasklist } from "../../../app/Slice/taskdata";
+import { loadtask } from "../../../app/Slice/editor";
 
 interface StyledTabsProps {
   value: number;

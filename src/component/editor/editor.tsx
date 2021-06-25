@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
 // import { useSelector } from "react-redux";
 // import { selecteditorvalue } from "../../app/Slice/editor";
-import { EditorToolbar } from "./toolbar";
+// import { EditorToolbar } from "./toolbar";
 import { monacoControlApi } from "./monacoapi";
 import { editor } from "monaco-editor";
 //cdnを使わずローカルファイルから読み込ませる
