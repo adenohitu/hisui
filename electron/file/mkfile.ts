@@ -3,9 +3,42 @@
 //ファイル操作に関するモジュール
 import { app, dialog } from "electron";
 import { store } from "../save/save";
-import { mkdir, readdirSync, writeFileSync, statSync, readFileSync } from "fs";
+import {
+  mkdir,
+  readdirSync,
+  writeFileSync,
+  statSync,
+  readFileSync,
+  readFile,
+  writeFile,
+} from "fs";
 import { languageselect, languagetype } from "./extension";
-
+/**
+ * 非同期でファイルを読み込みPromiseを返す
+ * ファイルのフルパスを入力
+ */
+export const readFileAwait = (filePath: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    readFile(filePath, "utf-8", (err, data) => {
+      resolve(data);
+    });
+  });
+};
+/**
+ * 非同期でファイルに書き込みPromiseを返す
+ * ファイルのフルパスを入力
+ */
+export const writeFileAwait = (
+  filePath: string,
+  data: string
+): Promise<"succsess" | undefined> => {
+  return new Promise((resolve, reject) => {
+    writeFile(filePath, data, (err) => {
+      if (err) throw err;
+      resolve("succsess");
+    });
+  });
+};
 /**
  * デフォルトのフォルダーを決めるダイアログを開く
  */
@@ -98,11 +131,10 @@ export const runMakeFile = async (
     console.log("ファイルは存在します");
     return savefolderpath;
   } else {
-    await writeFileSync(savefolderpath, "", "utf8");
+    await writeFileAwait(savefolderpath, "");
     return savefolderpath;
   }
 };
-
 /**
  * ファイル読み込みを行う
  * ファイルが作成されていない場合は作成される

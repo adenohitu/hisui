@@ -8,6 +8,7 @@ import { store } from "../save/save";
 import { Atcoder } from "./atcoder";
 import { dashboardapi } from "../browserview/dashboardview";
 import { timerApi } from "../clock/timer";
+import { hisuiEvent } from "../event/event";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 /**
@@ -50,11 +51,13 @@ export async function getContestInfo(): Promise<
  * 存在をチェックし存在すればデフォルトとして設定
  * しなければfalseを返す
  */
-export async function setDefaultContestID(taskScreenName: string) {
+export async function setDefaultContestID(contestName: string) {
   console.log("run set_SetContestID");
-  const check = await checkContestID(taskScreenName);
+  const check = await checkContestID(contestName);
   if (check) {
-    await store.set("SetContestID", taskScreenName);
+    await store.set("SetContestID", contestName);
+    // イベントを発行
+    hisuiEvent.emit("DefaultContestID-change", contestName);
     // dashboardを更新
     dashboardapi.runUpdatedata();
     // timerをアップデート
