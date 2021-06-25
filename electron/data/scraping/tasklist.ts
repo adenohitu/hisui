@@ -30,7 +30,6 @@ export async function scrapingTaskList(body: any) {
     };
     return returnData;
   });
-  console.log(tasklistAfter);
 
   return tasklistAfter;
 }
