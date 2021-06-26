@@ -33,7 +33,7 @@ export function MainEditor() {
     // テーマなどの指定が可能
     console.log(monaco.editor);
   }
-  // マウント後のインスタンス
+  // MonacoAPI
   const monaco = useMonaco();
   useEffect(() => {
     //apiにinstanceを設定

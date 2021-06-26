@@ -11,6 +11,7 @@ import { settingDialogOpen } from "../browserview/mgt/dialog";
 // import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
+import { win } from "../main";
 import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
@@ -42,6 +43,12 @@ const template: any = [
         label: "保存フォルダーを設定",
         click(item: any, focusedWindow: any, event: any) {
           runMakeDefaultFolderDialog(focusedWindow);
+        },
+      },
+      {
+        label: "tttttt",
+        click(item: any, focusedWindow: any, event: any) {
+          win?.focus();
         },
       },
       isMac ? { role: "close" } : { role: "quit" },

@@ -9,6 +9,7 @@ import {
   Select,
 } from "@material-ui/core";
 import { useState } from "react";
+import { monacoControlApi } from "../editor/monacoapi";
 export const Judgetool = () => {
   const [age, setAge] = useState("");
 
@@ -36,6 +37,28 @@ export const Judgetool = () => {
         <Box pt={1}>
           <Button variant="contained" color="primary">
             実行
+          </Button>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={4} lg={3}>
+        <Box pt={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              monacoControlApi.createModel(age, "wao", "python");
+            }}
+          >
+            testmodel:create
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              monacoControlApi.setModel(age);
+            }}
+          >
+            testmodel:set
           </Button>
         </Box>
       </Grid>
