@@ -1,5 +1,6 @@
 //Copyright © 2021 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
+import { store } from "../save/save";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
 // const isDev = !app.isPackaged;
@@ -22,6 +23,10 @@ export class taskViewWindow {
   }
   open() {
     this.win = new BrowserWindow({
+      width: store.get("window.taskView.width", 800),
+      height: store.get("window.taskView.height", 600),
+      x: store.get("window.taskView.x"),
+      y: store.get("window.taskView.y"),
       titleBarStyle: "hidden",
       // opacity: 0.5,
       webPreferences: {
@@ -44,7 +49,14 @@ export class taskViewWindow {
     // 透過に関する設定
     // this.win.setOpacity(0.5);
     // this.win.setIgnoreMouseEvents(true);
-
+    this.win.on("close", () => {
+      //windowのサイズを保存
+      //最大化されていても通常状態のサイズ 位置を保存
+      store.set("window.taskView.height", this.win?.getNormalBounds().height);
+      store.set("window.taskView.width", this.win?.getNormalBounds().width);
+      store.set("window.taskView.x", this.win?.getNormalBounds().x);
+      store.set("window.taskView.y", this.win?.getNormalBounds().y);
+    });
     // Close後の処理
     this.win.on("closed", () => {
       this.win = null;
