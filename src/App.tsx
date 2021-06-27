@@ -11,31 +11,39 @@ import { Home } from "./component/home/Home";
 import { Submitmain } from "./component/submit/submitwindow";
 import { TestCaseBoard } from "./component/case/main";
 import { BackgroungMenu } from "./component/menu/background";
+import { TaskViewToolbar } from "./component/taskview/toolbar";
 
 const App: React.FC = () => {
   return (
     <HashRouter>
-      <FormDialog />
-      <DefaltContest />
       <Switch>
+        <Route path="/taskview" exact>
+          <TaskViewToolbar />
+        </Route>
         <Route path="/leftmenu" exact>
           <Menu>
             <BackgroungMenu />
           </Menu>
         </Route>
         <Route path="/" exact>
+          <FormDialog />
+          <DefaltContest />
           <Home />
         </Route>
         <Route path="/editor" exact>
+          <DefaltContest />
           <Editor />
         </Route>
         <Route path="/submit" exact>
+          <DefaltContest />
           <Submitmain />
         </Route>
         <Route path="/dashboard" exact>
+          <DefaltContest />
           <Window />
         </Route>
         <Route path="/case" exact>
+          <DefaltContest />
           <TestCaseBoard />
         </Route>
       </Switch>

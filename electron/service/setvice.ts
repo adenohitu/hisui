@@ -7,7 +7,7 @@ let timer: any = undefined;
 
 export async function startCheckServiceStatus() {
   runServiceStatus();
-  timer = setInterval(runServiceStatus, 36000000);
+  timer = setInterval(runServiceStatus, 3600000);
 }
 export async function stopCheckServiceStatus() {
   clearInterval(timer);

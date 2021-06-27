@@ -50,6 +50,7 @@ export class mainPage {
       win.on("resize", () => {
         this.windowSizeChange(win, this.mainPageView);
       });
+      return "success";
     } else {
       return "alrady";
     }

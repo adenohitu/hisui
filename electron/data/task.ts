@@ -4,8 +4,7 @@ import { Atcoder } from "./atcoder";
 import { getDefaultContestID } from "./contestdata";
 import { scrapingTaskList } from "./scraping/tasklist";
 /**
- *
- * @param taskScreenName
+ * 問題の一覧を取得
  */
 export async function getTasklist(
   taskScreenName: string = getDefaultContestID()

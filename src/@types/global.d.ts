@@ -49,5 +49,74 @@ declare global {
       openLoginDialog;
       openselectDafaultcontest;
     };
+    editor: {
+      /**
+       * Mainからのモデル作成イベントを受け付ける
+       * taskcont:createEditorModelType
+       */
+      createModel(
+        func: (createEditorModelType: {
+          id: string;
+          value: string;
+          language: string;
+        }) => void
+      );
+      /**
+       * mainからモデルセットのイベントを受け付ける
+       * id:string
+       */
+      setModel(func: (id: string) => void);
+      /**
+       * mainからファイルのデータの更新を受け取る
+       */
+      changeValue(
+        func: (syncEditorType: { id: string; value: string }) => void
+      );
+      /**
+       * mainから言語の変更を受け取る
+       */
+      changeLanguage(
+        func: (changeLanguageType: { id: string; language: string }) => void
+      );
+      /**
+       * modelの削除を受け取る
+       */
+      closeModel(func: (id: string) => void);
+
+      /**
+       * mainからValueを送信するように依頼されるイベント
+       */
+      getValue(func: (id: string) => void);
+      /**
+       * 返信イベント
+       */
+      getValue_replay(value: string);
+
+      // mainに送信
+      /**
+       * TaskContを作成
+       */
+      createTaskCont(arg: {
+        contestName: string;
+        TaskScreenName: string;
+        AssignmentName: string;
+        // 指定がない場合、デフォルトの言語を使用
+        language?: languagetype;
+      });
+      /**
+       * ファイルに状態を保存
+       *        */
+      save(id: string);
+
+      /**
+       * 保存されているdafaultlanguageを取得
+       * 初期値はcpp
+       */
+      getdefaultLanguage();
+      /**
+       * dafaultlanguageを更新
+       */
+      setdefaultLanguage(language: string);
+    };
   }
 }

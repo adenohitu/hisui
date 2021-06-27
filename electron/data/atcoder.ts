@@ -179,17 +179,12 @@ export class atcoderClass {
       });
     return await login_req;
   }
-  /**ログインされているユーザーIDを返す
-   *
+  /**
+   * ログインされているユーザーIDを返す
    */
   getUsername() {
-    const login = this.checkLogin();
-    if (login) {
-      const username = saveSession.get("ID");
-      return username;
-    } else {
-      return undefined;
-    }
+    const username = saveSession.get("ID", undefined);
+    return username;
   }
 }
 

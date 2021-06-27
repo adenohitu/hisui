@@ -1,4 +1,4 @@
-//atcoder.jp/contests/*/submissions/meをスクレイピングする
+// コンテストの時間をスクレイピング
 const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
 function contest_main(body: any) {

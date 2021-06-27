@@ -1,9 +1,13 @@
+import { hisuiEvent } from "../../event/event";
 import { createsampleViewapi } from "../createsampleview";
 import { dashboardapi } from "../dashboardview";
 import { editorViewapi } from "../editorview";
 import { mainPageapi } from "../mainpageview";
 
 type viewName = "main" | "editor" | "dashboard" | "case";
+/**
+ * MainWindowのViewの状態を管理するAPI
+ */
 export class changeView {
   viewNow: null | viewName;
   constructor() {
@@ -26,6 +30,8 @@ export class changeView {
       default:
         break;
     }
+    // hisui.d.tsを参照
+    hisuiEvent.emit("view-main-top", viewName);
     this.viewNow = viewName;
   }
 }

@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 // export const update_submission = () => {
 //   getdata();
 // };
-export default function DenseTable() {
+export function SubmissionTable() {
   const classes = useStyles();
   // const [rows, setrows] = useState([]);
   // const [load, setload] = useState("ok");

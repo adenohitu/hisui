@@ -9,8 +9,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import { selecttaskData, sendGetTasklist } from "../../app/Slice/taskdata";
-import { loadtask } from "../../app/Slice/editor";
+import { selecttaskData, sendGetTasklist } from "../../../app/Slice/taskdata";
+import { loadtask } from "../../../app/Slice/editor";
 
 interface StyledTabsProps {
   value: number;
@@ -87,9 +87,14 @@ export function TaskSelect() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
     const loadrun = async () => {
-      const ID = await window.api.get_SetContestID_render();
-      const url = `https://atcoder.jp${taskData[newValue].taskUrl}`;
-      dispatch(loadtask(ID, taskData[newValue].taskHeader, url));
+      const contestName = await window.api.get_SetContestID_render();
+      dispatch(
+        loadtask(
+          contestName,
+          taskData[newValue].taskScreenName,
+          taskData[newValue].AssignmentName
+        )
+      );
     };
     loadrun();
   };
@@ -102,7 +107,7 @@ export function TaskSelect() {
         aria-label="styled tabs example"
       >
         {taskData.map((row: any) => (
-          <StyledTab key={row.taskHeader} label={row.taskHeader} />
+          <StyledTab key={row.AssignmentName} label={row.AssignmentName} />
         ))}
       </StyledTabs>
       <Typography className={classes.padding} />

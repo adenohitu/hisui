@@ -39,17 +39,12 @@ export async function RunCreateSample(
     const maxWidth = Number(max(maxWidthList)) + 1;
     var maxHeightList = await sortData.slice().map((i) => i.y);
     const maxHeight = Number(max(maxHeightList)) + 1;
-    console.log(sortData);
-
-    console.log("x" + maxWidth);
-    console.log("y" + maxHeight);
 
     // 二次元配列を作成
     var resultList = new Array(maxWidth);
     for (let y = 0; y < maxHeight; y++) {
       resultList[y] = new Array(maxHeight).fill("");
     }
-    console.log(elementStatus);
 
     for (let index = 0; index < sortData.length; index++) {
       const element = sortData[index];
@@ -71,18 +66,15 @@ export async function RunCreateSample(
       const returnData = Math.floor(
         (randomValue % (maxEvel - minEval + 1)) + minEval
       );
-      console.log(returnData);
       // 生成したものを配列に代入
       resultList[element.y][element.x] = returnData;
     }
-    console.log(resultList);
     // 文字列を作成
     var str = "";
     for (let i = 0; i < maxHeight; i++) {
       const element = resultList[i].join(" ");
       str = str + element + "\n";
     }
-    console.log(str);
 
     return str;
   }
