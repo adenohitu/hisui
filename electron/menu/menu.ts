@@ -1,13 +1,18 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../browser/session";
+import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { createsampleViewapi } from "../browserview/createsampleview";
 // import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
+import { editorViewapi } from "../browserview/editorview";
 // import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 // import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
-// import { runMakeDefaultFolderDialog } from "../file/mkfile";
+import { taskControlApi } from "../editor/control";
+import { runMakeDefaultFolderDialog } from "../file/mkfile";
+import { win } from "../main";
 import urlOpen from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
@@ -35,12 +40,32 @@ const template: any = [
   {
     label: "ファイル",
     submenu: [
-      // {
-      //   label: "保存フォルダーを設定",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     runMakeDefaultFolderDialog(focusedWindow);
-      //   },
-      // },
+      {
+        label: "保存フォルダーを設定",
+        click(item: any, focusedWindow: any, event: any) {
+          runMakeDefaultFolderDialog(focusedWindow);
+        },
+      },
+      {
+        label: "createTask",
+        click(item: any, focusedWindow: any, event: any) {
+          taskControlApi.createNewTask("abc198", "abc198_a", "A", "python");
+        },
+      },
+      {
+        label: "saveTask",
+        click(item: any, focusedWindow: any, event: any) {
+          taskControlApi.taskAll["abc198_a"].save().then((log) => {
+            console.log(log);
+          });
+        },
+      },
+      {
+        label: "settask",
+        click(item: any, focusedWindow: any, event: any) {
+          taskControlApi.changeTask("abc198_a");
+        },
+      },
       isMac ? { role: "close" } : { role: "quit" },
     ],
   },
@@ -119,30 +144,42 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      // {
-      //   label: "DevToolsOnMainwindow",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     focusedWindow.webContents.openDevTools({ mode: "detach" });
-      //   },
-      // },
-      // {
-      //   label: "DevToolsOnMainpage",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     mainPageapi.openDevTool();
-      //   },
-      // },
-      // {
-      //   label: "DevToolsOnDashboard",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     dashboardapi.openDevTool();
-      //   },
-      // },
-      // {
-      //   label: "DevToolsOnCaseCreate",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     createsampleViewapi.openDevTool();
-      //   },
-      // },
+      {
+        label: "DevToolsOnMainwindow",
+        click(item: any, focusedWindow: any, event: any) {
+          focusedWindow.webContents.openDevTools({ mode: "detach" });
+        },
+      },
+      {
+        label: "DevToolsOnMainpage",
+        click(item: any, focusedWindow: any, event: any) {
+          mainPageapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnDashboard",
+        click(item: any, focusedWindow: any, event: any) {
+          dashboardapi.openDevTool();
+        },
+      },
+      {
+        label: "DevToolsOnCaseCreate",
+        click(item: any, focusedWindow: any, event: any) {
+          createsampleViewapi.openDevTool();
+        },
+      },
+      {
+        label: "testOpem",
+        click(item: any, focusedWindow: any, event: any) {
+          taskViewWindowApi.addView("abc199_a", "abc205/tasks/abc205_a");
+        },
+      },
+      {
+        label: "DevToolsOnEditor",
+        click(item: any, focusedWindow: any, event: any) {
+          editorViewapi.openDevTool();
+        },
+      },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },

@@ -1,7 +1,6 @@
 /*!
  *======================================================================
- *Project Name    : Hisui
- *File Name       : main.ts
+ *Project Name : Hisui
  *Copyright © 2021 adenohitu. All rights reserved.
  *======================================================================
  */
@@ -22,11 +21,12 @@ import {
 import { updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
-// import { editorViewapi } from "./browserview/editorview";
+import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
+import { taskViewWindowApi } from "./browser/taskviewwindow";
 
 export let win: null | BrowserWindow = null;
 
@@ -71,6 +71,9 @@ function createWindow() {
     createsampleViewapi.closeView();
     dashboardapi.closeView();
     mainPageapi.closeView();
+    editorViewapi.closeView();
+    // taskViewを閉じる
+    taskViewWindowApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
   });
@@ -111,17 +114,20 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     //editorをセットアップ
-    // editorViewapi.setupView(win);
+    editorViewapi.setupView(win);
     //dashboardをセットアップ
     dashboardapi.setupView(win);
     //mainページをセットアップ
     mainPageapi.setupView(win);
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
+    // taskViewWindowをセットアップ
+    taskViewWindowApi.open();
   }
   //初期Viewを指定
   initView().then(() => {
     changeViewapi.change("main");
+    // createsampleViewapi.openDevTool();
     // timerをセットアップ
     timerApi.startTimer();
   });
@@ -150,7 +156,9 @@ hisuiEvent.on("login", async () => {
   win?.close();
   win?.once("closed", () => createWindow());
 });
-
+hisuiEvent.on("view-main-top", (arg) => {
+  console.log(arg);
+});
 //ipcの呼び出し
 main_ipc();
 //メニューのセット

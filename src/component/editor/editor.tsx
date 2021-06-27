@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
 // import { useSelector } from "react-redux";
 // import { selecteditorvalue } from "../../app/Slice/editor";
-import { EditorToolbar } from "./toolbar";
+// import { EditorToolbar } from "./toolbar";
 import { monacoControlApi } from "./monacoapi";
 import { editor } from "monaco-editor";
 //cdnを使わずローカルファイルから読み込ませる
@@ -33,7 +33,7 @@ export function MainEditor() {
     // テーマなどの指定が可能
     console.log(monaco.editor);
   }
-  // マウント後のインスタンス
+  // MonacoAPI
   const monaco = useMonaco();
   useEffect(() => {
     //apiにinstanceを設定
@@ -41,13 +41,12 @@ export function MainEditor() {
   }, [monaco]);
 
   return (
-    <>
-      <EditorToolbar />
+    <div style={{ height: "100%" }}>
+      {/* <EditorToolbar /> */}
       <Editor
-        height="100%"
         onMount={handleEditorDidMount}
         beforeMount={handleEditorWillMount}
       />
-    </>
+    </div>
   );
 }

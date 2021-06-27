@@ -5,6 +5,7 @@ import { AppThunk, RootState } from "../store";
 interface editorData {
   editorvalue: any;
   contestId: string | undefined;
+  TaskScreenName: string | undefined;
   taskname: string | undefined;
   taskurl: string | undefined;
   //ロード中はtrue
@@ -13,6 +14,7 @@ interface editorData {
 const initialState: editorData = {
   editorvalue: "",
   contestId: undefined,
+  TaskScreenName: undefined,
   taskname: undefined,
   taskurl: "/testpage.html",
   load: false,
@@ -32,6 +34,9 @@ export const editorDataSlice = createSlice({
     settaskname: (state, action: PayloadAction<any>) => {
       state.taskname = action.payload;
     },
+    setTaskScreenName: (state, action: PayloadAction<any>) => {
+      state.TaskScreenName = action.payload;
+    },
     settaskurl: (state, action: PayloadAction<any>) => {
       state.taskurl = action.payload;
     },
@@ -46,35 +51,42 @@ export const editorDataSlice = createSlice({
 export const {
   seteditorvalue,
   setcontestId,
+  setTaskScreenName,
   settaskname,
   settaskurl,
   loadStart,
   loadEnd,
 } = editorDataSlice.actions;
+/**
+ * mainにTaskContを作成するように命令
+ */
 export const loadtask =
-  (contestname: string, taskname: string, taskurl: string): AppThunk =>
+  (
+    contestName: string,
+    TaskScreenName: string,
+    AssignmentName: string
+  ): AppThunk =>
   async (dispatch, getState) => {
-    dispatch(setcontestId(contestname));
-    dispatch(settaskname(taskname));
-    dispatch(settaskurl(taskurl));
-    const data = await window.api.getFiledata_render({
-      contestname,
-      taskname,
-      language: "python",
+    dispatch(setcontestId(contestName));
+    dispatch(setTaskScreenName(TaskScreenName));
+    dispatch(settaskname(AssignmentName));
+    // taskContを作成
+    // 存在する場合フォーカスする
+    window.editor.createTaskCont({
+      contestName,
+      TaskScreenName,
+      AssignmentName,
     });
-    dispatch(seteditorvalue(data));
   };
-export const saveValue =
-  (editorvalue: any): AppThunk =>
-  async (dispatch, getState) => {
-    await window.api.runWritefile_render({
-      data: editorvalue,
-      contestname: getState().editorData.contestId,
-      taskname: getState().editorData.taskname,
-      language: "python",
-    });
-    dispatch(seteditorvalue(editorvalue));
-  };
+/**
+ * taskcontにいまの状態を保存するように命令
+ */
+export const saveValue = (): AppThunk => async (dispatch, getState) => {
+  const taskid = await getState().editorData.TaskScreenName;
+  if (taskid !== undefined) {
+    window.editor.save(taskid);
+  }
+};
 
 export const selecteditorvalue = (state: RootState) => {
   return state.editorData.editorvalue;
