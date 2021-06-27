@@ -1,5 +1,7 @@
 //Copyright © 2021 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
+import { getDefaultContestID } from "../clock/timer";
+import { hisuiEvent } from "../event/event";
 import { store } from "../save/save";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
@@ -16,10 +18,12 @@ export class taskViewWindow {
   // urlはAtcoder.jp/contests/の後のパスを入れる
   view: { [id: string]: { initUrl: string; view: BrowserView } };
   nowTop: string | null;
+  contestpageId: string | null;
   constructor() {
     this.view = {};
     this.win = null;
     this.nowTop = null;
+    this.contestpageId = null;
   }
   open() {
     this.win = new BrowserWindow({
@@ -43,9 +47,9 @@ export class taskViewWindow {
       this.win.loadURL(`file://${__dirname}/../index.html#/taskview`);
     }
 
-    this.addView("abc199_a", "abc205/tasks/abc205_a");
     // this.win.setAlwaysOnTop(true);
-
+    // taskViewにデフォルトのコンテストーページをセット
+    this.setupContestPage();
     // 透過に関する設定
     // this.win.setOpacity(0.5);
     // this.win.setIgnoreMouseEvents(true);
@@ -175,5 +179,26 @@ export class taskViewWindow {
       return "viewNull";
     }
   }
+  /**
+   * コンテストページのViewを開く
+   * 起動時にデフォルトのコンテストのページを開く
+   */
+  async setupContestPage() {
+    const DefaultContestID = getDefaultContestID();
+    this.contestpageId = DefaultContestID;
+    this.addView(DefaultContestID, DefaultContestID);
+    /**
+     * DefaultContestID-changeが変更されたらViewも更新
+     */
+    hisuiEvent.on("DefaultContestID-change", (arg) => {
+      if (this.contestpageId) {
+        this.removeView(this.contestpageId);
+        this.addView(arg, arg);
+        this.contestpageId = arg;
+      }
+    });
+  }
+
+  setuptaskViewIPC() {}
 }
 export const taskViewWindowApi = new taskViewWindow();
