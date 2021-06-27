@@ -8,7 +8,7 @@ import { monacoControlApi } from "./monacoapi";
 import { editor } from "monaco-editor";
 //cdnを使わずローカルファイルから読み込ませる
 loader.config({
-  paths: { vs: "./monaco-editor/min/vs" },
+  paths: { vs: "./vs" },
 });
 
 export function MainEditor() {
