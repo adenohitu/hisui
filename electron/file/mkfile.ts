@@ -35,6 +35,7 @@ export const writeFileAwait = (
   return new Promise((resolve, reject) => {
     writeFile(filePath, data, (err) => {
       if (err) throw err;
+      console.log(filePath);
       resolve("succsess");
     });
   });

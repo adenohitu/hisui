@@ -87,9 +87,14 @@ export function TaskSelect() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
     const loadrun = async () => {
-      const ID = await window.api.get_SetContestID_render();
-      const url = `https://atcoder.jp${taskData[newValue].taskUrl}`;
-      dispatch(loadtask(ID, taskData[newValue].AssignmentName, url));
+      const contestName = await window.api.get_SetContestID_render();
+      dispatch(
+        loadtask(
+          contestName,
+          taskData[newValue].taskScreenName,
+          taskData[newValue].AssignmentName
+        )
+      );
     };
     loadrun();
   };

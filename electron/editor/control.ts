@@ -1,9 +1,18 @@
 // taskcontを管理するApi
+import { ipcMain } from "electron";
+import { editorViewapi } from "../browserview/editorview";
 import { getDefaultContestID } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
+import { store } from "../save/save";
 import { taskcont } from "./taskcont";
-
+export interface createTaskContType {
+  contestName: string;
+  TaskScreenName: string;
+  AssignmentName: string;
+  // 指定がない場合、デフォルトの言語を使用
+  language?: languagetype;
+}
 /**
  * 全てのtaskcontを管理するAPI
  */
@@ -18,6 +27,7 @@ class taskControl {
     this.DefaultContestID = null;
     this.runDefaultContestID();
     this.eventSetup();
+    this.setupIPCMain();
   }
   /**
    * DefaultContestIDのイベントを受け取るセットアップ
@@ -36,30 +46,84 @@ class taskControl {
   }
   /**
    * 新しいTaskインスタンスを開く
+   * すでに作成されている場合、Topに設定する
    */
-  newTask(
+  async createNewTask(
     contestName: string,
     TaskScreenName: string,
     AssignmentName: string,
-    language: languagetype
+    // 指定がない場合、デフォルトの言語を使用
+    language: languagetype | undefined
   ) {
-    this.taskAll[TaskScreenName] = new taskcont(
-      contestName,
-      TaskScreenName,
-      AssignmentName,
-      language
-    );
+    if (this.taskAll[TaskScreenName] !== undefined) {
+      this.changeTask(TaskScreenName);
+    } else {
+      //taskcontを作成
+      if (language === undefined) {
+        const uselang = await store.get("defaultLanguage", "cpp");
+        // const uselang = "cpp";
+        this.taskAll[TaskScreenName] = new taskcont(
+          contestName,
+          TaskScreenName,
+          AssignmentName,
+          uselang
+        );
+      } else {
+        this.taskAll[TaskScreenName] = new taskcont(
+          contestName,
+          TaskScreenName,
+          AssignmentName,
+          language
+        );
+      }
+      this.changeTask(TaskScreenName);
+    }
   }
   async changeTask(TaskScreenName: string) {
-    // TaskViewを更新
+    // ViewのTopの変更
     this.taskAll[TaskScreenName].settopTaskView();
     // editorEvent
     // editorの更新をチェック
     // editorのモデルをチェンジ
+    editorViewapi.editorView?.webContents.send("setModel", TaskScreenName);
+  }
+  /**
+   * editor側からイベントを受け取る
+   */
+  setupIPCMain() {
+    // taskcontを作成する
+    ipcMain.on("createTaskCont", (event, arg: createTaskContType) => {
+      this.createNewTask(
+        arg.contestName,
+        arg.TaskScreenName,
+        arg.AssignmentName,
+        arg.language
+      );
+    });
+    ipcMain.on("save", (event, id: string) => {
+      this.taskAll[id].save();
+    });
+
+    // dafaultlangageに関するIPC
+    // デフォルトの言語を変更
+    ipcMain.on("setdefaultLanguage", (event, language: languagetype) => {
+      // storeに保存
+      console.log(language);
+
+      store.set("defaultLanguage", language);
+      // ついでに今開いてるファイルの言語を変更
+      if (this.nowTop !== null) {
+        console.log(this.nowTop);
+
+        this.taskAll[this.nowTop].languageChange(language);
+      }
+    });
+    ipcMain.handle("getdefaultLanguage", async (event) => {
+      // console.log(Atcoder_class.axiosInstance);
+      const dafaultlanguage = await store.get("defaultLanguage", "cpp");
+      return dafaultlanguage;
+    });
   }
 }
-/**
- * editorに関するIPCを設定
- */
-export function editorControlIPC() {}
+
 export const taskControlApi = new taskControl();

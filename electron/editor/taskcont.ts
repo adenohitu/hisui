@@ -1,9 +1,23 @@
 // ソースファイルと問題URLを管理する
 // Editor、TaskViewの状態を管理する
+import { ipcMain } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { editorViewapi } from "../browserview/editorview";
 import { languageselect, languagetype } from "../file/extension";
 import { readFileAwait, runMakeFile, writeFileAwait } from "../file/mkfile";
-
+export interface createEditorModelType {
+  id: string;
+  value: string;
+  language: languagetype;
+}
+export interface syncEditorType {
+  id: string;
+  value: string;
+}
+export interface changeLanguageType {
+  id: string;
+  language: string;
+}
 /**
  * １つのTaskを管理するClass
  */
@@ -64,15 +78,21 @@ export class taskcont {
     AssignmentName: string,
     language: languagetype
   ) {
-    await this.fileload(contestName, AssignmentName, language);
     await this.openTaskView(contestName, TaskScreenName);
+
+    const Data = await this.fileload(contestName, AssignmentName, language);
+    this.setupEditor(TaskScreenName, Data, language);
   }
   /**
    * このクラスを破棄する直前に実行する
    * ファイルの保存状況を確認
    * TaskViewを閉じる
    */
-  async close() {}
+  async close() {
+    taskViewWindowApi.removeView(this.TaskScreenName);
+    this.save();
+    this.closeModelEditor();
+  }
 
   // ファイル
   /**
@@ -90,6 +110,7 @@ export class taskcont {
     const Data = await readFileAwait(filePath);
     this.filePath = filePath;
     this.Data = Data;
+    return Data;
   }
   /**
    * ファイルの更新をチェック
@@ -100,6 +121,7 @@ export class taskcont {
     if (this.filePath !== null) {
       const Data = await readFileAwait(this.filePath);
       this.Data = Data;
+      await this.syncEditor();
     }
   }
 
@@ -107,6 +129,7 @@ export class taskcont {
    * データをファイルに保存
    */
   async save() {
+    this.Data = await this.getValueEditor();
     if (this.Data !== null && this.filePath !== null) {
       const status = await writeFileAwait(this.filePath, this.Data);
       return status;
@@ -126,6 +149,7 @@ export class taskcont {
       this.contestName
     );
     this.filePath = filePath;
+    this.changeLanguageEditor(language);
     // 再読み込み
     await this.filereload();
   }
@@ -135,7 +159,9 @@ export class taskcont {
    * TaskViewを開く(初期設定)
    */
   async openTaskView(contestName: string, TaskScreenName: string) {
-    const taskUrl = `${contestName}/task/${TaskScreenName}`;
+    const taskUrl = `${contestName}/tasks/${TaskScreenName}`;
+    console.log(taskUrl);
+
     await taskViewWindowApi.addView(TaskScreenName, taskUrl);
   }
   /**
@@ -160,11 +186,71 @@ export class taskcont {
   // editor
   /**
    * editorと状態をファイルの状態を同期
+   * ファイルに保存されているデータを優先する
+   * changeValue
    */
-  async asyncEditor() {}
+  async syncEditor() {
+    if (this.Data) {
+      this.sendValueEditor(this.Data);
+    } else {
+      // nullの時空文字を送る
+      this.sendValueEditor("");
+    }
+  }
+  private async sendValueEditor(data: string) {
+    const syncEditor: syncEditorType = {
+      id: this.TaskScreenName,
+      value: data,
+    };
+    editorViewapi.editorView?.webContents.send("changeValue", syncEditor);
+  }
   /**
    * editorの初期設定
    * ロード、言語設定
    */
-  async setupEditor() {}
+  async setupEditor(id: string, value: string, language: languagetype) {
+    const createEditorModel: createEditorModelType = { id, value, language };
+    editorViewapi.editorView?.webContents.send(
+      "createModel",
+      createEditorModel
+    );
+  }
+  /**
+   * 言語変更をEditorに送信
+   */
+  changeLanguageEditor(language: languagetype) {
+    const changeLanguage: changeLanguageType = {
+      id: this.TaskScreenName,
+      language,
+    };
+    editorViewapi.editorView?.webContents.send(
+      "changeLanguage",
+      changeLanguage
+    );
+  }
+  /**
+   * モデルの削除
+   */
+  closeModelEditor() {
+    editorViewapi.editorView?.webContents.send(
+      "closeModel",
+      this.TaskScreenName
+    );
+  }
+  /**
+   * editorからValueを取得する
+   */
+  getValueEditor(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      // Editorから結果を取得する準備
+      ipcMain.once("getValue_replay", (event, value: string) => {
+        resolve(value);
+      });
+      // editorにValueを送信するよう命令
+      editorViewapi.editorView?.webContents.send(
+        "getValue",
+        this.TaskScreenName
+      );
+    });
+  }
 }

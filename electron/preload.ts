@@ -1,4 +1,7 @@
 import { type } from "os"; // eslint-disable-line
+import { createTaskContType } from "./editor/control";
+import { syncEditorType, createEditorModelType } from "./editor/taskcont";
+import { languagetype } from "./file/extension";
 
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
@@ -216,5 +219,67 @@ contextBridge.exposeInMainWorld("api", {
   //selectDafaultcontestを開く
   openselectDafaultcontest: () => {
     ipcRenderer.send("openselectDafaultcontest");
+  },
+});
+/**
+ * editorに関するIPC
+ */
+contextBridge.exposeInMainWorld("editor", {
+  // editorに向けてイベントを送信
+
+  createModel: (func: any) => {
+    ipcRenderer.on("createModel", (event, arg: createEditorModelType) => {
+      func(arg);
+    });
+  },
+  setModel: (func: any) => {
+    ipcRenderer.on("setModel", (event, id: string) => {
+      func(id);
+    });
+  },
+  changeValue: (func: any) => {
+    ipcRenderer.on("changeValue", (event, arg: syncEditorType) => {
+      func(arg);
+    });
+  },
+  changeLanguage: (func: any) => {
+    ipcRenderer.on("changeLanguage", (event, arg: languagetype) => {
+      func(arg);
+    });
+  },
+  closeModel: (func: any) => {
+    ipcRenderer.on("closeModel", (event, id: string) => {
+      func(id);
+    });
+  },
+
+  // Mainからイベントを送ってデータを取得
+
+  getValue: async (func: any) => {
+    ipcRenderer.on("getValue", (event, arg: languagetype) => {
+      func(arg);
+    });
+  },
+  getValue_replay: (value: string) => {
+    ipcRenderer.send("getValue_replay", value);
+  },
+
+  // mainに送信
+  createTaskCont: (arg: createTaskContType) => {
+    ipcRenderer.send("createTaskCont", arg);
+  },
+  save: (id: string) => {
+    ipcRenderer.send("save", id);
+  },
+
+  // renderから送信してデータを取得 handle invoke
+  getdefaultLanguage: async () => {
+    const dafaultlanguage: string = await ipcRenderer.invoke(
+      "getdefaultLanguage"
+    );
+    return dafaultlanguage;
+  },
+  setdefaultLanguage: (language: languagetype) => {
+    ipcRenderer.send("setdefaultLanguage", language);
   },
 });

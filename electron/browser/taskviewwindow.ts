@@ -27,6 +27,7 @@ export class taskViewWindow {
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
+        preload: __dirname + "/../preload.js",
       },
     });
     // this.win.webContents.openDevTools({ mode: "detach" });
@@ -89,6 +90,8 @@ export class taskViewWindow {
       });
       // ページをロード
       createdView.webContents.loadURL(`${this.baseurl}${url}`);
+      console.log(`${this.baseurl}${url}`);
+
       // 最上部にセット
       this.win.setTopBrowserView(createdView);
       this.nowTop = id;

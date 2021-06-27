@@ -10,6 +10,7 @@ import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 // import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
+import { taskControlApi } from "../editor/control";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { win } from "../main";
 import urlOpen from "../tool/openExternal";
@@ -46,9 +47,23 @@ const template: any = [
         },
       },
       {
-        label: "tttttt",
+        label: "createTask",
         click(item: any, focusedWindow: any, event: any) {
-          win?.focus();
+          taskControlApi.createNewTask("abc198", "abc198_a", "A", "python");
+        },
+      },
+      {
+        label: "saveTask",
+        click(item: any, focusedWindow: any, event: any) {
+          taskControlApi.taskAll["abc198_a"].save().then((log) => {
+            console.log(log);
+          });
+        },
+      },
+      {
+        label: "settask",
+        click(item: any, focusedWindow: any, event: any) {
+          taskControlApi.changeTask("abc198_a");
         },
       },
       isMac ? { role: "close" } : { role: "quit" },

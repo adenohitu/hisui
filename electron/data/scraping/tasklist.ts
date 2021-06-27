@@ -1,5 +1,6 @@
 const { JSDOM } = require("jsdom");
 export interface taskList {
+  taskScreenName: string;
   AssignmentName: string;
   taskName: string;
   taskUrl: string;
@@ -16,12 +17,14 @@ export async function scrapingTaskList(body: any) {
   const taskall: NodeList = tasklistBefore.querySelectorAll("tr");
   const tasklistAfter = Array.from(taskall).map((element: any) => {
     const taskUrl = element.querySelector("a").getAttribute("href");
+    const taskScreenName = getTaskScreenName(taskUrl);
     const taskName = element.querySelectorAll("a")[1].textContent.trim();
     const tmp_td = element.querySelectorAll("td");
     const taskLimit = tmp_td[2].textContent.trim();
     const taskMemory = tmp_td[3].textContent.trim();
     const AssignmentName = element.querySelector("a").textContent.trim();
     const returnData: taskList = {
+      taskScreenName,
       AssignmentName,
       taskName,
       taskUrl,
@@ -32,6 +35,11 @@ export async function scrapingTaskList(body: any) {
   });
 
   return tasklistAfter;
+}
+
+function getTaskScreenName(taskUrl: string) {
+  const slashIndex = taskUrl.lastIndexOf("/") + 1;
+  return taskUrl.slice(slashIndex);
 }
 // SampleData
 /*
