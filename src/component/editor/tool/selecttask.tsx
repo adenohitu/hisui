@@ -13,7 +13,7 @@ import { selecttaskData, sendGetTasklist } from "../../../app/Slice/taskdata";
 import { loadtask } from "../../../app/Slice/editor";
 
 interface StyledTabsProps {
-  value: number;
+  value: number | false;
   onChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
 }
 
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export function TaskSelect() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState<number | false>(false);
   const dispatch = useDispatch();
   const taskData = useSelector(selecttaskData);
   useEffect(() => {
