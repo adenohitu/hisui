@@ -30,7 +30,7 @@ const StyledTabs = withStyles({
       backgroundColor: "#259B35",
     },
   },
-})((props: StyledTabsProps) => (
+})((props: any) => (
   <Tabs
     {...props}
     style={{ height: "100%" }}
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export function TaskSelect() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState<number | false>(false);
   const dispatch = useDispatch();
   const taskData = useSelector(selecttaskData);
   useEffect(() => {
