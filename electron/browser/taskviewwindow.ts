@@ -27,7 +27,6 @@ export class taskViewWindow {
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
-        preload: __dirname + "/../preload.js",
       },
     });
     // this.win.webContents.openDevTools({ mode: "detach" });
