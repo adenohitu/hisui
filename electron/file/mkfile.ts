@@ -60,7 +60,7 @@ export const runMakeDefaultFolderDialog = async (win: any) => {
  */
 export const runMakeDefaultFolder = (
   mainpath: string,
-  filename: string = "hisui"
+  filename: string = "hisui-alpha"
 ) => {
   const savepath = `${mainpath}/${filename}`;
   mkdir(savepath, (err: any) => {
