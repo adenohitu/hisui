@@ -1,5 +1,8 @@
 //Copyright © 2021 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
+import { getDefaultContestID } from "../clock/timer";
+import { hisuiEvent } from "../event/event";
+import { store } from "../save/save";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
 // const isDev = !app.isPackaged;
@@ -15,13 +18,19 @@ export class taskViewWindow {
   // urlはAtcoder.jp/contests/の後のパスを入れる
   view: { [id: string]: { initUrl: string; view: BrowserView } };
   nowTop: string | null;
+  contestpageId: string | null;
   constructor() {
     this.view = {};
     this.win = null;
     this.nowTop = null;
+    this.contestpageId = null;
   }
   open() {
     this.win = new BrowserWindow({
+      width: store.get("window.taskView.width", 800),
+      height: store.get("window.taskView.height", 600),
+      x: store.get("window.taskView.x"),
+      y: store.get("window.taskView.y"),
       titleBarStyle: "hidden",
       // opacity: 0.5,
       webPreferences: {
@@ -38,13 +47,20 @@ export class taskViewWindow {
       this.win.loadURL(`file://${__dirname}/../index.html#/taskview`);
     }
 
-    this.addView("abc199_a", "abc205/tasks/abc205_a");
     // this.win.setAlwaysOnTop(true);
-
+    // taskViewにデフォルトのコンテストーページをセット
+    this.setupContestPage();
     // 透過に関する設定
     // this.win.setOpacity(0.5);
     // this.win.setIgnoreMouseEvents(true);
-
+    this.win.on("close", () => {
+      //windowのサイズを保存
+      //最大化されていても通常状態のサイズ 位置を保存
+      store.set("window.taskView.height", this.win?.getNormalBounds().height);
+      store.set("window.taskView.width", this.win?.getNormalBounds().width);
+      store.set("window.taskView.x", this.win?.getNormalBounds().x);
+      store.set("window.taskView.y", this.win?.getNormalBounds().y);
+    });
     // Close後の処理
     this.win.on("closed", () => {
       this.win = null;
@@ -163,5 +179,26 @@ export class taskViewWindow {
       return "viewNull";
     }
   }
+  /**
+   * コンテストページのViewを開く
+   * 起動時にデフォルトのコンテストのページを開く
+   */
+  async setupContestPage() {
+    const DefaultContestID = getDefaultContestID();
+    this.contestpageId = DefaultContestID;
+    this.addView(DefaultContestID, DefaultContestID);
+    /**
+     * DefaultContestID-changeが変更されたらViewも更新
+     */
+    hisuiEvent.on("DefaultContestID-change", (arg) => {
+      if (this.contestpageId) {
+        this.removeView(this.contestpageId);
+        this.addView(arg, arg);
+        this.contestpageId = arg;
+      }
+    });
+  }
+
+  setuptaskViewIPC() {}
 }
 export const taskViewWindowApi = new taskViewWindow();
