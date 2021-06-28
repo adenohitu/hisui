@@ -42,15 +42,16 @@ export const writeFileAwait = (
 };
 /**
  * デフォルトのフォルダーを決めるダイアログを開く
+ * ダイアログを飛ばしている #60
  */
 export const runMakeDefaultFolderDialog = async (win: any) => {
-  const filename: any = await dialog.showOpenDialog(win, {
-    properties: ["openDirectory"],
-    title: "コードを保存するフォルダーを選択してください",
-    defaultPath: app.getPath("documents"),
-  });
-
-  runMakeDefaultFolder(filename.filePaths[0]);
+  // const filename: any = await dialog.showOpenDialog(win, {
+  //   properties: ["openDirectory"],
+  //   title: "コードを保存するフォルダーを選択してください",
+  //   defaultPath: app.getPath("documents"),
+  // });
+  const defaultPath = app.getPath("documents");
+  runMakeDefaultFolder(defaultPath);
 };
 
 /**
