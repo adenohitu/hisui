@@ -189,6 +189,6 @@ export const main_ipc = () => {
   });
   //selectDafaultcontestを開く
   ipcMain.on("openselectDafaultcontest", (event) => {
-    settingDialogOpen();
+    mainPageapi.openDafaultContestDialog();
   });
 };
