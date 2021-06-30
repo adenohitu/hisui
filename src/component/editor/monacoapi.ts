@@ -80,6 +80,9 @@ export class monacocontrol {
       const createmodel = this.monaco.editor.createModel(data, language);
       // モデルを保存
       this.editorModel[id] = { model: createmodel, state: null };
+      // モデルをEditorにセット
+      // モデル作成終了のタイミングがMain側でわからないためCreateの時はRender側でセットする
+      this.editorInstance?.setModel(createmodel);
     }
   }
 

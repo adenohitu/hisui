@@ -76,7 +76,11 @@ class taskControl {
           language
         );
       }
-      this.changeTask(TaskScreenName);
+      /**
+       * 初回ロードはTopに自動的になる
+       * モデルが作られる前にchangeTaskを実行することができない
+       */
+      this.nowTop = TaskScreenName;
     }
   }
   async changeTask(TaskScreenName: string) {
@@ -97,6 +101,7 @@ class taskControl {
         arg.contestName,
         arg.TaskScreenName,
         arg.AssignmentName,
+        // 基本undefined
         arg.language
       );
     });
