@@ -125,12 +125,15 @@ function createWindow() {
     createsampleViewapi.setupView(win);
     // taskViewWindowをセットアップ
     taskViewWindowApi.open();
+    // timerの初期化
+    timerApi.setup();
   }
   //初期Viewを指定
   initView().then(() => {
     changeViewapi.change("main");
     // createsampleViewapi.openDevTool();
     // timerをセットアップ
+
     timerApi.startTimer();
   });
   if (!app.isPackaged) {
@@ -167,3 +170,4 @@ main_ipc();
 setmenu();
 //オートアップデートのセットアップ
 updateSetup();
+// タイマーの初期化

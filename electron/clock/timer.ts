@@ -13,21 +13,19 @@ export interface timeData {
 let clockFunction: any = null;
 
 export class timer {
-  nowContestID: string | undefined;
+  nowContestID: string | null;
   starttime: Dayjs | undefined;
   endtime: Dayjs | undefined;
   timerData: timeData;
   constructor() {
-    this.nowContestID = undefined;
+    this.nowContestID = null;
     this.starttime = undefined;
     this.endtime = undefined;
     this.timerData = { status: "", time: -1 };
-
-    this.setup();
   }
   // コンテストの時間情報を更新する
   async setup() {
-    this.nowContestID = await contestDataApi.DefaultContestID;
+    this.nowContestID = contestDataApi.DefaultContestID;
     const getdate = await contestDataApi.getContestDate();
     this.starttime = dayjs(getdate.start_time);
     this.endtime = dayjs(getdate.end_time);
