@@ -1,7 +1,7 @@
 // taskcontを管理するApi
 import { ipcMain } from "electron";
 import { editorViewapi } from "../browserview/editorview";
-import { getDefaultContestID } from "../data/contestdata";
+import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
 import { store } from "../save/save";
@@ -58,7 +58,7 @@ class taskControl {
    *  更新された時のイベントを開始
    */
   async runDefaultContestID() {
-    this.DefaultContestID = await getDefaultContestID();
+    this.DefaultContestID = contestDataApi.DefaultContestID;
   }
   /**
    * 新しいTaskインスタンスを開く
