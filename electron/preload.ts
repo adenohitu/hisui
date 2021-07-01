@@ -282,4 +282,7 @@ contextBridge.exposeInMainWorld("editor", {
   setdefaultLanguage: (language: languagetype) => {
     ipcRenderer.send("setdefaultLanguage", language);
   },
+  submitNowTop: () => {
+    ipcRenderer.send("submitNowTop");
+  },
 });

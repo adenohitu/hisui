@@ -1,10 +1,16 @@
 // ソースファイルと問題URLを管理する
 // Editor、TaskViewの状態を管理する
-import { ipcMain } from "electron";
+import { dialog, ipcMain } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
-import { languageselect, languagetype } from "../file/extension";
+import { runSubmit } from "../data/submit";
+import {
+  languageselect,
+  languagetype,
+  submitLanguageId,
+} from "../file/extension";
 import { readFileAwait, runMakeFile, writeFileAwait } from "../file/mkfile";
+import { win } from "../main";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -252,5 +258,32 @@ export class taskcont {
         this.TaskScreenName
       );
     });
+  }
+
+  // 提出
+  /**
+   * 設定されている問題に向けて提出を実行する
+   */
+  async submit() {
+    this.save();
+    if (win !== null) {
+      const selectStatus = await dialog.showMessageBox(win, {
+        type: "info",
+        title: "提出確認",
+        message: "提出してもいいですか？",
+        buttons: ["提出", "キャンセル"],
+      });
+      if (selectStatus.response === 0) {
+        const saveStatus = await this.save();
+        if (saveStatus === "succsess" && this.Data !== null) {
+          runSubmit(
+            this.contestName,
+            this.TaskScreenName,
+            this.Data,
+            submitLanguageId[this.language]
+          );
+        }
+      }
+    }
   }
 }

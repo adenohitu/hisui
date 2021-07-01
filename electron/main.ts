@@ -27,6 +27,7 @@ import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
+import { taskControlApi } from "./editor/control";
 
 export let win: null | BrowserWindow = null;
 
@@ -74,6 +75,7 @@ function createWindow() {
     editorViewapi.closeView();
     // taskViewを閉じる
     taskViewWindowApi.close();
+    taskControlApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
   });

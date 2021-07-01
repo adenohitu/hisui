@@ -60,9 +60,12 @@ export class taskViewWindow {
       store.set("window.taskView.width", this.win?.getNormalBounds().width);
       store.set("window.taskView.x", this.win?.getNormalBounds().x);
       store.set("window.taskView.y", this.win?.getNormalBounds().y);
+      // 全て閉じる
+      this.allViewRemove();
     });
     // Close後の処理
     this.win.on("closed", () => {
+      this.nowTop = null;
       this.win = null;
       // viewは閉じた時に全て消去される
       this.view = {};

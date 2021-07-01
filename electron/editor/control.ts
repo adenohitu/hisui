@@ -38,6 +38,22 @@ class taskControl {
     });
   }
   /**
+   * taskControlを初期化
+   */
+  close() {
+    this.removeAllTaskCont();
+  }
+  /**
+   * TaskContを全て削除する
+   */
+  async removeAllTaskCont() {
+    Object.keys(this.taskAll).forEach((key) => {
+      this.taskAll[key].close();
+    });
+    this.nowTop = null;
+    this.taskAll = {};
+  }
+  /**
    * runDefaultContestIDを取得
    *  更新された時のイベントを開始
    */
@@ -127,6 +143,12 @@ class taskControl {
       // console.log(Atcoder_class.axiosInstance);
       const dafaultlanguage = await store.get("defaultLanguage", "cpp");
       return dafaultlanguage;
+    });
+    // 提出する
+    ipcMain.on("submitNowTop", (event) => {
+      if (this.nowTop !== null) {
+        this.taskAll[this.nowTop].submit();
+      }
     });
   }
 }

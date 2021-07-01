@@ -105,7 +105,7 @@ declare global {
       });
       /**
        * ファイルに状態を保存
-       *        */
+       */
       save(id: string);
 
       /**
@@ -117,6 +117,10 @@ declare global {
        * dafaultlanguageを更新
        */
       setdefaultLanguage(language: string);
+      /**
+       * 一番上になっているTaskContのコードを提出する
+       */
+      submitNowTop();
     };
   }
 }
