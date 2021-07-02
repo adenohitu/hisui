@@ -122,5 +122,15 @@ declare global {
        */
       submitNowTop();
     };
+    submissions: {
+      /**
+       * 提出情報データの更新
+       */
+      updateSubmissions();
+      /**
+       * 提出の更新があった時に受け取るIPC
+       */
+      submissionsReturn(func: (arg: any) => void);
+    };
   }
 }

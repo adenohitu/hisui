@@ -28,6 +28,7 @@ import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
+import { submissionsApi } from "./data/submissions";
 
 export let win: null | BrowserWindow = null;
 
@@ -170,4 +171,5 @@ main_ipc();
 setmenu();
 //オートアップデートのセットアップ
 updateSetup();
-// タイマーの初期化
+// submissionのセットアップ
+submissionsApi.setup();

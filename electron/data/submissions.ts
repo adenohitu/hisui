@@ -1,3 +1,7 @@
+import { ipcMain } from "electron";
+import { dashboardapi } from "../browserview/dashboardview";
+import { editorViewapi } from "../browserview/editorview";
+import { hisuiEvent } from "../event/event";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import scraping_submissions_list, {
@@ -8,25 +12,48 @@ class submissions {
    * デフォルトコンテストを保持
    */
   nowDefaultContest: string | null;
-  selectContestSubmissions: submissionData[] | null;
+  selectContestSubmissions: submissionData[];
   timer: NodeJS.Timer | null;
   constructor() {
     this.nowDefaultContest = null;
-    this.selectContestSubmissions = null;
+    this.selectContestSubmissions = [];
     this.timer = null;
+    this.eventSetup();
+    this.ipcSetup();
   }
   /**
    *  submissionを自動更新
    */
   async startTimer() {
-    this.timer = setInterval(this.getSubmissions);
+    this.timer = setInterval(this.updateSubmissions, 60000);
+  }
+  async setup() {
+    this.nowDefaultContest = contestDataApi.DefaultContestID;
+  }
+  /**
+   * eventの設定
+   */
+  async eventSetup() {
+    hisuiEvent.on("DefaultContestID-change", (arg) => {
+      this.nowDefaultContest = arg;
+    });
   }
   /**
    * submissionsページに問い合わせて提出一覧を更新する
    */
-  async getSubmissions() {
+  async updateSubmissions() {
     if (this.nowDefaultContest !== null) {
-      this.getSubmissionMe(this.nowDefaultContest);
+      this.selectContestSubmissions = await this.getSubmissionMe(
+        this.nowDefaultContest
+      );
+      dashboardapi.dashboardView?.webContents.send(
+        "submissionsReturn",
+        this.selectContestSubmissions
+      );
+      editorViewapi.editorView?.webContents.send(
+        "submissionsReturn",
+        this.selectContestSubmissions
+      );
     }
   }
 
@@ -63,9 +90,7 @@ class submissions {
   /**
    * 自分の提出を取得
    */
-  async getSubmissionMe(
-    contestID: string = contestDataApi.DefaultContestID
-  ): Promise<any> {
+  async getSubmissionMe(contestID: string = contestDataApi.DefaultContestID) {
     console.log("run get_submissions_me");
     const standings_url = `https://atcoder.jp/contests/${contestID}/submissions/me`;
     const responce = await Atcoder.axiosInstance.get(standings_url, {
@@ -88,6 +113,12 @@ class submissions {
       console.log("must login");
       return [];
     }
+  }
+  ipcSetup() {
+    // submissionsを更新する
+    ipcMain.on("updateSubmissions", () => {
+      this.updateSubmissions();
+    });
   }
 }
 export const submissionsApi = new submissions();
