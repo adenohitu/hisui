@@ -148,7 +148,7 @@ export class monacocontrol {
     window.editor.getValue((id) => {
       const Value = this.getValue(id);
       // Valueを返す
-      window.editor.getValue_replay(Value);
+      window.editor.getValue_replay(id, Value);
     });
   }
 

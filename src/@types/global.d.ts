@@ -90,7 +90,7 @@ declare global {
       /**
        * 返信イベント
        */
-      getValue_replay(value: string);
+      getValue_replay(TaskScreenName: string, value: string);
 
       // mainに送信
       /**

@@ -260,8 +260,10 @@ contextBridge.exposeInMainWorld("editor", {
       func(arg);
     });
   },
-  getValue_replay: (value: string) => {
-    ipcRenderer.send("getValue_replay", value);
+  getValue_replay: (TaskScreenName: string, value: string) => {
+    const channel = `getValue_replay-${TaskScreenName}`;
+
+    ipcRenderer.send(channel, value);
   },
 
   // mainに送信

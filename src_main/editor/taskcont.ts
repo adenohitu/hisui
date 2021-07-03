@@ -248,8 +248,9 @@ export class taskcont {
    */
   getValueEditor(): Promise<string> {
     return new Promise((resolve, reject) => {
+      const channel = `getValue_replay-${this.TaskScreenName}`;
       // Editorから結果を取得する準備
-      ipcMain.once("getValue_replay", (event, value: string) => {
+      ipcMain.once(channel, (event, value: string) => {
         resolve(value);
       });
       // editorにValueを送信するよう命令
