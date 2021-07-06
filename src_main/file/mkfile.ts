@@ -1,7 +1,7 @@
 //フォルダ操作に関する関数
 //Copyright © 2021 adenohitu. All rights reserved.
 //ファイル操作に関するモジュール
-import { app, dialog } from "electron";
+import { app } from "electron";
 import { store } from "../save/save";
 import {
   mkdir,

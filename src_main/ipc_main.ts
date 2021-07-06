@@ -2,14 +2,7 @@ import { ipcMain } from "electron";
 import { Atcoder } from "./data/atcoder";
 import urlOpen from "./tool/openExternal";
 import { getWindowState, setWindowState } from "./browser/renderState";
-import {
-  setDefaultContestID,
-  getDefaultContestID,
-  getContestInfo,
-  getContestDate,
-  getContestScore,
-  getSubmissionMe,
-} from "./data/contestdata";
+import { contestDataApi } from "./data/contestdata";
 import { getStandings, getRank, getTotal } from "./data/standing";
 import { getTasklist } from "./data/task";
 import { getUserData } from "./data/userdata";
@@ -17,7 +10,7 @@ import { getFiledata, runWritefile } from "./file/mkfile";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "./tool/clipboard";
 import { mainPageapi } from "./browserview/mainpageview";
-import { settingDialogOpen } from "./browserview/mgt/dialog";
+import { submissionsApi } from "./data/submissions";
 //ipc通信
 export const main_ipc = () => {
   //ipcテスト用
@@ -34,18 +27,18 @@ export const main_ipc = () => {
     urlOpen(arg);
   });
   //デフォルトのコンテストIDを設定する
-  ipcMain.handle("set_SetContestID", async (event, taskScreenName) => {
-    const get: any = await setDefaultContestID(taskScreenName);
+  ipcMain.handle("set_SetContestID", async (event, ContestID) => {
+    const get: any = await contestDataApi.setDefaultContestID(ContestID);
     return get;
   });
   //デフォルトで設定されたコンテストIDを返す
   ipcMain.handle("get_SetContestID", async (event, message) => {
-    const get: any = await getDefaultContestID();
+    const get = contestDataApi.DefaultContestID;
     return get;
   });
   //開催中・開催予定のコンテストをhashで出力
   ipcMain.handle("get_contest_list_main", async (event, message) => {
-    const get: any = await getContestInfo();
+    const get: any = await contestDataApi.getContestInfo();
     return get;
   });
   //ログイン状態を確認
@@ -76,9 +69,9 @@ export const main_ipc = () => {
     return get;
   });
   //開始時間と終了時間を取得
-  ipcMain.handle("get_date", async (event, taskScreenName) => {
+  ipcMain.handle("get_date", async (event, contestID) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getContestDate(taskScreenName);
+    const get = await contestDataApi.getContestDate(contestID);
     return get;
   });
   //順位情報リストを取得
@@ -115,32 +108,31 @@ export const main_ipc = () => {
   });
 
   //得点情報を取得
-  ipcMain.handle("get_Score", async (event, taskScreenName) => {
+  ipcMain.handle("get_Score", async (event, contestID) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getContestScore(taskScreenName);
+    const get = await submissionsApi.getContestScore(contestID);
     return get;
   });
   //自分の提出を取得
-  ipcMain.handle("get_submissions_me", async (event, taskScreenName) => {
+  ipcMain.handle("get_submissions_me", async (event, contestID) => {
     // console.log(Atcoder_class.axiosInstance);
-    const get = await getSubmissionMe(taskScreenName);
+    const get = await submissionsApi.getSubmissionMe(contestID);
     return get;
   });
   //自分の提出を取得ipc,on,send
-  ipcMain.on("getSubmissionsMeSend", async (event, taskScreenName) => {
-    const get = await getSubmissionMe(taskScreenName);
+  ipcMain.on("getSubmissionsMeSend", async (event, contestID) => {
+    const get = await submissionsApi.getSubmissionMe(contestID);
     event.sender.send("getSubmissionsMe_replay", get);
   });
 
   //windowの状態を取得
-  ipcMain.handle("getWindowState", async (event, taskScreenName) => {
+  ipcMain.handle("getWindowState", async (event, contestID) => {
     const get = await getWindowState();
     return get;
   });
   //windowの状態を設定
   ipcMain.on("setWindowState", (event, value) => {
     setWindowState(value);
-    // console.log(value);
   });
   //問題情報を取得
   ipcMain.on("getTasklist", async (event, taskScreenName) => {
@@ -189,6 +181,6 @@ export const main_ipc = () => {
   });
   //selectDafaultcontestを開く
   ipcMain.on("openselectDafaultcontest", (event) => {
-    settingDialogOpen();
+    mainPageapi.openDafaultContestDialog();
   });
 };

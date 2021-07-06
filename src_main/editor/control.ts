@@ -1,7 +1,7 @@
 // taskcontを管理するApi
 import { ipcMain } from "electron";
 import { editorViewapi } from "../browserview/editorview";
-import { getDefaultContestID } from "../data/contestdata";
+import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
 import { store } from "../save/save";
@@ -38,11 +38,27 @@ class taskControl {
     });
   }
   /**
+   * taskControlを初期化
+   */
+  close() {
+    this.removeAllTaskCont();
+  }
+  /**
+   * TaskContを全て削除する
+   */
+  async removeAllTaskCont() {
+    Object.keys(this.taskAll).forEach((key) => {
+      this.taskAll[key].close();
+    });
+    this.nowTop = null;
+    this.taskAll = {};
+  }
+  /**
    * runDefaultContestIDを取得
    *  更新された時のイベントを開始
    */
   async runDefaultContestID() {
-    this.DefaultContestID = await getDefaultContestID();
+    this.DefaultContestID = contestDataApi.DefaultContestID;
   }
   /**
    * 新しいTaskインスタンスを開く
@@ -76,7 +92,11 @@ class taskControl {
           language
         );
       }
-      this.changeTask(TaskScreenName);
+      /**
+       * 初回ロードはTopに自動的になる
+       * モデルが作られる前にchangeTaskを実行することができない
+       */
+      this.nowTop = TaskScreenName;
     }
   }
   async changeTask(TaskScreenName: string) {
@@ -97,6 +117,7 @@ class taskControl {
         arg.contestName,
         arg.TaskScreenName,
         arg.AssignmentName,
+        // 基本undefined
         arg.language
       );
     });
@@ -122,6 +143,12 @@ class taskControl {
       // console.log(Atcoder_class.axiosInstance);
       const dafaultlanguage = await store.get("defaultLanguage", "cpp");
       return dafaultlanguage;
+    });
+    // 提出する
+    ipcMain.on("submitNowTop", (event) => {
+      if (this.nowTop !== null) {
+        this.taskAll[this.nowTop].submit();
+      }
     });
   }
 }

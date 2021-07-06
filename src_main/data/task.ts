@@ -1,15 +1,15 @@
 //問題情報に関するモジュール
 //Copyright © 2021 adenohitu. All rights reserved.
 import { Atcoder } from "./atcoder";
-import { getDefaultContestID } from "./contestdata";
+import { contestDataApi } from "./contestdata";
 import { scrapingTaskList } from "./scraping/tasklist";
 /**
  * 問題の一覧を取得
  */
 export async function getTasklist(
-  taskScreenName: string = getDefaultContestID()
+  ContestID: string = contestDataApi.DefaultContestID
 ) {
-  const standings_url = `https://atcoder.jp/contests/${taskScreenName}/tasks/`;
+  const standings_url = `https://atcoder.jp/contests/${ContestID}/tasks/`;
   const data = await Atcoder.axiosInstance.get(standings_url, {
     maxRedirects: 0,
     validateStatus: function (status) {

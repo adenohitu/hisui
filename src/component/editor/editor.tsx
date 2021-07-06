@@ -15,7 +15,7 @@ export let monacoControlApi: null | monacocontrol = null;
 export function MainEditor() {
   useEffect(() => {
     monacoControlApi = new monacocontrol();
-  });
+  }, []);
 
   // const editorvalue = useSelector(selecteditorvalue);
   const editorRef: any = useRef(null);

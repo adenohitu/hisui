@@ -10,6 +10,7 @@ import { mainPageapi } from "../browserview/mainpageview";
 import { settingDialogOpen } from "../browserview/mgt/dialog";
 // import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
+import { submissionsApi } from "../data/submissions";
 import { taskControlApi } from "../editor/control";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { win } from "../main";
@@ -126,7 +127,8 @@ const template: any = [
         label: "Select Contest",
         click(item: any, focusedWindow: any, event: any) {
           // focusedWindow.webContents.send("dafaltContest");
-          settingDialogOpen();
+          // settingDialogOpen();
+          mainPageapi.openDafaultContestDialog();
         },
       },
       { type: "separator" },
@@ -186,6 +188,19 @@ const template: any = [
       { role: "zoomOut" },
       { type: "separator" },
       { role: "togglefullscreen" },
+    ],
+  },
+  {
+    label: "表示",
+    submenu: [
+      { role: "reload" },
+      { role: "forceReload" },
+      {
+        label: "提出一覧を更新",
+        click(item: any, focusedWindow: any, event: any) {
+          submissionsApi.updateSubmissions();
+        },
+      },
     ],
   },
   // { role: 'windowMenu' }

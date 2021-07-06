@@ -1,4 +1,5 @@
 import { editor } from "monaco-editor";
+import { cppAddIntellisence } from "./monaco/cppintellisense_test";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -33,6 +34,9 @@ export class monacocontrol {
    */
   setuseMonaco(monacoapi: useMonaco | null) {
     this.monaco = monacoapi;
+    if (this.monaco) {
+      cppAddIntellisence(this.monaco);
+    }
   }
   /**
    * editorInstanceを取得
@@ -80,6 +84,9 @@ export class monacocontrol {
       const createmodel = this.monaco.editor.createModel(data, language);
       // モデルを保存
       this.editorModel[id] = { model: createmodel, state: null };
+      // モデルをEditorにセット
+      // モデル作成終了のタイミングがMain側でわからないためCreateの時はRender側でセットする
+      this.editorInstance?.setModel(createmodel);
     }
   }
 
@@ -145,7 +152,7 @@ export class monacocontrol {
     window.editor.getValue((id) => {
       const Value = this.getValue(id);
       // Valueを返す
-      window.editor.getValue_replay(Value);
+      window.editor.getValue_replay(id, Value);
     });
   }
 

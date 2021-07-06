@@ -83,9 +83,19 @@ export class mainPage {
       this.mainWindow.setTopBrowserView(this.mainPageView);
     }
   }
+  /**
+   * ログインダイアログを出す
+   */
   openLoginDialog() {
     this.runWindowTop();
     this.mainPageView?.webContents.send("loginOpen");
+  }
+  /**
+   * デフォルトコンテストを設定するダイアログを出す
+   */
+  openDafaultContestDialog() {
+    this.runWindowTop();
+    this.mainPageView?.webContents.send("dafaltContest");
   }
 
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {

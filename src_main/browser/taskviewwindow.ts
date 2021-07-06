@@ -1,6 +1,6 @@
 //Copyright © 2021 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
-import { getDefaultContestID } from "../clock/timer";
+import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { store } from "../save/save";
 // atcoderのページを開くためのWindow
@@ -60,9 +60,12 @@ export class taskViewWindow {
       store.set("window.taskView.width", this.win?.getNormalBounds().width);
       store.set("window.taskView.x", this.win?.getNormalBounds().x);
       store.set("window.taskView.y", this.win?.getNormalBounds().y);
+      // 全て閉じる
+      this.allViewRemove();
     });
     // Close後の処理
     this.win.on("closed", () => {
+      this.nowTop = null;
       this.win = null;
       // viewは閉じた時に全て消去される
       this.view = {};
@@ -184,7 +187,7 @@ export class taskViewWindow {
    * 起動時にデフォルトのコンテストのページを開く
    */
   async setupContestPage() {
-    const DefaultContestID = getDefaultContestID();
+    const DefaultContestID = contestDataApi.DefaultContestID;
     this.contestpageId = DefaultContestID;
     this.addView(DefaultContestID, DefaultContestID);
     /**
