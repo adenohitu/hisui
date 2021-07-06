@@ -4,14 +4,19 @@ import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
 // import { useSelector } from "react-redux";
 // import { selecteditorvalue } from "../../app/Slice/editor";
 // import { EditorToolbar } from "./toolbar";
-import { monacoControlApi } from "./monacoapi";
 import { editor } from "monaco-editor";
+import { monacocontrol } from "./monacoapi";
 //cdnを使わずローカルファイルから読み込ませる
 loader.config({
   paths: { vs: "./vs" },
 });
+export let monacoControlApi: null | monacocontrol = null;
 
 export function MainEditor() {
+  useEffect(() => {
+    monacoControlApi = new monacocontrol();
+  }, []);
+
   // const editorvalue = useSelector(selecteditorvalue);
   const editorRef: any = useRef(null);
   // eslint-disable-next-line
@@ -23,7 +28,7 @@ export function MainEditor() {
   ) {
     editorRef.current = editor;
     //editorInstanceをapiに設定
-    monacoControlApi.setEditorInstance(editorRef.current);
+    monacoControlApi?.setEditorInstance(editorRef.current);
   }
 
   function handleEditorWillMount(monaco: Monaco) {
@@ -37,7 +42,7 @@ export function MainEditor() {
   const monaco = useMonaco();
   useEffect(() => {
     //apiにinstanceを設定
-    monacoControlApi.setuseMonaco(monaco);
+    monacoControlApi?.setuseMonaco(monaco);
   }, [monaco]);
 
   return (

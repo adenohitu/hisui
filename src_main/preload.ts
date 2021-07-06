@@ -260,8 +260,10 @@ contextBridge.exposeInMainWorld("editor", {
       func(arg);
     });
   },
-  getValue_replay: (value: string) => {
-    ipcRenderer.send("getValue_replay", value);
+  getValue_replay: (TaskScreenName: string, value: string) => {
+    const channel = `getValue_replay-${TaskScreenName}`;
+
+    ipcRenderer.send(channel, value);
   },
 
   // mainに送信
@@ -281,5 +283,21 @@ contextBridge.exposeInMainWorld("editor", {
   },
   setdefaultLanguage: (language: languagetype) => {
     ipcRenderer.send("setdefaultLanguage", language);
+  },
+  submitNowTop: () => {
+    ipcRenderer.send("submitNowTop");
+  },
+});
+/**
+ * submissionsに関するIPC
+ */
+contextBridge.exposeInMainWorld("submissions", {
+  updateSubmissions: () => {
+    ipcRenderer.send("updateSubmissions");
+  },
+  submissionsReturn: (func: any) => {
+    ipcRenderer.on("submissionsReturn", (event, arg) => {
+      func(arg);
+    });
   },
 });

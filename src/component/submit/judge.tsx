@@ -67,6 +67,32 @@ export const Judgetool = () => {
           </Button>
         </Box>
       </Grid>
+      <Grid item xs={12} md={4} lg={3}>
+        <Box pt={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              window.editor.submitNowTop();
+            }}
+          >
+            提出する
+          </Button>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={4} lg={3}>
+        <Box pt={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              window.submissions.updateSubmissions();
+            }}
+          >
+            提出一覧を更新
+          </Button>
+        </Box>
+      </Grid>
     </Container>
   );
 };

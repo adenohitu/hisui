@@ -31,19 +31,15 @@ const App: React.FC = () => {
           <Home />
         </Route>
         <Route path="/editor" exact>
-          <DefaltContest />
           <Editor />
         </Route>
         <Route path="/submit" exact>
-          <DefaltContest />
           <Submitmain />
         </Route>
         <Route path="/dashboard" exact>
-          <DefaltContest />
           <Window />
         </Route>
         <Route path="/case" exact>
-          <DefaltContest />
           <TestCaseBoard />
         </Route>
       </Switch>

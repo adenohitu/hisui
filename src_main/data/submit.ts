@@ -2,6 +2,7 @@
 import { Atcoder } from "./atcoder";
 import { scrapingSubmitlang } from "./scraping/submitlang";
 import { returnSubmit } from "../interfaces";
+import { hisuiEvent } from "../event/event";
 const baseUrlAtCoderContest = "https://atcoder.jp/contests/";
 
 /**
@@ -44,6 +45,7 @@ export async function runSubmit(
       .then((responce: any) => {
         console.log("runsubmit");
         if (responce.status === 302) {
+          hisuiEvent.emit("submit", taskScreenName);
           return "success";
         }
       })

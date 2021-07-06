@@ -1,9 +1,10 @@
 // import { Atcoder } from "../data/atcoder";
 import urlOpen from "./openExternal";
-import { getDefaultContestID, getContestScore } from "../data/contestdata";
+import { contestDataApi } from "../data/contestdata";
+import { submissionsApi } from "../data/submissions";
 async function openTaskAll() {
-  const contestId: any = await getDefaultContestID();
-  const data: any = await getContestScore(contestId);
+  const contestId = contestDataApi.DefaultContestID;
+  const data: any = await submissionsApi.getContestScore(contestId);
   console.log(data);
 
   for (let i = 0; i < data.length; i++) {

@@ -27,15 +27,17 @@ import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
+import { taskControlApi } from "./editor/control";
+import { submissionsApi } from "./data/submissions";
 
 export let win: null | BrowserWindow = null;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: store.get("window.width", 800),
-    height: store.get("window.height", 600),
-    x: store.get("window.x"),
-    y: store.get("window.y"),
+    width: store.get("window.main.width", 800),
+    height: store.get("window.main.height", 600),
+    x: store.get("window.main.x"),
+    y: store.get("window.main.y"),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -58,12 +60,12 @@ function createWindow() {
   win.on("close", () => {
     //windowのサイズを保存
     //最大化されていても通常状態のサイズ 位置を保存
-    store.set("window.height", win?.getNormalBounds().height);
-    store.set("window.width", win?.getNormalBounds().width);
-    store.set("window.x", win?.getNormalBounds().x);
-    store.set("window.y", win?.getNormalBounds().y);
+    store.set("window.main.height", win?.getNormalBounds().height);
+    store.set("window.main.width", win?.getNormalBounds().width);
+    store.set("window.main.x", win?.getNormalBounds().x);
+    store.set("window.main.y", win?.getNormalBounds().y);
     //ウィンドウの最大化状態を保存する
-    store.set("window.isMax", win?.isMaximized());
+    store.set("window.main.isMax", win?.isMaximized());
 
     //timerをリセット
     timerApi.clearTimer();
@@ -74,6 +76,7 @@ function createWindow() {
     editorViewapi.closeView();
     // taskViewを閉じる
     taskViewWindowApi.close();
+    taskControlApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
   });
@@ -98,10 +101,10 @@ function createWindow() {
   }
   win.show();
   //最大化状態の適用
-  if (store.get("window.isMax")) {
+  if (store.get("window.main.isMax")) {
     win.maximize();
   }
-  if (store.get("window.width") === undefined) {
+  if (store.get("window.main.width") === undefined) {
     win.maximize();
   }
   // DevTools
@@ -123,12 +126,15 @@ function createWindow() {
     createsampleViewapi.setupView(win);
     // taskViewWindowをセットアップ
     taskViewWindowApi.open();
+    // timerの初期化
+    timerApi.setup();
   }
   //初期Viewを指定
   initView().then(() => {
     changeViewapi.change("main");
     // createsampleViewapi.openDevTool();
     // timerをセットアップ
+
     timerApi.startTimer();
   });
   if (!app.isPackaged) {
@@ -165,3 +171,5 @@ main_ipc();
 setmenu();
 //オートアップデートのセットアップ
 updateSetup();
+// submissionのセットアップ
+submissionsApi.setup();

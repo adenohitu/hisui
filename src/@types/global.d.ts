@@ -90,7 +90,7 @@ declare global {
       /**
        * 返信イベント
        */
-      getValue_replay(value: string);
+      getValue_replay(TaskScreenName: string, value: string);
 
       // mainに送信
       /**
@@ -105,7 +105,7 @@ declare global {
       });
       /**
        * ファイルに状態を保存
-       *        */
+       */
       save(id: string);
 
       /**
@@ -117,6 +117,20 @@ declare global {
        * dafaultlanguageを更新
        */
       setdefaultLanguage(language: string);
+      /**
+       * 一番上になっているTaskContのコードを提出する
+       */
+      submitNowTop();
+    };
+    submissions: {
+      /**
+       * 提出情報データの更新
+       */
+      updateSubmissions();
+      /**
+       * 提出の更新があった時に受け取るIPC
+       */
+      submissionsReturn(func: (arg: any) => void);
     };
   }
 }

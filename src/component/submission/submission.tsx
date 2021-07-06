@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,11 +11,11 @@ import Paper from "@material-ui/core/Paper";
 import { Badge } from "react-bootstrap";
 import IconButton from "@material-ui/core/IconButton";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-import {
-  sendGetmysubmission,
-  selectSubmissions,
-} from "../../app/Slice/submissions";
-import { useDispatch, useSelector } from "react-redux";
+// import {
+//   sendGetmysubmission,
+//   selectSubmissions,
+// } from "../../app/Slice/submissions";
+// import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const dayjs = require("dayjs");
@@ -31,41 +31,25 @@ const useStyles = makeStyles({
 // };
 export function SubmissionTable() {
   const classes = useStyles();
-  // const [rows, setrows] = useState([]);
+  const [rows, setrows] = useState<any[]>([]);
   // const [load, setload] = useState("ok");
-  const rowdata = useSelector(selectSubmissions);
-  const dispatch = useDispatch();
-
-  // getdata = async () => {
-  //   const check: boolean = await window.api.get_login_status_render();
-  //   if (check) {
-  //     const contestId: string = await window.api.get_SetContestID_render();
-  //     const get: any = window.api.get_submissions_me_render;
-  //     get(contestId).then((result: any) => {
-  //       if (result !== "ready") {
-  //         console.log(result);
-  //         setrows(result);
-  //         setload("ok");
-  //       } else {
-  //         setrows([]);
-  //         setload("提出ページが公開されていません");
-  //       }
-  //     });
-  //   } else {
-  //     setrows([]);
-  //     setload("ログインされていません");
-  //   }
-  // };
+  // const rowdata = useSelector(selectSubmissions);
+  // const dispatch = useDispatch();
+  useEffect(() => {
+    window.submissions.submissionsReturn((arg) => {
+      setrows(arg);
+    });
+  }, []);
 
   const openurl = (url: string) => {
     const open = `https://atcoder.jp${url}`;
     window.api.urlOpen_render(open);
   };
-  //初回だけ実行
+  // //初回だけ実行
   useEffect(() => {
     //ipc送信関数
-    dispatch(sendGetmysubmission());
-  }, [dispatch]);
+    window.submissions.updateSubmissions();
+  }, []);
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table stickyHeader className={classes.table} size="small">
@@ -80,7 +64,7 @@ export function SubmissionTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowdata.map((row: any) => (
+          {rows.map((row: any) => (
             <TableRow key={row.created}>
               <TableCell>
                 {dayjs(row.created).format("YY/MM/DD HH:mm:ss")}

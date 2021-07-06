@@ -2,38 +2,31 @@
 // Dashboardの更新　コンテスト開始終了時のイベント発行
 import dayjs, { Dayjs } from "dayjs";
 import { dashboardapi } from "../browserview/dashboardview";
-import { getContestDate } from "../data/contestdata";
-import { store } from "../save/save";
+import { contestDataApi } from "../data/contestdata";
 
 import { hisuiEvent } from "../event/event";
 export interface timeData {
   status: string;
   time: number;
 }
-export function getDefaultContestID(): string {
-  return store.get("SetContestID", "abc001");
-}
+
 let clockFunction: any = null;
 
 export class timer {
-  nowContestID: string | undefined;
+  nowContestID: string | null;
   starttime: Dayjs | undefined;
   endtime: Dayjs | undefined;
   timerData: timeData;
   constructor() {
-    this.nowContestID = undefined;
+    this.nowContestID = null;
     this.starttime = undefined;
     this.endtime = undefined;
     this.timerData = { status: "", time: -1 };
-
-    this.setup();
   }
   // コンテストの時間情報を更新する
   async setup() {
-    console.log(getDefaultContestID);
-
-    this.nowContestID = await getDefaultContestID();
-    const getdate = await getContestDate();
+    this.nowContestID = contestDataApi.DefaultContestID;
+    const getdate = await contestDataApi.getContestDate();
     this.starttime = dayjs(getdate.start_time);
     this.endtime = dayjs(getdate.end_time);
   }

@@ -1,7 +1,7 @@
 //フォルダ操作に関する関数
 //Copyright © 2021 adenohitu. All rights reserved.
 //ファイル操作に関するモジュール
-import { app, dialog } from "electron";
+import { app } from "electron";
 import { store } from "../save/save";
 import {
   mkdir,
@@ -42,15 +42,16 @@ export const writeFileAwait = (
 };
 /**
  * デフォルトのフォルダーを決めるダイアログを開く
+ * ダイアログを飛ばしている #60
  */
 export const runMakeDefaultFolderDialog = async (win: any) => {
-  const filename: any = await dialog.showOpenDialog(win, {
-    properties: ["openDirectory"],
-    title: "コードを保存するフォルダーを選択してください",
-    defaultPath: app.getPath("documents"),
-  });
-
-  runMakeDefaultFolder(filename.filePaths[0]);
+  // const filename: any = await dialog.showOpenDialog(win, {
+  //   properties: ["openDirectory"],
+  //   title: "コードを保存するフォルダーを選択してください",
+  //   defaultPath: app.getPath("documents"),
+  // });
+  const defaultPath = app.getPath("documents");
+  runMakeDefaultFolder(defaultPath);
 };
 
 /**
@@ -60,7 +61,7 @@ export const runMakeDefaultFolderDialog = async (win: any) => {
  */
 export const runMakeDefaultFolder = (
   mainpath: string,
-  filename: string = "hisui"
+  filename: string = "hisui-alpha"
 ) => {
   const savepath = `${mainpath}/${filename}`;
   mkdir(savepath, (err: any) => {

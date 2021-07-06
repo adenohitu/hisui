@@ -9,7 +9,7 @@ export function BackgroungMenu() {
       }}
     >
       <img
-        src="/img/atcoder_logo_wh.svg"
+        src="./img/atcoder_logo_wh.svg"
         alt="AtCoder"
         height={200}
         width={200}
