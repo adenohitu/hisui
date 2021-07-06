@@ -8,10 +8,13 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"set BROWSER=none && yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
+    "lint": "yarn react:lint && yarn electron:lint",
     "build:mac": "yarn react:build && tsc -p src_main --removeComments true && electron-builder --mac --universal",
     "build:win": "yarn react:build && tsc -p src_main --removeComments true && electron-builder --win --x64",
     "electron:source_build": "tsc -p src_main --removeComments true",
+    "electron:lint": "yarn eslint src_main/",
     "react:start": "react-scripts start",
+    "react:lint": "yarn eslint src/",
     "react:build": "react-scripts build",
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
