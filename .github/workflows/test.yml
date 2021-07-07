@@ -1,0 +1,21 @@
+name: Test react & lint
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - name: Install
+        run: yarn
+      - name: lint
+        run: yarn lint
+      - name: React test
+        run: yarn react:test
