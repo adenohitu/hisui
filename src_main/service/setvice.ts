@@ -14,7 +14,7 @@ export async function stopCheckServiceStatus() {
 }
 
 export async function runServiceStatus() {
-  const data: any = await axios.get(statusUrl);
+  const data: any = await axios.get(statusUrl, { timeout: 30000 });
 
   const statusData: servicestatus = data.data;
   console.log(statusData);
