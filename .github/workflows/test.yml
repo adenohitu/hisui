@@ -2,6 +2,7 @@ name: Test react & lint
 
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
