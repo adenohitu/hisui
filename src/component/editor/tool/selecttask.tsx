@@ -83,6 +83,11 @@ export function TaskSelect() {
   const taskData = useSelector(selecttaskData);
   useEffect(() => {
     dispatch(sendGetTasklist());
+    // 更新イベントを受け取る
+    window.contests.changeDefaultContestID(() => {
+      dispatch(sendGetTasklist());
+      console.log("change");
+    });
   }, [dispatch]);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);

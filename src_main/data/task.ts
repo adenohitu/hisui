@@ -7,8 +7,10 @@ import { scrapingTaskList } from "./scraping/tasklist";
  * 問題の一覧を取得
  */
 export async function getTasklist(
-  ContestID: string = contestDataApi.DefaultContestID
+  ContestID: string = contestDataApi.getDefaultContestID()
 ) {
+  console.log(ContestID);
+
   const standings_url = `https://atcoder.jp/contests/${ContestID}/tasks/`;
   const data = await Atcoder.axiosInstance.get(standings_url, {
     maxRedirects: 0,

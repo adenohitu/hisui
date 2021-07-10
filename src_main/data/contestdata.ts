@@ -8,11 +8,12 @@ import { Atcoder } from "./atcoder";
 import { dashboardapi } from "../browserview/dashboardview";
 import { timerApi } from "../clock/timer";
 import { hisuiEvent } from "../event/event";
+import { ipcSendall } from "../browserview/mgt/ipcall";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
 export class contestData {
-  DefaultContestID: string;
+  private DefaultContestID: string;
   constructor() {
     this.DefaultContestID = store.get("DefaultContestID", "abc001");
   }
@@ -25,8 +26,10 @@ export class contestData {
     const check = await this.checkContestID(contestName);
     if (check) {
       store.set("DefaultContestID", contestName);
+      this.DefaultContestID = contestName;
       // イベントを発行
       hisuiEvent.emit("DefaultContestID-change", contestName);
+      ipcSendall("changeDefaultContestID", contestName);
       // dashboardを更新
       dashboardapi.runUpdatedata();
       // timerをアップデート
@@ -35,6 +38,9 @@ export class contestData {
     } else {
       return false;
     }
+  }
+  getDefaultContestID() {
+    return this.DefaultContestID;
   }
   /*
    * 開催中・開催予定のコンテストを取得し出力

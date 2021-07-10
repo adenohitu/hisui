@@ -25,7 +25,7 @@ export class timer {
   }
   // コンテストの時間情報を更新する
   async setup() {
-    this.nowContestID = contestDataApi.DefaultContestID;
+    this.nowContestID = contestDataApi.getDefaultContestID();
     const getdate = await contestDataApi.getContestDate();
     this.starttime = dayjs(getdate.start_time);
     this.endtime = dayjs(getdate.end_time);

@@ -187,7 +187,7 @@ export class taskViewWindow {
    * 起動時にデフォルトのコンテストのページを開く
    */
   async setupContestPage() {
-    const DefaultContestID = contestDataApi.DefaultContestID;
+    const DefaultContestID = contestDataApi.getDefaultContestID();
     this.contestpageId = DefaultContestID;
     this.addView(DefaultContestID, DefaultContestID);
     /**

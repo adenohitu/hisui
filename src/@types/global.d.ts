@@ -132,5 +132,8 @@ declare global {
        */
       submissionsReturn(func: (arg: any) => void);
     };
+    contests: {
+      changeDefaultContestID(func: (contestID: string) => void);
+    };
   }
 }

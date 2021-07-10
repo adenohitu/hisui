@@ -28,7 +28,7 @@ class submissions {
     this.timer = setInterval(this.updateSubmissions, 60000);
   }
   async setup() {
-    this.nowDefaultContest = contestDataApi.DefaultContestID;
+    this.nowDefaultContest = contestDataApi.getDefaultContestID();
   }
   /**
    * eventの設定
@@ -61,7 +61,7 @@ class submissions {
    * 得点情報を取得
    */
   async getContestScore(
-    contestID: string = contestDataApi.DefaultContestID
+    contestID: string = contestDataApi.getDefaultContestID()
   ): Promise<any> {
     console.log("run get_Score");
     const standings_url = `https://atcoder.jp/contests/${contestID}/score/json`;
@@ -90,7 +90,9 @@ class submissions {
   /**
    * 自分の提出を取得
    */
-  async getSubmissionMe(contestID: string = contestDataApi.DefaultContestID) {
+  async getSubmissionMe(
+    contestID: string = contestDataApi.getDefaultContestID()
+  ) {
     console.log("run get_submissions_me");
     const standings_url = `https://atcoder.jp/contests/${contestID}/submissions/me`;
     const responce = await Atcoder.axiosInstance.get(standings_url, {

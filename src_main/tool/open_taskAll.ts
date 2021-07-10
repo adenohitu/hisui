@@ -3,7 +3,7 @@ import urlOpen from "./openExternal";
 import { contestDataApi } from "../data/contestdata";
 import { submissionsApi } from "../data/submissions";
 async function openTaskAll() {
-  const contestId = contestDataApi.DefaultContestID;
+  const contestId = contestDataApi.getDefaultContestID();
   const data: any = await submissionsApi.getContestScore(contestId);
   console.log(data);
 
