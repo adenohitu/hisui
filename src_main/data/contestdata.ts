@@ -24,7 +24,7 @@ export class contestData {
   async setDefaultContestID(contestName: string) {
     const check = await this.checkContestID(contestName);
     if (check) {
-      await store.set("DefaultContestID", contestName);
+      store.set("DefaultContestID", contestName);
       // イベントを発行
       hisuiEvent.emit("DefaultContestID-change", contestName);
       // dashboardを更新
