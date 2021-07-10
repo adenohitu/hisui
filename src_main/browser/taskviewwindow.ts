@@ -149,8 +149,10 @@ export class taskViewWindow {
   async removeView(id: string) {
     if (this.win !== null) {
       const view = this.view[id];
-      this.win.removeBrowserView(view.view);
-      delete this.view[id];
+      if (view !== undefined) {
+        this.win.removeBrowserView(view.view);
+        delete this.view[id];
+      }
     }
   }
 
