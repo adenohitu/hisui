@@ -149,8 +149,10 @@ export class taskViewWindow {
   async removeView(id: string) {
     if (this.win !== null) {
       const view = this.view[id];
-      this.win.removeBrowserView(view.view);
-      delete this.view[id];
+      if (view !== undefined) {
+        this.win.removeBrowserView(view.view);
+        delete this.view[id];
+      }
     }
   }
 
@@ -187,7 +189,7 @@ export class taskViewWindow {
    * 起動時にデフォルトのコンテストのページを開く
    */
   async setupContestPage() {
-    const DefaultContestID = contestDataApi.DefaultContestID;
+    const DefaultContestID = contestDataApi.getDefaultContestID();
     this.contestpageId = DefaultContestID;
     this.addView(DefaultContestID, DefaultContestID);
     /**

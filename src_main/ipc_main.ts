@@ -33,7 +33,7 @@ export const main_ipc = () => {
   });
   //デフォルトで設定されたコンテストIDを返す
   ipcMain.handle("get_SetContestID", async (event, message) => {
-    const get = contestDataApi.DefaultContestID;
+    const get = contestDataApi.getDefaultContestID();
     return get;
   });
   //開催中・開催予定のコンテストをhashで出力
@@ -136,7 +136,7 @@ export const main_ipc = () => {
   });
   //問題情報を取得
   ipcMain.on("getTasklist", async (event, taskScreenName) => {
-    const get = await getTasklist(taskScreenName);
+    const get = await getTasklist();
 
     event.sender.send("getTasklist_replay", get);
   });

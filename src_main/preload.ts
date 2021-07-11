@@ -301,3 +301,13 @@ contextBridge.exposeInMainWorld("submissions", {
     });
   },
 });
+/**
+ * submissionsに関するIPC
+ */
+contextBridge.exposeInMainWorld("contests", {
+  changeDefaultContestID: (func: any) => {
+    ipcRenderer.on("changeDefaultContestID", (event, arg) => {
+      func(arg);
+    });
+  },
+});

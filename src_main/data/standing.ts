@@ -11,7 +11,7 @@ const myCache = new NodeCache();
  * 順位表情報を取得
  */
 export async function getStandings(
-  taskScreenName: string = contestDataApi.DefaultContestID
+  taskScreenName: string = contestDataApi.getDefaultContestID()
 ): Promise<returnStandingsData> {
   const cache = myCache.get(`Standing_${taskScreenName}`);
   console.log("run get_Standings");
@@ -61,7 +61,7 @@ export async function getStandings(
  * 問題ごとに提出した人数と正解した人数を集計して返す
  */
 export async function getTotal(
-  taskScreenName: string = contestDataApi.DefaultContestID
+  taskScreenName: string = contestDataApi.getDefaultContestID()
 ) {
   const data = await getStandings(taskScreenName);
   const returndata = await totalfn(data.data);
@@ -72,7 +72,7 @@ export async function getTotal(
  * ユーザー名指定しない場合ログインされているユーザの順位を返す
  */
 export async function getRank(
-  taskScreenName: string = contestDataApi.DefaultContestID,
+  taskScreenName: string = contestDataApi.getDefaultContestID(),
   username: string = Atcoder.getUsername()
 ) {
   const data = await getStandings(taskScreenName);

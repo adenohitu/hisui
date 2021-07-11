@@ -1,5 +1,4 @@
 import { app, BrowserView, BrowserWindow } from "electron";
-import { timeData } from "../clock/timer";
 import { menuSize } from "./default";
 const isDev = !app.isPackaged;
 
@@ -95,9 +94,6 @@ export class dashboard {
    */
   resetWindowState() {
     this.dashboardView?.webContents.send("resetWindowState");
-  }
-  sendTimerTick(time: timeData) {
-    this.dashboardView?.webContents.send("TimerTick", time);
   }
 
   private windowSizeChange(win: BrowserWindow, view: BrowserView | null) {

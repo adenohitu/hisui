@@ -58,7 +58,7 @@ class taskControl {
    *  更新された時のイベントを開始
    */
   async runDefaultContestID() {
-    this.DefaultContestID = contestDataApi.DefaultContestID;
+    this.DefaultContestID = contestDataApi.getDefaultContestID();
   }
   /**
    * 新しいTaskインスタンスを開く
