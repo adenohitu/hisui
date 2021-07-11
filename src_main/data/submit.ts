@@ -42,14 +42,16 @@ export async function runSubmit(
         validateStatus: (status) =>
           (status >= 200 && status < 300) || status === 302,
       })
-      .then((responce: any) => {
+      .then((responce) => {
         console.log("runsubmit");
         if (responce.status === 302) {
           hisuiEvent.emit("submit", taskScreenName);
           return "success";
+        } else {
+          return "submit_error";
         }
       })
-      .catch((err: any) => {
+      .catch((err) => {
         console.log(err);
         return "Failure_requestError";
       });
