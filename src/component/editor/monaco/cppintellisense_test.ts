@@ -7,15 +7,19 @@ export function cppAddIntellisence(monaco: Monaco) {
     // here you could do a server side lookup
     return [
       {
-        label: "for: Array",
+        label: "for",
+        prefix: "f",
         kind: monaco.languages.CompletionItemKind.Snippet,
-        documentation: "Iterate over an Array",
-        insertText: [
-          "for(let i=0; i < arr.length; i++){",
-          "\tlet elem = arr[i];",
-          "",
-          "}",
-        ].join("\n"),
+        documentation: "forの補完",
+        insertText: ["for (int i = $1; i < $2; i++){", "\t$0", "}"].join("\n"),
+        range: range,
+      },
+      {
+        label: "fll",
+        prefix: "fll",
+        kind: monaco.languages.CompletionItemKind.Snippet,
+        documentation: "forの補完",
+        insertText: ["for (ll i = $1; i < $2; i++){", "\t$0", "}"].join("\n"),
         range: range,
       },
     ];
