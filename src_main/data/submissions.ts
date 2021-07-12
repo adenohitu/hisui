@@ -22,6 +22,9 @@ class submissions {
    *  submissionを自動更新
    */
   startSubmissionsTimer() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
     this.timer = setInterval(this.updateSubmissions, 60000);
   }
   stopSubmissionsTimer() {
