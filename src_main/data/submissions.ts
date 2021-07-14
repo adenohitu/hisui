@@ -11,7 +11,7 @@ class submissions {
    * デフォルトコンテストを保持
    */
   selectContestSubmissions: submissionData[];
-  timer: NodeJS.Timer | null;
+  timer: null | NodeJS.Timeout;
   constructor() {
     this.selectContestSubmissions = [];
     this.timer = null;
@@ -22,14 +22,14 @@ class submissions {
    *  submissionを自動更新
    */
   startSubmissionsTimer() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
-    this.timer = setInterval(this.updateSubmissions, 60000);
+    this.timer = setInterval(() => {
+      this.updateSubmissions();
+    }, 60000);
   }
   stopSubmissionsTimer() {
-    if (this.timer) {
+    if (this.timer !== null) {
       clearInterval(this.timer);
+      this.timer = null;
     }
   }
   async setup() {
@@ -49,11 +49,13 @@ class submissions {
    */
   async updateSubmissions() {
     const nowDefaultContest = contestDataApi.getDefaultContestID();
-    this.selectContestSubmissions = await this.getSubmissionMe(
-      nowDefaultContest
-    );
-    // viewに取得したデータを送信
-    ipcSendall("submissionsReturn", this.selectContestSubmissions);
+    if (this.getSubmissionMe) {
+      this.selectContestSubmissions = await this.getSubmissionMe(
+        nowDefaultContest
+      );
+      // viewに取得したデータを送信
+      ipcSendall("submissionsReturn", this.selectContestSubmissions);
+    }
   }
 
   /**
