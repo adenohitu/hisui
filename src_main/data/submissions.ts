@@ -43,6 +43,9 @@ class submissions {
       // this.nowDefaultContest = arg;
       this.updateSubmissions();
     });
+    hisuiEvent.on("submit", () => {
+      this.updateSubmissions();
+    });
   }
   /**
    * submissionsページに問い合わせて提出一覧を更新する
