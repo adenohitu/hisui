@@ -79,5 +79,9 @@ export async function getRank(
   const myrank: any = await data.data.StandingsData.find(
     (v: any) => v.UserScreenName === username
   );
-  return myrank.Rank;
+  if (myrank !== undefined) {
+    return myrank.Rank;
+  } else {
+    return -1;
+  }
 }

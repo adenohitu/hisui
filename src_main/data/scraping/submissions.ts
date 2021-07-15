@@ -57,40 +57,66 @@ async function scraping_submissions_list(body: any) {
         const source_length: any = element
           .querySelectorAll("td")[5]
           .textContent.trim();
-        const result: any = element
-          .querySelectorAll("td")[6]
-          .textContent.trim();
-        const result_explanation: any = element
-          .querySelectorAll("td")[6]
-          .querySelector("span")
-          .getAttribute("title");
-        const time_consumption: any = element
-          .querySelectorAll("td")[7]
-          .textContent.trim();
-        const memory_consumption: any = element
-          .querySelectorAll("td")[8]
-          .textContent.trim();
-        const submit_url: any = element
-          .querySelectorAll("td")[9]
-          .querySelector("a")
-          .getAttribute("href");
+        const resultCol_All: any = element.querySelectorAll("td")[6];
+        // CEなどの場合colが３になるのでここで場合分け
+        if (resultCol_All.getAttribute("colspan") === "3") {
+          const result = resultCol_All.querySelector("span").textContent.trim();
+          const result_explanation = resultCol_All
+            .querySelector("span")
+            .getAttribute("title");
+          const submit_url: any = element
+            .querySelectorAll("td")[7]
+            .querySelector("a")
+            .getAttribute("href");
+          const return_data = {
+            created,
+            task,
+            task_url,
+            user,
+            language,
+            score,
+            source_length,
+            result,
+            result_explanation,
+            time_consumption: "-- ms",
+            memory_consumption: "-- KB",
+            submit_id,
+            submit_url,
+          };
+          return return_data;
+        } else {
+          const result = resultCol_All.querySelector("span").textContent.trim();
+          const result_explanation: any = resultCol_All
+            .querySelector("span")
+            .getAttribute("title");
+          const time_consumption: any = element
+            .querySelectorAll("td")[7]
+            .textContent.trim();
+          const memory_consumption: any = element
+            .querySelectorAll("td")[8]
+            .textContent.trim();
+          const submit_url: any = element
+            .querySelectorAll("td")[9]
+            .querySelector("a")
+            .getAttribute("href");
 
-        const return_data = {
-          created,
-          task,
-          task_url,
-          user,
-          language,
-          score,
-          source_length,
-          result,
-          result_explanation,
-          time_consumption,
-          memory_consumption,
-          submit_id,
-          submit_url,
-        };
-        return return_data;
+          const return_data = {
+            created,
+            task,
+            task_url,
+            user,
+            language,
+            score,
+            source_length,
+            result,
+            result_explanation,
+            time_consumption,
+            memory_consumption,
+            submit_id,
+            submit_url,
+          };
+          return return_data;
+        }
       }
     );
     // console.log(typeof submit_list);
