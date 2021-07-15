@@ -69,6 +69,8 @@ function createWindow() {
 
     //timerをリセット
     timerApi.clearTimer();
+    // submissionsの自動更新を停止
+    submissionsApi.stopSubmissionsTimer();
     // windowViewを閉じる
     createsampleViewapi.closeView();
     dashboardapi.closeView();
@@ -134,8 +136,9 @@ function createWindow() {
     changeViewapi.change("main");
     // createsampleViewapi.openDevTool();
     // timerをセットアップ
-
     timerApi.startTimer();
+    // submissionsの自動更新を開始
+    submissionsApi.startSubmissionsTimer();
   });
   if (!app.isPackaged) {
     // win.webContents.openDevTools({ mode: "detach" });

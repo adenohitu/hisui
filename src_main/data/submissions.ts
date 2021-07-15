@@ -1,6 +1,5 @@
 import { ipcMain } from "electron";
-import { dashboardapi } from "../browserview/dashboardview";
-import { editorViewapi } from "../browserview/editorview";
+import { ipcSendall } from "../browserview/mgt/ipcall";
 import { hisuiEvent } from "../event/event";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
@@ -11,11 +10,9 @@ class submissions {
   /**
    * デフォルトコンテストを保持
    */
-  nowDefaultContest: string | null;
   selectContestSubmissions: submissionData[];
-  timer: NodeJS.Timer | null;
+  timer: null | NodeJS.Timeout;
   constructor() {
-    this.nowDefaultContest = null;
     this.selectContestSubmissions = [];
     this.timer = null;
     this.eventSetup();
@@ -24,36 +21,43 @@ class submissions {
   /**
    *  submissionを自動更新
    */
-  async startTimer() {
-    this.timer = setInterval(this.updateSubmissions, 60000);
+  startSubmissionsTimer() {
+    this.timer = setInterval(() => {
+      this.updateSubmissions();
+    }, 300000);
+  }
+  stopSubmissionsTimer() {
+    if (this.timer !== null) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
   }
   async setup() {
-    this.nowDefaultContest = contestDataApi.getDefaultContestID();
+    // this.nowDefaultContest = contestDataApi.getDefaultContestID();
   }
   /**
    * eventの設定
    */
   async eventSetup() {
     hisuiEvent.on("DefaultContestID-change", (arg) => {
-      this.nowDefaultContest = arg;
+      // this.nowDefaultContest = arg;
+      this.updateSubmissions();
+    });
+    hisuiEvent.on("submit", () => {
+      this.updateSubmissions();
     });
   }
   /**
    * submissionsページに問い合わせて提出一覧を更新する
    */
   async updateSubmissions() {
-    if (this.nowDefaultContest !== null) {
+    const nowDefaultContest = contestDataApi.getDefaultContestID();
+    if (this.getSubmissionMe) {
       this.selectContestSubmissions = await this.getSubmissionMe(
-        this.nowDefaultContest
+        nowDefaultContest
       );
-      dashboardapi.dashboardView?.webContents.send(
-        "submissionsReturn",
-        this.selectContestSubmissions
-      );
-      editorViewapi.editorView?.webContents.send(
-        "submissionsReturn",
-        this.selectContestSubmissions
-      );
+      // viewに取得したデータを送信
+      ipcSendall("submissionsReturn", this.selectContestSubmissions);
     }
   }
 

@@ -56,8 +56,8 @@ export function SubmissionTable() {
         <TableHead>
           <TableRow>
             <TableCell size="small">提出日時</TableCell>
-            <TableCell align="left">問題</TableCell>
             <TableCell align="center">結果</TableCell>
+            <TableCell align="left">問題</TableCell>
             <TableCell align="right">実行時間</TableCell>
             <TableCell align="right">メモリ</TableCell>
             <TableCell align="right"></TableCell>
@@ -69,7 +69,6 @@ export function SubmissionTable() {
               <TableCell>
                 {dayjs(row.created).format("YY/MM/DD HH:mm:ss")}
               </TableCell>
-              <TableCell align="left">{row.task}</TableCell>
               <TableCell align="center">
                 {row.result === "AC" && (
                   <Badge pill variant="success">
@@ -82,6 +81,7 @@ export function SubmissionTable() {
                   </Badge>
                 )}
               </TableCell>
+              <TableCell align="left">{row.task}</TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
               <TableCell align="right">{row.memory_consumption}</TableCell>
               <TableCell align="right">
