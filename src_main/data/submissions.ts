@@ -24,7 +24,7 @@ class submissions {
   startSubmissionsTimer() {
     this.timer = setInterval(() => {
       this.updateSubmissions();
-    }, 60000);
+    }, 300000);
   }
   stopSubmissionsTimer() {
     if (this.timer !== null) {

@@ -45,6 +45,7 @@ export async function runSubmit(
       .then((responce) => {
         console.log("runsubmit");
         if (responce.status === 302) {
+          // 提出イベントを発行
           hisuiEvent.emit("submit", taskScreenName);
           return "success";
         } else {
