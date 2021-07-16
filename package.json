@@ -1,6 +1,6 @@
 {
   "name": "hisui-alpha",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": "adenohitu",
   "description": "Useful tool for programming competition",
   "homepage": ".",
@@ -100,9 +100,9 @@
   "devDependencies": {
     "@blueprintjs/core": "^3.38.2",
     "@blueprintjs/icons": "^3.24.0",
-    "@material-ui/core": "^4.12.0",
+    "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.59",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@monaco-editor/react": "^4.0.10",
     "@reduxjs/toolkit": "^1.5.0",
     "@types/classnames": "^2.2.11",
