@@ -3,9 +3,9 @@ import { app, BrowserView, BrowserWindow } from "electron";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { store } from "../save/save";
+const isDev = !app.isPackaged;
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
-// const isDev = !app.isPackaged;
 // toolbarの分、viewの上にマージンを設定するための値
 const windowTopMargin = 28;
 export class taskViewWindow {
@@ -44,7 +44,7 @@ export class taskViewWindow {
       this.win.loadURL("http://localhost:3000#/taskview");
     } else {
       // 'build/index.html'
-      this.win.loadURL(`file://${__dirname}/../index.html#/taskview`);
+      this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
     }
 
     // this.win.setAlwaysOnTop(true);
