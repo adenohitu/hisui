@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { selecttaskData, sendGetTasklist } from "../../../app/Slice/taskdata";
 import { loadtask } from "../../../app/Slice/editor";
@@ -69,7 +68,6 @@ const StyledTab = withStyles((theme: Theme) =>
 )((props: StyledTabProps) => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles((theme: Theme) => ({
-  padding: {},
   demo2: {
     backgroundColor: "#eee",
     height: "100%",
@@ -115,7 +113,6 @@ export function TaskSelect() {
           <StyledTab key={row.AssignmentName} label={row.AssignmentName} />
         ))}
       </StyledTabs>
-      <Typography className={classes.padding} />
     </div>
   );
 }
