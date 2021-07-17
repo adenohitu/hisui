@@ -13,10 +13,10 @@ import { setValue, getValue, setResetOn } from "./stateControle";
 
 import "./style.css";
 import { useDispatch } from "react-redux";
-import { sendGetmyrank } from "../../../app/Slice/standings";
-import { sendGetTasklist } from "../../../app/Slice/taskdata";
-import { requestScoreAsync } from "../../../app/Slice/score";
-import { sendGetmysubmission } from "../../../app/Slice/submissions";
+import { sendGetmyrank } from "../../app/Slice/standings";
+import { sendGetTasklist } from "../../app/Slice/taskdata";
+import { requestScoreAsync } from "../../app/Slice/score";
+import { sendGetmysubmission } from "../../app/Slice/submissions";
 export let [windowState, setState]: any = "";
 const theme: string = "mosaic-blueprint-theme";
 export default function DefaltContest() {
