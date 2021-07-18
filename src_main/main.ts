@@ -29,6 +29,7 @@ import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
+import { setBrowserCoockie } from "./browser/session";
 
 export let win: null | BrowserWindow = null;
 
@@ -138,7 +139,9 @@ function createWindow() {
     // timerをセットアップ
     timerApi.startTimer();
     // submissionsの自動更新を開始
-    submissionsApi.startSubmissionsTimer();
+    // submissionsApi.startSubmissionsTimer();
+    // 保存してあるセッションをViewに適応
+    setBrowserCoockie();
   });
   if (!app.isPackaged) {
     // win.webContents.openDevTools({ mode: "detach" });
