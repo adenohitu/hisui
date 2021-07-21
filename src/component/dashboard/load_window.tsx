@@ -2,9 +2,7 @@ import RankCard from "../rank/rank";
 import SimpleCard from "../clock/window_time_card";
 import CollapsibleTable from "../score/myscore";
 import { SubmissionTable } from "../submission/submission";
-// import Ranktable from "../../rank/ranktable";
 import { Totaltable } from "../total/total";
-// import { MainEditor } from "../component/editor/editor";
 export const TITLE_ELEMENT: {
   [viewId: string]: { name: string; component: JSX.Element };
 } = {

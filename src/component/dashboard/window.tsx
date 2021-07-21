@@ -18,12 +18,13 @@ import { sendGetTasklist } from "../../app/Slice/taskdata";
 import { requestScoreAsync } from "../../app/Slice/score";
 import { sendGetmysubmission } from "../../app/Slice/submissions";
 export let [windowState, setState]: any = "";
-const theme: string = "mosaic-blueprint-theme";
+const theme: string = "mosaic-blueprint-theme react-mosaic-app";
+
 export default function DefaltContest() {
-  [windowState, setState] = useState(dashboadWindowState);
-  const onChange = (currentNode: MosaicNode<string> | null) => {
-    // console.log(currentNode);
-    setState(currentNode);
+  [windowState, setState] = useState<MosaicNode<string>>(dashboadWindowState);
+  const onChange = (windowState: MosaicNode<string> | null) => {
+    // console.log(windowState);
+    setState(windowState);
   };
 
   //保存されているものを読み出す
@@ -33,8 +34,8 @@ export default function DefaltContest() {
     console.log("value end");
     setState(data);
   }
-  const onRelease = (currentNode: MosaicNode<string> | null) => {
-    setValue(currentNode);
+  const onRelease = (windowState: MosaicNode<string> | null) => {
+    setValue(windowState);
   };
   useEffect(() => {
     value();
@@ -55,23 +56,43 @@ export default function DefaltContest() {
     };
     window.api.updateDashboard(updateStanding_event);
   }, [dispatch]);
+  /**
+   * 削除されたMosaicWindowをもう一度表示させる
+   */
+  // function addWindow(windowName: string) {}
   return (
-    <div className="react-mosaic-app">
-      <Mosaic<string>
-        className={theme}
-        renderTile={(id, path) => (
-          <MosaicWindow<string>
-            path={path}
-            title={TITLE_ELEMENT[id].name}
-            className="table-window"
+    <>
+      {/* <div className="toolbar">
+        <Box m={0.3}>
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setState(dashboadWindowState);
+            }}
           >
-            {TITLE_ELEMENT[id].component}
-          </MosaicWindow>
-        )}
-        onChange={onChange}
-        onRelease={onRelease}
-        value={windowState}
-      />
-    </div>
+            ResetWindowState
+          </Button>
+        </Box>
+      </div> */}
+      <div className="react-mosaic-dashboard">
+        <Mosaic<string>
+          className={theme}
+          renderTile={(id, path) => (
+            <MosaicWindow<string>
+              path={path}
+              title={TITLE_ELEMENT[id].name}
+              className="table-window"
+            >
+              {TITLE_ELEMENT[id].component}
+            </MosaicWindow>
+          )}
+          onChange={onChange}
+          onRelease={onRelease}
+          value={windowState}
+        />
+      </div>
+    </>
   );
 }

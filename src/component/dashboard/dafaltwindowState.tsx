@@ -1,6 +1,6 @@
 import { MosaicNode } from "react-mosaic-component";
 
-export const dashboadWindowState: MosaicNode<string> | null = {
+export const dashboadWindowState: MosaicNode<string> = {
   direction: "row",
   first: {
     direction: "column",
