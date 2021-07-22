@@ -8,15 +8,16 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import { Editorwindow } from "./editorwindow";
 import "./style.css";
 import { Box } from "@material-ui/core";
+import SpeedDials from "./floatingbutton";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
-  a: (
+  TaskSelect: (
     <Box pr={1} py={0.7}>
       <TaskSelect />
     </Box>
   ),
-  b: (
+  EditorMain: (
     <div>
       <Editorwindow />
     </div>
@@ -33,11 +34,12 @@ export const Editor = () => {
           resize={{ minimumPaneSizePercentage: 0 }}
           initialValue={{
             direction: "row",
-            first: "a",
-            second: "b",
+            first: "TaskSelect",
+            second: "EditorMain",
             splitPercentage: 13,
           }}
         />
+        <SpeedDials />
       </div>
     </>
   );

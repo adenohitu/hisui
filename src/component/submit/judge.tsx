@@ -9,11 +9,9 @@ import {
   Select,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { saveValue } from "../../app/Slice/editor";
+import { monacoControlApi } from "../editor/editor";
 export const Judgetool = () => {
   const [lang, setlang] = useState("cpp");
-  const dispatch = useDispatch();
   // defaultlanguageを取得
   useEffect(() => {
     async function fetchData() {
@@ -60,7 +58,7 @@ export const Judgetool = () => {
             variant="contained"
             color="primary"
             onClick={() => {
-              dispatch(saveValue());
+              monacoControlApi?.saveNowValue();
             }}
           >
             save

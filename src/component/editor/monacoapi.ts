@@ -125,6 +125,17 @@ export class monacocontrol {
   }
 
   /**
+   * エデイターのデータを保存する
+   */
+  saveNowValue() {
+    const taskid = this.nowmodelId;
+    if (taskid !== null) {
+      // mainのTaskContで保存イベントを発生させるよう
+      window.editor.save(taskid);
+    }
+  }
+
+  /**
    * ipc通信のセットアップ
    * 受信
    */
