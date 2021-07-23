@@ -9,8 +9,8 @@ import {
   Select,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { monacoControlApi } from "../editor/editor";
-export const Judgetool = () => {
+import { monacoControlApi } from "../editor";
+export const EditorTool = () => {
   const [lang, setlang] = useState("cpp");
   // defaultlanguageを取得
   useEffect(() => {

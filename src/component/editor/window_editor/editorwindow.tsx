@@ -3,7 +3,7 @@ import { Mosaic, MosaicWindow } from "react-mosaic-component";
 import { MainEditor } from "../editor";
 // import { Taskview } from "../../taskview/taskview";
 import { SubmissionTable } from "../../submission/submission";
-import { Judgetool } from "../../submit/judge";
+import { EditorTool } from "../tool/editortool";
 
 // import "react-mosaic-component/react-mosaic-component.css";
 // import "@blueprintjs/core/lib/css/blueprint.css";
@@ -16,7 +16,7 @@ export const TITLE_ELEMENT: {
 } = {
   editor: { name: "コード", component: <MainEditor /> },
   submission: { name: "提出一覧", component: <SubmissionTable /> },
-  tool: { name: "ツール", component: <Judgetool /> },
+  tool: { name: "ツール", component: <EditorTool /> },
 };
 
 export const Editorwindow = () => {
