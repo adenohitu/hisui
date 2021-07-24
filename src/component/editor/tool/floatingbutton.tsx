@@ -3,7 +3,6 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import SpeedDial, { SpeedDialProps } from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
-import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import SaveIcon from "@material-ui/icons/Save";
 import SendIcon from "@material-ui/icons/Send";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
@@ -36,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const actions = [
-  { icon: <FileCopyIcon />, name: "コピー", click: () => {} },
   {
     icon: <SaveIcon />,
     name: "保存",
