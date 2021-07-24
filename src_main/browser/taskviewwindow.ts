@@ -3,7 +3,6 @@ import { app, BrowserView, BrowserWindow } from "electron";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { store } from "../save/save";
-const isDev = !app.isPackaged;
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
 // toolbarの分、viewの上にマージンを設定するための値
@@ -32,10 +31,12 @@ export class taskViewWindow {
       x: store.get("window.taskView.x"),
       y: store.get("window.taskView.y"),
       titleBarStyle: "hidden",
+      trafficLightPosition: { x: 6, y: 6 },
       // opacity: 0.5,
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
+        preload: __dirname + "/preload/browserpreload.js",
       },
     });
     // this.win.webContents.openDevTools({ mode: "detach" });
@@ -140,8 +141,9 @@ export class taskViewWindow {
    */
   async resetView(id: string) {
     this.view[id].view.webContents.loadURL(
-      `${this.baseurl}${this.view[id].initUrl}}`
+      `${this.baseurl}${this.view[id].initUrl}`
     );
+    console.log(`${this.baseurl}${this.view[id].initUrl}`);
   }
   /**
    * viewを閉じる

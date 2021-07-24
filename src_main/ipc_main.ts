@@ -166,13 +166,13 @@ export const main_ipc = () => {
   });
 
   //クリップボードに書き込む
-  ipcMain.on("copyClipboard", (event, clipData) => {
+  ipcMain.on("copyClipboard", (event, clipData: string) => {
     copyClipboard(clipData);
   });
 
   //クリップボードを読み込む
-  ipcMain.handle("readClipboard", async (event, saveinfo) => {
-    const get = await readClipboard();
+  ipcMain.handle("readClipboard", (event) => {
+    const get = readClipboard();
     return get;
   });
   //loginDialogを開く

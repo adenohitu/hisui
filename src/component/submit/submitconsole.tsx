@@ -1,6 +1,6 @@
 import { Box, Grid, Paper } from "@material-ui/core";
 import { MainEditor } from "../editor/editor";
-import { Judgetool } from "./judge";
+import { EditorTool } from "../editor/tool/editortool";
 import { JudgeResultList } from "./judgeresult";
 import { Submissionstepper } from "./stepper";
 
@@ -20,7 +20,7 @@ export function Submitconsole() {
         {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={4}>
           <Paper style={{ height: 240 }}>
-            <Judgetool />
+            <EditorTool />
           </Paper>
         </Grid>
         {/* Recent Orders */}
