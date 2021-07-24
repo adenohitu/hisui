@@ -11,12 +11,10 @@ import Paper from "@material-ui/core/Paper";
 import { Badge } from "react-bootstrap";
 import IconButton from "@material-ui/core/IconButton";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-// import {
-//   sendGetmysubmission,
-//   selectSubmissions,
-// } from "../../app/Slice/submissions";
-// import { useDispatch, useSelector } from "react-redux";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Box, Button } from "@material-ui/core";
+import { MosaicWindowContext } from "react-mosaic-component";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -106,4 +104,39 @@ export function SubmissionTable() {
       )} */}
     </TableContainer>
   );
+}
+/**
+ * Submissionsデータを更新するボタン
+ * MosaicContextのAdditionalControlを閉じる
+ */
+export class ReloadButton extends React.PureComponent {
+  static contextType = MosaicWindowContext;
+  context!: MosaicWindowContext;
+
+  render() {
+    return (
+      <Box px={0.5}>
+        <Button
+          variant="contained"
+          color="default"
+          // size="small"
+          style={{
+            maxWidth: "90px",
+            maxHeight: "20px",
+            minWidth: "90px",
+            minHeight: "20px",
+          }}
+          startIcon={<RefreshIcon />}
+          onClick={() => {
+            // 更新イベントを発行
+            window.submissions.updateSubmissions();
+            // MosaicのAdditionalWindowを閉じる
+            this.context.mosaicWindowActions.setAdditionalControlsOpen(false);
+          }}
+        >
+          更新
+        </Button>
+      </Box>
+    );
+  }
 }

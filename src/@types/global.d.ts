@@ -135,5 +135,12 @@ declare global {
     contests: {
       changeDefaultContestID(func: (contestID: string) => void);
     };
+    // TaskViewWindowのPreloadにだけ存在
+    taskview: {
+      /**
+       * TaskViewのURLを初期状態に戻す
+       */
+      nowTaskViewReset();
+    };
   }
 }

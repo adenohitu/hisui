@@ -1,53 +1,47 @@
-// import { useState } from "react";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 import { MainEditor } from "../editor";
-// import { Taskview } from "../../taskview/taskview";
-import { SubmissionTable } from "../../submission/submission";
+import { ReloadButton, SubmissionTable } from "../../submission/submission";
 import { EditorTool } from "../tool/editortool";
-
-// import "react-mosaic-component/react-mosaic-component.css";
-// import "@blueprintjs/core/lib/css/blueprint.css";
-// import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-
-// import "./style.css";
-
 export const TITLE_ELEMENT: {
-  [viewId: string]: { name: string; component: any };
+  [viewId: string]: {
+    name: string;
+    component: JSX.Element;
+    additionalControl?: JSX.Element[];
+  };
 } = {
-  editor: { name: "コード", component: <MainEditor /> },
-  submission: { name: "提出一覧", component: <SubmissionTable /> },
+  editor: {
+    name: "コード",
+    component: <MainEditor />,
+  },
+  submission: {
+    name: "提出一覧",
+    component: <SubmissionTable />,
+    additionalControl: [<ReloadButton />],
+  },
   tool: { name: "ツール", component: <EditorTool /> },
 };
 
 export const Editorwindow = () => {
-  // const [change, setchange] = useState(false);
   return (
     <>
       <Mosaic<string>
-        // onChange={() => {
-        //   setchange(true);
-        // }}
-        // onRelease={() => {
-        //   setchange(false);
-        // }}
         renderTile={(id, path) => (
           <MosaicWindow<string>
             path={path}
             title={TITLE_ELEMENT[id].name}
             className="table-window"
+            additionalControls={TITLE_ELEMENT[id].additionalControl}
+            additionalControlButtonText="操作"
           >
             {TITLE_ELEMENT[id].component}
           </MosaicWindow>
         )}
         resize={{ minimumPaneSizePercentage: 0 }}
         initialValue={{
-          direction: "row",
+          direction: "column",
           first: "editor",
-          second: {
-            direction: "column",
-            first: "submission",
-            second: "tool",
-          },
+          second: "submission",
+          splitPercentage: 75,
         }}
       />
     </>
