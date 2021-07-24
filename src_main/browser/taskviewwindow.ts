@@ -31,6 +31,7 @@ export class taskViewWindow {
       x: store.get("window.taskView.x"),
       y: store.get("window.taskView.y"),
       titleBarStyle: "hidden",
+      trafficLightPosition: { x: 6, y: 6 },
       // opacity: 0.5,
       webPreferences: {
         nodeIntegration: false,
