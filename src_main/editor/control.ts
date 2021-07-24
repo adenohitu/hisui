@@ -102,10 +102,19 @@ class taskControl {
   async changeTask(TaskScreenName: string) {
     // ViewのTopの変更
     this.taskAll[TaskScreenName].settopTaskView();
+    this.nowTop = TaskScreenName;
     // editorEvent
     // editorの更新をチェック
     // editorのモデルをチェンジ
     editorViewapi.editorView?.webContents.send("setModel", TaskScreenName);
+  }
+  /**
+   * TopViewのページ推移を初期状態に戻す
+   */
+  nowTaskViewReset() {
+    if (this.nowTop) {
+      this.taskAll[this.nowTop].resetTaskView();
+    }
   }
   /**
    * editor側からイベントを受け取る
@@ -123,6 +132,10 @@ class taskControl {
     });
     ipcMain.on("save", (event, id: string) => {
       this.taskAll[id].save();
+    });
+    // taskViewのURLを初期値に戻す
+    ipcMain.on("nowTaskViewReset", () => {
+      this.nowTaskViewReset();
     });
 
     // dafaultlangageに関するIPC

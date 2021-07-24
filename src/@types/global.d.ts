@@ -44,8 +44,14 @@ declare global {
       runWritefile_render;
       changeView;
       onTimerTick;
-      copyClipboard;
-      readClipboard;
+      /**
+       * クリップボードに書き込む
+       */
+      copyClipboard(clipData: string);
+      /**
+       * クリップボードのデータを読み込む
+       */
+      readClipboard();
       openLoginDialog;
       openselectDafaultcontest;
     };
@@ -134,6 +140,13 @@ declare global {
     };
     contests: {
       changeDefaultContestID(func: (contestID: string) => void);
+    };
+    // TaskViewWindowのPreloadにだけ存在
+    taskview: {
+      /**
+       * TaskViewのURLを初期状態に戻す
+       */
+      nowTaskViewReset();
     };
   }
 }
