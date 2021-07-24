@@ -44,8 +44,14 @@ declare global {
       runWritefile_render;
       changeView;
       onTimerTick;
-      copyClipboard;
-      readClipboard;
+      /**
+       * クリップボードに書き込む
+       */
+      copyClipboard(clipData: string);
+      /**
+       * クリップボードのデータを読み込む
+       */
+      readClipboard();
       openLoginDialog;
       openselectDafaultcontest;
     };
