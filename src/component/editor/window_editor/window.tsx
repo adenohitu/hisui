@@ -8,7 +8,7 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import { Editorwindow } from "./editorwindow";
 import "./style.css";
 import { Box } from "@material-ui/core";
-import SpeedDials from "./floatingbutton";
+import SpeedDials from "../tool/floatingbutton";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
