@@ -31,7 +31,7 @@ export const readFileAwait = (filePath: string): Promise<string> => {
 export const writeFileAwait = (
   filePath: string,
   data: string
-): Promise<"succsess" | undefined> => {
+): Promise<"succsess"> => {
   return new Promise((resolve, reject) => {
     writeFile(filePath, data, (err) => {
       if (err) throw err;

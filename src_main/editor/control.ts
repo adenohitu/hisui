@@ -140,18 +140,21 @@ class taskControl {
 
     // dafaultlangageに関するIPC
     // デフォルトの言語を変更
-    ipcMain.on("setdefaultLanguage", (event, language: languagetype) => {
-      // storeに保存
-      console.log(language);
+    ipcMain.on(
+      "setdefaultLanguage",
+      (event, language: languagetype, load: boolean) => {
+        // storeに保存
+        console.log(language);
 
-      store.set("defaultLanguage", language);
-      // ついでに今開いてるファイルの言語を変更
-      if (this.nowTop !== null) {
-        console.log(this.nowTop);
+        store.set("defaultLanguage", language);
+        // ついでに今開いてるファイルの言語を変更
+        if (this.nowTop !== null) {
+          console.log(this.nowTop);
 
-        this.taskAll[this.nowTop].languageChange(language);
+          this.taskAll[this.nowTop].languageChange(language, load);
+        }
       }
-    });
+    );
     ipcMain.handle("getdefaultLanguage", async (event) => {
       // console.log(Atcoder_class.axiosInstance);
       const dafaultlanguage = await store.get("defaultLanguage", "cpp");

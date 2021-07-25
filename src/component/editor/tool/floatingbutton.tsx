@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import SpeedDial, { SpeedDialProps } from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
@@ -6,7 +6,9 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import SaveIcon from "@material-ui/icons/Save";
 import SendIcon from "@material-ui/icons/Send";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
+import LanguageIcon from "@material-ui/icons/Language";
 import { monacoControlApi } from "../editor";
+import { SelectLanguageDialog } from "./languagedialog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
         left: theme.spacing(2),
       },
     },
+    paper: {
+      width: "80%",
+      maxHeight: 435,
+    },
   })
 );
 
@@ -50,6 +56,11 @@ const actions = [
     },
   },
   { icon: <PlaylistAddCheckIcon />, name: "テスト", click: () => {} },
+  {
+    icon: <LanguageIcon />,
+    name: "言語変更",
+    click: () => {},
+  },
 ];
 
 export default function SpeedDials() {
@@ -63,36 +74,66 @@ export default function SpeedDials() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  useEffect(() => {
+    async function fetchData() {
+      const defaultlang = await window.editor.getdefaultLanguage();
+      setValueDialog(defaultlang);
+    }
+    fetchData();
+  }, []);
   const handleOpen = () => {
     setOpen(true);
   };
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [valueDialog, setValueDialog] = React.useState("Dione");
 
+  const handleCloseDialog = (newValue?: string) => {
+    setOpenDialog(false);
+    if (newValue) {
+      window.editor.setdefaultLanguage(newValue, true);
+      setValueDialog(newValue);
+    }
+  };
   return (
-    <div className={classes.exampleWrapper}>
-      <SpeedDial
-        ariaLabel="EditorWindowControl"
-        className={classes.speedDial}
-        hidden={hidden}
-        icon={<SpeedDialIcon />}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        open={open}
-        direction={direction}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            // tooltipOpen
-            onClick={() => {
-              handleClose();
-              action.click();
-            }}
-          />
-        ))}
-      </SpeedDial>
-    </div>
+    <>
+      <SelectLanguageDialog
+        classes={{
+          paper: classes.paper,
+        }}
+        id="ringtone-menu"
+        keepMounted
+        open={openDialog}
+        onClose={handleCloseDialog}
+        value={valueDialog}
+      />
+      <div className={classes.exampleWrapper}>
+        <SpeedDial
+          ariaLabel="EditorWindowControl"
+          className={classes.speedDial}
+          hidden={hidden}
+          icon={<SpeedDialIcon />}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+          direction={direction}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              // tooltipOpen
+              onClick={() => {
+                handleClose();
+                action.click();
+                if (action.name === "言語変更") {
+                  setOpenDialog(true);
+                }
+              }}
+            />
+          ))}
+        </SpeedDial>
+      </div>
+    </>
   );
 }
