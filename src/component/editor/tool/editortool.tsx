@@ -45,7 +45,7 @@ export const EditorTool = () => {
             variant="contained"
             color="primary"
             onClick={() => {
-              window.editor.setdefaultLanguage(lang);
+              window.editor.setdefaultLanguage(lang, true);
             }}
           >
             言語変更

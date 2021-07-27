@@ -85,6 +85,8 @@ export function TaskSelect() {
     window.contests.changeDefaultContestID(() => {
       dispatch(sendGetTasklist());
       console.log("change");
+      // 選択を初期化
+      setValue(false);
     });
   }, [dispatch]);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

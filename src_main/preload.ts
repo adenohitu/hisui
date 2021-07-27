@@ -281,8 +281,8 @@ contextBridge.exposeInMainWorld("editor", {
     );
     return dafaultlanguage;
   },
-  setdefaultLanguage: (language: languagetype) => {
-    ipcRenderer.send("setdefaultLanguage", language);
+  setdefaultLanguage: (language: languagetype, load: boolean) => {
+    ipcRenderer.send("setdefaultLanguage", language, load);
   },
   submitNowTop: () => {
     ipcRenderer.send("submitNowTop");

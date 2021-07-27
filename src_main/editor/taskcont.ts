@@ -146,8 +146,11 @@ export class taskcont {
 
   /**
    * 言語を変更
+   * Load:言語変更の際EditorのValueをどうするか
+   * true=ファイルを読み込み直す
+   * false=EditorのValueを引き継ぐ
    */
-  async languageChange(language: languagetype) {
+  async languageChange(language: languagetype, load: boolean) {
     this.language = language;
     // ファイルの存在、新規作成
     const filePath = await runMakeFile(
@@ -156,8 +159,10 @@ export class taskcont {
     );
     this.filePath = filePath;
     this.changeLanguageEditor(language);
-    // 再読み込み
-    await this.filereload();
+    // 再読み込みするか
+    if (load === true) {
+      await this.filereload();
+    }
   }
 
   // TaskView

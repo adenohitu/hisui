@@ -122,7 +122,7 @@ declare global {
       /**
        * dafaultlanguageを更新
        */
-      setdefaultLanguage(language: string);
+      setdefaultLanguage(language: string, load: boolean);
       /**
        * 一番上になっているTaskContのコードを提出する
        */
