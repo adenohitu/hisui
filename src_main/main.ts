@@ -29,7 +29,7 @@ import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
-import { setBrowserCoockie } from "./browser/session";
+import { setBrowserCoockie } from "./save/utility/session";
 
 export let win: null | BrowserWindow = null;
 

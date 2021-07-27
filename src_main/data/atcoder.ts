@@ -7,7 +7,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import { sessionRemove, setBrowserCoockie } from "../browser/session";
+import { sessionRemove, setBrowserCoockie } from "../save/utility/session";
 import { hisuiEvent } from "../event/event";
 import { returnLogin, returnLogout } from "../interfaces";
 import { saveSession } from "../save/save_session";
