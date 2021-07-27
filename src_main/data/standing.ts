@@ -73,15 +73,19 @@ export async function getTotal(
  */
 export async function getRank(
   taskScreenName: string = contestDataApi.getDefaultContestID(),
-  username: string = Atcoder.getUsername()
-) {
-  const data = await getStandings(taskScreenName);
-  const myrank: any = await data.data.StandingsData.find(
-    (v: any) => v.UserScreenName === username
-  );
-  if (myrank !== undefined) {
-    return myrank.Rank;
+  username: string | undefined = Atcoder.getUsername()
+): Promise<"error" | number> {
+  if (username !== undefined) {
+    const data = await getStandings(taskScreenName);
+    const myrank: any = await data.data.StandingsData.find(
+      (v: any) => v.UserScreenName === username
+    );
+    if (myrank !== undefined) {
+      return myrank.Rank;
+    } else {
+      return "error";
+    }
   } else {
-    return -1;
+    return "error";
   }
 }

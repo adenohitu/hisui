@@ -1,7 +1,12 @@
 //atcoderとの通信用クラス
 //ログインや通信を管理
 //Copyright © 2021 adenohitu. All rights reserved.
-import axios, { AxiosInstance } from "axios";
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 import { sessionRemove, setBrowserCoockie } from "../browser/session";
 import { hisuiEvent } from "../event/event";
 import { returnLogin, returnLogout } from "../interfaces";
@@ -17,10 +22,28 @@ export class atcoderClass {
     headers: { Cookie: saveSession.get("session", "") },
   });
   setup() {
-    this.axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting", request.method, "Request: ", request.url);
-      return request;
-    });
+    this.axiosInstance.interceptors.request.use(
+      (config: AxiosRequestConfig) => {
+        const url = `${config.baseURL}${config.url}`;
+        console.log(`Start:Url=${url}Method=${config.method}`);
+        return config;
+      }
+    );
+
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => {
+        const status = response.status;
+        const url = response?.config.url;
+        console.log(`Success:Url=${url} Status=${status}`);
+        return response;
+      },
+      (error: AxiosError) => {
+        const status = error.response!.status;
+        const message = error.response!.data.messages[0] || "No message.";
+        const url = error.response?.config.url;
+        console.log(`Error:Url=${url} Status=${status} Message=${message}`);
+      }
+    );
   }
   constructor() {
     this.setup();

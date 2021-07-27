@@ -24,7 +24,7 @@ export class taskViewWindow {
     this.nowTop = null;
     this.contestpageId = null;
   }
-  open() {
+  async open() {
     this.win = new BrowserWindow({
       width: store.get("window.taskView.width", 800),
       height: store.get("window.taskView.height", 600),
