@@ -12,6 +12,7 @@ import { Submitmain } from "./component/submit/submitwindow";
 import { TestCaseBoard } from "./component/case/main";
 import { BackgroungMenu } from "./component/menu/background";
 import { TaskViewToolbar } from "./component/taskview/toolbar";
+import "@fontsource/roboto";
 
 const App: React.FC = () => {
   return (

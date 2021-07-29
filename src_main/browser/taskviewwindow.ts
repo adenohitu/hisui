@@ -9,6 +9,7 @@ import { store } from "../save/save";
 const windowTopMargin = 28;
 export class taskViewWindow {
   private baseurl = "https://atcoder.jp/contests/";
+
   win: null | BrowserWindow;
   // idはTaskScreenNameを入れる
   // 例外としてContestのホームページの時は
@@ -16,14 +17,20 @@ export class taskViewWindow {
   // initUrlはview開くときに指定したURL
   // urlはAtcoder.jp/contests/の後のパスを入れる
   view: { [id: string]: { initUrl: string; view: BrowserView } };
+
   nowTop: string | null;
   contestpageId: string | null;
+
   constructor() {
     this.view = {};
     this.win = null;
     this.nowTop = null;
     this.contestpageId = null;
   }
+
+  /**
+   * windowを開く
+   */
   async open() {
     this.win = new BrowserWindow({
       width: store.get("window.taskView.width", 800),
@@ -72,10 +79,15 @@ export class taskViewWindow {
       this.view = {};
     });
   }
+
+  /**
+   * Windowを閉じる
+   */
   close() {
     this.win?.close();
   }
-  // Viewが存在する場合フォーカスする
+
+  // Viewが存在する場合フォーカス(setTop)する
   async addView(id: string, url: string) {
     if (!(id in this.view) && this.win !== null) {
       console.log("run");
@@ -121,6 +133,7 @@ export class taskViewWindow {
       return "already";
     }
   }
+
   /**
    * 指定したViewを一番上に持ってくる
    */
@@ -136,6 +149,7 @@ export class taskViewWindow {
   async reloadView(id: string) {
     this.view[id].view.webContents.reload();
   }
+
   /**
    * 開いた時のURLに戻す
    */
@@ -145,6 +159,7 @@ export class taskViewWindow {
     );
     console.log(`${this.baseurl}${this.view[id].initUrl}`);
   }
+
   /**
    * viewを閉じる
    */
@@ -186,6 +201,7 @@ export class taskViewWindow {
       return "viewNull";
     }
   }
+
   /**
    * コンテストページのViewを開く
    * 起動時にデフォルトのコンテストのページを開く
@@ -205,7 +221,5 @@ export class taskViewWindow {
       }
     });
   }
-
-  setuptaskViewIPC() {}
 }
 export const taskViewWindowApi = new taskViewWindow();
