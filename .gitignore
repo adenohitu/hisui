@@ -29,3 +29,6 @@ yarn-error.log*
 electron/data/test/*
 electron/data/scraping/run_test.ts
 archive/memo
+
+# licence check
+.licenses
