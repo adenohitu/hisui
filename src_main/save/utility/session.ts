@@ -1,6 +1,6 @@
 // electronに保存されているCookieを操作
 import { session } from "electron";
-import { saveSession } from "../save/save_session";
+import { saveSession } from "../save_session";
 
 /**
  * atcoder.jpで登録されているセッションを全て表示

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import SpeedDial, { SpeedDialProps } from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
@@ -71,41 +71,19 @@ export default function SpeedDials() {
   const [open, setOpen] = React.useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hidden, setHidden] = React.useState(false);
+  // SelectLanguageDialogのHooks
+  const [dialogOpen, dialogSetOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    async function fetchData() {
-      const defaultlang = await window.editor.getdefaultLanguage();
-      setValueDialog(defaultlang);
-    }
-    fetchData();
-  }, []);
+
   const handleOpen = () => {
     setOpen(true);
   };
-  const [openDialog, setOpenDialog] = React.useState(false);
-  const [valueDialog, setValueDialog] = React.useState("Dione");
-
-  const handleCloseDialog = (newValue?: string) => {
-    setOpenDialog(false);
-    if (newValue) {
-      window.editor.setdefaultLanguage(newValue, true);
-      setValueDialog(newValue);
-    }
-  };
   return (
     <>
-      <SelectLanguageDialog
-        classes={{
-          paper: classes.paper,
-        }}
-        id="ringtone-menu"
-        keepMounted
-        open={openDialog}
-        onClose={handleCloseDialog}
-        value={valueDialog}
-      />
+      <SelectLanguageDialog open={dialogOpen} setOpen={dialogSetOpen} />
       <div className={classes.exampleWrapper}>
         <SpeedDial
           ariaLabel="EditorWindowControl"
@@ -127,7 +105,7 @@ export default function SpeedDials() {
                 handleClose();
                 action.click();
                 if (action.name === "言語変更") {
-                  setOpenDialog(true);
+                  dialogSetOpen(true);
                 }
               }}
             />
