@@ -2,11 +2,16 @@ import { Mosaic, MosaicWindow } from "react-mosaic-component";
 import { MainEditor } from "../editor";
 import { ReloadButton, SubmissionTable } from "../../submission/submission";
 import { EditorTool } from "../tool/editortool";
+import React from "react";
 export const TITLE_ELEMENT: {
   [viewId: string]: {
     name: string;
     component: JSX.Element;
-    additionalControl?: JSX.Element[];
+    additionalControl?: (
+      | React.ReactChild
+      | React.ReactFragment
+      | React.ReactPortal
+    )[];
   };
 } = {
   editor: {
@@ -16,7 +21,7 @@ export const TITLE_ELEMENT: {
   submission: {
     name: "提出一覧",
     component: <SubmissionTable />,
-    additionalControl: [<ReloadButton />],
+    additionalControl: React.Children.toArray([<ReloadButton />]),
   },
   tool: { name: "ツール", component: <EditorTool /> },
 };
