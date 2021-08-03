@@ -22,6 +22,9 @@ jobs:
         run: yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # ファイル名の被りを回避
+      - name: rename log file
+        run: mv dist/builder-debug.yml dist/builder-debug-mac.yml
       # Release の作成とビルドしたパッケージのアップロード
       - name: create release
         uses: softprops/action-gh-release@v1
