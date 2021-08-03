@@ -41,32 +41,32 @@ const template: any = [
   {
     label: "ファイル",
     submenu: [
-      {
-        label: "保存フォルダーを設定",
-        click(item: any, focusedWindow: any, event: any) {
-          runMakeDefaultFolderDialog(focusedWindow);
-        },
-      },
-      {
-        label: "createTask",
-        click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.createNewTask("abc198", "abc198_a", "A", "python");
-        },
-      },
-      {
-        label: "saveTask",
-        click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.taskAll["abc198_a"].save().then((log) => {
-            console.log(log);
-          });
-        },
-      },
-      {
-        label: "settask",
-        click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.changeTask("abc198_a");
-        },
-      },
+      // {
+      //   label: "保存フォルダーを設定",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     runMakeDefaultFolderDialog(focusedWindow);
+      //   },
+      // },
+      // {
+      //   label: "createTask",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     taskControlApi.createNewTask("abc198", "abc198_a", "A", "python");
+      //   },
+      // },
+      // {
+      //   label: "saveTask",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     taskControlApi.taskAll["abc198_a"].save().then((log) => {
+      //       console.log(log);
+      //     });
+      //   },
+      // },
+      // {
+      //   label: "settask",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     taskControlApi.changeTask("abc198_a");
+      //   },
+      // },
       isMac ? { role: "close" } : { role: "quit" },
     ],
   },
@@ -146,42 +146,42 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
-      {
-        label: "DevToolsOnMainwindow",
-        click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.openDevTools({ mode: "detach" });
-        },
-      },
-      {
-        label: "DevToolsOnMainpage",
-        click(item: any, focusedWindow: any, event: any) {
-          mainPageapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnDashboard",
-        click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnCaseCreate",
-        click(item: any, focusedWindow: any, event: any) {
-          createsampleViewapi.openDevTool();
-        },
-      },
-      {
-        label: "testOpem",
-        click(item: any, focusedWindow: any, event: any) {
-          taskViewWindowApi.addView("abc199_a", "abc205/tasks/abc205_a");
-        },
-      },
-      {
-        label: "DevToolsOnEditor",
-        click(item: any, focusedWindow: any, event: any) {
-          editorViewapi.openDevTool();
-        },
-      },
+      // {
+      //   label: "DevToolsOnMainwindow",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     focusedWindow.webContents.openDevTools({ mode: "detach" });
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnMainpage",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     mainPageapi.openDevTool();
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnDashboard",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     dashboardapi.openDevTool();
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnCaseCreate",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     createsampleViewapi.openDevTool();
+      //   },
+      // },
+      // {
+      //   label: "testOpem",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     taskViewWindowApi.addView("abc199_a", "abc205/tasks/abc205_a");
+      //   },
+      // },
+      // {
+      //   label: "DevToolsOnEditor",
+      //   click(item: any, focusedWindow: any, event: any) {
+      //     editorViewapi.openDevTool();
+      //   },
+      // },
       { type: "separator" },
       { role: "resetZoom" },
       { role: "zoomIn" },

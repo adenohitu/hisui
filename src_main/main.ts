@@ -21,12 +21,12 @@ import {
 import { updateSetup } from "./update/update";
 import { mainPageapi } from "./browserview/mainpageview";
 import { dashboardapi } from "./browserview/dashboardview";
-import { editorViewapi } from "./browserview/editorview";
+// import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
-import { taskViewWindowApi } from "./browser/taskviewwindow";
+// import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
@@ -77,9 +77,9 @@ function createWindow() {
     createsampleViewapi.closeView();
     dashboardapi.closeView();
     mainPageapi.closeView();
-    editorViewapi.closeView();
+    // editorViewapi.closeView();
     // taskViewを閉じる
-    taskViewWindowApi.close();
+    // taskViewWindowApi.close();
     taskControlApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
@@ -121,7 +121,7 @@ function createWindow() {
     .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     //editorをセットアップ
-    editorViewapi.setupView(win);
+    // editorViewapi.setupView(win);
     //dashboardをセットアップ
     dashboardapi.setupView(win);
     //mainページをセットアップ
@@ -129,7 +129,7 @@ function createWindow() {
     //制約生成ツールをセットアップ
     createsampleViewapi.setupView(win);
     // taskViewWindowをセットアップ
-    taskViewWindowApi.open();
+    // taskViewWindowApi.open();
     // timerの初期化
     timerApi.setup();
   }

@@ -141,7 +141,7 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
       text: "ホーム",
       icon: <HomeIcon />,
     },
-    { id: 1, viewName: "editor", text: "エディター", icon: <CodeIcon /> },
+    // { id: 1, viewName: "editor", text: "エディター", icon: <CodeIcon /> },
     // { id: 2, viewName: "submit", text: "提出", icon: <SendIcon /> },
     {
       id: 3,
