@@ -30,7 +30,7 @@ import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
-import { setWindowMode } from "./browser/windowsetup";
+// import { setWindowMode } from "./browser/windowsetup";
 
 export let win: null | BrowserWindow = null;
 
@@ -144,7 +144,7 @@ function createWindow() {
     // 保存してあるセッションをViewに適応
     setBrowserCoockie();
     // windowの位置のセットアップ
-    setWindowMode("normal");
+    // setWindowMode("normal");
   });
   if (!app.isPackaged) {
     // win.webContents.openDevTools({ mode: "detach" });
