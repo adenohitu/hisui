@@ -57,7 +57,7 @@ export default function BasicTable() {
           {date !== "0001-01-01T00:00:00Z" && dayjs(date).format("HH:mm:ss")}
         </Typography>
         <Typography variant="body2" className={classes.watext}>
-          {num !== 0 && "(" + num + ")"}
+          {num !== 0 && num !== 1 && "(" + (num - 1) + ")"}
         </Typography>
 
         <Typography variant="body2">
