@@ -30,6 +30,7 @@ import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
+import { setupDefaultFolder } from "./file/file";
 // import { setWindowMode } from "./browser/windowsetup";
 
 export let win: null | BrowserWindow = null;
@@ -182,3 +183,5 @@ setmenu();
 updateSetup();
 // submissionのセットアップ
 submissionsApi.setup();
+// 保存ファイルの設定
+setupDefaultFolder();
