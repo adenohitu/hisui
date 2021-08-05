@@ -2,6 +2,7 @@
 import { app, BrowserView, BrowserWindow } from "electron";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
+import { win } from "../main";
 import { store } from "../save/save";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
@@ -39,7 +40,6 @@ export class taskViewWindow {
       y: store.get("window.taskView.y"),
       titleBarStyle: "hidden",
       trafficLightPosition: { x: 6, y: 6 },
-      closable: false,
       // opacity: 0.5,
       webPreferences: {
         nodeIntegration: false,
@@ -71,6 +71,7 @@ export class taskViewWindow {
       store.set("window.taskView.y", this.win?.getNormalBounds().y);
       // 全て閉じる
       this.allViewRemove();
+      // メインも閉じる
     });
     // Close後の処理
     this.win.on("closed", () => {
@@ -78,6 +79,7 @@ export class taskViewWindow {
       this.win = null;
       // viewは閉じた時に全て消去される
       this.view = {};
+      win?.close();
     });
   }
 

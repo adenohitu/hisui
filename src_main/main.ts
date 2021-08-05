@@ -32,6 +32,7 @@ import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
 import { setupDefaultFolder } from "./file/file";
 import { monitoringWebContents } from "./browser/tool/monitoring";
+import { logMonitorSize } from "./browser/tool/monitorsize";
 // webcontentsの監視の開始
 monitoringWebContents();
 
@@ -82,8 +83,8 @@ function createWindow() {
     mainPageapi.closeView();
     editorViewapi.closeView();
     // taskViewを閉じる
-    taskViewWindowApi.close();
     taskControlApi.close();
+    taskViewWindowApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
   });
@@ -156,6 +157,7 @@ function createWindow() {
 
 app.on("ready", () => {
   createWindow();
+  logMonitorSize();
 });
 
 app.on("window-all-closed", () => {
