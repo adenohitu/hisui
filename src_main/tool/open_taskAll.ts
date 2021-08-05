@@ -1,5 +1,5 @@
 // import { Atcoder } from "../data/atcoder";
-import urlOpen from "./openExternal";
+import { urlOpen } from "./openExternal";
 import { contestDataApi } from "../data/contestdata";
 import { submissionsApi } from "../data/submissions";
 async function openTaskAll() {

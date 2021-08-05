@@ -31,7 +31,9 @@ import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
 import { setupDefaultFolder } from "./file/file";
-// import { setWindowMode } from "./browser/windowsetup";
+import { monitoringWebContents } from "./browser/tool/monitoring";
+// webcontentsの監視の開始
+monitoringWebContents();
 
 export let win: null | BrowserWindow = null;
 

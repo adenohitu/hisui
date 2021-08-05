@@ -14,7 +14,7 @@ import { submissionsApi } from "../data/submissions";
 import { taskControlApi } from "../editor/control";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 // import { win } from "../main";
-import urlOpen from "../tool/openExternal";
+import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 const isMac = process.platform === "darwin";
 // ElectronのMenuの設定
