@@ -8,10 +8,25 @@ import { taskViewWindowApi } from "../taskviewwindow";
 export const setWindowSplit = () => {
   if (app.isReady()) {
     if (win !== null) {
+      // 中間を計算、Windowの位置を作成
       const displayStatus = screen.getPrimaryDisplay();
       const centerwidth = Math.floor(displayStatus.workArea.width / 2);
-      // const leftWindowSize={x:}
-      const rightWindowSize = {};
+      const leftWindowSize = {
+        x: displayStatus.workArea.x,
+        y: displayStatus.workArea.y,
+        width: centerwidth,
+        height: displayStatus.workArea.height,
+      };
+      const rightWindowSize = {
+        x: centerwidth,
+        y: displayStatus.workArea.y,
+        width: displayStatus.workArea.width - centerwidth,
+        height: displayStatus.workArea.height,
+      };
+      // windowにセット
+      win.setBounds(leftWindowSize);
+      taskViewWindowApi.win?.setBounds(rightWindowSize);
+      console.log("windowSetSplit");
     } else {
       console.log("windowClosed");
     }
