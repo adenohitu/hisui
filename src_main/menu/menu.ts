@@ -14,8 +14,9 @@ import { submissionsApi } from "../data/submissions";
 import { taskControlApi } from "../editor/control";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
 // import { win } from "../main";
-import urlOpen from "../tool/openExternal";
+import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
+import { setWindowSplit } from "../browser/tool/monitorsize";
 const isMac = process.platform === "darwin";
 // ElectronのMenuの設定
 const template: any = [
@@ -217,6 +218,12 @@ const template: any = [
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
           dashboardapi.resetWindowState();
+        },
+      },
+      {
+        label: "setWindowSplit",
+        click(item: any, focusedWindow: any, event: any) {
+          setWindowSplit();
         },
       },
       // {

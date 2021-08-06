@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import { Atcoder } from "./data/atcoder";
-import urlOpen from "./tool/openExternal";
+import { urlOpen } from "./tool/openExternal";
 import { getWindowState, setWindowState } from "./save/utility/renderState";
 import { contestDataApi } from "./data/contestdata";
 import { getStandings, getRank, getTotal } from "./data/standing";

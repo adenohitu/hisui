@@ -30,7 +30,10 @@ import { taskViewWindowApi } from "./browser/taskviewwindow";
 import { taskControlApi } from "./editor/control";
 import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
-import { setWindowMode } from "./browser/windowsetup";
+import { setupDefaultFolder } from "./file/file";
+import { monitoringWebContents } from "./browser/monitoring/monitoring";
+// webcontentsの監視の開始
+monitoringWebContents();
 
 export let win: null | BrowserWindow = null;
 
@@ -79,8 +82,8 @@ function createWindow() {
     mainPageapi.closeView();
     editorViewapi.closeView();
     // taskViewを閉じる
-    taskViewWindowApi.close();
     taskControlApi.close();
+    taskViewWindowApi.close();
     //statusCheckを止める
     stopCheckServiceStatus();
   });
@@ -144,7 +147,7 @@ function createWindow() {
     // 保存してあるセッションをViewに適応
     setBrowserCoockie();
     // windowの位置のセットアップ
-    setWindowMode("normal");
+    // setWindowMode("normal");
   });
   if (!app.isPackaged) {
     // win.webContents.openDevTools({ mode: "detach" });
@@ -182,3 +185,5 @@ setmenu();
 updateSetup();
 // submissionのセットアップ
 submissionsApi.setup();
+// 保存ファイルの設定
+setupDefaultFolder();
