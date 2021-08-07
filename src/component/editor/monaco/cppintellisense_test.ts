@@ -7,19 +7,11 @@ export function cppAddIntellisence(monaco: Monaco) {
     // here you could do a server side lookup
     return [
       {
-        label: "for",
+        label: "f",
         prefix: "f",
         kind: monaco.languages.CompletionItemKind.Snippet,
         documentation: "forの補完",
         insertText: ["for (int i = $1; i < $2; i++){", "\t$0", "}"].join("\n"),
-        range: range,
-      },
-      {
-        label: "fll",
-        prefix: "fll",
-        kind: monaco.languages.CompletionItemKind.Snippet,
-        documentation: "forの補完",
-        insertText: ["for (ll i = $1; i < $2; i++){", "\t$0", "}"].join("\n"),
         range: range,
       },
     ];
