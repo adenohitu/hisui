@@ -15,7 +15,7 @@ const myCache = new NodeCache();
 export class contestData {
   private DefaultContestID: string;
   constructor() {
-    this.DefaultContestID = store.get("DefaultContestID", "abc001");
+    this.DefaultContestID = store.get("DefaultContestID", "abc127");
   }
   /**
    * デフォルトのコンテストIDを設定する
