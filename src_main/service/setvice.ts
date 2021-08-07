@@ -4,7 +4,7 @@ const { app, dialog } = require("electron");
 const version = app.getVersion();
 const statusUrl = `https://hisui-api.herokuapp.com/servicestatus/api/?version=${version}`;
 let timer: any = undefined;
-
+let missCount = 0;
 export async function startCheckServiceStatus() {
   runServiceStatus();
   timer = setInterval(runServiceStatus, 3600000);
@@ -14,37 +14,59 @@ export async function stopCheckServiceStatus() {
 }
 
 export async function runServiceStatus() {
-  const data: any = await axios.get(statusUrl, { timeout: 30000 });
+  try {
+    const data = await axios.get(statusUrl, { timeout: 30000 });
 
-  const statusData: servicestatus = data.data;
-  console.log(statusData);
+    const statusData: servicestatus = data.data;
+    console.log(statusData);
 
-  if (statusData.useapp === false && statusData.statusMessage !== null) {
-    const selectStatus = await dialog.showMessageBox({
-      type: "error",
-      title: statusData.statusMessage.title,
-      message: statusData.statusMessage.title,
-      detail: statusData.statusMessage.detail,
-      buttons: ["アプリを終了する"],
-    });
+    if (statusData.useapp === false && statusData.statusMessage !== null) {
+      const selectStatus = await dialog.showMessageBox({
+        type: "error",
+        title: statusData.statusMessage.title,
+        message: statusData.statusMessage.title,
+        detail: statusData.statusMessage.detail,
+        buttons: ["アプリを終了する"],
+      });
 
-    if (selectStatus.response === 0) {
-      app.quit();
+      if (selectStatus.response === 0) {
+        app.quit();
+      }
     }
-  }
 
-  if (statusData.status === "warning" && statusData.statusMessage !== null) {
-    const selectStatus = await dialog.showMessageBox({
-      type: "warning",
-      title: statusData.statusMessage.title,
-      message: statusData.statusMessage.title,
-      detail: statusData.statusMessage.detail,
-      buttons: ["アプリを終了する", "そのまま使用する"],
-      cancelId: -1, // Esc で閉じられたときの戻り値
-    });
+    if (statusData.status === "warning" && statusData.statusMessage !== null) {
+      const selectStatus = await dialog.showMessageBox({
+        type: "warning",
+        title: statusData.statusMessage.title,
+        message: statusData.statusMessage.title,
+        detail: statusData.statusMessage.detail,
+        buttons: ["アプリを終了する", "そのまま使用する"],
+        cancelId: -1, // Esc で閉じられたときの戻り値
+      });
 
-    if (selectStatus.response === 0) {
-      app.quit();
+      if (selectStatus.response === 0) {
+        app.quit();
+      }
+    }
+  } catch (error) {
+    if (missCount <= 2) {
+      missCount++;
+      runServiceStatus();
+    } else {
+      missCount = 0;
+      const selectStatus = await dialog.showMessageBox({
+        type: "error",
+        title: "認証サーバーにアクセスできません",
+        message: "認証サーバーにアクセスできません",
+        detail:
+          "このアプリケーションに問題があるか、インターネット接続に問題がある可能性があります。インターネット状況を確認して改善しない場合は、Discordで質問してください",
+        buttons: ["アプリを終了する", "そのまま使用する"],
+        cancelId: -1, // Esc で閉じられたときの戻り値
+      });
+
+      if (selectStatus.response === 0) {
+        app.quit();
+      }
     }
   }
 }
