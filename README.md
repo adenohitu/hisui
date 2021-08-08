@@ -1,6 +1,6 @@
 # Hisui
 
-[紹介サイト](https://adenohitu.github.io/Hisui-docs/)
+[紹介サイト](https://adenohitu.github.io/Hisui-introduce/)
 
 競技プログラミングサポートツールです  
 AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です  
