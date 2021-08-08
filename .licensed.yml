@@ -1,7 +1,10 @@
 sources:
   yarn: true
+
 allowed: # 以下のライセンスならOKとします
   - mit
   - isc
   - bsd-2-clause
   - apache-2.0
+yarn:
+  production_only: false
