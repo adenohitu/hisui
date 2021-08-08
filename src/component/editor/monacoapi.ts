@@ -1,5 +1,8 @@
 import { editor } from "monaco-editor";
-import { cppAddIntellisence } from "./monaco/cppintellisense_test";
+import {
+  cppAddIntellisence,
+  pythonAddIntellisence,
+} from "./monaco/cppintellisense_test";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -36,6 +39,7 @@ export class monacocontrol {
     this.monaco = monacoapi;
     if (this.monaco) {
       cppAddIntellisence(this.monaco);
+      pythonAddIntellisence(this.monaco);
     }
   }
   /**
