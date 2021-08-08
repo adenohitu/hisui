@@ -1,8 +1,6 @@
 # Hisui
 
-[Site](https://adenohitu.github.io/Hisui-docs/)
-
-## 概要
+[紹介サイト](https://adenohitu.github.io/Hisui-introduce/)
 
 競技プログラミングサポートツールです  
 AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です  
@@ -11,20 +9,11 @@ After supporting AtCoder, we plan to support other Competitive programming sites
 
 ## このプロジェクトの目的
 
-- Atcoder の操作を全て一つのアプリで完結させる
-- AtCoder のコードテストを使ってコーディングしている人に向けて、簡単に導入できるコーディング環境を提供する
-- 競プロ用の CLI ツール（例:[online-judge-tools](https://github.com/online-judge-tools/oj)）などの使用（コマンド操作）が難しいと感じる人に簡単に操作できるツールを提供する
-- ランキングや提出状況などを一目で見やすくまとめる
-- コンテストへのモチベーションをあげる
+### 競技プログラミングを簡単に
 
-## 内容
+- 複雑な競技プログラミングの環境をこれひとつで完結させることができる
+- 既に環境がある人に向けて、さらに便利になるようなツールの提供
 
-- インストールするだけですぐに使える
+### 競技プログラミングをもっと楽しく
 
-<!-- ## 設計
-
-ソフトウェアフレームワーク：[electron](https://www.electronjs.org/)
-エディター：[Monaco Editor](https://microsoft.github.io/monaco-editor/)
-フレームワーク(Render)：[React](https://ja.reactjs.org/) -->
-
-<!-- ブラウザ、エディターなどたくさんアプリを開かなくてもこれひとつでよくする -->
+- 競プロがもっと楽しくなるような機能や問題を解くのを助ける機能
