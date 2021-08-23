@@ -17,6 +17,7 @@ import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
+import { atcoderCodeTestApi } from "../casetester/atcoder";
 const isMac = process.platform === "darwin";
 // ElectronのMenuの設定
 const template: any = [
@@ -137,6 +138,15 @@ const template: any = [
         label: "Open all tasks",
         click(item: any, focusedWindow: any, event: any) {
           openTaskAll();
+        },
+      },
+      {
+        label: "code test run",
+        click(item: any, focusedWindow: any, event: any) {
+          atcoderCodeTestApi.runCodeTest("python", `print("a")`, "");
+          atcoderCodeTestApi.CodeTestEmitter.once("finish", (status) =>
+            console.log(status)
+          );
         },
       },
     ],

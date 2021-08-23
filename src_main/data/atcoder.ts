@@ -24,8 +24,8 @@ export class atcoderClass {
   setup() {
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
-        const url = `${config.baseURL}${config.url}`;
-        console.log(`Start:Url=${url}Method=${config.method}`);
+        const url = `${config.url}`;
+        console.log(`Start:Url=${url} Method=${config.method}`);
         return config;
       }
     );
@@ -38,10 +38,10 @@ export class atcoderClass {
         return response;
       },
       (error: AxiosError) => {
-        const status = error.response!.status;
-        const message = error.response!.data.messages[0] || "No message.";
-        const url = error.response?.config.url;
-        console.log(`Error:Url=${url} Status=${status} Message=${message}`);
+        // const status = error.response?.status;
+        // const message = error.response?.data.messages[0] || "No message.";
+        // const url = error.response?.config.url;
+        console.log(`Error:Url=${error.config.url} Status=${error.message}`);
       }
     );
   }
@@ -89,7 +89,7 @@ export class atcoderClass {
    * 提出ページのURLを入力することで提出時に必要なTorkenを返す
    * falseでcookieなし trueCookieであり
    */
-  async getCsrftoken(session: boolean, url: string = url_login): Promise<any> {
+  async getCsrftoken(session: boolean, url: string = url_login) {
     if (session === false) {
       // cookieなしでログインページにアクセス
       const response = await this.axiosInstance.get(url, {
@@ -99,8 +99,9 @@ export class atcoderClass {
       //jsdomの型定義ファイルを入れると競合？するのかエラーが出るのでrequireで読み込み
       const { JSDOM } = await require("jsdom");
       const { document } = new JSDOM(response.data).window;
-      const input: any = document.getElementsByName("csrf_token")[0];
-      const returndata = input.value;
+      const input = document.getElementsByName("csrf_token")[0];
+      const returndata = input["value"];
+
       //cookieを保存
       //  axiosInstanceにログイン用のCoockieをデフォルトとして設定
       const Cookie = response.headers["set-cookie"];
@@ -109,12 +110,14 @@ export class atcoderClass {
     } else {
       // ログインページ以外のCsrfTorken取得
       const response = await this.axiosInstance.get(url);
+
       //csrf_tokenをスクレイピング
       //jsdomの型定義ファイルを入れると競合？するのかエラーが出るのでrequireで読み込み
       const { JSDOM } = await require("jsdom");
       const { document } = new JSDOM(response.data).window;
       const input: any = document.getElementsByName("csrf_token")[0];
-      const returndata = input.value;
+
+      const returndata = input["value"];
       return [returndata, undefined];
     }
   }
