@@ -3,6 +3,12 @@
 import { dialog, ipcMain } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
+import { ipcSendall } from "../browserview/mgt/ipcall";
+import {
+  atcoderCodeTestApi,
+  atcoderCodeTestResult,
+} from "../casetester/atcoder";
+import { ansCheck } from "../casetester/judgetool";
 import { runSubmit } from "../data/submit";
 import {
   languageselect,
@@ -10,7 +16,6 @@ import {
   submitLanguageId,
 } from "../file/extension";
 import { readFileAwait, runMakeFile, writeFileAwait } from "../file/mkfile";
-import { win } from "../main";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -24,6 +29,14 @@ export interface changeLanguageType {
   id: string;
   language: string;
 }
+/**
+ * 問題のシステムジャッジ結果
+ * AC:正解
+ * WA:不正解（理由は含めずACではない場合）
+ * judge:ジャッジの回答待ち
+ * unknown:不明(初期値)
+ */
+export type JudgeStatus = "AC" | "WA" | "judge" | "unknown";
 /**
  * １つのTaskを管理するClass
  */
@@ -51,7 +64,7 @@ export class taskcont {
   // advanced State
 
   /**
-   * 問題のジャッジ状況
+   * 問題のシステムジャッジ状況
    * AC:正解
    * WA:不正解（理由は含めずACではない場合）
    * judge:ジャッジの回答待ち
@@ -272,24 +285,47 @@ export class taskcont {
    */
   async submit() {
     this.save();
-    if (win !== null) {
-      const selectStatus = await dialog.showMessageBox(win, {
-        type: "info",
-        title: "提出確認",
-        message: "提出してもいいですか？",
-        buttons: ["提出", "キャンセル"],
-      });
-      if (selectStatus.response === 0) {
-        const saveStatus = await this.save();
-        if (saveStatus === "succsess" && this.Data !== null) {
-          runSubmit(
-            this.contestName,
-            this.TaskScreenName,
-            this.Data,
-            submitLanguageId[this.language]
-          );
-        }
+    const selectStatus = await dialog.showMessageBox({
+      type: "info",
+      title: "提出確認",
+      message: "提出してもいいですか？",
+      buttons: ["提出", "キャンセル"],
+    });
+    if (selectStatus.response === 0) {
+      const saveStatus = await this.save();
+      if (saveStatus === "succsess" && this.Data !== null) {
+        runSubmit(
+          this.contestName,
+          this.TaskScreenName,
+          this.Data,
+          submitLanguageId[this.language]
+        );
       }
     }
+  }
+
+  /**
+   * サンプルケースを使いコードをテストする
+   */
+  async codeTest(samplecase: string, answer: string | null = null) {
+    return new Promise<atcoderCodeTestResult | {}>((resolve, reject) => {
+      if (this.Data !== null) {
+        atcoderCodeTestApi.runCodeTest(this.language, this.Data, samplecase);
+        atcoderCodeTestApi.CodeTestEmitter.once("finish", async (res) => {
+          if (answer) {
+            const ansstatus = ansCheck(answer, res.Stdout);
+            res["ansStatus"] = ansstatus;
+            // 結果を返すイベント
+            ipcSendall("codeTestResult", res);
+            resolve(res);
+          } else {
+            ipcSendall("codeTestResult", res);
+            resolve(res);
+          }
+        });
+      } else {
+        resolve({});
+      }
+    });
   }
 }

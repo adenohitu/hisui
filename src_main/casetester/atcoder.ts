@@ -1,8 +1,11 @@
 import { EventEmitter } from "stream";
 import { Atcoder } from "../data/atcoder";
 import { contestDataApi } from "../data/contestdata";
-import { languagetype, submitLanguageId } from "../file/extension";
-type codeTestStatus = any;
+import {
+  languagetype,
+  languagetypeId,
+  submitLanguageId,
+} from "../file/extension";
 /**
  * コードテストが実行されたときに発生するイベント
  */
@@ -11,9 +14,37 @@ export declare class CodeTestEmitter extends EventEmitter {
   once(event: "run", listener: () => void): this;
   emit(event: "run"): boolean;
 
-  on(event: "finish", listener: (status: any) => void): this;
-  once(event: "finish", listener: (status: any) => void): this;
-  emit(event: "finish", status: codeTestStatus): boolean;
+  on(event: "finish", listener: (status: atcoderCodeTestResult) => void): this;
+  once(
+    event: "finish",
+    listener: (status: atcoderCodeTestResult) => void
+  ): this;
+  emit(event: "finish", status: atcoderCodeTestResult): boolean;
+}
+/**
+ * atcoderのコードテストで帰ってくるデータそのものに
+ * ansStatusを足したもの
+ */
+export interface atcoderCodeTestResult {
+  ansStatus?: string;
+  Interval?: number;
+  Result: {
+    Id: number;
+    SourceCode: string;
+    Input: string;
+    Output: string;
+    Error: string;
+    TimeConsumption: number;
+    MemoryConsumption: number;
+    ExitCode: number;
+    Status: number;
+    // ISO 8601
+    Created: string;
+    LanguageId: languagetypeId;
+    LanguageName: string;
+  };
+  Stderr: string;
+  Stdout: string;
 }
 
 class atcoderCodeTest {
@@ -39,18 +70,32 @@ class atcoderCodeTest {
       params.append("sourceCode", code);
       params.append("input", input);
       params.append("csrf_token", csrf_token[0]);
+      try {
+        const res = await Atcoder.axiosInstance.post(
+          customTestPostURL,
+          params,
+          {
+            maxRedirects: 0,
+            validateStatus: (status) =>
+              (status >= 200 && status < 300) || status === 302,
+          }
+        );
 
-      const res = await Atcoder.axiosInstance.post(customTestPostURL, params, {
-        maxRedirects: 0,
-        validateStatus: (status) =>
-          (status >= 200 && status < 300) || status === 302,
-      });
-
-      if (res.status === 200) {
-        this.CodeTestEmitter.emit("run");
-        this.CodeTeststatus = "CodeTest";
-        this.CodeTestchecker();
+        if (res.status === 200) {
+          // 結果待機
+          this.CodeTestEmitter.emit("run");
+          this.CodeTeststatus = "CodeTest";
+          this.CodeTestchecker();
+          return "success";
+        } else {
+          return "error:statuscode";
+        }
+      } catch (error) {
+        console.log(error);
+        return "error:axiosInstance";
       }
+    } else {
+      return "isrunning";
     }
   }
   /**
@@ -59,18 +104,18 @@ class atcoderCodeTest {
   private async CodeTestchecker() {
     if (this.CodeTeststatus === "CodeTest") {
       const checkURL = `${this.getcustomTestURL()}/json?reload=true`;
-      console.log(checkURL);
-
       const Data = await Atcoder.axiosInstance.get(checkURL);
+      // 結果に型をつける
+      const Result: atcoderCodeTestResult = Data.data;
 
       if (Data.status === 200) {
-        if (Data.data["Interval"] !== undefined) {
+        if (Result["Interval"] !== undefined) {
           var serf = this;
           setTimeout(() => {
             serf.CodeTestchecker();
-          }, Data.data["Interval"]);
+          }, Result["Interval"]);
         } else {
-          this.CodeTestEmitter.emit("finish", Data.data["Result"]);
+          this.CodeTestEmitter.emit("finish", Result);
           this.CodeTeststatus = "ready";
         }
       }

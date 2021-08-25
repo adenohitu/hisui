@@ -166,6 +166,19 @@ class taskControl {
         this.taskAll[this.nowTop].submit();
       }
     });
+    // コードテストを実行
+    ipcMain.on(
+      "runcodeTestNowTop",
+      async (event, samplecase: string, answer: string | null = null) => {
+        if (this.nowTop !== null) {
+          const result = await this.taskAll[this.nowTop].codeTest(
+            samplecase,
+            answer
+          );
+          console.log(result);
+        }
+      }
+    );
   }
 }
 

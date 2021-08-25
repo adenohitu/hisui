@@ -55,7 +55,13 @@ const actions = [
       window.editor.submitNowTop();
     },
   },
-  { icon: <PlaylistAddCheckIcon />, name: "テスト", click: () => {} },
+  {
+    icon: <PlaylistAddCheckIcon />,
+    name: "テスト",
+    click: () => {
+      window.editor.runcodeTestNowTop("Hello,World!\n", "AC\n");
+    },
+  },
   {
     icon: <LanguageIcon />,
     name: "言語変更",

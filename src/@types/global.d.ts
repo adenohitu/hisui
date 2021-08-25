@@ -127,6 +127,10 @@ declare global {
        * 一番上になっているTaskContのコードを提出する
        */
       submitNowTop();
+      /**
+       * 一番上になっているTaskContのコードをテストする
+       */
+      runcodeTestNowTop(samplecase: string, answer: string | null = null);
     };
     submissions: {
       /**
