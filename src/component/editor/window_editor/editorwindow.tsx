@@ -1,37 +1,36 @@
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 import { MainEditor } from "../editor";
 import { ReloadButton, SubmissionTable } from "../../submission/submission";
-import { EditorTool } from "../tool/editortool";
+// import { EditorTool } from "../tool/editortool";
 import React from "react";
-export const TITLE_ELEMENT: {
-  [viewId: string]: {
-    name: string;
-    component: JSX.Element;
-    additionalControl?: (
-      | React.ReactChild
-      | React.ReactFragment
-      | React.ReactPortal
-    )[];
-  };
-} = {
+import { CodeTestWindow } from "../codetest";
+
+type editorWindowMosaicKey = keyof typeof TITLE_ELEMENT;
+
+export const TITLE_ELEMENT = {
   editor: {
     name: "コード",
     component: <MainEditor />,
+    additionalControl: undefined,
   },
   submission: {
     name: "提出一覧",
     component: <SubmissionTable />,
     additionalControl: React.Children.toArray([<ReloadButton />]),
   },
-  tool: { name: "ツール", component: <EditorTool /> },
-};
 
+  codeTest: {
+    name: "テスト結果:AtCoderCustomTest",
+    component: <CodeTestWindow />,
+    additionalControl: undefined,
+  },
+};
 export const Editorwindow = () => {
   return (
     <>
-      <Mosaic<string>
+      <Mosaic<editorWindowMosaicKey>
         renderTile={(id, path) => (
-          <MosaicWindow<string>
+          <MosaicWindow<editorWindowMosaicKey>
             path={path}
             title={TITLE_ELEMENT[id].name}
             className="table-window"
@@ -45,8 +44,13 @@ export const Editorwindow = () => {
         initialValue={{
           direction: "column",
           first: "editor",
-          second: "submission",
-          splitPercentage: 75,
+          second: {
+            direction: "row",
+            first: "submission",
+            second: "codeTest",
+            splitPercentage: 0,
+          },
+          splitPercentage: 50,
         }}
       />
     </>

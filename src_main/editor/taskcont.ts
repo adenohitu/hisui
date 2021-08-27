@@ -308,6 +308,7 @@ export class taskcont {
    * サンプルケースを使いコードをテストする
    */
   async codeTest(samplecase: string, answer: string | null = null) {
+    await this.save();
     return new Promise<atcoderCodeTestResult | {}>((resolve, reject) => {
       if (this.Data !== null) {
         atcoderCodeTestApi.runCodeTest(this.language, this.Data, samplecase);
@@ -316,10 +317,10 @@ export class taskcont {
             const ansstatus = ansCheck(answer, res.Stdout);
             res["ansStatus"] = ansstatus;
             // 結果を返すイベント
-            ipcSendall("codeTestResult", res);
+            ipcSendall("codeTestStatusEvent", res);
             resolve(res);
           } else {
-            ipcSendall("codeTestResult", res);
+            ipcSendall("codeTestStatusEvent", res);
             resolve(res);
           }
         });

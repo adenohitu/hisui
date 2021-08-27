@@ -1,4 +1,5 @@
 import { EventEmitter } from "stream";
+import { ipcSendall } from "../browserview/mgt/ipcall";
 import { Atcoder } from "../data/atcoder";
 import { contestDataApi } from "../data/contestdata";
 import {
@@ -10,10 +11,20 @@ import {
  * コードテストが実行されたときに発生するイベント
  */
 export declare class CodeTestEmitter extends EventEmitter {
+  // コードをPostした瞬間に発生
   on(event: "run", listener: () => void): this;
   once(event: "run", listener: () => void): this;
   emit(event: "run"): boolean;
 
+  // 状態取得の更新が行われるたびに発生
+  on(event: "checker", listener: (status: atcoderCodeTestResult) => void): this;
+  once(
+    event: "checker",
+    listener: (status: atcoderCodeTestResult) => void
+  ): this;
+  emit(event: "checker", status: atcoderCodeTestResult): boolean;
+
+  // 結果が帰ってきたときに発生
   on(event: "finish", listener: (status: atcoderCodeTestResult) => void): this;
   once(
     event: "finish",
@@ -50,9 +61,11 @@ export interface atcoderCodeTestResult {
 class atcoderCodeTest {
   CodeTestEmitter: CodeTestEmitter;
   CodeTeststatus: "CodeTest" | "ready";
+  nowInput: string;
   constructor() {
     this.CodeTestEmitter = new EventEmitter();
     this.CodeTeststatus = "ready";
+    this.nowInput = "";
   }
   /**
    * コードを実行する
@@ -85,6 +98,7 @@ class atcoderCodeTest {
           // 結果待機
           this.CodeTestEmitter.emit("run");
           this.CodeTeststatus = "CodeTest";
+          this.nowInput = input;
           this.CodeTestchecker();
           return "success";
         } else {
@@ -107,9 +121,15 @@ class atcoderCodeTest {
       const Data = await Atcoder.axiosInstance.get(checkURL);
       // 結果に型をつける
       const Result: atcoderCodeTestResult = Data.data;
+      // resultを加工
+      Result.Result.Input = this.nowInput;
 
       if (Data.status === 200) {
+        console.dir({ id: Result.Result.Id, Interval: Result.Interval });
         if (Result["Interval"] !== undefined) {
+          Result.ansStatus = "WJ";
+          this.sendCodeTestStatus(Result);
+          this.CodeTestEmitter.emit("checker", Result);
           var serf = this;
           setTimeout(() => {
             serf.CodeTestchecker();
@@ -128,6 +148,9 @@ class atcoderCodeTest {
   private getcustomTestURL() {
     const contestid = contestDataApi.getDefaultContestID();
     return `https://atcoder.jp/contests/${contestid}/custom_test`;
+  }
+  private sendCodeTestStatus(data: atcoderCodeTestResult) {
+    ipcSendall("codeTestStatusEvent", data);
   }
 }
 export const atcoderCodeTestApi = new atcoderCodeTest();

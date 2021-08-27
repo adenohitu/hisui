@@ -1,4 +1,5 @@
 import { type } from "os"; // eslint-disable-line
+import { atcoderCodeTestResult } from "./casetester/atcoder";
 import { createTaskContType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
@@ -288,6 +289,15 @@ contextBridge.exposeInMainWorld("editor", {
   },
   runcodeTestNowTop: (samplecase: string, answer: string | null = null) => {
     ipcRenderer.send("runcodeTestNowTop", samplecase, answer);
+  },
+  // コードテストの結果に更新があったら受け取る
+  codeTestStatusEvent: async (func: (arg: atcoderCodeTestResult) => void) => {
+    ipcRenderer.on(
+      "codeTestStatusEvent",
+      (event, arg: atcoderCodeTestResult) => {
+        func(arg);
+      }
+    );
   },
 });
 /**
