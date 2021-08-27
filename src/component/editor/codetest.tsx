@@ -74,7 +74,7 @@ function Row(props: { row: atcoderCodeTestResult }) {
         </TableCell>
         <TableCell align="left">{row.ansStatus}</TableCell>
         <TableCell align="left">
-          {dayjs(row.Result.Created).format("HH:mm:ssZ")}
+          {dayjs(row.Result.Created).format("HH:mm:ss")}
         </TableCell>
         <TableCell align="left">{row.Result.LanguageName}</TableCell>
       </TableRow>

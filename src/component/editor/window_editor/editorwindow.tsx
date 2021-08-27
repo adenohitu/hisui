@@ -1,11 +1,55 @@
-import { Mosaic, MosaicWindow } from "react-mosaic-component";
+import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 import { MainEditor } from "../editor";
 import { ReloadButton, SubmissionTable } from "../../submission/submission";
 // import { EditorTool } from "../tool/editortool";
-import React from "react";
+import React, { useState } from "react";
 import { CodeTestWindow } from "../codetest";
 
 type editorWindowMosaicKey = keyof typeof TITLE_ELEMENT;
+const initial: MosaicNode<editorWindowMosaicKey> = {
+  direction: "column",
+  first: "editor",
+  second: {
+    direction: "row",
+    first: "submission",
+    second: "codeTest",
+    splitPercentage: 100,
+  },
+  splitPercentage: 60,
+};
+const editor: MosaicNode<editorWindowMosaicKey> = {
+  direction: "column",
+  first: "editor",
+  second: {
+    direction: "row",
+    first: "submission",
+    second: "codeTest",
+    splitPercentage: 50,
+  },
+  splitPercentage: 100,
+};
+const codeTest: MosaicNode<editorWindowMosaicKey> = {
+  direction: "column",
+  first: "editor",
+  second: {
+    direction: "row",
+    first: "submission",
+    second: "codeTest",
+    splitPercentage: 0,
+  },
+  splitPercentage: 60,
+};
+const submission: MosaicNode<editorWindowMosaicKey> = {
+  direction: "column",
+  first: "editor",
+  second: {
+    direction: "row",
+    first: "submission",
+    second: "codeTest",
+    splitPercentage: 100,
+  },
+  splitPercentage: 60,
+};
 
 export const TITLE_ELEMENT = {
   editor: {
@@ -25,7 +69,29 @@ export const TITLE_ELEMENT = {
     additionalControl: undefined,
   },
 };
+
+export let focusEditor: () => void | undefined;
+export let focuscodeTest: () => void | undefined;
+export let focussubmission: () => void | undefined;
 export const Editorwindow = () => {
+  const [windowState, setState] =
+    useState<MosaicNode<editorWindowMosaicKey> | null>(initial);
+  const onChange = (windowState: MosaicNode<editorWindowMosaicKey> | null) => {
+    // console.log(windowState);
+    setState(windowState);
+  };
+  focusEditor = () => {
+    setState(editor);
+  };
+  focuscodeTest = () => {
+    setState(codeTest);
+  };
+  focussubmission = () => {
+    setState(submission);
+  };
+  const onRelease = (windowState: MosaicNode<editorWindowMosaicKey> | null) => {
+    // setState(windowState);
+  };
   return (
     <>
       <Mosaic<editorWindowMosaicKey>
@@ -33,6 +99,7 @@ export const Editorwindow = () => {
           <MosaicWindow<editorWindowMosaicKey>
             path={path}
             title={TITLE_ELEMENT[id].name}
+            toolbarControls={[]}
             className="table-window"
             additionalControls={TITLE_ELEMENT[id].additionalControl}
             additionalControlButtonText="操作"
@@ -41,17 +108,9 @@ export const Editorwindow = () => {
           </MosaicWindow>
         )}
         resize={{ minimumPaneSizePercentage: 0 }}
-        initialValue={{
-          direction: "column",
-          first: "editor",
-          second: {
-            direction: "row",
-            first: "submission",
-            second: "codeTest",
-            splitPercentage: 0,
-          },
-          splitPercentage: 50,
-        }}
+        onChange={onChange}
+        onRelease={onRelease}
+        value={windowState}
       />
     </>
   );

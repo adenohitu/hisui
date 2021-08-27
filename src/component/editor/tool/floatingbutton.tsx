@@ -7,8 +7,14 @@ import SaveIcon from "@material-ui/icons/Save";
 import SendIcon from "@material-ui/icons/Send";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import LanguageIcon from "@material-ui/icons/Language";
+import EditIcon from "@material-ui/icons/Edit";
 import { monacoControlApi } from "../editor";
 import { SelectLanguageDialog } from "./languagedialog";
+import {
+  focuscodeTest,
+  focusEditor,
+  focussubmission,
+} from "../window_editor/editorwindow";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +59,7 @@ const actions = [
     name: "提出",
     click: () => {
       window.editor.submitNowTop();
+      focussubmission();
     },
   },
   {
@@ -60,12 +67,20 @@ const actions = [
     name: "テスト",
     click: () => {
       window.editor.runcodeTestNowTop("Hello,World!\n", "AC\n");
+      focuscodeTest();
     },
   },
   {
     icon: <LanguageIcon />,
     name: "言語変更",
     click: () => {},
+  },
+  {
+    icon: <EditIcon />,
+    name: "エディターのみ",
+    click: () => {
+      focusEditor();
+    },
   },
 ];
 
