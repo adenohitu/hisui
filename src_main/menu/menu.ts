@@ -1,6 +1,5 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../save/utility/session";
-import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { createsampleViewapi } from "../browserview/createsampleview";
 // import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
@@ -17,7 +16,6 @@ import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
-import { atcoderCodeTestApi } from "../casetester/atcoder";
 const isMac = process.platform === "darwin";
 // ElectronのMenuの設定
 const template: any = [
@@ -56,18 +54,11 @@ const template: any = [
         },
       },
       {
-        label: "saveTask",
+        label: "saveNowTop",
         click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.taskAll["abc198_a"].save().then((log) => {
-            console.log(log);
-          });
+          taskControlApi.saveNowTop();
         },
-      },
-      {
-        label: "settask",
-        click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.changeTask("abc198_a");
-        },
+        accelerator: process.platform === "darwin" ? "command+S" : "ctrl+S",
       },
       isMac ? { role: "close" } : { role: "quit" },
     ],
@@ -108,15 +99,15 @@ const template: any = [
         },
       },
       {
-        label: "セッション同期",
-        click(item: any, focusedWindow: any, event: any) {
-          setBrowserCoockie();
-        },
-      },
-      {
         label: "logout",
         click(item: any, focusedWindow: any, event: any) {
           Atcoder.runLogout();
+        },
+      },
+      {
+        label: "セッション同期",
+        click(item: any, focusedWindow: any, event: any) {
+          setBrowserCoockie();
         },
       },
     ],
@@ -135,18 +126,9 @@ const template: any = [
       },
       { type: "separator" },
       {
-        label: "Open all tasks",
+        label: "ブラウザで全ての問題を開く",
         click(item: any, focusedWindow: any, event: any) {
           openTaskAll();
-        },
-      },
-      {
-        label: "code test run",
-        click(item: any, focusedWindow: any, event: any) {
-          atcoderCodeTestApi.runCodeTest("python", `print("a")`, "");
-          atcoderCodeTestApi.CodeTestEmitter.once("finish", (status) =>
-            console.log(status)
-          );
         },
       },
     ],
@@ -157,6 +139,12 @@ const template: any = [
     submenu: [
       { role: "reload" },
       { role: "forceReload" },
+      { type: "separator" },
+      { role: "resetZoom" },
+      { role: "zoomIn" },
+      { role: "zoomOut" },
+      { type: "separator" },
+      { role: "togglefullscreen" },
       {
         label: "DevToolsOnMainwindow",
         click(item: any, focusedWindow: any, event: any) {
@@ -182,23 +170,11 @@ const template: any = [
         },
       },
       {
-        label: "testOpem",
-        click(item: any, focusedWindow: any, event: any) {
-          taskViewWindowApi.addView("abc199_a", "abc205/tasks/abc205_a");
-        },
-      },
-      {
         label: "DevToolsOnEditor",
         click(item: any, focusedWindow: any, event: any) {
           editorViewapi.openDevTool();
         },
       },
-      { type: "separator" },
-      { role: "resetZoom" },
-      { role: "zoomIn" },
-      { role: "zoomOut" },
-      { type: "separator" },
-      { role: "togglefullscreen" },
     ],
   },
   {

@@ -99,6 +99,15 @@ class taskControl {
       this.nowTop = TaskScreenName;
     }
   }
+  /**
+   * 一番上にあるTaskにセーブイベントを発生させる
+   */
+  saveNowTop() {
+    if (this.nowTop) {
+      this.taskAll[this.nowTop].save();
+    }
+  }
+
   async changeTask(TaskScreenName: string) {
     // ViewのTopの変更
     this.taskAll[TaskScreenName].settopTaskView();
