@@ -28,4 +28,4 @@ After supporting "AtCoder", we plan to support other Competitive programming sit
 
 ## License
 
-パッケージされたソフトウェアの使用のみ許可し、再頒布及び利用（ソースコード等を含む）は禁止とします。
+パッケージされたソフトウェアの使用のみ許可し、再頒布及び利用（ソースコード等を含む）は禁止する。
