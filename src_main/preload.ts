@@ -1,13 +1,13 @@
 import { type } from "os"; // eslint-disable-line
+import { atcoderCodeTestResult } from "./casetester/atcoder";
 import { createTaskContType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
 
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
-type Data = string;
 contextBridge.exposeInMainWorld("api", {
-  send: (data: Data) => {
+  send: (data: string) => {
     ipcRenderer.send("msg_render_to_main", data);
   },
   //ipctest
@@ -286,6 +286,18 @@ contextBridge.exposeInMainWorld("editor", {
   },
   submitNowTop: () => {
     ipcRenderer.send("submitNowTop");
+  },
+  runcodeTestNowTop: (samplecase: string, answer: string | null = null) => {
+    ipcRenderer.send("runcodeTestNowTop", samplecase, answer);
+  },
+  // コードテストの結果に更新があったら受け取る
+  codeTestStatusEvent: async (func: (arg: atcoderCodeTestResult) => void) => {
+    ipcRenderer.on(
+      "codeTestStatusEvent",
+      (event, arg: atcoderCodeTestResult) => {
+        func(arg);
+      }
+    );
   },
 });
 /**

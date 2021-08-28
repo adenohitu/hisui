@@ -1,39 +1,47 @@
-import { Mosaic, MosaicWindow } from "react-mosaic-component";
-import { MainEditor } from "../editor";
-import { ReloadButton, SubmissionTable } from "../../submission/submission";
-import { EditorTool } from "../tool/editortool";
-import React from "react";
-export const TITLE_ELEMENT: {
-  [viewId: string]: {
-    name: string;
-    component: JSX.Element;
-    additionalControl?: (
-      | React.ReactChild
-      | React.ReactFragment
-      | React.ReactPortal
-    )[];
-  };
-} = {
-  editor: {
-    name: "コード",
-    component: <MainEditor />,
-  },
-  submission: {
-    name: "提出一覧",
-    component: <SubmissionTable />,
-    additionalControl: React.Children.toArray([<ReloadButton />]),
-  },
-  tool: { name: "ツール", component: <EditorTool /> },
-};
+import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 
+// import { EditorTool } from "../tool/editortool";
+import React, { useState } from "react";
+import {
+  codeTest,
+  editor,
+  editorWindowMosaicKey,
+  initial,
+  submission,
+} from "./default";
+import { TITLE_ELEMENT } from "./default";
+
+export let focusEditor: () => void | undefined;
+export let focuscodeTest: () => void | undefined;
+export let focussubmission: () => void | undefined;
 export const Editorwindow = () => {
+  const [windowState, setState] =
+    useState<MosaicNode<editorWindowMosaicKey> | null>(initial);
+  const onChange = (windowState: MosaicNode<editorWindowMosaicKey> | null) => {
+    // console.log(windowState);
+    setState(windowState);
+  };
+  focusEditor = () => {
+    setState(editor);
+  };
+  focuscodeTest = () => {
+    setState(codeTest);
+  };
+
+  focussubmission = () => {
+    setState(submission);
+  };
+  const onRelease = (windowState: MosaicNode<editorWindowMosaicKey> | null) => {
+    // setState(windowState);
+  };
   return (
     <>
-      <Mosaic<string>
+      <Mosaic<editorWindowMosaicKey>
         renderTile={(id, path) => (
-          <MosaicWindow<string>
+          <MosaicWindow<editorWindowMosaicKey>
             path={path}
             title={TITLE_ELEMENT[id].name}
+            toolbarControls={[]}
             className="table-window"
             additionalControls={TITLE_ELEMENT[id].additionalControl}
             additionalControlButtonText="操作"
@@ -42,12 +50,9 @@ export const Editorwindow = () => {
           </MosaicWindow>
         )}
         resize={{ minimumPaneSizePercentage: 0 }}
-        initialValue={{
-          direction: "column",
-          first: "editor",
-          second: "submission",
-          splitPercentage: 75,
-        }}
+        onChange={onChange}
+        onRelease={onRelease}
+        value={windowState}
       />
     </>
   );

@@ -1,23 +1,34 @@
+/*!
+ *======================================================================
+ *Project Name    : Hisui
+ *File Name       : cppintellisense_test.ts
+ *Copyright © 2021 adenohitu. All rights reserved.
+ *======================================================================
+ */
 /* eslint-disable no-template-curly-in-string */
 // snippetを追加するサンプル
 import { Monaco } from "@monaco-editor/react";
+import { snippet } from "./sample";
 
 export function cppAddIntellisence(monaco: Monaco) {
   function createDependencyProposals(range: any) {
-    // returning a static list of proposals, not even looking at the prefix (filtering is done by the Monaco editor),
-    // here you could do a server side lookup
-    return [
-      {
-        label: "for",
-        prefix: "for",
+    let testData = snippet;
+    let newarrey: any = [];
+    Object.keys(testData).forEach((key) => {
+      newarrey.push({
+        label: key,
+        prefix: testData[key].prefix,
         kind: monaco.languages.CompletionItemKind.Snippet,
-        documentation: "forの補完",
-        insertText: ["for (int i = $1; i < $2; i++){", "\t$0", "}"].join("\n"),
+        documentation: "",
+        insertText: testData[key].body.join("\n"),
         insertTextRules:
           monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         range: range,
-      },
-    ];
+      });
+    });
+    console.log(newarrey);
+
+    return newarrey;
   }
   monaco.languages.registerCompletionItemProvider("cpp", {
     provideCompletionItems: function (model, position) {
@@ -51,10 +62,11 @@ export function pythonAddIntellisence(monaco: Monaco) {
         range: range,
       },
       {
-        label: '"my-third-party-library"',
+        label: "input",
+        prefix: "input",
         kind: monaco.languages.CompletionItemKind.Function,
-        documentation: "Describe your library here",
-        insertText: '"${1:my-third-party-library}": "${2:1.2.3}"',
+        documentation: "標準入力",
+        insertText: ["input()"].join("\n"),
         insertTextRules:
           monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         range: range,

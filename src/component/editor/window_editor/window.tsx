@@ -9,6 +9,7 @@ import { Editorwindow } from "./editorwindow";
 import "./style.css";
 import { Box } from "@material-ui/core";
 import SpeedDials from "../tool/floatingbutton";
+import TestTool from "../../codetest/toolwindow";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
@@ -29,6 +30,8 @@ export const Editor = () => {
   return (
     <>
       <div className="react-mosaic-app">
+        <TestTool />
+
         <Mosaic<string>
           renderTile={(id) => ELEMENT_MAP[id]}
           resize={{ minimumPaneSizePercentage: 0 }}

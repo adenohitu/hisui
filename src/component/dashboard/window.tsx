@@ -26,6 +26,9 @@ export default function DefaltContest() {
     // console.log(windowState);
     setState(windowState);
   };
+  const onRelease = (windowState: MosaicNode<string> | null) => {
+    setValue(windowState);
+  };
 
   //保存されているものを読み出す
   async function value() {
@@ -34,9 +37,7 @@ export default function DefaltContest() {
     console.log("value end");
     setState(data);
   }
-  const onRelease = (windowState: MosaicNode<string> | null) => {
-    setValue(windowState);
-  };
+
   useEffect(() => {
     value();
     setResetOn();

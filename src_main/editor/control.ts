@@ -99,6 +99,15 @@ class taskControl {
       this.nowTop = TaskScreenName;
     }
   }
+  /**
+   * 一番上にあるTaskにセーブイベントを発生させる
+   */
+  saveNowTop() {
+    if (this.nowTop) {
+      this.taskAll[this.nowTop].save();
+    }
+  }
+
   async changeTask(TaskScreenName: string) {
     // ViewのTopの変更
     this.taskAll[TaskScreenName].settopTaskView();
@@ -166,6 +175,19 @@ class taskControl {
         this.taskAll[this.nowTop].submit();
       }
     });
+    // コードテストを実行
+    ipcMain.on(
+      "runcodeTestNowTop",
+      async (event, samplecase: string, answer: string | null = null) => {
+        if (this.nowTop !== null) {
+          const result = await this.taskAll[this.nowTop].codeTest(
+            samplecase,
+            answer
+          );
+          console.log(result);
+        }
+      }
+    );
   }
 }
 
