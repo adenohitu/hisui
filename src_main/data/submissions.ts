@@ -22,8 +22,9 @@ class submissions {
    *  submissionを自動更新
    */
   startSubmissionsTimer() {
+    let serf = this;
     this.timer = setInterval(() => {
-      this.updateSubmissions();
+      serf.updateSubmissions();
     }, 300000);
   }
   stopSubmissionsTimer() {
@@ -56,6 +57,7 @@ class submissions {
       this.selectContestSubmissions = await this.getSubmissionMe(
         nowDefaultContest
       );
+      this.checkInterval(this.selectContestSubmissions);
       // viewに取得したデータを送信
       ipcSendall("submissionsReturn", this.selectContestSubmissions);
     }
@@ -125,6 +127,17 @@ class submissions {
     ipcMain.on("updateSubmissions", () => {
       this.updateSubmissions();
     });
+  }
+  private async checkInterval(data: submissionData[]) {
+    const getindex = data.find(
+      (element) => element.time_consumption === "-- ms"
+    );
+    if (getindex !== undefined) {
+      var serf = this;
+      setTimeout(() => {
+        serf.updateSubmissions();
+      }, 3000);
+    }
   }
 }
 export const submissionsApi = new submissions();

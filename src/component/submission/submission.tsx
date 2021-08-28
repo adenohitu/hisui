@@ -36,6 +36,7 @@ export function SubmissionTable() {
   useEffect(() => {
     window.submissions.submissionsReturn((arg) => {
       setrows(arg);
+      console.log(arg);
     });
   }, []);
 
