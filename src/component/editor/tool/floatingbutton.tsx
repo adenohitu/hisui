@@ -10,11 +10,8 @@ import LanguageIcon from "@material-ui/icons/Language";
 import EditIcon from "@material-ui/icons/Edit";
 import { monacoControlApi } from "../editor";
 import { SelectLanguageDialog } from "./languagedialog";
-import {
-  focuscodeTest,
-  focusEditor,
-  focussubmission,
-} from "../window_editor/editorwindow";
+import { focusEditor, focussubmission } from "../window_editor/editorwindow";
+import { TestToolhandleClickOpen } from "../../codetest/toolwindow";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,8 +63,7 @@ const actions = [
     icon: <PlaylistAddCheckIcon />,
     name: "テスト",
     click: () => {
-      window.editor.runcodeTestNowTop("Hello,World!\n", "AC\n");
-      focuscodeTest();
+      TestToolhandleClickOpen();
     },
   },
   {
