@@ -2,6 +2,7 @@
 const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
 export interface submissionData {
+  waiting_judge: boolean;
   created: any;
   task: any;
   task_url: any;
@@ -31,6 +32,14 @@ async function scraping_submissions_list(body: any) {
     //リストで出力
     const submit_list: submissionData[] = Array.from(submit_list_body).map(
       (element: any) => {
+        const classcheck_waiting_judge =
+          element.querySelectorAll(".waiting-judge");
+        let waiting_judge;
+        if (classcheck_waiting_judge.length === 0) {
+          waiting_judge = false;
+        } else {
+          waiting_judge = true;
+        }
         const created: any = dayjs(
           element.querySelectorAll("td")[0].textContent.trim()
         ).format();
@@ -69,6 +78,7 @@ async function scraping_submissions_list(body: any) {
             .querySelector("a")
             .getAttribute("href");
           const return_data = {
+            waiting_judge,
             created,
             task,
             task_url,
@@ -101,6 +111,7 @@ async function scraping_submissions_list(body: any) {
             .getAttribute("href");
 
           const return_data = {
+            waiting_judge,
             created,
             task,
             task_url,

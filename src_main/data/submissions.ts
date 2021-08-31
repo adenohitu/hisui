@@ -128,15 +128,15 @@ class submissions {
       this.updateSubmissions();
     });
   }
+  // 不具合により一時的に使用不可
   private async checkInterval(data: submissionData[]) {
-    const getindex = data.find(
-      (element) => element.time_consumption === "-- ms"
-    );
+    const getindex = data.find((element) => element.waiting_judge === true);
     if (getindex !== undefined) {
       var serf = this;
       setTimeout(() => {
         serf.updateSubmissions();
-      }, 3000);
+      }, 5000);
+    } else {
     }
   }
 }
