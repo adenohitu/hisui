@@ -154,8 +154,24 @@ function createWindow() {
   }
 }
 
+// 複数インスタンスの禁止
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  app.exit();
+} else {
+  app.on("second-instance", (_e, argv) => {
+    if (win !== null) {
+      taskViewWindowApi.win?.focus();
+      win.focus();
+    }
+  });
+}
+
 app.on("ready", () => {
-  createWindow();
+  if (win === null) {
+    createWindow();
+  }
 });
 
 app.on("window-all-closed", () => {
