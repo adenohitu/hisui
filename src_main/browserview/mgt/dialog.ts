@@ -11,7 +11,7 @@ export function settingDialogOpen() {
   const nowWindow = changeViewapi.viewNow;
   switch (nowWindow) {
     case "main":
-      mainPageapi.mainPageView?.webContents.send("dafaltContest");
+      mainPageapi.view?.webContents.send("dafaltContest");
       break;
     case "editor":
       editorViewapi.editorView?.webContents.send("dafaltContest");
