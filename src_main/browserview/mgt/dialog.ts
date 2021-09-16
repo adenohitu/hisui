@@ -14,10 +14,10 @@ export function settingDialogOpen() {
       mainPageapi.view?.webContents.send("dafaltContest");
       break;
     case "editor":
-      editorViewapi.editorView?.webContents.send("dafaltContest");
+      editorViewapi.view?.webContents.send("dafaltContest");
       break;
     case "dashboard":
-      dashboardapi.dashboardView?.webContents.send("dafaltContest");
+      dashboardapi.view?.webContents.send("dafaltContest");
       break;
     case "case":
       createsampleViewapi.createsampleView?.webContents.send("dafaltContest");

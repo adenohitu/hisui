@@ -6,6 +6,6 @@ import { mainPageapi } from "../mainpageview";
  */
 export function ipcSendall(channel: string, ...args: any[]) {
   mainPageapi.view?.webContents.send(channel, ...args);
-  editorViewapi.editorView?.webContents.send(channel, ...args);
-  dashboardapi.dashboardView?.webContents.send(channel, ...args);
+  editorViewapi.view?.webContents.send(channel, ...args);
+  dashboardapi.view?.webContents.send(channel, ...args);
 }
