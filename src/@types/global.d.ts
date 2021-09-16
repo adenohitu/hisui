@@ -158,5 +158,6 @@ declare global {
        */
       nowTaskViewReset();
     };
+    ipc: any;
   }
 }

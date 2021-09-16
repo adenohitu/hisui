@@ -8,7 +8,7 @@ class dashboard extends view {
    * dashboardのデータ全てをアップデートする
    */
   runUpdatedata() {
-    this.view?.webContents.send("updateDashboard_replay");
+    this.send("UPDATE_DASHBOARD");
   }
   /**
    * windowの配置状態を初期化する

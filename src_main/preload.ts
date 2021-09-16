@@ -3,7 +3,7 @@ import { atcoderCodeTestResult } from "./casetester/atcoder";
 import { createTaskContType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
-
+import { rendererEvents } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
 contextBridge.exposeInMainWorld("api", {
@@ -323,3 +323,31 @@ contextBridge.exposeInMainWorld("contests", {
     });
   },
 });
+
+const obj = rendererEvents.reduce(
+  (result: { [name: string]: any }, current) => {
+    if (current.mode === "send") {
+      result[current.channel] = (
+        listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+      ) => {
+        ipcRenderer.on(current.channel, listener);
+      };
+      return result;
+    } else if (current.mode === "handle") {
+      result[current.channel] = async (...args: any[]) => {
+        const data = await ipcRenderer.invoke("getFiledata", args);
+        return data;
+      };
+      return result;
+    } else if (current.mode === "on") {
+      result[current.channel] = (...args: any[]) => {
+        ipcRenderer.send(current.channel, ...args);
+      };
+      return result;
+    } else {
+      return result;
+    }
+  },
+  {}
+);
+contextBridge.exposeInMainWorld("ipc", obj);

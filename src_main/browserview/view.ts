@@ -1,4 +1,5 @@
 import { app, BrowserView, BrowserWindow } from "electron";
+import { IpcEventsKey } from "../ipc/events";
 import { menuSize } from "./default";
 const isDev = !app.isPackaged;
 interface viewurl {
@@ -111,5 +112,13 @@ export class view {
     } else {
       return "viewNull";
     }
+  }
+  // ipcに関する関数
+
+  /**
+   * Viewでイベントを発行する
+   */
+  send(channel: IpcEventsKey, args?: Array<any>) {
+    this.view?.webContents.send(channel, args);
   }
 }

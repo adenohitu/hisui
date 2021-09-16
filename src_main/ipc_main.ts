@@ -42,7 +42,7 @@ export const main_ipc = () => {
     return get;
   });
   //ログイン状態を確認
-  ipcMain.handle("get_login_status", async (event, message) => {
+  ipcMain.handle("LOGIN_STATUS", async (event, message) => {
     const get = await Atcoder.checkLogin();
     return get;
   });
