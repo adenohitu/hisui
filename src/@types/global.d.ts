@@ -16,7 +16,6 @@ declare global {
       set_SetContestID_render;
       get_SetContestID_render;
       get_contest_list_render;
-      get_login_status_render;
       login_render;
       logout_render;
       getUsername_render;

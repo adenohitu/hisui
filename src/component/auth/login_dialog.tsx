@@ -54,7 +54,7 @@ export default function FormDialog() {
     });
   };
   const handleClickOpen = () => {
-    window.api.get_login_status_render().then((result: any) => {
+    window.ipc.LOGIN_STATUS().then((result: any) => {
       if (result === false) {
         setOpen(true);
       } else {

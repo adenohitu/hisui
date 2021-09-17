@@ -31,7 +31,7 @@ export const scoreDataSlice = createSlice({
 export const { setdata, loadStart, loadEnd } = scoreDataSlice.actions;
 export const requestScoreAsync = (): AppThunk => async (dispatch, getState) => {
   const update = async () => {
-    const check: boolean = await window.api.get_login_status_render();
+    const check: boolean = await window.ipc.LOGIN_STATUS();
     if (check && getState().scoreData.load === false) {
       dispatch(loadStart());
       const getDataipc = async () => {

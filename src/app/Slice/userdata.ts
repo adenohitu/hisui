@@ -26,7 +26,7 @@ export const { setdata } = userDataSlice.actions;
 export const requestAsync = (): AppThunk => async (dispatch) => {
   const getDataipc = async () => {
     const username = await window.api.getUsername_render();
-    const loginStatus = await window.api.get_login_status_render();
+    const loginStatus = await window.ipc.LOGIN_STATUS();
     return { username, loginStatus };
   };
   dispatch(setdata(await getDataipc()));

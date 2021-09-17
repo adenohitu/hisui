@@ -2,6 +2,7 @@
 // import { Counter } from "../counter/Counter";
 import { Box, Container, Grid, Paper, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { ipcRendererManager } from "../../ipc";
 import SelectContest from "../setting/select_contestlist";
 import Chart from "./Chart";
 import { HomeMenu } from "./menu";
@@ -28,7 +29,7 @@ export function Home() {
   });
   useEffect(() => {
     const run = async () => {
-      setstatus(await window.api.get_login_status_render());
+      setstatus(await ipcRendererManager.invoke("LOGIN_STATUS"));
       setuserdata(await window.api.getUserData_render());
     };
     run();

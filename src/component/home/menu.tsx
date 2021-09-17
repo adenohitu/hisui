@@ -14,7 +14,7 @@ export function HomeMenu() {
   const classes = useStyles();
   const [loginStatus, setloginStatus] = useState<boolean>(false);
   const getLoginStatus = async () => {
-    const status = await window.api.get_login_status_render();
+    const status = await window.ipc.LOGIN_STATUS();
     setloginStatus(status);
   };
   useEffect(() => {

@@ -52,11 +52,6 @@ contextBridge.exposeInMainWorld("api", {
     const data: any = await ipcRenderer.invoke("get_contest_list_main");
     return data;
   },
-  //ログイン状態を確認
-  get_login_status_render: async () => {
-    const data: any = await ipcRenderer.invoke("get_login_status");
-    return data;
-  },
   //ログイン処理を実行
   login_render: async (userdata: any) => {
     const data: any = await ipcRenderer.invoke("login", userdata);
@@ -335,7 +330,7 @@ const obj = rendererEvents.reduce(
       return result;
     } else if (current.mode === "handle") {
       result[current.channel] = async (...args: any[]) => {
-        const data = await ipcRenderer.invoke("getFiledata", args);
+        const data = await ipcRenderer.invoke(current.channel, args);
         return data;
       };
       return result;
