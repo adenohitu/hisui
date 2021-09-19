@@ -88,14 +88,6 @@ export class view {
     }
   }
 
-  /**
-   * デフォルトコンテストを設定するダイアログを出す
-   */
-  openDafaultContestDialog() {
-    this.runWindowTop();
-    this.view?.webContents.send("dafaltContest");
-  }
-
   private windowSizeChange(
     win: BrowserWindow | null,
     view: BrowserView | null

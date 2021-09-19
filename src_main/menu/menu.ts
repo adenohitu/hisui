@@ -119,8 +119,6 @@ const template: any = [
       {
         label: "Select Contest",
         click(item: any, focusedWindow: any, event: any) {
-          // focusedWindow.webContents.send("dafaltContest");
-          // settingDialogOpen();
           mainPageapi.openDafaultContestDialog();
         },
       },

@@ -6,7 +6,6 @@ export default interface Api {
 declare global {
   interface Window {
     api: {
-      dafaltContestOpen;
       resetWindowState_render;
       updateDashboard;
       getRank_send_render;

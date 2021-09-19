@@ -17,7 +17,7 @@ class mainPage extends view {
    */
   openDafaultContestDialog() {
     this.runWindowTop();
-    this.view?.webContents.send("dafaltContest");
+    this.send("LISTENER_OPEN_DEFAULT_DIALOG");
   }
 }
 

@@ -7,11 +7,6 @@ import { EventsArrey } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
 contextBridge.exposeInMainWorld("api", {
-  //コンテスト設定画面を表示
-  dafaltContestOpen: (func: any) => {
-    ipcRenderer.removeAllListeners("dafaltContest");
-    ipcRenderer.on("dafaltContest", func);
-  },
   //updateDashboard
   updateDashboard: async (func: any) => {
     ipcRenderer.on("updateDashboard_replay", (event, arg) => {

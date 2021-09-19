@@ -30,7 +30,11 @@ export default function DefaltContest() {
       set_formerror(false);
       // console.log("test1111");
     };
-    window.api.dafaltContestOpen(handleClickOpen);
+    ipcRendererManager.on(
+      "LISTENER_OPEN_DEFAULT_DIALOG",
+      handleClickOpen,
+      true
+    );
   }, []);
 
   const handleClose = () => {
