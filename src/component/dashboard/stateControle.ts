@@ -18,10 +18,11 @@ export async function setValue(value: MosaicNode<string> | null) {
   console.log("set");
   ipcRendererManager.invoke("SAVE_MOSAIC_WINDOW_STATE", value);
 }
+function reset() {
+  setState(dashboadWindowState);
+  setValue(dashboadWindowState);
+}
 export function setResetOn() {
   //ipcから受信 ウィンドウの配置を初期化する
-  window.api.resetWindowState_render(() => {
-    setState(dashboadWindowState);
-    setValue(dashboadWindowState);
-  });
+  ipcRendererManager.on("LISTENER_RESET_MOSAIC_WINDOW_STATE", reset, true);
 }

@@ -6,7 +6,6 @@ export default interface Api {
 declare global {
   interface Window {
     api: {
-      resetWindowState_render;
       getRank_send_render;
       getRank_on_render;
       getTotal_render;

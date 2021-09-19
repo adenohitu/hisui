@@ -7,14 +7,6 @@ import { EventsArrey } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
 contextBridge.exposeInMainWorld("api", {
-  //windowの配置をリセット
-  resetWindowState_render: async (func: any) => {
-    //初期化
-    ipcRenderer.removeAllListeners("resetWindowState_render");
-    //rendererでの受信用, funcはコールバック関数
-    ipcRenderer.on("resetWindowState", func);
-  },
-
   //timerを更新
   onTimerTick: async (func: any) => {
     //初期化

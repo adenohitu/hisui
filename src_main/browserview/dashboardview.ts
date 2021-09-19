@@ -14,7 +14,7 @@ class dashboard extends view {
    * windowの配置状態を初期化する
    */
   resetWindowState() {
-    this.view?.webContents.send("resetWindowState");
+    this.send("LISTENER_RESET_MOSAIC_WINDOW_STATE");
   }
 }
 
