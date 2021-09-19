@@ -9,6 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import SelectContest from "./select_contestlist";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { ipcRendererManager } from "../../ipc";
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -39,10 +40,8 @@ export default function DefaltContest() {
   const [status_snack, setStatus_snack] = React.useState("");
 
   const getdefaltdata = async () => {
-    const get: any = window.api.get_SetContestID_render;
-    get().then((result: any) => {
-      setText(result);
-    });
+    const data = await ipcRendererManager.invoke("GET_SET_CONTESTID");
+    setText(data);
   };
   const handleClose_snack = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
@@ -53,18 +52,16 @@ export default function DefaltContest() {
   };
   const [formerror, set_formerror] = React.useState(false);
   const [messageerror, set_messageerror] = React.useState("");
-  const set_contestID = () => {
-    const get: any = window.api.set_SetContestID_render;
-    get(text).then((result: any) => {
-      if (result) {
-        setStatus_snack(`${text}に設定しました`);
-        setOpen_snack(true);
-        handleClose();
-      } else {
-        set_messageerror("存在しないコンテストまたは認証が必要です");
-        set_formerror(true);
-      }
-    });
+  const set_contestID = async () => {
+    const check = await ipcRendererManager.invoke("SET_CONTESTID", text);
+    if (check) {
+      setStatus_snack(`${text}に設定しました`);
+      setOpen_snack(true);
+      handleClose();
+    } else {
+      set_messageerror("存在しないコンテストまたは認証が必要です");
+      set_formerror(true);
+    }
   };
   return (
     <div>

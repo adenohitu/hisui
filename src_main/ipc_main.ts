@@ -13,18 +13,18 @@ import { mainPageapi } from "./browserview/mainpageview";
 import { submissionsApi } from "./data/submissions";
 import { ipcMainManager } from "./ipc/ipc";
 //ipc通信
-export const main_ipc = () => {
+export const load_ipc = () => {
   //ブラウザでurlを開く
   ipcMainManager.on("URL_OPEN", (event, arg) => {
     urlOpen(arg);
   });
   //デフォルトのコンテストIDを設定する
-  ipcMain.handle("set_SetContestID", async (event, ContestID) => {
-    const get: any = await contestDataApi.setDefaultContestID(ContestID);
+  ipcMainManager.handle("SET_CONTESTID", async (event, ContestID) => {
+    const get: boolean = await contestDataApi.setDefaultContestID(ContestID);
     return get;
   });
   //デフォルトで設定されたコンテストIDを返す
-  ipcMain.handle("get_SetContestID", async (event, message) => {
+  ipcMainManager.handle("GET_SET_CONTESTID", async (event, message) => {
     const get = contestDataApi.getDefaultContestID();
     return get;
   });
@@ -33,8 +33,7 @@ export const main_ipc = () => {
     const get: any = await contestDataApi.getContestInfo();
     return get;
   });
-  //ログイン状態を確認
-  ipcMain.handle("LOGIN_STATUS", async (event, message) => {
+  ipcMainManager.handle("LOGIN_STATUS", async (event, message) => {
     const get = await Atcoder.checkLogin();
     return get;
   });

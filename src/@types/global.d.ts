@@ -13,8 +13,6 @@ declare global {
       loginOpen;
       dafaltContestOpen;
       dafaltContestremove;
-      set_SetContestID_render;
-      get_SetContestID_render;
       get_contest_list_render;
       login_render;
       logout_render;

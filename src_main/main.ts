@@ -13,7 +13,7 @@ import installExtension, {
 } from "electron-devtools-installer";
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
-import { main_ipc } from "./ipc_main";
+import { load_ipc } from "./ipc_main";
 import {
   startCheckServiceStatus,
   stopCheckServiceStatus,
@@ -194,7 +194,7 @@ hisuiEvent.on("view-main-top", (arg) => {
   console.log(arg);
 });
 //ipcの呼び出し
-main_ipc();
+load_ipc();
 //メニューのセット
 setmenu();
 //オートアップデートのセットアップ
