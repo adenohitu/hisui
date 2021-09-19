@@ -15,7 +15,7 @@ import { ipcMainManager } from "./ipc/ipc";
 //ipc通信
 export const load_ipc = () => {
   //ブラウザでurlを開く
-  ipcMainManager.on("URL_OPEN", (event, arg) => {
+  ipcMainManager.on("OPEN_URL", (event, arg) => {
     urlOpen(arg);
   });
   //デフォルトのコンテストIDを設定する
@@ -29,33 +29,32 @@ export const load_ipc = () => {
     return get;
   });
   //開催中・開催予定のコンテストをhashで出力
-  ipcMain.handle("get_contest_list_main", async (event, message) => {
-    const get: any = await contestDataApi.getContestInfo();
+  ipcMainManager.handle("GET_CONTEST_LIST", async (event, message) => {
+    const get = await contestDataApi.getContestInfo();
     return get;
   });
-  ipcMainManager.handle("LOGIN_STATUS", async (event, message) => {
-    const get = await Atcoder.checkLogin();
-    return get;
-  });
-  //ログイン状態処理を実行
-  ipcMain.handle("login", async (event, userdata) => {
-    // console.log(Atcoder_class.axiosInstance);
+  //ログイン処理を実行
+  ipcMainManager.handle("RUN_LOGIN", async (event, userdata) => {
     const get = await Atcoder.runLogin(userdata.username, userdata.password);
     return get;
   });
   //ログアウト
-  ipcMain.handle("logout", async (event, message) => {
+  ipcMainManager.handle("RUN_LOGOUT", async (event, message) => {
     const get = await Atcoder.runLogout();
     return get;
   });
+  // ログイン状態
+  ipcMainManager.handle("GET_LOGIN_STATUS", async (event, message) => {
+    const get = await Atcoder.checkLogin();
+    return get;
+  });
   //ログインされているユーザーIDを返す
-  ipcMain.handle("getUsername", async (event, message) => {
+  ipcMainManager.handle("GET_USER_NAME", async (event, message) => {
     const get = await Atcoder.getUsername();
     return get;
   });
   //ユーザー情報を返す
-  ipcMain.handle("getUserData", async (event, user) => {
-    // console.log(Atcoder_class.axiosInstance);
+  ipcMain.handle("GET_USER_DATA", async (event, user) => {
     const get = await getUserData(user);
     return get;
   });

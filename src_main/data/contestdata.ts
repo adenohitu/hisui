@@ -1,7 +1,7 @@
 //コンテスト情報に関するモジュール
 //Copyright © 2021 adenohitu. All rights reserved.
 import contest_main from "./scraping/contest_main";
-import scraping_contest_list from "./scraping/contest_list";
+import scraping_contest_list, { contest_list } from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";
 import { store } from "../save/save";
 import { Atcoder } from "./atcoder";
@@ -45,14 +45,7 @@ export class contestData {
   /*
    * 開催中・開催予定のコンテストを取得し出力
    */
-  async getContestInfo(): Promise<
-    {
-      contest_name: string;
-      taskScreenName: string;
-      start_time: any;
-      active: boolean;
-    }[]
-  > {
+  async getContestInfo(): Promise<contest_list[]> {
     console.log("run getContestInfo");
     const cache = myCache.get("ContestInfo");
     const url_contest: string = "https://atcoder.jp/contests/?lang=ja";

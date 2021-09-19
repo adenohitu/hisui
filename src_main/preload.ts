@@ -3,7 +3,7 @@ import { atcoderCodeTestResult } from "./casetester/atcoder";
 import { createTaskContType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
-import { rendererEvents } from "./ipc/events";
+import { EventsArrey } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
 contextBridge.exposeInMainWorld("api", {
@@ -19,9 +19,6 @@ contextBridge.exposeInMainWorld("api", {
       console.log(arg);
     });
   },
-  urlOpen_render: (data: string) => {
-    ipcRenderer.send("urlOpen", data);
-  },
   //ブラウザでurlを開く
   loginOpen: (func: any) => {
     ipcRenderer.removeAllListeners("loginOpen");
@@ -33,11 +30,6 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.removeAllListeners("dafaltContest");
     ipcRenderer.on("dafaltContest", func);
   },
-  //開催中・開催予定のコンテストをhashで出力
-  get_contest_list_render: async () => {
-    const data: any = await ipcRenderer.invoke("get_contest_list_main");
-    return data;
-  },
   //ログイン処理を実行
   login_render: async (userdata: any) => {
     const data: any = await ipcRenderer.invoke("login", userdata);
@@ -45,16 +37,6 @@ contextBridge.exposeInMainWorld("api", {
   },
   logout_render: async () => {
     const data: any = await ipcRenderer.invoke("logout");
-    return data;
-  },
-  //ログインされているユーザーIDを返す
-  getUsername_render: async () => {
-    const data: any = await ipcRenderer.invoke("getUsername");
-    return data;
-  },
-  //ユーザー情報を返す
-  getUserData_render: async (user: any) => {
-    const data: any = await ipcRenderer.invoke("getUserData", user);
     return data;
   },
   //開始時間と終了時間を取得
@@ -305,33 +287,30 @@ contextBridge.exposeInMainWorld("contests", {
   },
 });
 
-const obj = rendererEvents.reduce(
-  (result: { [name: string]: any }, current) => {
-    if (current.mode === "send") {
-      result[current.channel] = (
-        listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
-      ) => {
-        ipcRenderer.on(current.channel, listener);
-        return () => {
-          ipcRenderer.removeListener(current.channel, listener);
-        };
+const obj = EventsArrey.reduce((result: { [name: string]: any }, current) => {
+  if (current[1].mode === "send") {
+    result[current[0]] = (
+      listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+    ) => {
+      ipcRenderer.on(current[0], listener);
+      return () => {
+        ipcRenderer.removeListener(current[0], listener);
       };
-      return result;
-    } else if (current.mode === "handle") {
-      result[current.channel] = async (...args: any[]) => {
-        const data = await ipcRenderer.invoke(current.channel, ...args);
-        return data;
-      };
-      return result;
-    } else if (current.mode === "on") {
-      result[current.channel] = (...args: any[]) => {
-        ipcRenderer.send(current.channel, ...args);
-      };
-      return result;
-    } else {
-      return result;
-    }
-  },
-  {}
-);
+    };
+    return result;
+  } else if (current[1].mode === "handle") {
+    result[current[0]] = async (...args: any[]) => {
+      const data = await ipcRenderer.invoke(current[0], ...args);
+      return data;
+    };
+    return result;
+  } else if (current[1].mode === "on") {
+    result[current[0]] = (...args: any[]) => {
+      ipcRenderer.send(current[0], ...args);
+    };
+    return result;
+  } else {
+    return result;
+  }
+}, {});
 contextBridge.exposeInMainWorld("ipc", obj);

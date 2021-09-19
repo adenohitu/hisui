@@ -1,15 +1,13 @@
 // atcoder.jp/contests/をスクレイピングする
 const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
-
-function scraping_contest_list(
-  body: any
-): {
+export interface contest_list {
   contest_name: string;
   taskScreenName: string;
   start_time: any;
   active: boolean;
-}[] {
+}
+function scraping_contest_list(body: any): contest_list[] {
   const dom = new JSDOM(body);
   var all_list = [];
   //開催中のコンテストを取得

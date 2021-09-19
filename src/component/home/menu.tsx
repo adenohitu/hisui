@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { ipcRendererManager } from "../../ipc";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,7 +15,7 @@ export function HomeMenu() {
   const classes = useStyles();
   const [loginStatus, setloginStatus] = useState<boolean>(false);
   const getLoginStatus = async () => {
-    const status = await window.ipc.LOGIN_STATUS();
+    const status = await ipcRendererManager.invoke("GET_LOGIN_STATUS");
     setloginStatus(status);
   };
   useEffect(() => {

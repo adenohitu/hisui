@@ -29,8 +29,8 @@ export function Home() {
   });
   useEffect(() => {
     const run = async () => {
-      setstatus(await ipcRendererManager.invoke("LOGIN_STATUS"));
-      setuserdata(await window.api.getUserData_render());
+      setstatus(await ipcRendererManager.invoke("GET_LOGIN_STATUS"));
+      setuserdata(await ipcRendererManager.invoke("GET_USER_DATA"));
     };
     run();
   }, []);
