@@ -11,19 +11,11 @@ import { changeViewapi } from "./browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "./tool/clipboard";
 import { mainPageapi } from "./browserview/mainpageview";
 import { submissionsApi } from "./data/submissions";
+import { ipcMainManager } from "./ipc/ipc";
 //ipc通信
 export const main_ipc = () => {
-  //ipcテスト用
-  ipcMain.on("msg_render_to_main", (event, arg) => {
-    console.log(arg);
-  });
-  //ipc送受信テスト
-  ipcMain.on("ipctest", (event, arg) => {
-    console.log(arg);
-    event.sender.send("ipctest_replay", "replay");
-  });
   //ブラウザでurlを開く
-  ipcMain.on("urlOpen", (event, arg) => {
+  ipcMainManager.on("URL_OPEN", (event, arg) => {
     urlOpen(arg);
   });
   //デフォルトのコンテストIDを設定する
