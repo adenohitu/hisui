@@ -7,7 +7,6 @@ declare global {
   interface Window {
     api: {
       resetWindowState_render;
-      updateDashboard;
       getRank_send_render;
       getRank_on_render;
       getTotal_render;

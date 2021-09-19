@@ -56,7 +56,6 @@ export default function DefaltContest() {
       // 提出情報を更新
       dispatch(sendGetmysubmission());
     };
-    // window.api.updateDashboard(updateStanding_event);
     ipcRendererManager.on("UPDATE_DASHBOARD", updateStanding_event);
   }, [dispatch]);
   /**

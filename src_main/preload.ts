@@ -7,12 +7,6 @@ import { EventsArrey } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
 contextBridge.exposeInMainWorld("api", {
-  //updateDashboard
-  updateDashboard: async (func: any) => {
-    ipcRenderer.on("updateDashboard_replay", (event, arg) => {
-      func(arg);
-    });
-  },
   //windowの配置をリセット
   resetWindowState_render: async (func: any) => {
     //初期化
