@@ -7,24 +7,6 @@ import { EventsArrey } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
 contextBridge.exposeInMainWorld("api", {
-  send: (data: string) => {
-    ipcRenderer.send("msg_render_to_main", data);
-  },
-  //ipctest
-  ipdtest_send_render: () => {
-    ipcRenderer.send("ipctest", "ping");
-  },
-  ipdtest_on_render: () => {
-    ipcRenderer.on("ipctest_replay", (event, arg) => {
-      console.log(arg);
-    });
-  },
-  //ブラウザでurlを開く
-  loginOpen: (func: any) => {
-    ipcRenderer.removeAllListeners("loginOpen");
-    //rendererでの受信用, funcはコールバック関数//
-    ipcRenderer.on("loginOpen", func);
-  },
   //コンテスト設定画面を表示
   dafaltContestOpen: (func: any) => {
     ipcRenderer.removeAllListeners("dafaltContest");
@@ -160,8 +142,12 @@ contextBridge.exposeInMainWorld("contests", {
 const obj = EventsArrey.reduce((result: { [name: string]: any }, current) => {
   if (current[1].mode === "send") {
     result[current[0]] = (
-      listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+      listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void,
+      only?: boolean
     ) => {
+      if (only === true) {
+        ipcRenderer.removeAllListeners(current[0]);
+      }
       ipcRenderer.on(current[0], listener);
       return () => {
         ipcRenderer.removeListener(current[0], listener);

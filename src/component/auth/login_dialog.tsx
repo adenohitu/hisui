@@ -65,7 +65,7 @@ export default function FormDialog() {
     });
   };
   useEffect(() => {
-    window.api.loginOpen(handleClickOpen);
+    ipcRendererManager.on("LISTENER_OPEN_LOGIN_DIALOG", handleClickOpen, true);
   }, []);
   const handleClose = () => {
     setOpen(false);

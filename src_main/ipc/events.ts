@@ -7,6 +7,7 @@ export interface IpcEvent {
  * @type { [key: string]: IpcEvent }
  */
 export const IpcEvents = {
+  // MainIPC
   OPEN_URL: { mode: "on" },
   SET_CONTESTID: { mode: "handle" },
   GET_SET_CONTESTID: { mode: "handle" },
@@ -14,7 +15,6 @@ export const IpcEvents = {
   RUN_LOGIN: { mode: "handle" },
   RUN_LOGOUT: { mode: "handle" },
   GET_LOGIN_STATUS: { mode: "handle" },
-  UPDATE_DASHBOARD: { mode: "send" },
   GET_USER_NAME: { mode: "handle" },
   GET_USER_DATA: { mode: "handle" },
   GET_CONTEST_DATE: { mode: "handle" },
@@ -31,6 +31,9 @@ export const IpcEvents = {
   RUN_GET_CLIPBOARD: { mode: "handle" },
   OPEN_LOGIN_DIALOG: { mode: "on" },
   OPEN_SELECT_CONTEST_DIALOG: { mode: "on" },
+
+  UPDATE_DASHBOARD: { mode: "send" },
+  LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

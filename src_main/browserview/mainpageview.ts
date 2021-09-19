@@ -10,7 +10,7 @@ class mainPage extends view {
    */
   openLoginDialog() {
     this.runWindowTop();
-    this.view?.webContents.send("loginOpen");
+    this.send("LISTENER_OPEN_LOGIN_DIALOG");
   }
   /**
    * デフォルトコンテストを設定するダイアログを出す

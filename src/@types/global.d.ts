@@ -6,10 +6,6 @@ export default interface Api {
 declare global {
   interface Window {
     api: {
-      send;
-      ipdtest_send_render;
-      ipdtest_on_render;
-      loginOpen;
       dafaltContestOpen;
       resetWindowState_render;
       updateDashboard;

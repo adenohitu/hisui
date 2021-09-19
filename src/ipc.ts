@@ -10,11 +10,16 @@ class IpcRendererManager {
   ): Promise<any> {
     return window.ipc[channel](...args);
   }
+  /**
+   * @param only
+   * チャンネルに対してremoveAllListenersを実行する場合true
+   */
   public on(
     channel: IpcEventsKey,
-    listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+    listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void,
+    only?: boolean
   ): () => void {
-    return window.ipc[channel](listener);
+    return window.ipc[channel](listener, only);
   }
 }
 export const ipcRendererManager = new IpcRendererManager();
