@@ -1,17 +1,17 @@
 import { ipcMain } from "electron";
-import { Atcoder } from "./data/atcoder";
-import { urlOpen } from "./tool/openExternal";
-import { getWindowState, setWindowState } from "./save/utility/renderState";
-import { contestDataApi } from "./data/contestdata";
-import { getStandings, getRank, getTotal } from "./data/standing";
-import { getTasklist } from "./data/task";
-import { getUserData } from "./data/userdata";
-import { getFiledata, runWritefile } from "./file/mkfile";
-import { changeViewapi } from "./browserview/mgt/changeview";
-import { copyClipboard, readClipboard } from "./tool/clipboard";
-import { mainPageapi } from "./browserview/mainpageview";
-import { submissionsApi } from "./data/submissions";
-import { ipcMainManager } from "./ipc/ipc";
+import { Atcoder } from "../data/atcoder";
+import { urlOpen } from "../tool/openExternal";
+import { getWindowState, setWindowState } from "../save/utility/renderState";
+import { contestDataApi } from "../data/contestdata";
+import { getStandings, getRank, getTotal } from "../data/standing";
+import { getTasklist } from "../data/task";
+import { getUserData } from "../data/userdata";
+import { getFiledata, runWritefile } from "../file/mkfile";
+import { changeViewapi } from "../browserview/mgt/changeview";
+import { copyClipboard, readClipboard } from "../tool/clipboard";
+import { mainPageapi } from "../browserview/mainpageview";
+import { submissionsApi } from "../data/submissions";
+import { ipcMainManager } from "./ipc";
 //ipc通信
 export const load_ipc = () => {
   //ブラウザでurlを開く
@@ -59,8 +59,7 @@ export const load_ipc = () => {
     return get;
   });
   //開始時間と終了時間を取得
-  ipcMain.handle("get_date", async (event, contestID) => {
-    // console.log(Atcoder_class.axiosInstance);
+  ipcMain.handle("GET_CONTEST_DATE", async (event, contestID) => {
     const get = await contestDataApi.getContestDate(contestID);
     return get;
   });

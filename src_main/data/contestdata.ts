@@ -84,13 +84,17 @@ export class contestData {
   }
 
   /**
-   * @param contestID
+   * contestID初期値 this.DefaultContestID
    * 開始時間と終了時間を取得
    * @return { start_time: string, end_time: string }
    */
-  async getContestDate(
-    contestID: string = this.DefaultContestID
-  ): Promise<any> {
+  async getContestDate(contestID: string = this.DefaultContestID): Promise<
+    | {
+        start_time: any;
+        end_time: any;
+      }
+    | "error"
+  > {
     console.log("run get_date");
     const cache = myCache.get(`Date_${contestID}`);
     if (cache === undefined) {
@@ -114,7 +118,7 @@ export class contestData {
       } else {
         console.log("error");
 
-        return undefined;
+        return "error";
       }
     } else {
       console.log("load get_date");

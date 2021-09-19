@@ -15,7 +15,6 @@ declare global {
       dafaltContestremove;
       login_render;
       logout_render;
-      get_date_render;
       get_Standings_render;
       get_Score_render;
       getWindowState_render;

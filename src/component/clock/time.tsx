@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import dayjs from "dayjs";
+import { ipcRendererManager } from "../../ipc";
 interface State {
   now: any;
   start: any;
@@ -58,7 +59,7 @@ export class Clock extends React.Component<{}, State> {
   }
   //コンテストの開始時刻と終了時刻を取得
   getData = async () => {
-    const getdate = await window.api.get_date_render();
+    const getdate = await ipcRendererManager.invoke("GET_CONTEST_DATE");
     const starttime = dayjs(getdate.start_time);
     const endtime = dayjs(getdate.end_time);
     this.setState({

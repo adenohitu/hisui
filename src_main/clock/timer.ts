@@ -27,8 +27,10 @@ export class timer {
   async setup() {
     this.nowContestID = contestDataApi.getDefaultContestID();
     const getdate = await contestDataApi.getContestDate();
-    this.starttime = dayjs(getdate.start_time);
-    this.endtime = dayjs(getdate.end_time);
+    if (getdate !== "error") {
+      this.starttime = dayjs(getdate.start_time);
+      this.endtime = dayjs(getdate.end_time);
+    }
   }
   // 1秒毎に実行する
   updateContestTime() {

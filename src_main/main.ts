@@ -13,7 +13,7 @@ import installExtension, {
 } from "electron-devtools-installer";
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
-import { load_ipc } from "./ipc_main";
+import { load_ipc } from "./ipc/ipc_main";
 import {
   startCheckServiceStatus,
   stopCheckServiceStatus,

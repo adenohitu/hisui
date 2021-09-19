@@ -17,6 +17,7 @@ export const IpcEvents = {
   UPDATE_DASHBOARD: { mode: "send" },
   GET_USER_NAME: { mode: "handle" },
   GET_USER_DATA: { mode: "handle" },
+  GET_CONTEST_DATE: { mode: "handle" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);
