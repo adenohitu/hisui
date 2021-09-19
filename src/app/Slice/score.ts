@@ -36,7 +36,7 @@ export const requestScoreAsync = (): AppThunk => async (dispatch, getState) => {
     if (check && getState().scoreData.load === false) {
       dispatch(loadStart());
       const getDataipc = async () => {
-        const data = await window.api.get_Score_render();
+        const data = await ipcRendererManager.invoke("GET_MY_SCORE");
         return data;
       };
       performance.mark("start_get_score");

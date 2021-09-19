@@ -36,10 +36,6 @@ contextBridge.exposeInMainWorld("api", {
       func(arg);
     });
   },
-  get_Score_render: async (taskScreenName: any) => {
-    const data: any = await ipcRenderer.invoke("get_Score", taskScreenName);
-    return data;
-  },
   //自分の提出を取得
   get_submissions_me_render: async (taskScreenName: any) => {
     const data: any = await ipcRenderer.invoke(

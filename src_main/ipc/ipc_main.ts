@@ -54,34 +54,34 @@ export const load_ipc = () => {
     return get;
   });
   //ユーザー情報を返す
-  ipcMain.handle("GET_USER_DATA", async (event, user) => {
+  ipcMainManager.handle("GET_USER_DATA", async (event, user) => {
     const get = await getUserData(user);
     return get;
   });
   //開始時間と終了時間を取得
-  ipcMain.handle("GET_CONTEST_DATE", async (event, contestID) => {
+  ipcMainManager.handle("GET_CONTEST_DATE", async (event, contestID) => {
     const get = await contestDataApi.getContestDate(contestID);
     return get;
   });
   //順位情報リストを取得
-  ipcMain.handle("GET_STANDINGS", async (event, taskScreenName) => {
+  ipcMainManager.handle("GET_STANDINGS", async (event, taskScreenName) => {
     const get = await getStandings(taskScreenName);
     return get;
   });
   //自分の順位を取得ipc.invoke
-  ipcMain.handle("GET_RANK", async (event, taskScreenName) => {
+  ipcMainManager.handle("GET_RANK", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
     const get = await getRank(taskScreenName);
     return get;
   });
   //順位表の集計結果を取得
-  ipcMain.handle("GET_TOTAL", async (event, taskScreenName) => {
+  ipcMainManager.handle("GET_TOTAL", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
     const get = await getTotal(taskScreenName);
     return get;
   });
   //得点情報を取得
-  ipcMain.handle("get_Score", async (event, contestID) => {
+  ipcMainManager.handle("GET_MY_SCORE", async (event, contestID) => {
     // console.log(Atcoder_class.axiosInstance);
     const get = await submissionsApi.getContestScore(contestID);
     return get;
