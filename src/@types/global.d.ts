@@ -86,12 +86,6 @@ declare global {
        */
       codeTestStatusEvent(func: (arg: atcoderCodeTestResult) => void);
     };
-    submissions: {
-      /**
-       * 提出の更新があった時に受け取るIPC
-       */
-      submissionsReturn(func: (arg: any) => void);
-    };
     // TaskViewWindowのPreloadにだけ存在
     taskview: {
       /**

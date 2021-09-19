@@ -35,7 +35,7 @@ export function SubmissionTable() {
   // const rowdata = useSelector(selectSubmissions);
   // const dispatch = useDispatch();
   useEffect(() => {
-    window.submissions.submissionsReturn((arg) => {
+    ipcRendererManager.on("LISTENER_RETUEN_SUBMISSIONS", (event, arg) => {
       setrows(arg);
       console.log(arg);
     });

@@ -86,16 +86,6 @@ contextBridge.exposeInMainWorld("editor", {
     );
   },
 });
-/**
- * submissionsに関するIPC
- */
-contextBridge.exposeInMainWorld("submissions", {
-  submissionsReturn: (func: any) => {
-    ipcRenderer.on("submissionsReturn", (event, arg) => {
-      func(arg);
-    });
-  },
-});
 
 const obj = EventsArrey.reduce((result: { [name: string]: any }, current) => {
   if (current[1].mode === "send") {
