@@ -134,7 +134,7 @@ export default function BasicTable() {
       "GET_SET_CONTESTID"
     );
     const open = `https://atcoder.jp/contests/${contestId}/tasks/${url}`;
-    window.api.urlOpen_render(open);
+    ipcRendererManager.invoke("OPEN_URL", open);
   };
   //初回だけ実行
 

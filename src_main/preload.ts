@@ -39,11 +39,7 @@ contextBridge.exposeInMainWorld("api", {
     const data: any = await ipcRenderer.invoke("logout");
     return data;
   },
-  //順位情報リストを取得
-  get_Standings_render: async (taskScreenName: any) => {
-    const data: any = await ipcRenderer.invoke("get_Standings", taskScreenName);
-    return data;
-  },
+
   //自分の順位を取得
   getRank_render: async (taskScreenName: any) => {
     const data: any = await ipcRenderer.invoke("getRank", taskScreenName);

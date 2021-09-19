@@ -18,6 +18,8 @@ export const IpcEvents = {
   GET_USER_NAME: { mode: "handle" },
   GET_USER_DATA: { mode: "handle" },
   GET_CONTEST_DATE: { mode: "handle" },
+  GET_STANDINGS: { mode: "handle" },
+  GET_RANK: { mode: "handle" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

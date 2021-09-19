@@ -15,6 +15,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Box, Button } from "@material-ui/core";
 import { MosaicWindowContext } from "react-mosaic-component";
+import { ipcRendererManager } from "../../ipc";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -42,7 +43,7 @@ export function SubmissionTable() {
 
   const openurl = (url: string) => {
     const open = `https://atcoder.jp${url}`;
-    window.api.urlOpen_render(open);
+    ipcRendererManager.invoke("OPEN_URL", open);
   };
   // //初回だけ実行
   useEffect(() => {

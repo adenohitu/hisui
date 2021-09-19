@@ -64,13 +64,12 @@ export const load_ipc = () => {
     return get;
   });
   //順位情報リストを取得
-  ipcMain.handle("get_Standings", async (event, taskScreenName) => {
-    // console.log(Atcoder_class.axiosInstance);
+  ipcMain.handle("GET_STANDINGS", async (event, taskScreenName) => {
     const get = await getStandings(taskScreenName);
     return get;
   });
   //自分の順位を取得ipc.invoke
-  ipcMain.handle("getRank", async (event, taskScreenName) => {
+  ipcMain.handle("GET_RANK", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
     const get = await getRank(taskScreenName);
     return get;
