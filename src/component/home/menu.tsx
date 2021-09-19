@@ -29,7 +29,7 @@ export function HomeMenu() {
           color="secondary"
           className={classes.button}
           onClick={() => {
-            window.api.openLoginDialog();
+            ipcRendererManager.send("OPEN_LOGIN_DIALOG");
           }}
         >
           ログインする
@@ -41,7 +41,7 @@ export function HomeMenu() {
           color="secondary"
           className={classes.button}
           onClick={() => {
-            window.api.openselectDafaultcontest();
+            ipcRendererManager.send("OPEN_SELECT_CONTEST_DIALOG");
           }}
         >
           コンテストを選択する

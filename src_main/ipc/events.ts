@@ -27,6 +27,10 @@ export const IpcEvents = {
   GET_MOSAIC_WINDOW_STATE: { mode: "handle" },
   SAVE_MOSAIC_WINDOW_STATE: { mode: "on" },
   CHANGE_VIEW_TOP: { mode: "on" },
+  RUN_COPY_CLIPBOARD: { mode: "on" },
+  RUN_GET_CLIPBOARD: { mode: "handle" },
+  OPEN_LOGIN_DIALOG: { mode: "on" },
+  OPEN_SELECT_CONTEST_DIALOG: { mode: "on" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

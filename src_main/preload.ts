@@ -53,25 +53,6 @@ contextBridge.exposeInMainWorld("api", {
       func(arg);
     });
   },
-
-  //クリップボードに書き込む
-  copyClipboard: async (arg: string) => {
-    await ipcRenderer.send("copyClipboard", arg);
-  },
-  //クリップボードを読み込む
-  readClipboard: async () => {
-    const data: any = await ipcRenderer.invoke("readClipboard");
-    return data;
-  },
-
-  //loginDialogを開く
-  openLoginDialog: () => {
-    ipcRenderer.send("openLoginDialog");
-  },
-  //selectDafaultcontestを開く
-  openselectDafaultcontest: () => {
-    ipcRenderer.send("openselectDafaultcontest");
-  },
 });
 /**
  * editorに関するIPC

@@ -19,16 +19,6 @@ declare global {
       getTotalsend_render;
       getTotal_on_render;
       onTimerTick;
-      /**
-       * クリップボードに書き込む
-       */
-      copyClipboard(clipData: string);
-      /**
-       * クリップボードのデータを読み込む
-       */
-      readClipboard();
-      openLoginDialog;
-      openselectDafaultcontest;
     };
     editor: {
       /**

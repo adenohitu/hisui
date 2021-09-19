@@ -1,4 +1,3 @@
-import { ipcMain } from "electron";
 import { Atcoder } from "../data/atcoder";
 import { urlOpen } from "../tool/openExternal";
 import { getWindowState, saveWindowState } from "../save/utility/renderState";
@@ -107,21 +106,21 @@ export const load_ipc = () => {
   });
 
   //クリップボードに書き込む
-  ipcMain.on("copyClipboard", (event, clipData: string) => {
+  ipcMainManager.on("RUN_COPY_CLIPBOARD", (event, clipData: string) => {
     copyClipboard(clipData);
   });
 
   //クリップボードを読み込む
-  ipcMain.handle("readClipboard", (event) => {
+  ipcMainManager.handle("RUN_GET_CLIPBOARD", (event) => {
     const get = readClipboard();
     return get;
   });
   //loginDialogを開く
-  ipcMain.on("openLoginDialog", (event) => {
+  ipcMainManager.on("OPEN_LOGIN_DIALOG", (event) => {
     mainPageapi.openLoginDialog();
   });
   //selectDafaultcontestを開く
-  ipcMain.on("openselectDafaultcontest", (event) => {
+  ipcMainManager.on("OPEN_SELECT_CONTEST_DIALOG", (event) => {
     mainPageapi.openDafaultContestDialog();
   });
 };
