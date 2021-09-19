@@ -45,17 +45,6 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   //ファイル操作
-  //ファイル読み込みを行う
-
-  getFiledata_render: async (arg: any) => {
-    const data: any = await ipcRenderer.invoke("getFiledata", arg);
-    return data;
-  },
-  //ファイルに書き込みを行う
-  runWritefile_render: async (arg: any) => {
-    const data: any = await ipcRenderer.invoke("runWritefile", arg);
-    return data;
-  },
 
   changeView: (viewName: string) => {
     ipcRenderer.send("change_view", viewName);

@@ -6,7 +6,6 @@ import { contestDataApi } from "../data/contestdata";
 import { getStandings, getRank, getTotal } from "../data/standing";
 import { getTasklist } from "../data/task";
 import { getUserData } from "../data/userdata";
-import { getFiledata, runWritefile } from "../file/mkfile";
 import { changeViewapi } from "../browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "../tool/clipboard";
 import { mainPageapi } from "../browserview/mainpageview";
@@ -103,25 +102,6 @@ export const load_ipc = () => {
     return get;
   });
   //ファイル操作
-  //ファイル読み込みを行う
-  ipcMain.handle("getFiledata", async (event, loadinfo) => {
-    const get = await getFiledata(
-      loadinfo.contestname,
-      loadinfo.taskname,
-      loadinfo.language
-    );
-    return get;
-  });
-  //ファイルに書き込みを行う
-  ipcMain.handle("runWritefile", async (event, saveinfo) => {
-    const get = await runWritefile(
-      saveinfo.data,
-      saveinfo.contestname,
-      saveinfo.taskname,
-      saveinfo.language
-    );
-    return get;
-  });
   //表示するViewを変更
   ipcMain.on("change_view", (event, viewName) => {
     changeViewapi.change(viewName);

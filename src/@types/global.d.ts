@@ -18,8 +18,6 @@ declare global {
       getTotal_render;
       getTotalsend_render;
       getTotal_on_render;
-      getFiledata_render;
-      runWritefile_render;
       changeView;
       onTimerTick;
       /**

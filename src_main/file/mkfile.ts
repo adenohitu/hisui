@@ -122,7 +122,7 @@ export const runMakeFile = async (
     try {
       statSync(file);
       return true;
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === "ENOENT") return false;
     }
   }
