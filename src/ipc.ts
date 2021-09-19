@@ -13,7 +13,7 @@ class IpcRendererManager {
   public on(
     channel: IpcEventsKey,
     listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
-  ) {
+  ): () => void {
     return window.ipc[channel](listener);
   }
 }

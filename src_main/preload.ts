@@ -312,6 +312,9 @@ const obj = rendererEvents.reduce(
         listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
       ) => {
         ipcRenderer.on(current.channel, listener);
+        return () => {
+          ipcRenderer.removeListener(current.channel, listener);
+        };
       };
       return result;
     } else if (current.mode === "handle") {

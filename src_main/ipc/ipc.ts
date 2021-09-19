@@ -15,8 +15,11 @@ class IpcMainManager {
   public on(
     channel: IpcEventsKey,
     listener: (event: Electron.IpcMainEvent, ...args: any[]) => any
-  ) {
+  ): () => void {
     ipcMain.on(channel, listener);
+    return () => {
+      ipcRenderer.removeListener(channel, listener);
+    };
   }
 }
 
