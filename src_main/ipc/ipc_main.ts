@@ -98,10 +98,9 @@ export const load_ipc = () => {
     saveWindowState(value);
   });
   //問題情報を取得
-  ipcMain.on("getTasklist", async (event, taskScreenName) => {
+  ipcMainManager.handle("GET_TASK_LIST", async (event) => {
     const get = await getTasklist();
-
-    event.sender.send("getTasklist_replay", get);
+    return get;
   });
   //ファイル操作
   //ファイル読み込みを行う

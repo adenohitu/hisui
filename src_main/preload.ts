@@ -44,16 +44,6 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on("resetWindowState", func);
   },
 
-  //問題情報を取得 send on
-  getTasklist_send_render: (taskScreenName: any) => {
-    ipcRenderer.send("getTasklist", taskScreenName);
-  },
-  getTasklist_on_render: (func: any) => {
-    ipcRenderer.once("getTasklist_replay", (event, arg) => {
-      func(arg);
-    });
-  },
-
   //ファイル操作
   //ファイル読み込みを行う
 

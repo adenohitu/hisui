@@ -1,5 +1,6 @@
 //問題情報を管理
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ipcRendererManager } from "../../ipc";
 import { AppThunk, RootState } from "../store";
 
 interface taskData {
@@ -31,13 +32,22 @@ export const taskDataSlice = createSlice({
 export const { setdata, loadStart, loadEnd } = taskDataSlice.actions;
 export const sendGetTasklist = (): AppThunk => async (dispatch, getState) => {
   if (getState().submissionsData.load === false) {
-    await window.api.getTasklist_on_render((arg: any) => {
-      if (arg !== "reqError") {
-        dispatch(setdata(arg));
-      } else dispatch(loadEnd);
+    // await window.api.getTasklist_on_render((arg: any) => {
+    //   if (arg !== "reqError") {
+    //     dispatch(setdata(arg));
+    //   } else dispatch(loadEnd);
+    // });
+    // window.api.getTasklist_send_render();
+    // dispatch(loadStart);
+    ipcRendererManager.invoke("GET_TASK_LIST").then((data) => {
+      if (data !== "reqError") {
+        dispatch(setdata(data));
+        dispatch(loadEnd);
+      } else {
+        dispatch(loadEnd);
+      }
     });
-    window.api.getTasklist_send_render();
-    dispatch(loadStart);
+
     //ipc受信部
   } else {
     console.log("nowloading");
