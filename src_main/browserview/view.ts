@@ -110,7 +110,7 @@ export class view {
   /**
    * Viewでイベントを発行する
    */
-  send(channel: IpcEventsKey, args?: Array<any>) {
-    this.view?.webContents.send(channel, args);
+  send(channel: string, ...args: any[]) {
+    this.view?.webContents.send(channel, ...args);
   }
 }

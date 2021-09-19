@@ -36,6 +36,7 @@ export const IpcEvents = {
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
   LISTENER_OPEN_DEFAULT_DIALOG: { mode: "send" },
   LISTENER_RESET_MOSAIC_WINDOW_STATE: { mode: "send" },
+  LISTENER_TIMER_TICK: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

@@ -6,17 +6,7 @@ import { languagetype } from "./file/extension";
 import { EventsArrey } from "./ipc/events";
 const { contextBridge, ipcRenderer } = require("electron");
 //分離されたプリロードスクリプト
-contextBridge.exposeInMainWorld("api", {
-  //timerを更新
-  onTimerTick: async (func: any) => {
-    //初期化
-    ipcRenderer.removeAllListeners("TimerTick");
-    //rendererでの受信用, funcはコールバック関数
-    ipcRenderer.on("TimerTick", (event, arg) => {
-      func(arg);
-    });
-  },
-});
+
 /**
  * editorに関するIPC
  */

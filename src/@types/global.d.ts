@@ -5,14 +5,6 @@ export default interface Api {
 }
 declare global {
   interface Window {
-    api: {
-      getRank_send_render;
-      getRank_on_render;
-      getTotal_render;
-      getTotalsend_render;
-      getTotal_on_render;
-      onTimerTick;
-    };
     editor: {
       /**
        * Mainからのモデル作成イベントを受け付ける
