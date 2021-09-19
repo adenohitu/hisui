@@ -101,9 +101,8 @@ export const load_ipc = () => {
     const get = await getTasklist();
     return get;
   });
-  //ファイル操作
   //表示するViewを変更
-  ipcMain.on("change_view", (event, viewName) => {
+  ipcMainManager.on("CHANGE_VIEW_TOP", (event, viewName) => {
     changeViewapi.change(viewName);
   });
 

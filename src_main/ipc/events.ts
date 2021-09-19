@@ -26,6 +26,7 @@ export const IpcEvents = {
   GET_TASK_LIST: { mode: "handle" },
   GET_MOSAIC_WINDOW_STATE: { mode: "handle" },
   SAVE_MOSAIC_WINDOW_STATE: { mode: "on" },
+  CHANGE_VIEW_TOP: { mode: "on" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

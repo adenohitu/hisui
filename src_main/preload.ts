@@ -44,12 +44,6 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on("resetWindowState", func);
   },
 
-  //ファイル操作
-
-  changeView: (viewName: string) => {
-    ipcRenderer.send("change_view", viewName);
-  },
-
   //timerを更新
   onTimerTick: async (func: any) => {
     //初期化

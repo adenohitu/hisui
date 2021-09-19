@@ -18,7 +18,6 @@ declare global {
       getTotal_render;
       getTotalsend_render;
       getTotal_on_render;
-      changeView;
       onTimerTick;
       /**
        * クリップボードに書き込む
