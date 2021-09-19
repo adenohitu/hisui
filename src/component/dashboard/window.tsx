@@ -56,7 +56,7 @@ export default function DefaltContest() {
       // 提出情報を更新
       dispatch(sendGetmysubmission());
     };
-    ipcRendererManager.on("UPDATE_DASHBOARD", updateStanding_event);
+    ipcRendererManager.on("LISTENER_UPDATE_DASHBOARD", updateStanding_event);
   }, [dispatch]);
   /**
    * 削除されたMosaicWindowをもう一度表示させる

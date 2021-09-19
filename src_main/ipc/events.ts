@@ -32,7 +32,7 @@ export const IpcEvents = {
   OPEN_LOGIN_DIALOG: { mode: "on" },
   OPEN_SELECT_CONTEST_DIALOG: { mode: "on" },
 
-  UPDATE_DASHBOARD: { mode: "send" },
+  LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
   LISTENER_OPEN_DEFAULT_DIALOG: { mode: "send" },
   LISTENER_RESET_MOSAIC_WINDOW_STATE: { mode: "send" },
