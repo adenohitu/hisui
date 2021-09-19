@@ -11,9 +11,6 @@ declare global {
       ipdtest_on_render;
       loginOpen;
       dafaltContestOpen;
-      dafaltContestremove;
-      login_render;
-      logout_render;
       get_Score_render;
       getWindowState_render;
       setWindowState_render;

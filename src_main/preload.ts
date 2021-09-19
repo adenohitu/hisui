@@ -30,55 +30,12 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.removeAllListeners("dafaltContest");
     ipcRenderer.on("dafaltContest", func);
   },
-  //ログイン処理を実行
-  login_render: async (userdata: any) => {
-    const data: any = await ipcRenderer.invoke("login", userdata);
-    return data;
-  },
-  logout_render: async () => {
-    const data: any = await ipcRenderer.invoke("logout");
-    return data;
-  },
-
-  //自分の順位を取得
-  getRank_render: async (taskScreenName: any) => {
-    const data: any = await ipcRenderer.invoke("getRank", taskScreenName);
-    return data;
-  },
-
-  //ipcrank send on
-  getRank_send_render: (taskScreenName: any) => {
-    ipcRenderer.send("getRanksend", taskScreenName);
-  },
-  getRank_on_render: (func: any) => {
-    ipcRenderer.once("getRank_replay", (event, arg) => {
-      // console.log(func);
-      func(arg);
-    });
-  },
-
   //updateDashboard
   updateDashboard: async (func: any) => {
     ipcRenderer.on("updateDashboard_replay", (event, arg) => {
       func(arg);
     });
   },
-  //順位表の集計情報を取得
-  getTotal_render: async (taskScreenName: any) => {
-    const data: any = await ipcRenderer.invoke("getTotal", taskScreenName);
-    return data;
-  },
-  //ipcrank send on
-  getTotalsend_render: (taskScreenName: any) => {
-    ipcRenderer.send("getTotalsend", taskScreenName);
-  },
-  getTotal_on_render: (func: any) => {
-    ipcRenderer.once("getTotal_replay", (event, arg) => {
-      func(arg);
-    });
-  },
-
-  //得点情報を取得
   get_Score_render: async (taskScreenName: any) => {
     const data: any = await ipcRenderer.invoke("get_Score", taskScreenName);
     return data;

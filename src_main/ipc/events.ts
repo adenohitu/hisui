@@ -20,6 +20,7 @@ export const IpcEvents = {
   GET_CONTEST_DATE: { mode: "handle" },
   GET_STANDINGS: { mode: "handle" },
   GET_RANK: { mode: "handle" },
+  GET_TOTAL: { mode: "handle" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

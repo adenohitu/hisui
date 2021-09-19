@@ -74,27 +74,12 @@ export const load_ipc = () => {
     const get = await getRank(taskScreenName);
     return get;
   });
-
-  //自分の順位を取得ipc,on,send
-  ipcMain.on("getRanksend", async (event, taskScreenName) => {
-    const get = await getRank(taskScreenName);
-
-    event.sender.send("getRank_replay", get);
-  });
-
   //順位表の集計結果を取得
-  ipcMain.handle("getTotal", async (event, taskScreenName) => {
+  ipcMain.handle("GET_TOTAL", async (event, taskScreenName) => {
     // console.log(Atcoder_class.axiosInstance);
     const get = await getTotal(taskScreenName);
     return get;
   });
-  //順位表の集計結果を取得ipc,on,send
-  ipcMain.on("getTotalsend", async (event, taskScreenName) => {
-    const get = await getTotal(taskScreenName);
-    //送り返す
-    event.sender.send("getTotal_replay", get);
-  });
-
   //得点情報を取得
   ipcMain.handle("get_Score", async (event, contestID) => {
     // console.log(Atcoder_class.axiosInstance);
