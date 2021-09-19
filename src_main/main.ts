@@ -156,7 +156,6 @@ function createWindow() {
 
 // 複数インスタンスの禁止
 const gotTheLock = app.requestSingleInstanceLock();
-
 if (!gotTheLock) {
   app.exit();
 } else {
@@ -185,14 +184,16 @@ app.on("activate", () => {
     createWindow();
   }
 });
-// ログインイベントが発行された時にウィンドウを再読み込み
+// ログイン・ログアウトイベントが発行された時にウィンドウを再読み込み
 hisuiEvent.on("login", async () => {
   win?.close();
   win?.once("closed", () => createWindow());
 });
-hisuiEvent.on("view-main-top", (arg) => {
-  console.log(arg);
+hisuiEvent.on("logout", async () => {
+  win?.close();
+  win?.once("closed", () => createWindow());
 });
+
 //ipcの呼び出し
 load_ipc();
 //メニューのセット
