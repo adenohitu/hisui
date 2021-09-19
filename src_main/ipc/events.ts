@@ -17,5 +17,3 @@ export const rendererEvents = [
   IpcEvents.URL_OPEN,
   IpcEvents.UPDATE_DASHBOARD,
 ];
-export const IpcMainEvents = [IpcEvents.LOGIN_STATUS];
-export const dashboardViewEvents = [];

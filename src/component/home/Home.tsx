@@ -8,7 +8,7 @@ import Chart from "./Chart";
 import { HomeMenu } from "./menu";
 function colorRating(rating: number | null) {
   if (rating == null) return "gray";
-  if (rating >= 2800) return "red";
+  else if (rating >= 2800) return "red";
   else if (rating >= 2400) return "#FF8C00";
   else if (rating >= 2000) return "#a0a";
   else if (rating >= 1600) return "blue";

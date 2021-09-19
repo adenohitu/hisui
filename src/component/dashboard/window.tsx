@@ -17,6 +17,7 @@ import { sendGetmyrank } from "../../app/Slice/standings";
 import { sendGetTasklist } from "../../app/Slice/taskdata";
 import { requestScoreAsync } from "../../app/Slice/score";
 import { sendGetmysubmission } from "../../app/Slice/submissions";
+import { ipcRendererManager } from "../../ipc";
 export let [windowState, setState]: any = "";
 const theme: string = "mosaic-blueprint-theme react-mosaic-app";
 
@@ -55,7 +56,8 @@ export default function DefaltContest() {
       // 提出情報を更新
       dispatch(sendGetmysubmission());
     };
-    window.api.updateDashboard(updateStanding_event);
+    // window.api.updateDashboard(updateStanding_event);
+    ipcRendererManager.on("UPDATE_DASHBOARD", updateStanding_event);
   }, [dispatch]);
   /**
    * 削除されたMosaicWindowをもう一度表示させる

@@ -7,5 +7,11 @@ class IpcRendererManager {
   public invoke(channel: IpcEventsKey, ...args: Array<any>): Promise<any> {
     return window.ipc[channel](...args);
   }
+  public on(
+    channel: IpcEventsKey,
+    listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+  ) {
+    return window.ipc[channel](listener);
+  }
 }
 export const ipcRendererManager = new IpcRendererManager();
