@@ -14,6 +14,7 @@ import {
 } from "../../app/Slice/casecont";
 import { RunCreateSample } from "./logic/samplecreate";
 import { Layout } from "react-grid-layout";
+import { ipcRendererManager } from "../../ipc";
 
 const useStyles = makeStyles({
   root: {
@@ -85,7 +86,7 @@ export function ResultCard() {
         <CardActions>
           <Button
             onClick={() => {
-              window.api.copyClipboard(sample);
+              ipcRendererManager.invoke("RUN_COPY_CLIPBOARD", sample);
             }}
             size="small"
           >

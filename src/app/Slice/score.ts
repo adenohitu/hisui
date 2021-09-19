@@ -1,5 +1,6 @@
 //スコアデータを管理
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ipcRendererManager } from "../../ipc";
 import { AppThunk, RootState } from "../store";
 
 interface scoreData {
@@ -31,11 +32,11 @@ export const scoreDataSlice = createSlice({
 export const { setdata, loadStart, loadEnd } = scoreDataSlice.actions;
 export const requestScoreAsync = (): AppThunk => async (dispatch, getState) => {
   const update = async () => {
-    const check: boolean = await window.api.get_login_status_render();
+    const check: boolean = await ipcRendererManager.invoke("GET_LOGIN_STATUS");
     if (check && getState().scoreData.load === false) {
       dispatch(loadStart());
       const getDataipc = async () => {
-        const data = await window.api.get_Score_render();
+        const data = await ipcRendererManager.invoke("GET_MY_SCORE");
         return data;
       };
       performance.mark("start_get_score");

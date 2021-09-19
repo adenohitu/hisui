@@ -13,7 +13,7 @@ import installExtension, {
 } from "electron-devtools-installer";
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
-import { main_ipc } from "./ipc_main";
+import { load_ipc } from "./ipc/ipc_main";
 import {
   startCheckServiceStatus,
   stopCheckServiceStatus,
@@ -156,7 +156,6 @@ function createWindow() {
 
 // 複数インスタンスの禁止
 const gotTheLock = app.requestSingleInstanceLock();
-
 if (!gotTheLock) {
   app.exit();
 } else {
@@ -185,16 +184,18 @@ app.on("activate", () => {
     createWindow();
   }
 });
-// ログインイベントが発行された時にウィンドウを再読み込み
+// ログイン・ログアウトイベントが発行された時にウィンドウを再読み込み
 hisuiEvent.on("login", async () => {
   win?.close();
   win?.once("closed", () => createWindow());
 });
-hisuiEvent.on("view-main-top", (arg) => {
-  console.log(arg);
+hisuiEvent.on("logout", async () => {
+  win?.close();
+  win?.once("closed", () => createWindow());
 });
+
 //ipcの呼び出し
-main_ipc();
+load_ipc();
 //メニューのセット
 setmenu();
 //オートアップデートのセットアップ

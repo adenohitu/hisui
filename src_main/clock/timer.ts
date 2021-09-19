@@ -1,7 +1,7 @@
 // コンテストの時間を管理
 // Dashboardの更新　コンテスト開始終了時のイベント発行
 import dayjs, { Dayjs } from "dayjs";
-import { ipcSendall } from "../browserview/mgt/ipcall";
+import { dashboardapi } from "../browserview/dashboardview";
 import { contestDataApi } from "../data/contestdata";
 
 import { hisuiEvent } from "../event/event";
@@ -27,8 +27,10 @@ export class timer {
   async setup() {
     this.nowContestID = contestDataApi.getDefaultContestID();
     const getdate = await contestDataApi.getContestDate();
-    this.starttime = dayjs(getdate.start_time);
-    this.endtime = dayjs(getdate.end_time);
+    if (getdate !== "error") {
+      this.starttime = dayjs(getdate.start_time);
+      this.endtime = dayjs(getdate.end_time);
+    }
   }
   // 1秒毎に実行する
   updateContestTime() {
@@ -62,8 +64,7 @@ export class timer {
         };
       }
     }
-    // ipcEventを発行
-    ipcSendall("TimerTick", this.timerData);
+    dashboardapi.send("LISTENER_TIMER_TICK", this.timerData);
   }
   startTimer() {
     const nextTiming = () => 1000 - (Date.now() % 1000);

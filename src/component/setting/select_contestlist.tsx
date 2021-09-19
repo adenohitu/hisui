@@ -11,6 +11,8 @@ import Chip from "@material-ui/core/Chip";
 import Box from "@material-ui/core/Box";
 import { TextContext } from "./dafalt_contest";
 import Button from "@material-ui/core/Button";
+import { ipcRendererManager } from "../../ipc";
+import { contest_list } from "../../../src_main/data/scraping/contest_list";
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
   root: { width: "100%", t: "2px" },
@@ -22,13 +24,12 @@ const useStyles = makeStyles({
 export default function SelectContest(prop: any): any {
   const classes = useStyles();
   const [text, setText]: any = useContext(TextContext);
-  const [rows, setrows] = useState([]);
+  const [rows, setrows] = useState<contest_list[]>([]);
   const getdata = async () => {
-    const get: any = window.api.get_contest_list_render;
-    get().then((result: any) => {
-      console.log(result);
-      setrows(result);
-    });
+    const get: contest_list[] = await ipcRendererManager.invoke(
+      "GET_CONTEST_LIST"
+    );
+    setrows(get);
   };
   useEffect(() => {
     getdata();

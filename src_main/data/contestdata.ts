@@ -1,7 +1,7 @@
 //コンテスト情報に関するモジュール
 //Copyright © 2021 adenohitu. All rights reserved.
 import contest_main from "./scraping/contest_main";
-import scraping_contest_list from "./scraping/contest_list";
+import scraping_contest_list, { contest_list } from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";
 import { store } from "../save/save";
 import { Atcoder } from "./atcoder";
@@ -29,7 +29,7 @@ export class contestData {
       this.DefaultContestID = contestName;
       // イベントを発行
       hisuiEvent.emit("DefaultContestID-change", contestName);
-      ipcSendall("changeDefaultContestID", contestName);
+      ipcSendall("LISTENER_CHANGE_SET_CONTESTID", contestName);
       // dashboardを更新
       dashboardapi.runUpdatedata();
       // timerをアップデート
@@ -45,14 +45,7 @@ export class contestData {
   /*
    * 開催中・開催予定のコンテストを取得し出力
    */
-  async getContestInfo(): Promise<
-    {
-      contest_name: string;
-      taskScreenName: string;
-      start_time: any;
-      active: boolean;
-    }[]
-  > {
+  async getContestInfo(): Promise<contest_list[]> {
     console.log("run getContestInfo");
     const cache = myCache.get("ContestInfo");
     const url_contest: string = "https://atcoder.jp/contests/?lang=ja";
@@ -91,13 +84,17 @@ export class contestData {
   }
 
   /**
-   * @param contestID
+   * contestID初期値 this.DefaultContestID
    * 開始時間と終了時間を取得
    * @return { start_time: string, end_time: string }
    */
-  async getContestDate(
-    contestID: string = this.DefaultContestID
-  ): Promise<any> {
+  async getContestDate(contestID: string = this.DefaultContestID): Promise<
+    | {
+        start_time: any;
+        end_time: any;
+      }
+    | "error"
+  > {
     console.log("run get_date");
     const cache = myCache.get(`Date_${contestID}`);
     if (cache === undefined) {
@@ -121,7 +118,7 @@ export class contestData {
       } else {
         console.log("error");
 
-        return undefined;
+        return "error";
       }
     } else {
       console.log("load get_date");

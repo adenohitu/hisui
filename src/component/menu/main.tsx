@@ -17,6 +17,7 @@ import ListItem from "@material-ui/core/ListItem";
 // import SendIcon from "@material-ui/icons/Send";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import { ipcRendererManager } from "../../ipc";
 const drawerWidth = 240;
 // let nowItem = 0;
 const theme = createTheme();
@@ -121,7 +122,7 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
   const [location, setlocation] = useState("main");
   const pageChange = (viewName: string) => {
     setlocation(viewName);
-    window.api.changeView(viewName);
+    ipcRendererManager.send("CHANGE_VIEW_TOP", viewName);
   };
   const classes = useStyles();
   const [open, setOpen] = useState(false);

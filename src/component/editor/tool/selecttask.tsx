@@ -10,6 +10,7 @@ import Tab from "@material-ui/core/Tab";
 import { useDispatch, useSelector } from "react-redux";
 import { selecttaskData, sendGetTasklist } from "../../../app/Slice/taskdata";
 import { loadtask } from "../../../app/Slice/editor";
+import { ipcRendererManager } from "../../../ipc";
 
 interface StyledTabsProps {
   value: number | false;
@@ -82,9 +83,9 @@ export function TaskSelect() {
   useEffect(() => {
     dispatch(sendGetTasklist());
     // 更新イベントを受け取る
-    window.contests.changeDefaultContestID(() => {
+    ipcRendererManager.on("LISTENER_CHANGE_SET_CONTESTID", () => {
       dispatch(sendGetTasklist());
-      console.log("change");
+      console.log("change_set_contestID");
       // 選択を初期化
       setValue(false);
     });
@@ -92,7 +93,7 @@ export function TaskSelect() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
     const loadrun = async () => {
-      const contestName = await window.api.get_SetContestID_render();
+      const contestName = await ipcRendererManager.invoke("GET_SET_CONTESTID");
       dispatch(
         loadtask(
           contestName,

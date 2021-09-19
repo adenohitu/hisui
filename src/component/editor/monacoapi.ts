@@ -170,19 +170,5 @@ export class monacocontrol {
       window.editor.getValue_replay(id, Value);
     });
   }
-
-  /**
-   * サンプル
-   * ipcを使ってファイルのデータを取得してEditorModelを作成
-   */
-  async runOpenFile(contestname: string, taskname: string, language: string) {
-    const fileData: any = await window.api.getFiledata_render({
-      contestname,
-      taskname,
-      language,
-    });
-    const model = this.monaco?.editor.createModel(fileData, language);
-    return model;
-  }
 }
 // export const monacoControlApi = new monacocontrol();

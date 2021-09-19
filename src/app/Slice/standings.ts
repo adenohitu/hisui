@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ipcRendererManager } from "../../ipc";
 import { AppThunk, RootState } from "../store";
 // import { totalfn } from "../logic/standingTotal";
 //自分の順位、未取得または何らかの理由で取得できない場合はundefined
@@ -48,31 +49,18 @@ export const standingsSlice = createSlice({
     },
   },
 });
-export const {
-  getData,
-  setRank,
-  setTotal,
-  loadStart,
-  loadEnd,
-} = standingsSlice.actions;
+export const { getData, setRank, setTotal, loadStart, loadEnd } =
+  standingsSlice.actions;
 
 export const sendGetmyrank = (): AppThunk => async (dispatch, getState) => {
   if (getState().standingData.load === false) {
-    //順位を取得し終わった直後に集計を開始
-    await window.api.getRank_on_render(async (arg: any) => {
-      dispatch(setRank(arg));
-      await window.api.getTotal_on_render((arg: any) => {
-        dispatch(setTotal(arg));
-        console.log(arg);
+    ipcRendererManager.invoke("GET_RANK").then((myrank) => {
+      dispatch(setRank(myrank));
+      ipcRendererManager.invoke("GET_TOTAL").then((total) => {
+        dispatch(setTotal(total));
         dispatch(loadEnd);
       });
-      window.api.getTotalsend_render();
     });
-
-    // 処理実行
-    dispatch(loadStart);
-    window.api.getRank_send_render();
-
     //ipc受信部
   } else {
     console.log("nowloading");

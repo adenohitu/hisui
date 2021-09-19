@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import dayjs from "dayjs";
+import { ipcRendererManager } from "../../ipc";
+import { timeData } from "../../../src_main/clock/timer";
 interface State {
   now: any;
   start: any;
@@ -29,11 +31,11 @@ export function TimerSyncMain() {
   const [time, setTime] = useState("");
   const [status, setStatus] = useState("");
   useEffect(() => {
-    const update = (timeData: any) => {
+    const update = (event: Electron.IpcRendererEvent, timeData: timeData) => {
       setStatus(timeData.status);
       setTime(convertTime(timeData.time));
     };
-    window.api.onTimerTick(update);
+    ipcRendererManager.on("LISTENER_TIMER_TICK", update, true);
   }, []);
   return (
     <>
@@ -58,7 +60,7 @@ export class Clock extends React.Component<{}, State> {
   }
   //コンテストの開始時刻と終了時刻を取得
   getData = async () => {
-    const getdate = await window.api.get_date_render();
+    const getdate = await ipcRendererManager.invoke("GET_CONTEST_DATE");
     const starttime = dayjs(getdate.start_time);
     const endtime = dayjs(getdate.end_time);
     this.setState({

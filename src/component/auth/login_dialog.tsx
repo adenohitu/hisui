@@ -8,6 +8,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { ipcRendererManager } from "../../ipc";
+import { returnLogin } from "../../../src_main/interfaces";
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -31,30 +33,27 @@ export default function FormDialog() {
         console.log("key not found");
     }
   };
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-    const login: any = window.api.login_render;
-    login({
+    const status: returnLogin = await ipcRendererManager.invoke("RUN_LOGIN", {
       username: username,
       password: pass,
-    }).then((result: any) => {
-      console.log(result);
-      if (result === "Failure_Postdata") {
-        setLogin_Status("ユーザー名またはパスワードが間違っています");
-      } else if (result === "Failure_Postdata") {
-        setLogin_Status("リクエストエラー");
-      } else if (result === "success") {
-        setLogin_Status("");
-        setOpen(false);
-        setStatus_snack(`${username}でログインしました`);
-        setName("");
-        setPass("");
-        setOpen_snack(true);
-      }
     });
+    if (status === "Failure_Postdata") {
+      setLogin_Status("ユーザー名またはパスワードが間違っています");
+    } else if (status === "Failure_requestError") {
+      setLogin_Status("リクエストエラー");
+    } else if (status === "success") {
+      setLogin_Status("");
+      setOpen(false);
+      setStatus_snack(`${username}でログインしました`);
+      setName("");
+      setPass("");
+      setOpen_snack(true);
+    }
   };
   const handleClickOpen = () => {
-    window.api.get_login_status_render().then((result: any) => {
+    ipcRendererManager.invoke("GET_LOGIN_STATUS").then((result: any) => {
       if (result === false) {
         setOpen(true);
       } else {
@@ -66,7 +65,7 @@ export default function FormDialog() {
     });
   };
   useEffect(() => {
-    window.api.loginOpen(handleClickOpen);
+    ipcRendererManager.on("LISTENER_OPEN_LOGIN_DIALOG", handleClickOpen, true);
   }, []);
   const handleClose = () => {
     setOpen(false);

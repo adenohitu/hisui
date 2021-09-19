@@ -2,12 +2,13 @@
 // import { Counter } from "../counter/Counter";
 import { Box, Container, Grid, Paper, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { ipcRendererManager } from "../../ipc";
 import SelectContest from "../setting/select_contestlist";
 import Chart from "./Chart";
 import { HomeMenu } from "./menu";
 function colorRating(rating: number | null) {
   if (rating == null) return "gray";
-  if (rating >= 2800) return "red";
+  else if (rating >= 2800) return "red";
   else if (rating >= 2400) return "#FF8C00";
   else if (rating >= 2000) return "#a0a";
   else if (rating >= 1600) return "blue";
@@ -28,8 +29,8 @@ export function Home() {
   });
   useEffect(() => {
     const run = async () => {
-      setstatus(await window.api.get_login_status_render());
-      setuserdata(await window.api.getUserData_render());
+      setstatus(await ipcRendererManager.invoke("GET_LOGIN_STATUS"));
+      setuserdata(await ipcRendererManager.invoke("GET_USER_DATA"));
     };
     run();
   }, []);

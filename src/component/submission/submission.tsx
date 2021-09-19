@@ -15,6 +15,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Box, Button } from "@material-ui/core";
 import { MosaicWindowContext } from "react-mosaic-component";
+import { ipcRendererManager } from "../../ipc";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -34,7 +35,7 @@ export function SubmissionTable() {
   // const rowdata = useSelector(selectSubmissions);
   // const dispatch = useDispatch();
   useEffect(() => {
-    window.submissions.submissionsReturn((arg) => {
+    ipcRendererManager.on("LISTENER_RETUEN_SUBMISSIONS", (event, arg) => {
       setrows(arg);
       console.log(arg);
     });
@@ -42,12 +43,12 @@ export function SubmissionTable() {
 
   const openurl = (url: string) => {
     const open = `https://atcoder.jp${url}`;
-    window.api.urlOpen_render(open);
+    ipcRendererManager.invoke("OPEN_URL", open);
   };
   // //初回だけ実行
   useEffect(() => {
     //ipc送信関数
-    window.submissions.updateSubmissions();
+    ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
   }, []);
   return (
     <TableContainer component={Paper} className={classes.root}>
@@ -130,7 +131,7 @@ export class ReloadButton extends React.PureComponent {
           startIcon={<RefreshIcon />}
           onClick={() => {
             // 更新イベントを発行
-            window.submissions.updateSubmissions();
+            ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
             // MosaicのAdditionalWindowを閉じる
             this.context.mosaicWindowActions.setAdditionalControlsOpen(false);
           }}

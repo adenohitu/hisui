@@ -9,6 +9,7 @@ import {
   Select,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { ipcRendererManager } from "../../../ipc";
 import { monacoControlApi } from "../editor";
 export const EditorTool = () => {
   const [lang, setlang] = useState("cpp");
@@ -84,7 +85,7 @@ export const EditorTool = () => {
             variant="contained"
             color="primary"
             onClick={() => {
-              window.submissions.updateSubmissions();
+              ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
             }}
           >
             提出一覧を更新

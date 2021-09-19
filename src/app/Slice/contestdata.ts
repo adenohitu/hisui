@@ -1,5 +1,6 @@
 //コンテスト情報を管理
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ipcRendererManager } from "../../ipc";
 import { AppThunk, RootState } from "../store";
 
 interface contestData {
@@ -29,29 +30,29 @@ export const contestDataSlice = createSlice({
   },
 });
 export const { setdata, loadStart, loadEnd } = contestDataSlice.actions;
-export const requestContestDataAsync = (): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  const update = async () => {
-    const check: boolean = await window.api.get_login_status_render();
-    if (check && getState().scoreData.load === false) {
-      dispatch(loadStart());
-      const getDataipc = async () => {
-        const data = await window.api.get_Score_render();
-        return data;
-      };
-      performance.mark("start_get_score");
-      const returndata = await getDataipc();
-      dispatch(setdata(returndata));
-      dispatch(loadEnd());
-      performance.mark("end_get_score");
-    } else {
-      dispatch(setdata([]));
-    }
+export const requestContestDataAsync =
+  (): AppThunk => async (dispatch, getState) => {
+    const update = async () => {
+      const check: boolean = await ipcRendererManager.invoke(
+        "GET_LOGIN_STATUS"
+      );
+      if (check && getState().scoreData.load === false) {
+        dispatch(loadStart());
+        const getDataipc = async () => {
+          const data = await ipcRendererManager.invoke("GET_MY_SCORE");
+          return data;
+        };
+        performance.mark("start_get_score");
+        const returndata = await getDataipc();
+        dispatch(setdata(returndata));
+        dispatch(loadEnd());
+        performance.mark("end_get_score");
+      } else {
+        dispatch(setdata([]));
+      }
+    };
+    update();
   };
-  update();
-};
 
 export const selectscoreData = (state: RootState) => {
   return state.scoreData.scoreData;

@@ -14,6 +14,7 @@ import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import { selectSubmissions } from "../../app/Slice/submissions";
 import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ipcRendererManager } from "../../ipc";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -31,7 +32,7 @@ export function JudgeResultList() {
   //   const dispatch = useDispatch();
   const openurl = (url: string) => {
     const open = `https://atcoder.jp${url}`;
-    window.api.urlOpen_render(open);
+    ipcRendererManager.invoke("OPEN_URL", open);
   };
   //初回だけ実行
 

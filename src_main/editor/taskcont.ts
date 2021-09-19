@@ -226,7 +226,7 @@ export class taskcont {
       id: this.TaskScreenName,
       value: data,
     };
-    editorViewapi.editorView?.webContents.send("changeValue", syncEditor);
+    editorViewapi.view?.webContents.send("changeValue", syncEditor);
   }
   /**
    * editorの初期設定
@@ -234,10 +234,7 @@ export class taskcont {
    */
   async setupEditor(id: string, value: string, language: languagetype) {
     const createEditorModel: createEditorModelType = { id, value, language };
-    editorViewapi.editorView?.webContents.send(
-      "createModel",
-      createEditorModel
-    );
+    editorViewapi.view?.webContents.send("createModel", createEditorModel);
   }
   /**
    * 言語変更をEditorに送信
@@ -247,19 +244,13 @@ export class taskcont {
       id: this.TaskScreenName,
       language,
     };
-    editorViewapi.editorView?.webContents.send(
-      "changeLanguage",
-      changeLanguage
-    );
+    editorViewapi.view?.webContents.send("changeLanguage", changeLanguage);
   }
   /**
    * モデルの削除
    */
   closeModelEditor() {
-    editorViewapi.editorView?.webContents.send(
-      "closeModel",
-      this.TaskScreenName
-    );
+    editorViewapi.view?.webContents.send("closeModel", this.TaskScreenName);
   }
   /**
    * editorからValueを取得する
@@ -272,10 +263,7 @@ export class taskcont {
         resolve(value);
       });
       // editorにValueを送信するよう命令
-      editorViewapi.editorView?.webContents.send(
-        "getValue",
-        this.TaskScreenName
-      );
+      editorViewapi.view?.webContents.send("getValue", this.TaskScreenName);
     });
   }
 

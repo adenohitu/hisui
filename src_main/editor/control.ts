@@ -115,7 +115,7 @@ class taskControl {
     // editorEvent
     // editorの更新をチェック
     // editorのモデルをチェンジ
-    editorViewapi.editorView?.webContents.send("setModel", TaskScreenName);
+    editorViewapi.view?.webContents.send("setModel", TaskScreenName);
   }
   /**
    * TopViewのページ推移を初期状態に戻す

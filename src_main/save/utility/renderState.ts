@@ -3,6 +3,6 @@ import { store } from "../save";
 export const getWindowState = () => {
   return store.get("WindowState", null);
 };
-export const setWindowState = (value: any) => {
+export const saveWindowState = (value: any) => {
   store.set("WindowState", value);
 };
