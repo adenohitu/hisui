@@ -29,7 +29,7 @@ export class contestData {
       this.DefaultContestID = contestName;
       // イベントを発行
       hisuiEvent.emit("DefaultContestID-change", contestName);
-      ipcSendall("changeDefaultContestID", contestName);
+      ipcSendall("LISTENER_CHANGE_SET_CONTESTID", contestName);
       // dashboardを更新
       dashboardapi.runUpdatedata();
       // timerをアップデート

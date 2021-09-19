@@ -96,9 +96,6 @@ declare global {
        */
       submissionsReturn(func: (arg: any) => void);
     };
-    contests: {
-      changeDefaultContestID(func: (contestID: string) => void);
-    };
     // TaskViewWindowのPreloadにだけ存在
     taskview: {
       /**

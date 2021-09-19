@@ -83,9 +83,9 @@ export function TaskSelect() {
   useEffect(() => {
     dispatch(sendGetTasklist());
     // 更新イベントを受け取る
-    window.contests.changeDefaultContestID(() => {
+    ipcRendererManager.on("LISTENER_CHANGE_SET_CONTESTID", () => {
       dispatch(sendGetTasklist());
-      console.log("change");
+      console.log("change_set_contestID");
       // 選択を初期化
       setValue(false);
     });
