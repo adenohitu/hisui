@@ -90,9 +90,6 @@ contextBridge.exposeInMainWorld("editor", {
  * submissionsに関するIPC
  */
 contextBridge.exposeInMainWorld("submissions", {
-  updateSubmissions: () => {
-    ipcRenderer.send("updateSubmissions");
-  },
   submissionsReturn: (func: any) => {
     ipcRenderer.on("submissionsReturn", (event, arg) => {
       func(arg);

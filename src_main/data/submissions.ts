@@ -1,6 +1,7 @@
 import { ipcMain } from "electron";
 import { ipcSendall } from "../browserview/mgt/ipcall";
 import { hisuiEvent } from "../event/event";
+import { ipcMainManager } from "../ipc/ipc";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import scraping_submissions_list, {
@@ -124,7 +125,7 @@ class submissions {
   }
   ipcSetup() {
     // submissionsを更新する
-    ipcMain.on("updateSubmissions", () => {
+    ipcMainManager.on("RUN_UPDATE_SUBMISSIONS", () => {
       this.updateSubmissions();
     });
   }

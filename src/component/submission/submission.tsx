@@ -48,7 +48,7 @@ export function SubmissionTable() {
   // //初回だけ実行
   useEffect(() => {
     //ipc送信関数
-    window.submissions.updateSubmissions();
+    ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
   }, []);
   return (
     <TableContainer component={Paper} className={classes.root}>
@@ -131,7 +131,7 @@ export class ReloadButton extends React.PureComponent {
           startIcon={<RefreshIcon />}
           onClick={() => {
             // 更新イベントを発行
-            window.submissions.updateSubmissions();
+            ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
             // MosaicのAdditionalWindowを閉じる
             this.context.mosaicWindowActions.setAdditionalControlsOpen(false);
           }}
