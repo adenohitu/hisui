@@ -36,10 +36,6 @@ contextBridge.exposeInMainWorld("api", {
       func(arg);
     });
   },
-  //windowの状態を設定
-  setWindowState_render: (value: any) => {
-    ipcRenderer.send("setWindowState", value);
-  },
   //windowの配置をリセット
   resetWindowState_render: async (func: any) => {
     //初期化

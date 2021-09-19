@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import { Atcoder } from "../data/atcoder";
 import { urlOpen } from "../tool/openExternal";
-import { getWindowState, setWindowState } from "../save/utility/renderState";
+import { getWindowState, saveWindowState } from "../save/utility/renderState";
 import { contestDataApi } from "../data/contestdata";
 import { getStandings, getRank, getTotal } from "../data/standing";
 import { getTasklist } from "../data/task";
@@ -89,13 +89,13 @@ export const load_ipc = () => {
     return get;
   });
   //windowの状態を取得
-  ipcMain.handle("GET_MOSAIC_WINDOW_STATE", async (event) => {
+  ipcMainManager.handle("GET_MOSAIC_WINDOW_STATE", async (event) => {
     const get = await getWindowState();
     return get;
   });
-  //windowの状態を設定
-  ipcMain.on("setWindowState", (event, value) => {
-    setWindowState(value);
+  //windowの状態を保存
+  ipcMainManager.on("SAVE_MOSAIC_WINDOW_STATE", (event, value) => {
+    saveWindowState(value);
   });
   //問題情報を取得
   ipcMain.on("getTasklist", async (event, taskScreenName) => {

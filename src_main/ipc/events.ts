@@ -24,6 +24,7 @@ export const IpcEvents = {
   GET_MY_SCORE: { mode: "handle" },
   GET_MY_SUBMISSIONS: { mode: "handle" },
   GET_MOSAIC_WINDOW_STATE: { mode: "handle" },
+  SAVE_MOSAIC_WINDOW_STATE: { mode: "on" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

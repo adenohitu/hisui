@@ -1,3 +1,4 @@
+import { MosaicNode } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import { dashboadWindowState } from "./dafaltwindowState";
 import { setState } from "./window";
@@ -13,14 +14,14 @@ export async function getValue() {
   }
 }
 //状態を保存する
-export async function setValue(value: any) {
+export async function setValue(value: MosaicNode<string> | null) {
   console.log("set");
-  window.api.setWindowState_render(value);
+  ipcRendererManager.invoke("SAVE_MOSAIC_WINDOW_STATE", value);
 }
 export function setResetOn() {
   //ipcから受信 ウィンドウの配置を初期化する
   window.api.resetWindowState_render(() => {
     setState(dashboadWindowState);
-    window.api.setWindowState_render(dashboadWindowState);
+    setValue(dashboadWindowState);
   });
 }
