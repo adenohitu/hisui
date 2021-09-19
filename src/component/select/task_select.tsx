@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectscoreData, requestScoreAsync } from "../../app/Slice/score";
 import { selectTotal } from "../../app/Slice/standings";
 import grey from "@material-ui/core/colors/grey";
+import { ipcRendererManager } from "../../ipc";
 
 // import store from "../../app/store";
 const dayjs = require("dayjs");
@@ -129,7 +130,9 @@ export default function BasicTable() {
   };
 
   const openurl = async (url: string) => {
-    const contestId: string = await window.api.get_SetContestID_render();
+    const contestId: string = await ipcRendererManager.invoke(
+      "GET_SET_CONTESTID"
+    );
     const open = `https://atcoder.jp/contests/${contestId}/tasks/${url}`;
     window.api.urlOpen_render(open);
   };

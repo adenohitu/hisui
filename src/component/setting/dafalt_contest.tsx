@@ -9,6 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import SelectContest from "./select_contestlist";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { ipcRendererManager } from "../../ipc";
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -39,8 +40,7 @@ export default function DefaltContest() {
   const [status_snack, setStatus_snack] = React.useState("");
 
   const getdefaltdata = async () => {
-    const get: any = window.api.get_SetContestID_render;
-    get().then((result: any) => {
+    ipcRendererManager.invoke("GET_SET_CONTESTID").then((result: any) => {
       setText(result);
     });
   };
@@ -54,8 +54,7 @@ export default function DefaltContest() {
   const [formerror, set_formerror] = React.useState(false);
   const [messageerror, set_messageerror] = React.useState("");
   const set_contestID = () => {
-    const get: any = window.api.set_SetContestID_render;
-    get(text).then((result: any) => {
+    ipcRendererManager.invoke("SET_CONTESTID", text).then((result: boolean) => {
       if (result) {
         setStatus_snack(`${text}に設定しました`);
         setOpen_snack(true);

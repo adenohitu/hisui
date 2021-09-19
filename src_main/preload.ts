@@ -33,20 +33,6 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.removeAllListeners("dafaltContest");
     ipcRenderer.on("dafaltContest", func);
   },
-
-  //デフォルトのコンテストIDを設定する
-  set_SetContestID_render: async (taskScreenName: any) => {
-    const data: any = await ipcRenderer.invoke(
-      "set_SetContestID",
-      taskScreenName
-    );
-    return data;
-  },
-  //デフォルトで設定されたコンテストIDを返す
-  get_SetContestID_render: async () => {
-    const data: any = await ipcRenderer.invoke("get_SetContestID");
-    return data;
-  },
   //開催中・開催予定のコンテストをhashで出力
   get_contest_list_render: async () => {
     const data: any = await ipcRenderer.invoke("get_contest_list_main");
