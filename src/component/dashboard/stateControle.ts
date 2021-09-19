@@ -1,9 +1,10 @@
+import { ipcRendererManager } from "../../ipc";
 import { dashboadWindowState } from "./dafaltwindowState";
 import { setState } from "./window";
 // import { getnow } from "../menu/main";
 //メインプロセスからファイルに保存してあるウィンドウ情報を取得
 export async function getValue() {
-  const value: any = await window.api.getWindowState_render();
+  const value: any = await ipcRendererManager.invoke("GET_MOSAIC_WINDOW_STATE");
   // 設定されていない（初回時）時はnullが返ってくる
   if (value == null) {
     return dashboadWindowState;
@@ -11,15 +12,6 @@ export async function getValue() {
     return value;
   }
 }
-// export function whiciwindow(value: any) {
-//   // const now = getnow();
-//   console.log(value);
-//   if (value === "dashboad") {
-//     setState(dashboadWindowState);
-//   } else if (value === "editor") {
-//     setState(editorWindowState);
-//   }
-// }
 //状態を保存する
 export async function setValue(value: any) {
   console.log("set");

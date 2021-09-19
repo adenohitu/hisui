@@ -36,11 +36,6 @@ contextBridge.exposeInMainWorld("api", {
       func(arg);
     });
   },
-  //windowの状態を取得
-  getWindowState_render: async () => {
-    const data: any = await ipcRenderer.invoke("getWindowState");
-    return data;
-  },
   //windowの状態を設定
   setWindowState_render: (value: any) => {
     ipcRenderer.send("setWindowState", value);

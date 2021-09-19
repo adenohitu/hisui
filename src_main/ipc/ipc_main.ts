@@ -84,18 +84,12 @@ export const load_ipc = () => {
     return get;
   });
   //自分の提出を取得
-  ipcMain.handle("GET_MY_SUBMISSIONS", async (event, contestID) => {
+  ipcMainManager.handle("GET_MY_SUBMISSIONS", async (event, contestID) => {
     const get = await submissionsApi.getSubmissionMe(contestID);
     return get;
   });
-  //自分の提出を取得ipc,on,send
-  ipcMain.on("getSubmissionsMeSend", async (event, contestID) => {
-    const get = await submissionsApi.getSubmissionMe(contestID);
-    event.sender.send("getSubmissionsMe_replay", get);
-  });
-
   //windowの状態を取得
-  ipcMain.handle("getWindowState", async (event, contestID) => {
+  ipcMain.handle("GET_MOSAIC_WINDOW_STATE", async (event) => {
     const get = await getWindowState();
     return get;
   });
