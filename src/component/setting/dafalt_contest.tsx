@@ -40,8 +40,14 @@ export default function DefaltContest() {
   const [status_snack, setStatus_snack] = React.useState("");
 
   const getdefaltdata = async () => {
+<<<<<<< HEAD
     const data = await ipcRendererManager.invoke("GET_SET_CONTESTID");
     setText(data);
+=======
+    ipcRendererManager.invoke("GET_SET_CONTESTID").then((result: any) => {
+      setText(result);
+    });
+>>>>>>> da5d3ba35fc19a8beb984fe1a75bfbbb0b3a5155
   };
   const handleClose_snack = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
@@ -52,6 +58,7 @@ export default function DefaltContest() {
   };
   const [formerror, set_formerror] = React.useState(false);
   const [messageerror, set_messageerror] = React.useState("");
+<<<<<<< HEAD
   const set_contestID = async () => {
     const check = await ipcRendererManager.invoke("SET_CONTESTID", text);
     if (check) {
@@ -62,6 +69,19 @@ export default function DefaltContest() {
       set_messageerror("存在しないコンテストまたは認証が必要です");
       set_formerror(true);
     }
+=======
+  const set_contestID = () => {
+    ipcRendererManager.invoke("SET_CONTESTID", text).then((result: boolean) => {
+      if (result) {
+        setStatus_snack(`${text}に設定しました`);
+        setOpen_snack(true);
+        handleClose();
+      } else {
+        set_messageerror("存在しないコンテストまたは認証が必要です");
+        set_formerror(true);
+      }
+    });
+>>>>>>> da5d3ba35fc19a8beb984fe1a75bfbbb0b3a5155
   };
   return (
     <div>
