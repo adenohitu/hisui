@@ -70,25 +70,21 @@ export const load_ipc = () => {
   });
   //自分の順位を取得ipc.invoke
   ipcMainManager.handle("GET_RANK", async (event, taskScreenName) => {
-    // console.log(Atcoder_class.axiosInstance);
     const get = await getRank(taskScreenName);
     return get;
   });
   //順位表の集計結果を取得
   ipcMainManager.handle("GET_TOTAL", async (event, taskScreenName) => {
-    // console.log(Atcoder_class.axiosInstance);
     const get = await getTotal(taskScreenName);
     return get;
   });
   //得点情報を取得
   ipcMainManager.handle("GET_MY_SCORE", async (event, contestID) => {
-    // console.log(Atcoder_class.axiosInstance);
     const get = await submissionsApi.getContestScore(contestID);
     return get;
   });
   //自分の提出を取得
-  ipcMain.handle("get_submissions_me", async (event, contestID) => {
-    // console.log(Atcoder_class.axiosInstance);
+  ipcMain.handle("GET_MY_SUBMISSIONS", async (event, contestID) => {
     const get = await submissionsApi.getSubmissionMe(contestID);
     return get;
   });

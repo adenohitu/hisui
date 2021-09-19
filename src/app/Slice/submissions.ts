@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ipcRendererManager } from "../../ipc";
 import { AppThunk, RootState } from "../store";
 
 interface initialStatetype {
@@ -28,23 +29,19 @@ export const submissionsSlice = createSlice({
 });
 export const { getData, loadStart, loadEnd } = submissionsSlice.actions;
 
-export const sendGetmysubmission = (): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  if (getState().submissionsData.load === false) {
-    await window.api.getSubmissions_on_render((arg: any) => {
-      dispatch(getData(arg));
-      dispatch(loadEnd);
-    });
-    // console.log("tetst");
-    window.api.getSubmissions_send_render();
-    dispatch(loadStart);
-    //ipc受信部
-  } else {
-    console.log("nowloading");
-  }
-};
+export const sendGetmysubmission =
+  (): AppThunk => async (dispatch, getState) => {
+    if (getState().submissionsData.load === false) {
+      dispatch(loadStart);
+      ipcRendererManager.invoke("GET_MY_SUBMISSIONS").then((arg) => {
+        dispatch(getData(arg));
+        dispatch(loadEnd);
+      });
+      //ipc受信部
+    } else {
+      console.log("nowloading");
+    }
+  };
 
 export const selectSubmissions = (state: RootState) =>
   state.submissionsData.data;

@@ -20,12 +20,6 @@ declare global {
       getTotal_render;
       getTotalsend_render;
       getTotal_on_render;
-      /**
-       * 自分の提出を取得
-       */
-      get_submissions_me_render;
-      getSubmissions_send_render;
-      getSubmissions_on_render;
       getTasklist_send_render;
       getTasklist_on_render;
       getFiledata_render;

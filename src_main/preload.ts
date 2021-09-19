@@ -36,25 +36,6 @@ contextBridge.exposeInMainWorld("api", {
       func(arg);
     });
   },
-  //自分の提出を取得
-  get_submissions_me_render: async (taskScreenName: any) => {
-    const data: any = await ipcRenderer.invoke(
-      "get_submissions_me",
-      taskScreenName
-    );
-    return data;
-  },
-
-  //ipcsubmission send on
-  getSubmissions_send_render: (taskScreenName: any) => {
-    ipcRenderer.send("getSubmissionsMeSend", taskScreenName);
-  },
-  getSubmissions_on_render: (func: any) => {
-    ipcRenderer.once("getSubmissionsMe_replay", (event, arg) => {
-      func(arg);
-    });
-  },
-
   //windowの状態を取得
   getWindowState_render: async () => {
     const data: any = await ipcRenderer.invoke("getWindowState");
