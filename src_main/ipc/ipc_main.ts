@@ -2,7 +2,7 @@ import { Atcoder } from "../data/atcoder";
 import { urlOpen } from "../tool/openExternal";
 import { getWindowState, saveWindowState } from "../save/utility/renderState";
 import { contestDataApi } from "../data/contestdata";
-import { getStandings, getRank, getTotal } from "../data/standing";
+import { getRank, getTotal, standingsApi } from "../data/standing";
 import { getTasklist } from "../data/task";
 import { getUserData } from "../data/userdata";
 import { changeViewapi } from "../browserview/mgt/changeview";
@@ -63,7 +63,7 @@ export const load_ipc = () => {
   });
   //順位情報リストを取得
   ipcMainManager.handle("GET_STANDINGS", async (event, taskScreenName) => {
-    const get = await getStandings(taskScreenName);
+    const get = await standingsApi.getStandings(taskScreenName);
     return get;
   });
   //自分の順位を取得ipc.invoke
