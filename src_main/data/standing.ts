@@ -3,68 +3,73 @@
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { totalfn } from "./logic/standingTotal";
-import { returnStandingsData } from "../interfaces";
-const NodeCache = require("node-cache");
-const myCache = new NodeCache();
-
+import { hisuiEvent } from "../event/event";
+import dayjs from "dayjs";
+const cacheTime = 30000;
+export type standingData = any;
 /**
- * 順位表情報を取得
+ * ランキング情報を管理するAPI
  */
-export async function getStandings(
-  taskScreenName: string = contestDataApi.getDefaultContestID()
-): Promise<returnStandingsData> {
-  const cache = myCache.get(`Standing_${taskScreenName}`);
-  console.log("run get_Standings");
-  if (cache === undefined) {
-    const standings_url = `https://atcoder.jp/contests/${taskScreenName}/standings/json`;
-    const responce = await Atcoder.axiosInstance.get(standings_url, {
-      maxRedirects: 0,
-      validateStatus: (status) =>
-        (status >= 200 && status < 300) || status === 302,
-    });
-    if (responce.status !== 302) {
-      myCache.set(
-        `Standing_${taskScreenName}`,
-        { data: responce.data, time: Date.now() },
-        30
-      );
-      console.log("set cache");
-      const returnData: returnStandingsData = {
-        cache: false,
-        login: true,
-        time: Date.now(),
-        data: responce.data,
-      };
-      return returnData;
+class standings {
+  standingData: undefined | standingData;
+  lastestUpdate: number | undefined;
+  load: boolean;
+  constructor() {
+    this.load = false;
+  }
+  /**
+   * 順位表を取得
+   */
+  async getStandings(
+    taskScreenName: string = contestDataApi.getDefaultContestID(),
+    cache: boolean = true
+  ) {
+    if (this.load === true) {
+      const promise: Promise<standingData> = new Promise(function (
+        resolve,
+        reject
+      ) {
+        hisuiEvent.once("standingsData-update", (arg) => {
+          resolve(arg);
+        });
+      });
+      return promise;
+    } else if (
+      this.lastestUpdate === undefined ||
+      this.lastestUpdate + cacheTime <= Date.now()
+    ) {
+      this.load = true;
+      const standings_url = `https://atcoder.jp/contests/${taskScreenName}/standings/json`;
+      const responce = await Atcoder.axiosInstance.get(standings_url, {
+        maxRedirects: 0,
+        validateStatus: (status) =>
+          (status >= 200 && status < 300) || status === 302,
+      });
+      this.standingData = responce.data;
+      this.lastestUpdate = Date.now();
+      this.load = false;
+      hisuiEvent.emit("standingsData-update", responce.data);
+      return responce.data;
     } else {
-      console.log("not login");
-      const returnData: returnStandingsData = {
-        cache: false,
-        login: false,
-        time: Date.now(),
-        data: undefined,
-      };
-      return returnData;
+      console.log(
+        `load_StandingsData:updateLastest${dayjs(this.lastestUpdate).format(
+          "[YYYYescape] YYYY-MM-DDTHH:mm:ssZ[Z]"
+        )}`
+      );
+      return this.standingData;
     }
-  } else {
-    console.log("Load cache");
-    const returnData: returnStandingsData = {
-      cache: false,
-      login: true,
-      time: cache.time,
-      data: cache.data,
-    };
-    return returnData;
   }
 }
+export const standingsApi = new standings();
+
 /**
  * 問題ごとに提出した人数と正解した人数を集計して返す
  */
 export async function getTotal(
   taskScreenName: string = contestDataApi.getDefaultContestID()
 ) {
-  const data = await getStandings(taskScreenName);
-  const returndata = await totalfn(data.data);
+  const data = await standingsApi.getStandings(taskScreenName);
+  const returndata = await totalfn(data);
   return returndata;
 }
 /**
@@ -76,8 +81,9 @@ export async function getRank(
   username: string | undefined = Atcoder.getUsername()
 ): Promise<"error" | number> {
   if (username !== undefined) {
-    const data = await getStandings(taskScreenName);
-    const myrank: any = await data.data.StandingsData.find(
+    const data = await standingsApi.getStandings(taskScreenName);
+
+    const myrank: any = await data.StandingsData.find(
       (v: any) => v.UserScreenName === username
     );
     if (myrank !== undefined) {

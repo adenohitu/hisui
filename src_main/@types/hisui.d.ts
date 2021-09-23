@@ -2,6 +2,7 @@
 // Copyright © 2021 adenohitu. All rights reserved.
 /// <reference types="node" />
 import { EventEmitter } from "events";
+import { standingData } from "../data/standing";
 
 export declare class hisuiEventtType extends EventEmitter {
   // --認証処理に関するイベント--
@@ -38,6 +39,19 @@ export declare class hisuiEventtType extends EventEmitter {
    */
   on(event: "DefaultContestID-change", listener: (args: string) => void): this;
   emit(event: "DefaultContestID-change", args: string): boolean;
+
+  /**
+   * 順位表データが更新された時に発生するイベント
+   */
+  once(
+    event: "standingsData-update",
+    listener: (args: standingData) => void
+  ): this;
+  on(
+    event: "standingsData-update",
+    listener: (args: standingData) => void
+  ): this;
+  emit(event: "standingsData-update", args: standingData): boolean;
 
   // --MainWindowに関するイベント--
 
