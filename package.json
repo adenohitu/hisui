@@ -9,14 +9,16 @@
   "scripts": {
     "start": "concurrently \"set BROWSER=none && yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
     "lint": "yarn react:lint && yarn electron:lint",
+    "test": "yarn react:test && yarn electron:test",
     "build:mac": "yarn react:build && tsc -p src_main --removeComments true && electron-builder --mac --universal",
     "build:win": "yarn react:build && tsc -p src_main --removeComments true && electron-builder --win --x64",
     "electron:source_build": "tsc -p src_main --removeComments true",
+    "electron:test": "jest",
     "electron:lint": "yarn eslint src_main/",
     "react:start": "react-scripts start",
     "react:lint": "yarn eslint src/",
     "react:build": "react-scripts build",
-    "react:test": "react-scripts test",
+    "react:test": "react-scripts test --watchAll=false",
     "react:eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
@@ -119,6 +121,7 @@
     "bootstrap": "4.6.0",
     "electron": "^13.1.6",
     "electron-builder": "^22.11.1",
+    "jest": "26.6.0",
     "mathjs": "^9.4.1",
     "monaco-editor": "^0.27.0",
     "react": "^17.0.1",
@@ -132,6 +135,7 @@
     "react-scripts": "4.0.3",
     "recharts": "^2.0.9",
     "seedrandom": "^3.0.5",
+    "ts-jest": "^26.3.0",
     "typedoc": "^0.21.2"
   }
 }
