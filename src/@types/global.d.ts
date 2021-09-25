@@ -1,4 +1,4 @@
-import { atcoderCodeTestResult } from "../../src_main/casetester/atcoder";
+import { atcoderCodeTestResult } from "../../src_main/casetester/runtest_atcoder";
 
 export default interface Api {
   electronIpcInvoke: (channel: string, ...arg: any) => Promise<void | string[]>;

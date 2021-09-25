@@ -1,5 +1,5 @@
 import { type } from "os"; // eslint-disable-line
-import { atcoderCodeTestResult } from "./casetester/atcoder";
+import { atcoderCodeTestResult } from "./casetester/runtest_atcoder";
 import { createTaskContType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
