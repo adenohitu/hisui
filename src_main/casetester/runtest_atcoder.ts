@@ -8,6 +8,7 @@ import {
   submitLanguageId,
 } from "../file/extension";
 import { ansCheck } from "./judgetool";
+const sleepTime = 2000;
 /**
  * コードテストが実行されたときに発生するイベント
  */
@@ -38,6 +39,7 @@ export declare class CodeTestEmitter extends EventEmitter {
  * ansStatusを足したもの
  */
 export interface atcoderCodeTestResult {
+  TaskScreenName?: string;
   ansStatus?: string;
   answer?: string | null;
   Interval?: number;
@@ -59,24 +61,31 @@ export interface atcoderCodeTestResult {
   Stderr: string;
   Stdout: string;
 }
-interface codeTestIn {
-  submitLanguageId: number;
+export interface codeTestIn {
+  lang: languagetype;
   code: string;
   input: string;
+  answer: string | null;
+  TaskScreenName?: string;
 }
 class atcoderCodeTest {
   CodeTestEmitter: CodeTestEmitter;
   CodeTeststatus: "CodeTest" | "ready";
   nowInput: string;
   nowAns: string | null;
+  nowTaskScreenName: string | undefined;
   codeTestQueue: codeTestIn[];
+
   constructor() {
     this.CodeTestEmitter = new EventEmitter();
     this.CodeTeststatus = "ready";
     this.nowInput = "";
     this.nowAns = null;
+    this.nowTaskScreenName = undefined;
     this.codeTestQueue = [];
+    this.LISTENER_sendCodeTestStatusFinish();
   }
+
   /**
    * コードを実行する
    */
@@ -84,9 +93,11 @@ class atcoderCodeTest {
     lang: languagetype,
     code: string,
     input: string,
-    answer: string | null = null
+    answer: string | null = null,
+    TaskScreenName?: string
   ) {
     if (this.CodeTeststatus === "ready") {
+      this.CodeTeststatus = "CodeTest";
       const customTestPostURL = `${this.getcustomTestURL()}/submit/json`;
       const csrf_token = await Atcoder.getCsrftoken(
         true,
@@ -112,12 +123,13 @@ class atcoderCodeTest {
         if (res.status === 200) {
           // 結果待機
           this.CodeTestEmitter.emit("run");
-          this.CodeTeststatus = "CodeTest";
           this.nowInput = input;
           this.nowAns = answer;
+          this.nowTaskScreenName = TaskScreenName;
           this.CodeTestchecker();
           return "success";
         } else {
+          this.CodeTeststatus = "ready";
           return "error:statuscode";
         }
       } catch (error) {
@@ -125,7 +137,14 @@ class atcoderCodeTest {
         return "error:axiosInstance";
       }
     } else {
-      return "isrunning";
+      this.codeTestQueue.push({
+        lang,
+        code,
+        input,
+        answer,
+        TaskScreenName,
+      });
+      return "AddQueue";
     }
   }
   /**
@@ -142,12 +161,13 @@ class atcoderCodeTest {
 
       if (Data.status === 200) {
         console.dir({ id: Result.Result.Id, Interval: Result.Interval });
+        Result.TaskScreenName = this.nowTaskScreenName;
         if (Result["Interval"] !== undefined) {
           Result.ansStatus = "WJ";
           Result.answer = this.nowAns;
           this.sendCodeTestStatus(Result);
           this.CodeTestEmitter.emit("checker", Result);
-          var serf = this;
+          const serf = this;
           setTimeout(() => {
             serf.CodeTestchecker();
           }, Result["Interval"]);
@@ -159,8 +179,29 @@ class atcoderCodeTest {
           }
           this.CodeTestEmitter.emit("finish", Result);
           this.CodeTeststatus = "ready";
+          /**
+           * キューに待機があればSleep時間後実行
+           */
+          if (this.codeTestQueue.length !== 0) {
+            const serf = this;
+            setTimeout(() => {
+              serf.runNextTest();
+            }, sleepTime);
+          }
         }
       }
+    }
+  }
+  runNextTest() {
+    const next = this.codeTestQueue.shift();
+    if (next) {
+      this.runCodeTest(
+        next.lang,
+        next.code,
+        next.input,
+        next.answer,
+        next.TaskScreenName
+      );
     }
   }
   /**
@@ -173,6 +214,11 @@ class atcoderCodeTest {
   }
   private sendCodeTestStatus(data: atcoderCodeTestResult) {
     ipcSendall("codeTestStatusEvent", data);
+  }
+  private LISTENER_sendCodeTestStatusFinish() {
+    this.CodeTestEmitter.on("finish", async (res) => {
+      ipcSendall("codeTestStatusEvent", res);
+    });
   }
 }
 export const atcoderCodeTestApi = new atcoderCodeTest();

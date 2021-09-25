@@ -3,12 +3,8 @@
 import { dialog, ipcMain } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
-import { ipcSendall } from "../browserview/mgt/ipcall";
-import {
-  atcoderCodeTestApi,
-  atcoderCodeTestResult,
-} from "../casetester/atcoder";
-import { ansCheck } from "../casetester/judgetool";
+import { atcoderCodeTestApi } from "../casetester/runtest_atcoder";
+
 import { runSubmit } from "../data/submit";
 import {
   languageselect,
@@ -302,11 +298,12 @@ export class taskcont {
         this.language,
         this.Data,
         samplecase,
-        answer
+        answer,
+        this.TaskScreenName
       );
-      atcoderCodeTestApi.CodeTestEmitter.once("finish", async (res) => {
-        ipcSendall("codeTestStatusEvent", res);
-      });
+      return "success";
+    } else {
+      return "codeIsNull";
     }
   }
 }
