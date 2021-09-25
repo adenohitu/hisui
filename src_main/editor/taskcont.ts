@@ -297,24 +297,16 @@ export class taskcont {
    */
   async codeTest(samplecase: string, answer: string | null = null) {
     await this.save();
-    return new Promise<atcoderCodeTestResult | {}>((resolve, reject) => {
-      if (this.Data !== null) {
-        atcoderCodeTestApi.runCodeTest(this.language, this.Data, samplecase);
-        atcoderCodeTestApi.CodeTestEmitter.once("finish", async (res) => {
-          if (answer) {
-            const ansstatus = ansCheck(answer, res.Stdout);
-            res["ansStatus"] = ansstatus;
-            // 結果を返すイベント
-            ipcSendall("codeTestStatusEvent", res);
-            resolve(res);
-          } else {
-            ipcSendall("codeTestStatusEvent", res);
-            resolve(res);
-          }
-        });
-      } else {
-        resolve({});
-      }
-    });
+    if (this.Data !== null) {
+      atcoderCodeTestApi.runCodeTest(
+        this.language,
+        this.Data,
+        samplecase,
+        answer
+      );
+      atcoderCodeTestApi.CodeTestEmitter.once("finish", async (res) => {
+        ipcSendall("codeTestStatusEvent", res);
+      });
+    }
   }
 }
