@@ -7,6 +7,7 @@ import {
   languagetypeId,
   submitLanguageId,
 } from "../file/extension";
+import { ansCheck } from "./judgetool";
 /**
  * コードテストが実行されたときに発生するイベント
  */
@@ -38,6 +39,7 @@ export declare class CodeTestEmitter extends EventEmitter {
  */
 export interface atcoderCodeTestResult {
   ansStatus?: string;
+  answer?: string | null;
   Interval?: number;
   Result: {
     Id: number;
@@ -57,20 +59,33 @@ export interface atcoderCodeTestResult {
   Stderr: string;
   Stdout: string;
 }
-
+interface codeTestIn {
+  submitLanguageId: number;
+  code: string;
+  input: string;
+}
 class atcoderCodeTest {
   CodeTestEmitter: CodeTestEmitter;
   CodeTeststatus: "CodeTest" | "ready";
   nowInput: string;
+  nowAns: string | null;
+  codeTestQueue: codeTestIn[];
   constructor() {
     this.CodeTestEmitter = new EventEmitter();
     this.CodeTeststatus = "ready";
     this.nowInput = "";
+    this.nowAns = null;
+    this.codeTestQueue = [];
   }
   /**
    * コードを実行する
    */
-  async runCodeTest(lang: languagetype, code: string, input: string) {
+  async runCodeTest(
+    lang: languagetype,
+    code: string,
+    input: string,
+    answer: string | null = null
+  ) {
     if (this.CodeTeststatus === "ready") {
       const customTestPostURL = `${this.getcustomTestURL()}/submit/json`;
       const csrf_token = await Atcoder.getCsrftoken(
@@ -99,6 +114,7 @@ class atcoderCodeTest {
           this.CodeTestEmitter.emit("run");
           this.CodeTeststatus = "CodeTest";
           this.nowInput = input;
+          this.nowAns = answer;
           this.CodeTestchecker();
           return "success";
         } else {
@@ -128,6 +144,7 @@ class atcoderCodeTest {
         console.dir({ id: Result.Result.Id, Interval: Result.Interval });
         if (Result["Interval"] !== undefined) {
           Result.ansStatus = "WJ";
+          Result.answer = this.nowAns;
           this.sendCodeTestStatus(Result);
           this.CodeTestEmitter.emit("checker", Result);
           var serf = this;
@@ -135,6 +152,11 @@ class atcoderCodeTest {
             serf.CodeTestchecker();
           }, Result["Interval"]);
         } else {
+          if (this.nowAns) {
+            const ansstatus = ansCheck(this.nowAns, Result.Stdout);
+            Result.answer = this.nowAns;
+            Result["ansStatus"] = ansstatus;
+          }
           this.CodeTestEmitter.emit("finish", Result);
           this.CodeTeststatus = "ready";
         }
