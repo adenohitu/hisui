@@ -108,15 +108,15 @@ function Row(props: { row: atcoderCodeTestResult }) {
               <Typography variant="subtitle1" component="div">
                 入力
               </Typography>
-              <p>
+              <pre>
                 <code>{row.Result.Input}</code>
-              </p>
+              </pre>
               <Typography variant="subtitle1" component="div">
                 出力
               </Typography>
-              <p>
+              <pre>
                 <code>{row.Stdout}</code>
-              </p>
+              </pre>
             </Box>
           </Collapse>
         </TableCell>
