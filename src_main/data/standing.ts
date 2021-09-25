@@ -52,8 +52,8 @@ class standings {
       return responce.data;
     } else {
       console.log(
-        `load_StandingsData:updateLastest${dayjs(this.lastestUpdate).format(
-          "[YYYYescape] YYYY-MM-DDTHH:mm:ssZ[Z]"
+        `load_StandingsData:updateLastest ${dayjs(this.lastestUpdate).format(
+          "YYYY-MM-DDTHH:mm:ssZ[Z]"
         )}`
       );
       return this.standingData;
