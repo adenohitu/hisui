@@ -13,8 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { atcoderCodeTestResult } from "../../../src_main/casetester/atcoder";
-import dayjs from "dayjs";
+import { atcoderCodeTestResult } from "../../../src_main/casetester/runtest_atcoder";
 
 const useRowStyles = makeStyles({
   root: {
@@ -70,12 +69,10 @@ function Row(props: { row: atcoderCodeTestResult }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.Result.Id}
+          {row.TaskScreenName}
         </TableCell>
         <TableCell align="left">{row.ansStatus}</TableCell>
-        <TableCell align="left">
-          {dayjs(row.Result.Created).format("HH:mm:ss")}
-        </TableCell>
+        <TableCell align="left">{row.Result.TimeConsumption} ms</TableCell>
         <TableCell align="left">{row.Result.LanguageName}</TableCell>
       </TableRow>
       <TableRow>
@@ -108,15 +105,11 @@ function Row(props: { row: atcoderCodeTestResult }) {
               <Typography variant="subtitle1" component="div">
                 入力
               </Typography>
-              <p>
-                <code>{row.Result.Input}</code>
-              </p>
+              <pre>{row.Result.Input}</pre>
               <Typography variant="subtitle1" component="div">
                 出力
               </Typography>
-              <p>
-                <code>{row.Stdout}</code>
-              </p>
+              <pre>{row.Stdout}</pre>
             </Box>
           </Collapse>
         </TableCell>
@@ -137,7 +130,7 @@ export function CodeTestWindow() {
             <TableCell />
             <TableCell>ID</TableCell>
             <TableCell align="left">Status</TableCell>
-            <TableCell align="left">Time</TableCell>
+            <TableCell align="left">Exec Time</TableCell>
             <TableCell align="left">language</TableCell>
           </TableRow>
         </TableHead>

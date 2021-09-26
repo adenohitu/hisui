@@ -10,6 +10,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "types": ["@types/jest"]
   }
 }

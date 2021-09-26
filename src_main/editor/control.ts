@@ -184,7 +184,7 @@ class taskControl {
             samplecase,
             answer
           );
-          console.log(result);
+          console.log(`codeTestStatus:${result}`);
         }
       }
     );
