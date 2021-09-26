@@ -3,12 +3,8 @@
 import { dialog, ipcMain } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
-import { ipcSendall } from "../browserview/mgt/ipcall";
-import {
-  atcoderCodeTestApi,
-  atcoderCodeTestResult,
-} from "../casetester/atcoder";
-import { ansCheck } from "../casetester/judgetool";
+import { atcoderCodeTestApi } from "../casetester/runtest_atcoder";
+
 import { runSubmit } from "../data/submit";
 import {
   languageselect,
@@ -297,24 +293,17 @@ export class taskcont {
    */
   async codeTest(samplecase: string, answer: string | null = null) {
     await this.save();
-    return new Promise<atcoderCodeTestResult | {}>((resolve, reject) => {
-      if (this.Data !== null) {
-        atcoderCodeTestApi.runCodeTest(this.language, this.Data, samplecase);
-        atcoderCodeTestApi.CodeTestEmitter.once("finish", async (res) => {
-          if (answer) {
-            const ansstatus = ansCheck(answer, res.Stdout);
-            res["ansStatus"] = ansstatus;
-            // 結果を返すイベント
-            ipcSendall("codeTestStatusEvent", res);
-            resolve(res);
-          } else {
-            ipcSendall("codeTestStatusEvent", res);
-            resolve(res);
-          }
-        });
-      } else {
-        resolve({});
-      }
-    });
+    if (this.Data !== null) {
+      atcoderCodeTestApi.runCodeTest(
+        this.language,
+        this.Data,
+        samplecase,
+        answer,
+        this.TaskScreenName
+      );
+      return "success";
+    } else {
+      return "codeIsNull";
+    }
   }
 }

@@ -1,10 +1,10 @@
-import { Atcoder } from "../atcoder";
-import { scrapingSubmitlang } from "./submitlang";
+import axios from "axios";
+import { scrapingSampleCase } from "./samplecase";
 export async function runTasklist() {
-  const get = await Atcoder.axiosInstance.get(
-    `https://atcoder.jp/contests/arc117/submit`
+  const get = await axios.get(
+    `https://atcoder.jp/contests/abc200/tasks/abc200_c`
   );
-  const returndata = await scrapingSubmitlang(get.data);
-  //   console.log(get);
-  console.dir(returndata);
+  const returndata = scrapingSampleCase(get.data);
+  console.log(returndata);
 }
+runTasklist();
