@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import {
   Box,
   Button,
@@ -9,9 +9,9 @@ import {
   DialogActions,
   Typography,
   DialogContentText,
-} from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+} from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { focuscodeTest } from "../editor/window_editor/editorwindow";
 export let TestToolhandleClickOpen: () => void | undefined;
 export default function TestTool() {

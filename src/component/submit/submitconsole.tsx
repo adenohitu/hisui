@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from "@material-ui/core";
+import { Box, Grid, Paper } from "@mui/material";
 import { MainEditor } from "../editor/editor";
 import { EditorTool } from "../editor/tool/editortool";
 import { JudgeResultList } from "./judgeresult";

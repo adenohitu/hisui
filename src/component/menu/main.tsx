@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { createTheme } from "@material-ui/core/styles";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -20,7 +18,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { ipcRendererManager } from "../../ipc";
 const drawerWidth = 240;
 // let nowItem = 0;
-const theme = createTheme();
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -160,48 +157,45 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
   ];
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <Divider />
-          <List>
-            {menulist.map((item) => (
-              <Box
-                borderLeft={3}
-                borderColor={item.viewName === location ? "#eceff1" : "#424242"}
-                className={classes.viewName}
-                key={item.id}
+    <div className={classes.root}>
+      <CssBaseline />
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <Divider />
+        <List>
+          {menulist.map((item) => (
+            <Box
+              borderLeft={3}
+              borderColor={item.viewName === location ? "#eceff1" : "#424242"}
+              className={classes.viewName}
+              key={item.id}
+            >
+              <ListItem
+                onClick={() => {
+                  pageChange(item.viewName);
+                }}
+                button
               >
-                <ListItem
-                  onClick={() => {
-                    pageChange(item.viewName);
-                  }}
-                  button
+                <ListItemIcon
+                  className={
+                    item.viewName === location ? classes.iconEn : classes.iconDi
+                  }
                 >
-                  <ListItemIcon
-                    className={
-                      item.viewName === location
-                        ? classes.iconEn
-                        : classes.iconDi
-                    }
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    className={classes.itemText}
-                    primary={item.text}
-                  />
-                </ListItem>
-              </Box>
-            ))}
-            {/* <Box
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  className={classes.itemText}
+                  primary={item.text}
+                />
+              </ListItem>
+            </Box>
+          ))}
+          {/* <Box
               borderLeft={3}
               borderColor={"#424242"}
               className={classes.viewName}
@@ -216,10 +210,9 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
                 />
               </ListItem>
             </Box> */}
-          </List>
-        </Drawer>
-        <main className={classes.content}>{children}</main>
-      </div>
-    </ThemeProvider>
+        </List>
+      </Drawer>
+      <main className={classes.content}>{children}</main>
+    </div>
   );
 };

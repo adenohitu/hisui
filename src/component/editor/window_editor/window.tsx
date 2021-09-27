@@ -7,7 +7,7 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // import { EditorToolbar } from "../../editor/toolbar";
 import { Editorwindow } from "./editorwindow";
 import "./style.css";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import SpeedDials from "../tool/floatingbutton";
 import TestTool from "../../codetest/toolwindow";
 

@@ -1,6 +1,6 @@
 // import React from "react";
 // import { Counter } from "../counter/Counter";
-import { Box, Container, Grid, Paper, Typography } from "@material-ui/core";
+import { Box, Container, Grid, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ipcRendererManager } from "../../ipc";
 import SelectContest from "../setting/select_contestlist";
