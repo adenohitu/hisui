@@ -1,36 +1,21 @@
 import React, { useEffect } from "react";
-import {
-  makeStyles,
-  withStyles,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { Theme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { selecttaskData, sendGetTasklist } from "../../../app/Slice/taskdata";
 import { loadtask } from "../../../app/Slice/editor";
 import { ipcRendererManager } from "../../../ipc";
+import { styled } from "@mui/material/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 interface StyledTabsProps {
+  children?: React.ReactNode;
   value: number | false;
-  onChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
 }
 
-const StyledTabs = withStyles({
-  indicator: {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    "& > span": {
-      height: "100%",
-
-      maxWidth: 40,
-      width: "100%",
-      backgroundColor: "#259B35",
-    },
-  },
-})((props: StyledTabsProps) => (
+export const StyledTabs = styled((props: StyledTabsProps) => (
   <Tabs
     {...props}
     style={{ height: "100%" }}
@@ -38,35 +23,47 @@ const StyledTabs = withStyles({
     variant="scrollable"
     scrollButtons="auto"
     TabIndicatorProps={{
-      children: <span />,
+      children: (
+        <span className="MuiTabs-indicatorSpan" style={{ width: "6px" }} />
+      ),
       style: {
         width: "6px",
       },
     }}
   />
-));
+))({
+  "& .MuiTabs-indicator": {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  "& .MuiTabs-indicatorSpan": {
+    maxWidth: 40,
+    width: "100%",
+    backgroundColor: "#635ee7",
+  },
+});
 
 interface StyledTabProps {
   label: string;
 }
 
-const StyledTab = withStyles((theme: Theme) =>
-  createStyles({
-    wrapper: {
-      alignItems: "flex-start",
-    },
-    root: {
-      textTransform: "none",
-      color: "#000",
-      fontWeight: theme.typography.fontWeightRegular,
-      fontSize: theme.typography.pxToRem(15),
-      marginRight: theme.spacing(1),
-      "&:focus": {
-        opacity: 1,
-      },
-    },
-  })
-)((props: StyledTabProps) => <Tab disableRipple {...props} />);
+export const StyledTab = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: "none",
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  marginRight: theme.spacing(1),
+  color: "#000",
+  "&.Mui-selected": {
+    color: "#000",
+  },
+  "&.Mui-focusVisible": {
+    backgroundColor: "rgba(100, 95, 228, 0.32)",
+  },
+  alignItems: "flex-start",
+}));
 
 const useStyles = makeStyles((theme: Theme) => ({
   demo2: {
@@ -107,11 +104,7 @@ export function TaskSelect() {
 
   return (
     <div className={classes.demo2}>
-      <StyledTabs
-        value={value}
-        onChange={handleChange}
-        aria-label="styled tabs example"
-      >
+      <StyledTabs value={value} onChange={handleChange}>
         {taskData.map((row: any) => (
           <StyledTab key={row.AssignmentName} label={row.AssignmentName} />
         ))}
