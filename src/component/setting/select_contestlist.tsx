@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
   table: {
     width: "100%",
   },
+  button: { backgroundColor: "#e91e63" },
 });
 
 export default function SelectContest(prop: any): any {
@@ -79,7 +80,7 @@ export default function SelectContest(prop: any): any {
                     ) : (
                       <Button
                         variant="contained"
-                        color="secondary"
+                        className={classes.button}
                         onClick={() => {
                           setText(row.taskScreenName);
                         }}

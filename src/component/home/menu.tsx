@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Theme } from "@mui/material/styles";
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import createStyles from "@mui/styles/createStyles";
+import makeStyles from "@mui/styles/makeStyles";
 import { ipcRendererManager } from "../../ipc";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,7 +28,7 @@ export function HomeMenu() {
       {loginStatus === false && (
         <Button
           variant="contained"
-          color="secondary"
+          color="info"
           className={classes.button}
           onClick={() => {
             ipcRendererManager.send("OPEN_LOGIN_DIALOG");
@@ -40,7 +40,7 @@ export function HomeMenu() {
       {loginStatus === true && (
         <Button
           variant="contained"
-          color="secondary"
+          color="info"
           className={classes.button}
           onClick={() => {
             ipcRendererManager.send("OPEN_SELECT_CONTEST_DIALOG");
