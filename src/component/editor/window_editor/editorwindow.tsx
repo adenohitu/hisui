@@ -41,10 +41,8 @@ export const Editorwindow = () => {
           <MosaicWindow<editorWindowMosaicKey>
             path={path}
             title={TITLE_ELEMENT[id].name}
-            toolbarControls={[]}
+            toolbarControls={TITLE_ELEMENT[id].toolbarControls}
             className="table-window"
-            additionalControls={TITLE_ELEMENT[id].additionalControl}
-            additionalControlButtonText="操作"
           >
             {TITLE_ELEMENT[id].component}
           </MosaicWindow>

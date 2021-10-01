@@ -1,24 +1,24 @@
 import React from "react";
 import { CodeTestWindow } from "../../codetest/codetest";
 import { MainEditor } from "../editor";
-import { ReloadButton, SubmissionTable } from "../../submission/submission";
+import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
 export const TITLE_ELEMENT = {
   editor: {
     name: "コード",
     component: <MainEditor />,
-    additionalControl: undefined,
+    toolbarControls: [],
   },
   submission: {
     name: "提出一覧",
     component: <SubmissionTable />,
-    additionalControl: React.Children.toArray([<ReloadButton />]),
+    toolbarControls: React.Children.toArray([<ReloadButtonTool />]),
   },
 
   codeTest: {
     name: "テスト結果:AtCoderCustomTest",
     component: <CodeTestWindow />,
-    additionalControl: undefined,
+    toolbarControls: [],
   },
 };
 export type editorWindowMosaicKey = keyof typeof TITLE_ELEMENT;

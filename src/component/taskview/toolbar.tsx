@@ -1,7 +1,7 @@
 import * as React from "react";
-import Box from "@material-ui/core/Box";
-import { IconButton } from "@material-ui/core";
-import UndoIcon from "@material-ui/icons/Undo";
+import Box from "@mui/material/Box";
+import { IconButton } from "@mui/material";
+import UndoIcon from "@mui/icons-material/Undo";
 import "./toolbar.css";
 export function TaskViewToolbar() {
   return (

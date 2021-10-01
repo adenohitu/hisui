@@ -13,38 +13,56 @@ import { TestCaseBoard } from "./component/case/main";
 import { BackgroungMenu } from "./component/menu/background";
 import { TaskViewToolbar } from "./component/taskview/toolbar";
 import "@fontsource/roboto";
+import "./style/mosaic.css";
+import {
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+  createTheme,
+} from "@mui/material/styles";
+
+declare module "@mui/styles/defaultTheme" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+const theme = createTheme();
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
-      <Switch>
-        <Route path="/taskview" exact>
-          <TaskViewToolbar />
-        </Route>
-        <Route path="/leftmenu" exact>
-          <Menu>
-            <BackgroungMenu />
-          </Menu>
-        </Route>
-        <Route path="/" exact>
-          <FormDialog />
-          <DefaltContest />
-          <Home />
-        </Route>
-        <Route path="/editor" exact>
-          <Editor />
-        </Route>
-        <Route path="/submit" exact>
-          <Submitmain />
-        </Route>
-        <Route path="/dashboard" exact>
-          <Window />
-        </Route>
-        <Route path="/case" exact>
-          <TestCaseBoard />
-        </Route>
-      </Switch>
-    </HashRouter>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <HashRouter>
+          <Switch>
+            <Route path="/taskview" exact>
+              <TaskViewToolbar />
+            </Route>
+            <Route path="/leftmenu" exact>
+              <Menu>
+                <BackgroungMenu />
+              </Menu>
+            </Route>
+            <Route path="/" exact>
+              <FormDialog />
+              <DefaltContest />
+              <Home />
+            </Route>
+            <Route path="/editor" exact>
+              <Editor />
+            </Route>
+            <Route path="/submit" exact>
+              <Submitmain />
+            </Route>
+            <Route path="/dashboard" exact>
+              <Window />
+            </Route>
+            <Route path="/case" exact>
+              <TestCaseBoard />
+            </Route>
+          </Switch>
+        </HashRouter>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 export default App;

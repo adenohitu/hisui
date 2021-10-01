@@ -1,4 +1,5 @@
-import { Grid, makeStyles, Theme } from "@material-ui/core";
+import { Grid, Theme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { CaseView } from "./caseview";
 import { CaseN1Main } from "./caseadd";
 import { useState } from "react";
