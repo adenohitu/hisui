@@ -15,3 +15,13 @@ export interface returnStandingsData {
   time: number;
   data: any | undefined;
 }
+/**
+ * 問題固有のID
+ * abc220_a 等
+ */
+export type taskScreenName = string;
+/**
+ * コンテスト固有のID
+ * abc220 等
+ */
+export type contestName = string;
