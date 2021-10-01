@@ -16,6 +16,7 @@ import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
+import { loadAllSamplecase } from "../file/save";
 const isMac = process.platform === "darwin";
 // ElectronのMenuの設定
 const template: any = [
@@ -63,7 +64,27 @@ const template: any = [
       isMac ? { role: "close" } : { role: "quit" },
     ],
   },
-  // { role: 'editMenu' }
+  {
+    label: "開発",
+    submenu: [
+      {
+        label: "test",
+        click(item: any, focusedWindow: any, event: any) {
+          if (taskControlApi.nowTop) {
+            taskControlApi.taskAll[taskControlApi.nowTop]
+              .getAllSamplecase()
+              .then((r) => console.log(r));
+          }
+        },
+      },
+      {
+        label: "extest",
+        click(item: any, focusedWindow: any, event: any) {
+          loadAllSamplecase("abc200", "abc200_c").then((r) => console.log(r));
+        },
+      },
+    ],
+  },
   {
     label: "編集",
     submenu: [

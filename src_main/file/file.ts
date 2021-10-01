@@ -30,3 +30,9 @@ export const setupDefaultFolder = () => {
     });
   }
 };
+/**
+ * デフォルトの保存フォルダーのディレクトリーを取得
+ */
+export const getDefaultder = () => {
+  return store.get("saveDefaultFolder");
+};
