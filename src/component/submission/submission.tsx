@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,11 +11,11 @@ import Paper from "@mui/material/Paper";
 import { Badge } from "react-bootstrap";
 import IconButton from "@mui/material/IconButton";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Box, Button } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -107,11 +107,14 @@ export function SubmissionTable() {
     </TableContainer>
   );
 }
+const updateSubmissions = () => {
+  ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
+};
 /**
  * Submissionsデータを更新するボタン
  * MosaicContextのAdditionalControlを閉じる
  */
-export class ReloadButton extends React.PureComponent {
+export class ReloadButtonAddtionals extends React.PureComponent {
   static contextType = MosaicWindowContext;
   context!: MosaicWindowContext;
 
@@ -133,10 +136,25 @@ export class ReloadButton extends React.PureComponent {
             ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
             // MosaicのAdditionalWindowを閉じる
             this.context.mosaicWindowActions.setAdditionalControlsOpen(false);
-          }}>
+          }}
+        >
           更新
         </Button>
       </Box>
     );
   }
 }
+/**
+ * mosaicのtoolbarControlsに入れる
+ */
+export const ReloadButtonTool = () => {
+  return (
+    <IconButton
+      size="small"
+      aria-label="Refresh submissions"
+      onClick={updateSubmissions}
+    >
+      <RefreshIcon />
+    </IconButton>
+  );
+};

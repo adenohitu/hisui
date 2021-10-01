@@ -100,8 +100,6 @@
     "wait-on": "^5.2.1"
   },
   "devDependencies": {
-    "@blueprintjs/core": "^3.38.2",
-    "@blueprintjs/icons": "^3.24.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@fontsource/roboto": "^4.5.0",
