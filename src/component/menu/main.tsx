@@ -1,26 +1,24 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { createTheme } from "@material-ui/core/styles";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import blueGrey from "@material-ui/core/colors/blueGrey";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
-import CodeIcon from "@material-ui/icons/Code";
-import HomeIcon from "@material-ui/icons/Home";
-import LiveTv from "@material-ui/icons/LiveTv";
-import ListItem from "@material-ui/core/ListItem";
-// import SendIcon from "@material-ui/icons/Send";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles, createStyles } from "@mui/styles";
+import { Theme } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import blueGrey from "@mui/material/colors/blueGrey";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import CodeIcon from "@mui/icons-material/Code";
+import HomeIcon from "@mui/icons-material/Home";
+import LiveTv from "@mui/icons-material/LiveTv";
+import ListItem from "@mui/material/ListItem";
+// import SendIcon from "@mui/icons-material/Send";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import { ipcRendererManager } from "../../ipc";
 const drawerWidth = 240;
 // let nowItem = 0;
-const theme = createTheme();
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -160,48 +158,45 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
   ];
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <Divider />
-          <List>
-            {menulist.map((item) => (
-              <Box
-                borderLeft={3}
-                borderColor={item.viewName === location ? "#eceff1" : "#424242"}
-                className={classes.viewName}
-                key={item.id}
+    <div className={classes.root}>
+      <CssBaseline />
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <Divider />
+        <List>
+          {menulist.map((item) => (
+            <Box
+              borderLeft={3}
+              borderColor={item.viewName === location ? "#eceff1" : "#424242"}
+              className={classes.viewName}
+              key={item.id}
+            >
+              <ListItem
+                onClick={() => {
+                  pageChange(item.viewName);
+                }}
+                button
               >
-                <ListItem
-                  onClick={() => {
-                    pageChange(item.viewName);
-                  }}
-                  button
+                <ListItemIcon
+                  className={
+                    item.viewName === location ? classes.iconEn : classes.iconDi
+                  }
                 >
-                  <ListItemIcon
-                    className={
-                      item.viewName === location
-                        ? classes.iconEn
-                        : classes.iconDi
-                    }
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    className={classes.itemText}
-                    primary={item.text}
-                  />
-                </ListItem>
-              </Box>
-            ))}
-            {/* <Box
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  className={classes.itemText}
+                  primary={item.text}
+                />
+              </ListItem>
+            </Box>
+          ))}
+          {/* <Box
               borderLeft={3}
               borderColor={"#424242"}
               className={classes.viewName}
@@ -216,10 +211,9 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
                 />
               </ListItem>
             </Box> */}
-          </List>
-        </Drawer>
-        <main className={classes.content}>{children}</main>
-      </div>
-    </ThemeProvider>
+        </List>
+      </Drawer>
+      <main className={classes.content}>{children}</main>
+    </div>
   );
 };

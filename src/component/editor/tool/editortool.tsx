@@ -7,7 +7,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from "@material-ui/core";
+  SelectChangeEvent,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { ipcRendererManager } from "../../../ipc";
 import { monacoControlApi } from "../editor";
@@ -21,8 +22,9 @@ export const EditorTool = () => {
     }
     fetchData();
   }, []);
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setlang(event.target.value as string);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setlang((event.target as HTMLInputElement).value);
   };
   return (
     <Container>

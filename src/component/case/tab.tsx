@@ -1,43 +1,48 @@
-import React from "react";
-import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 interface StyledTabsProps {
+  children?: React.ReactNode;
   value: number;
-  onChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
 }
 
-export const StyledTabs = withStyles({
-  indicator: {
+export const StyledTabs = styled((props: StyledTabsProps) => (
+  <Tabs
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  "& .MuiTabs-indicator": {
     display: "flex",
     justifyContent: "center",
     backgroundColor: "transparent",
-    "& > span": {
-      maxWidth: 40,
-      width: "100%",
-      backgroundColor: "#635ee7",
-    },
   },
-})((props: StyledTabsProps) => (
-  <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />
-));
+  "& .MuiTabs-indicatorSpan": {
+    maxWidth: 40,
+    width: "100%",
+    backgroundColor: "#635ee7",
+  },
+});
 
-export interface StyledTabProps {
+interface StyledTabProps {
   label: string;
 }
 
-export const StyledTab = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      textTransform: "none",
-      color: "#000",
-      fontWeight: theme.typography.fontWeightRegular,
-      fontSize: theme.typography.pxToRem(15),
-      marginRight: theme.spacing(1),
-      "&:focus": {
-        opacity: 1,
-      },
-    },
-  })
-)((props: StyledTabProps) => <Tab disableRipple {...props} />);
+export const StyledTab = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: "none",
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  marginRight: theme.spacing(1),
+  color: "#000",
+  "&.Mui-selected": {
+    color: "#000",
+  },
+  "&.Mui-focusVisible": {
+    backgroundColor: "rgba(100, 95, 228, 0.32)",
+  },
+}));

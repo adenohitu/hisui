@@ -1,9 +1,6 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { Mosaic } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "./style.css";
 import { TaskSelect } from "../editor/tool/selecttask";
 import { Submitconsole } from "./submitconsole";
 

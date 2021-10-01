@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-// import { Typography } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+// import { Typography } from "@mui/material";
 import { Badge } from "react-bootstrap";
-import IconButton from "@material-ui/core/IconButton";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import IconButton from "@mui/material/IconButton";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Box, Button } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -107,11 +107,14 @@ export function SubmissionTable() {
     </TableContainer>
   );
 }
+const updateSubmissions = () => {
+  ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
+};
 /**
  * Submissionsデータを更新するボタン
  * MosaicContextのAdditionalControlを閉じる
  */
-export class ReloadButton extends React.PureComponent {
+export class ReloadButtonAddtionals extends React.PureComponent {
   static contextType = MosaicWindowContext;
   context!: MosaicWindowContext;
 
@@ -120,7 +123,6 @@ export class ReloadButton extends React.PureComponent {
       <Box px={0.5}>
         <Button
           variant="contained"
-          color="default"
           // size="small"
           style={{
             maxWidth: "90px",
@@ -142,3 +144,17 @@ export class ReloadButton extends React.PureComponent {
     );
   }
 }
+/**
+ * mosaicのtoolbarControlsに入れる
+ */
+export const ReloadButtonTool = () => {
+  return (
+    <IconButton
+      size="small"
+      aria-label="Refresh submissions"
+      onClick={updateSubmissions}
+    >
+      <RefreshIcon />
+    </IconButton>
+  );
+};
