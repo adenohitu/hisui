@@ -4,7 +4,7 @@ import "react-mosaic-component/react-mosaic-component.css";
 import { Editorwindow } from "./editorwindow";
 import { Box } from "@mui/material";
 import SpeedDials from "../tool/floatingbutton";
-import TestTool from "../../codetest/toolwindow";
+import TestTool from "../../codetest/rundialog";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {

@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { monacoControlApi } from "../editor";
 import { SelectLanguageDialog } from "./languagedialog";
 import { focusEditor, focussubmission } from "../window_editor/editorwindow";
-import { TestToolhandleClickOpen } from "../../codetest/toolwindow";
+import { TestToolhandleClickOpen } from "../../codetest/rundialog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
