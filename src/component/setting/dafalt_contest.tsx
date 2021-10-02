@@ -8,11 +8,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import SelectContest from "./select_contestlist";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { ipcRendererManager } from "../../ipc";
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 export const TextContext = createContext(["", () => {}]);
 
 export default function DefaltContest() {
@@ -69,15 +72,20 @@ export default function DefaltContest() {
   };
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button> */}
       <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
         open={open_snack}
         autoHideDuration={6000}
         onClose={handleClose_snack}
       >
-        <Alert onClose={handleClose_snack} severity="success">
+        <Alert
+          onClose={handleClose_snack}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           {status_snack}
         </Alert>
       </Snackbar>

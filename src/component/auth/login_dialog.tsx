@@ -6,16 +6,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { ipcRendererManager } from "../../ipc";
 import { returnLogin } from "../../../src_main/interfaces";
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+
 export default function FormDialog() {
-  const [open_snack, setOpen_snack] = React.useState(false);
-  const [status_snack, setStatus_snack] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [username, setName] = React.useState("");
   const [pass, setPass] = React.useState("");
@@ -46,10 +40,8 @@ export default function FormDialog() {
     } else if (status === "success") {
       setLogin_Status("");
       setOpen(false);
-      setStatus_snack(`${username}でログインしました`);
       setName("");
       setPass("");
-      setOpen_snack(true);
     }
   };
   const handleClickOpen = () => {
@@ -58,8 +50,6 @@ export default function FormDialog() {
         setOpen(true);
       } else {
         console.log("already logged");
-        setStatus_snack("すでにログインしています");
-        setOpen_snack(true);
         setOpen(false);
       }
     });
@@ -70,24 +60,9 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleClose_snack = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
 
-    setOpen_snack(false);
-  };
   return (
     <div>
-      <Snackbar
-        open={open_snack}
-        autoHideDuration={6000}
-        onClose={handleClose_snack}
-      >
-        <Alert onClose={handleClose_snack} severity="success">
-          {status_snack}
-        </Alert>
-      </Snackbar>
       <Dialog
         open={open}
         onClose={handleClose}
