@@ -14,6 +14,7 @@ import { monacoControlApi } from "../editor";
 import { SelectLanguageDialog } from "./languagedialog";
 import { focusEditor, focussubmission } from "../window_editor/editorwindow";
 import { TestToolhandleClickOpen } from "../../codetest/rundialog";
+import { customTestWindowOpen } from "../../codetest/run-window";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,6 +67,13 @@ const actions = [
     name: "テスト",
     click: () => {
       TestToolhandleClickOpen();
+    },
+  },
+  {
+    icon: <PlaylistAddCheckIcon />,
+    name: "テスト2nd",
+    click: () => {
+      if (customTestWindowOpen) customTestWindowOpen();
     },
   },
   {
