@@ -1,14 +1,17 @@
 //問題情報を管理
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { taskList } from "../../../src_main/data/scraping/tasklist";
 import { ipcRendererManager } from "../../ipc";
 import { AppThunk, RootState } from "../store";
 
 interface taskData {
-  taskData: any;
+  nowTop: number | false;
+  taskData: taskList[];
   //ロード中はtrue
   load: boolean;
 }
 const initialState: taskData = {
+  nowTop: false,
   taskData: [],
   load: false,
 };
@@ -21,6 +24,9 @@ export const taskDataSlice = createSlice({
     setdata: (state, action: PayloadAction<any>) => {
       state.taskData = action.payload;
     },
+    setNowTop: (state, action: PayloadAction<any>) => {
+      state.nowTop = action.payload;
+    },
     loadStart: (state) => {
       state.load = true;
     },
@@ -29,7 +35,7 @@ export const taskDataSlice = createSlice({
     },
   },
 });
-export const { setdata, loadStart, loadEnd } = taskDataSlice.actions;
+export const { setdata, setNowTop, loadStart, loadEnd } = taskDataSlice.actions;
 export const sendGetTasklist = (): AppThunk => async (dispatch, getState) => {
   if (getState().submissionsData.load === false) {
     ipcRendererManager.invoke("GET_TASK_LIST").then((data) => {
@@ -46,9 +52,20 @@ export const sendGetTasklist = (): AppThunk => async (dispatch, getState) => {
     console.log("nowloading");
   }
 };
+/**
+ * 選択されているAssignmentNameを保持
+ */
+export const changeNowtop =
+  (AssignmentName: number | false): AppThunk =>
+  async (dispatch, getState) => {
+    dispatch(setNowTop(AssignmentName));
+  };
 
 export const selecttaskData = (state: RootState) => {
   return state.taskData.taskData;
+};
+export const selectNowtop = (state: RootState) => {
+  return state.taskData.nowTop;
 };
 export const selectload = (state: RootState) => {
   return state.taskData.load;
