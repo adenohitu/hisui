@@ -53,20 +53,19 @@ export class monacocontrol {
    * モデルをEditorにセット
    */
   setModel(id: string) {
-    if (this.editorInstance !== null) {
+    console.log(`model_set:${id}`);
+
+    if (this.nowmodelId !== id && this.editorInstance && this.nowmodelId) {
       // 今セットされているモデルを保存
-      if (this.nowmodelId !== null) {
-        // モデルとStateを取得
-        const currentModel = this.editorInstance.getModel();
-        const currentState = this.editorInstance.saveViewState();
-        console.log(currentState);
-        if (currentModel !== null) {
-          // 保存する
-          this.editorModel[this.nowmodelId] = {
-            model: currentModel,
-            state: currentState,
-          };
-        }
+      // モデルとStateを取得
+      const currentModel = this.editorInstance.getModel();
+      const currentState = this.editorInstance.saveViewState();
+      if (currentModel !== null) {
+        // 保存する
+        this.editorModel[this.nowmodelId] = {
+          model: currentModel,
+          state: currentState,
+        };
       }
       // 変更するモデルをセット
       this.editorInstance.setModel(this.editorModel[id].model);

@@ -38,12 +38,13 @@ export const taskDataSlice = createSlice({
 export const { setdata, setNowTop, loadStart, loadEnd } = taskDataSlice.actions;
 export const sendGetTasklist = (): AppThunk => async (dispatch, getState) => {
   if (getState().submissionsData.load === false) {
+    dispatch(loadStart());
     ipcRendererManager.invoke("GET_TASK_LIST").then((data) => {
       if (data !== "reqError") {
         dispatch(setdata(data));
-        dispatch(loadEnd);
+        dispatch(loadEnd());
       } else {
-        dispatch(loadEnd);
+        dispatch(loadEnd());
       }
     });
 

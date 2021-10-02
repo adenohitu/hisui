@@ -9,7 +9,7 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { SampleCaseList } from "./sanplecase-list";
 import { Box } from "@mui/system";
-import { TaskSelect } from "../editor/tool/selecttask";
+import { Grid } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -55,9 +55,15 @@ export function CustomTestWindow() {
             </Typography>
           </Toolbar>
         </AppBar>
-        <TaskSelect />
-        <Box p={1}>
-          <SampleCaseList />
+        <Box pt={1} p={0.5}>
+          <Grid container spacing={1}>
+            <Grid item xs>
+              remain
+            </Grid>
+            <Grid item xs={10}>
+              <SampleCaseList />
+            </Grid>
+          </Grid>
         </Box>
       </Dialog>
     </div>

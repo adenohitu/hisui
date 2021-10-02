@@ -3,7 +3,7 @@ import { urlOpen } from "../tool/openExternal";
 import { getWindowState, saveWindowState } from "../save/utility/renderState";
 import { contestDataApi } from "../data/contestdata";
 import { getRank, getTotal, standingsApi } from "../data/standing";
-import { getTasklist } from "../data/task";
+import { getTasklist, TaskListApi } from "../data/task";
 import { getUserData } from "../data/userdata";
 import { changeViewapi } from "../browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "../tool/clipboard";
@@ -97,7 +97,7 @@ export const load_ipc = () => {
   });
   //問題情報を取得
   ipcMainManager.handle("GET_TASK_LIST", async (event) => {
-    const get = await getTasklist();
+    const get = await TaskListApi.getTaskList();
     return get;
   });
   //表示するViewを変更

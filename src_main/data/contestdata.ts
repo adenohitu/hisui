@@ -9,11 +9,12 @@ import { dashboardapi } from "../browserview/dashboardview";
 import { timerApi } from "../clock/timer";
 import { hisuiEvent } from "../event/event";
 import { ipcSendall } from "../browserview/mgt/ipcall";
+import { contestName } from "../interfaces";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
 export class contestData {
-  private DefaultContestID: string;
+  private DefaultContestID: contestName;
   constructor() {
     this.DefaultContestID = store.get("DefaultContestID", "abc127");
   }
