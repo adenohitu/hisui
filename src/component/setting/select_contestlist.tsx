@@ -52,8 +52,8 @@ export default function SelectContest(prop: any): any {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row: any) => (
-              <TableRow key={row.start_time}>
+            {rows.map((row) => (
+              <TableRow key={row.contestID}>
                 <TableCell align="left">{row.contest_name}</TableCell>
                 <TableCell align="center">
                   {dayjs(row.start_time).format("YYYY-MM-DD HH:mm:ss")}
@@ -67,11 +67,11 @@ export default function SelectContest(prop: any): any {
                 </TableCell>
                 {prop.select === true && (
                   <TableCell align="center">
-                    {row.taskScreenName === text ? (
+                    {row.contestID === text ? (
                       <Button
                         variant="contained"
                         onClick={() => {
-                          setText(row.taskScreenName);
+                          setText(row.contestID);
                         }}
                         disabled
                       >
@@ -82,7 +82,7 @@ export default function SelectContest(prop: any): any {
                         variant="contained"
                         className={classes.button}
                         onClick={() => {
-                          setText(row.taskScreenName);
+                          setText(row.contestID);
                         }}
                       >
                         選択
