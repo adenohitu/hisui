@@ -187,11 +187,15 @@ app.on("activate", () => {
 // ログイン・ログアウトイベントが発行された時にウィンドウを再読み込み
 hisuiEvent.on("login", async () => {
   win?.close();
-  win?.once("closed", () => createWindow());
+  setTimeout(() => {
+    createWindow();
+  }, 1000);
 });
 hisuiEvent.on("logout", async () => {
   win?.close();
-  win?.once("closed", () => createWindow());
+  setTimeout(() => {
+    createWindow();
+  }, 1000);
 });
 
 //ipcの呼び出し

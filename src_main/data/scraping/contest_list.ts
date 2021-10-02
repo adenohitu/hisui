@@ -3,7 +3,7 @@ const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
 export interface contest_list {
   contest_name: string;
-  taskScreenName: string;
+  contestID: string;
   start_time: any;
   active: boolean;
 }
@@ -55,7 +55,7 @@ function scraping_contest_list(body: any): contest_list[] {
     for (let i = 0; i < contest_list_active_name.length; i++) {
       all_list.push({
         contest_name: String(contest_list_active_name[i]),
-        taskScreenName: String(contest_list_active_url[i].substr(10)),
+        contestID: String(contest_list_active_url[i].substr(10)),
         start_time: String(contest_list_active_time_reformat[i]),
         active: true,
       });
@@ -103,7 +103,7 @@ function scraping_contest_list(body: any): contest_list[] {
     for (let i = 0; i < contest_list_upcoming_name.length; i++) {
       all_list.push({
         contest_name: String(contest_list_upcoming_name[i]),
-        taskScreenName: String(contest_list_upcoming_url[i].substr(10)),
+        contestID: String(contest_list_upcoming_url[i].substr(10)),
         start_time: String(contest_list_upcoming_time_reformat[i]),
         active: false,
       });
