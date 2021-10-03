@@ -18,7 +18,7 @@ export interface createTaskContType {
  */
 class taskControl {
   taskAll: { [id: string]: taskcont };
-  // id=TaskScreenName|contestname
+  // id:TaskScreenName
   nowTop: string | null;
   DefaultContestID: string | null;
   constructor() {
