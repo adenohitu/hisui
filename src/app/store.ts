@@ -10,7 +10,6 @@ import scoreDataSlice from "./Slice/score";
 import submissionsSlice from "./Slice/submissions";
 import contestDataSlice from "./Slice/contestdata";
 import taskDataSlice from "./Slice/taskdata";
-import editorDataSlice from "./Slice/editor";
 import createCaseSlice from "./Slice/casecont";
 
 export const store = configureStore({
@@ -21,7 +20,6 @@ export const store = configureStore({
     submissionsData: submissionsSlice,
     contestData: contestDataSlice,
     taskData: taskDataSlice,
-    editorData: editorDataSlice,
     createCase: createCaseSlice,
   },
   middleware: (getDefaultMiddleware) =>

@@ -7,10 +7,10 @@
 
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import installExtension, {
-  REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS,
-} from "electron-devtools-installer";
+// import installExtension, {
+//   REACT_DEVELOPER_TOOLS,
+//   REDUX_DEVTOOLS,
+// } from "electron-devtools-installer";
 import { store } from "./save/save";
 import setmenu from "./menu/menu";
 import { load_ipc } from "./ipc/ipc_main";
@@ -114,14 +114,14 @@ function createWindow() {
   if (store.get("window.main.width") === undefined) {
     win.maximize();
   }
-  // DevTools
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log("An error occurred: ", err));
+  // // DevTools
+  // installExtension(REACT_DEVELOPER_TOOLS)
+  //   .then((name) => console.log(`Added Extension:  ${name}`))
+  //   .catch((err) => console.log("An error occurred: ", err));
 
-  installExtension(REDUX_DEVTOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log("An error occurred: ", err));
+  // installExtension(REDUX_DEVTOOLS)
+  //   .then((name) => console.log(`Added Extension:  ${name}`))
+  //   .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     //editorをセットアップ
     editorViewapi.setupView(win);

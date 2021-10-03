@@ -1,6 +1,7 @@
 // ソースファイルと問題URLを管理する
 // Editor、TaskViewの状態を管理する
 import { dialog, ipcMain } from "electron";
+import { readFile } from "fs/promises";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
 import { atcoderCodeTestApi } from "../casetester/runtest_atcoder";
@@ -13,7 +14,7 @@ import {
   languagetype,
   submitLanguageId,
 } from "../file/extension";
-import { readFileAwait, runMakeFile, writeFileAwait } from "../file/mkfile";
+import { runMakeFile, writeFileAwait } from "../file/mkfile";
 import {
   existSamplecases,
   loadAllSamplecase,
@@ -129,7 +130,7 @@ export class taskcont {
       `${AssignmentName}${languageselect[language]}`,
       contestName
     );
-    const Data = await readFileAwait(filePath);
+    const Data = await readFile(filePath, "utf-8");
     this.filePath = filePath;
     this.Data = Data;
     return Data;
@@ -141,9 +142,9 @@ export class taskcont {
    */
   async filereload() {
     if (this.filePath !== null) {
-      const Data = await readFileAwait(this.filePath);
+      const Data = await readFile(this.filePath, "utf-8");
       this.Data = Data;
-      await this.syncEditor();
+      await this.syncEditorValue();
     }
   }
 
@@ -216,7 +217,7 @@ export class taskcont {
    * ファイルに保存されているデータを優先する
    * changeValue
    */
-  async syncEditor() {
+  async syncEditorValue() {
     if (this.Data) {
       this.sendValueEditor(this.Data);
     } else {
