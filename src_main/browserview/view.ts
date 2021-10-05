@@ -1,4 +1,5 @@
 import { app, BrowserView, BrowserWindow } from "electron";
+import { hisuiEvent } from "../event/event";
 import { IpcEventsKey } from "../ipc/events";
 import { menuSize } from "./default";
 const isDev = !app.isPackaged;
@@ -6,19 +7,23 @@ interface viewurl {
   dev: string;
   product: string;
 }
+type viewName = string;
+
 export class view {
   /**
    * viewを保存
    * 表示されていない時はnull
    */
   view: BrowserView | null;
+  viewName: string;
   private mainWindow: BrowserWindow | null;
   url: { dev: string; product: string };
 
-  constructor(arg: viewurl) {
+  constructor(name: viewName, viewurl: viewurl) {
     this.view = null;
+    this.viewName = name;
     this.mainWindow = null;
-    this.url = arg;
+    this.url = viewurl;
   }
 
   /**
@@ -84,6 +89,7 @@ export class view {
    */
   runWindowTop() {
     if (this.view && this.mainWindow) {
+      hisuiEvent.emit("view-main-top", this.viewName);
       this.mainWindow.setTopBrowserView(this.view);
     }
   }

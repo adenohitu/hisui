@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, createStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
@@ -118,6 +118,11 @@ export interface GenericTemplateProps {
 export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
   //react routor hooks
   const [location, setlocation] = useState("main");
+  useEffect(() => {
+    ipcRendererManager.on("LISTENER_VIEW_TOP", (e, viewName: string) => {
+      setlocation(viewName);
+    });
+  });
   const pageChange = (viewName: string) => {
     setlocation(viewName);
     ipcRendererManager.send("CHANGE_VIEW_TOP", viewName);
