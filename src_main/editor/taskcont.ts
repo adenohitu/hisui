@@ -6,7 +6,7 @@ import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
 import { atcoderCodeTestApi } from "../casetester/runtest_atcoder";
 import { Atcoder } from "../data/atcoder";
-import { scrapingSampleCase } from "../data/scraping/samplecase";
+import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 
 import { runSubmit } from "../data/submit";
 import {
@@ -319,20 +319,9 @@ export class taskcont {
    * 保存されていない場合問題ページから取得
    * 保存してある場合はファイルから読み込む
    */
-  async getAllSamplecase(cache: boolean = true): Promise<
-    | {
-        name: string;
-        case: string;
-        answer?: string;
-      }[]
-    | {
-        name: string;
-        input: string;
-        answer?: string;
-      }[]
-    | "not_saved"
-    | "request_Error"
-  > {
+  async getAllSamplecase(
+    cache: boolean = true
+  ): Promise<SampleCase[] | "not_saved" | "request_Error"> {
     const existsamplecase = await existSamplecases(
       this.contestName,
       this.TaskScreenName

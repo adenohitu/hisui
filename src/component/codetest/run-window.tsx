@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,8 +9,16 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { SampleCaseList } from "./sanplecase-list";
 import { Box } from "@mui/system";
-import { Grid } from "@mui/material";
-
+import {
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField,
+  Button,
+} from "@mui/material";
+import { ipcRendererManager } from "../../ipc";
+import { SampleCase } from "../../../src_main/data/scraping/samplecase";
+import { focuscodeTest } from "../editor/window_editor/editorwindow";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children?: React.ReactElement;
@@ -22,9 +30,28 @@ const Transition = React.forwardRef(function Transition(
 export var customTestWindowOpen: (() => void) | null = null;
 
 export function CustomTestWindow() {
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  const [caseList, setcaseList] = useState<SampleCase[]>([]);
+  const [input, setinput] = useState("");
+  const [inputans, setinputans] = useState("");
+  const [isans, issetans] = useState(false);
+  const runCodetest = () => {
+    handleClose();
+    focuscodeTest();
+    if (isans) {
+      window.editor.runcodeTestNowTop(input, inputans);
+    } else {
+      window.editor.runcodeTestNowTop(input, null);
+    }
+  };
   customTestWindowOpen = () => {
+    (async () => {
+      const caseDataList: SampleCase[] | "not_saved" | "request_Error" =
+        await ipcRendererManager.invoke("GET_NOWTOP_TASK_SAMPLECASE");
+      if (caseDataList !== "not_saved" && caseDataList !== "request_Error") {
+        setcaseList(caseDataList);
+      }
+    })();
     setOpen(true);
   };
 
@@ -55,13 +82,79 @@ export function CustomTestWindow() {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Box pt={1} p={0.5}>
-          <Grid container spacing={1}>
-            <Grid item xs>
-              remain
+        <Box pt={1} p={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <SampleCaseList
+                setinput={setinput}
+                issetans={issetans}
+                setinputans={setinputans}
+                caseList={caseList}
+                runSample={runCodetest}
+              />
             </Grid>
-            <Grid item xs={10}>
-              <SampleCaseList />
+            <Grid xs={4} item>
+              <Typography variant="h4" id="form-dialog-title">
+                テスト
+              </Typography>
+              <Box pt={1}>
+                <Typography variant="subtitle1">標準入力</Typography>
+                <TextField
+                  style={{ display: "flex" }}
+                  id="input"
+                  name="input"
+                  label="入力"
+                  multiline
+                  rows={3}
+                  variant="outlined"
+                  value={input}
+                  onChange={(event) => {
+                    setinput(event.target.value);
+                  }}
+                />
+              </Box>
+              <Box pt={1}>
+                <Typography
+                  style={{ display: "inline-block" }}
+                  variant="subtitle1"
+                >
+                  答え
+                </Typography>
+                <FormControlLabel
+                  style={{ display: "inline-block" }}
+                  control={
+                    <Checkbox
+                      checked={isans}
+                      onChange={(event) => {
+                        issetans(event.target.checked);
+                      }}
+                      name="checkedA"
+                    />
+                  }
+                  label="答えをチェックする"
+                />
+
+                <TextField
+                  style={{ display: "flex" }}
+                  disabled={isans === false && true}
+                  id="答え"
+                  name=""
+                  label="答え"
+                  multiline
+                  rows={3}
+                  variant="outlined"
+                  value={inputans}
+                  onChange={(event) => {
+                    setinputans(event.target.value);
+                  }}
+                />
+              </Box>
+              <Button color="inherit" onClick={handleClose}>
+                戻る
+              </Button>
+              <Button color="secondary" onClick={runCodetest}>
+                実行
+              </Button>
             </Grid>
           </Grid>
         </Box>

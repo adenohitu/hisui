@@ -1,5 +1,6 @@
 import { statSync } from "fs";
 import { lstat, mkdir, readdir, readFile, writeFile } from "fs/promises";
+import { SampleCase } from "../data/scraping/samplecase";
 import { contestName, taskScreenName } from "../interfaces";
 import { getDefaultder } from "./file";
 /**
@@ -110,14 +111,10 @@ export const existSamplecases = async (
 export const loadAllSamplecase: (
   contestname: contestName,
   taskScreenName: string
-) => Promise<
-  | {
-      name: string;
-      input: string;
-      answer?: string;
-    }[]
-  | "not_saved"
-> = async (contestname: contestName, taskScreenName: taskScreenName) => {
+) => Promise<SampleCase[] | "not_saved"> = async (
+  contestname: contestName,
+  taskScreenName: taskScreenName
+) => {
   // ファイルの存在、名前を取得
   const exist = await existSamplecases(contestname, taskScreenName);
   if (exist === true) {
@@ -148,9 +145,9 @@ export const loadAllSamplecase: (
         const inputSanple = await readFile(`${taskdir}/${ele.in}`, "utf-8");
         if (ele.ans) {
           const answerSample = await readFile(`${taskdir}/${ele.ans}`, "utf-8");
-          return { name: ele.name, input: inputSanple, answer: answerSample };
+          return { name: ele.name, case: inputSanple, answer: answerSample };
         } else {
-          return { name: ele.name, input: inputSanple };
+          return { name: ele.name, case: inputSanple };
         }
       })
     );
