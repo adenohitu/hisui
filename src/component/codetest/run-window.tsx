@@ -38,7 +38,7 @@ export function CustomTestWindow() {
   const runCodetest = (inputarg: string, ans: string | undefined) => {
     handleClose();
     focuscodeTest();
-    if (isans) {
+    if (ans) {
       window.editor.runcodeTestNowTop(inputarg, ans);
     } else {
       window.editor.runcodeTestNowTop(inputarg, null);
@@ -138,7 +138,7 @@ export function CustomTestWindow() {
                   style={{ display: "flex" }}
                   disabled={isans === false && true}
                   id="答え"
-                  name=""
+                  name="答え"
                   label="答え"
                   multiline
                   rows={3}
@@ -155,7 +155,11 @@ export function CustomTestWindow() {
               <Button
                 color="secondary"
                 onClick={() => {
-                  runCodetest(input, inputans);
+                  if (isans) {
+                    runCodetest(input, inputans);
+                  } else {
+                    runCodetest(input, undefined);
+                  }
                 }}
               >
                 実行

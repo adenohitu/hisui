@@ -132,33 +132,35 @@ export const SampleCaseList: React.FC<Props> = ({
   return (
     <TableContainer component={Paper}>
       <Typography variant="h4">ケース一覧</Typography>
-      <Table size="small" aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell align="left">サンプル名</TableCell>
-            <TableCell align="right"></TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {caseList === [] && (
-            <Typography variant="subtitle2">
-              問題が選択されていない、またはサンプルケースがない可能性があります
-            </Typography>
-          )}
-          {caseList.map((row) => (
-            <Row
-              setinput={setinput}
-              issetans={issetans}
-              setinputans={setinputans}
-              runSample={runSample}
-              key={row.name}
-              row={row}
-            />
-          ))}
-        </TableBody>
-      </Table>
+      {caseList.length === 0 && (
+        <Typography variant="subtitle1">
+          問題が選択されていない、またはサンプルケースがない可能性があります
+        </Typography>
+      )}
+      {caseList.length !== 0 && (
+        <Table size="small" aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell align="left">サンプル名</TableCell>
+              <TableCell align="right"></TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {caseList.map((row) => (
+              <Row
+                setinput={setinput}
+                issetans={issetans}
+                setinputans={setinputans}
+                runSample={runSample}
+                key={row.name}
+                row={row}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </TableContainer>
   );
 };
