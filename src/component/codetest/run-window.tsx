@@ -33,15 +33,15 @@ export function CustomTestWindow() {
   const [open, setOpen] = useState(false);
   const [caseList, setcaseList] = useState<SampleCase[]>([]);
   const [input, setinput] = useState("");
-  const [inputans, setinputans] = useState("");
+  const [inputans, setinputans] = useState<string | undefined>(undefined);
   const [isans, issetans] = useState(false);
-  const runCodetest = () => {
+  const runCodetest = (inputarg: string, ans: string | undefined) => {
     handleClose();
     focuscodeTest();
     if (isans) {
-      window.editor.runcodeTestNowTop(input, inputans);
+      window.editor.runcodeTestNowTop(inputarg, ans);
     } else {
-      window.editor.runcodeTestNowTop(input, null);
+      window.editor.runcodeTestNowTop(inputarg, null);
     }
   };
   customTestWindowOpen = () => {
@@ -152,7 +152,12 @@ export function CustomTestWindow() {
               <Button color="inherit" onClick={handleClose}>
                 戻る
               </Button>
-              <Button color="secondary" onClick={runCodetest}>
+              <Button
+                color="secondary"
+                onClick={() => {
+                  runCodetest(input, inputans);
+                }}
+              >
                 実行
               </Button>
             </Grid>
