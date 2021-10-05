@@ -41,6 +41,7 @@ export const IpcEvents = {
   LISTENER_TIMER_TICK: { mode: "send" },
   LISTENER_CHANGE_SET_CONTESTID: { mode: "send" },
   LISTENER_RETUEN_SUBMISSIONS: { mode: "send" },
+  LISTENER_VIEW_TOP: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

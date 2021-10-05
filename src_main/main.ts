@@ -197,7 +197,7 @@ hisuiEvent.on("logout", async () => {
     createWindow();
   }, 1000);
 });
-
+changeViewapi.setup();
 //ipcの呼び出し
 load_ipc();
 //メニューのセット
