@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -21,11 +21,25 @@ const useRowStyles = makeStyles({
       borderBottom: "unset",
     },
   },
+  pre: {
+    backgroundColor: "#F2F2F2",
+  },
 });
 const useStyles = makeStyles({
   root: { height: "100%" },
   table: {},
 });
+const ansStatusText = (arg: atcoderCodeTestResult) => {
+  if (arg.ansStatus !== undefined) {
+    return arg.ansStatus;
+  } else {
+    if (arg.Result.ExitCode === 0) {
+      return "Runned";
+    } else {
+      return "Error";
+    }
+  }
+};
 const useTestStatus = () => {
   const [status, setstatus] = useState<atcoderCodeTestResult[]>([]);
   useEffect(() => {
@@ -71,7 +85,7 @@ function Row(props: { row: atcoderCodeTestResult }) {
         <TableCell component="th" scope="row">
           {row.TaskScreenName}
         </TableCell>
-        <TableCell align="left">{row.ansStatus}</TableCell>
+        <TableCell align="left">{ansStatusText(row)}</TableCell>
         <TableCell align="left">{row.Result.TimeConsumption} ms</TableCell>
         <TableCell align="left">{row.Result.LanguageName}</TableCell>
       </TableRow>
@@ -102,14 +116,24 @@ function Row(props: { row: atcoderCodeTestResult }) {
                   </TableCell>
                 </TableBody>
               </Table>
+              {row.Stderr !== "" && (
+                <>
+                  <Typography variant="subtitle1" component="div">
+                    エラーメッセージ
+                  </Typography>
+                  <Box>
+                    <pre className={classes.pre}>{row.Stderr}</pre>
+                  </Box>
+                </>
+              )}
               <Typography variant="subtitle1" component="div">
                 入力
               </Typography>
-              <pre>{row.Result.Input}</pre>
+              <pre className={classes.pre}>{row.Result.Input}</pre>
               <Typography variant="subtitle1" component="div">
                 出力
               </Typography>
-              <pre>{row.Stdout}</pre>
+              <pre className={classes.pre}>{row.Stdout}</pre>
             </Box>
           </Collapse>
         </TableCell>

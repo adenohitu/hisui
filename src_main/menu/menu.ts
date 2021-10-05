@@ -11,7 +11,6 @@ import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
-import { loadAllSamplecase } from "../file/save";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 // ElectronのMenuの設定
@@ -78,9 +77,14 @@ const template: any = [
             {
               label: "extest",
               click(item: any, focusedWindow: any, event: any) {
-                loadAllSamplecase("abc200", "abc200_c").then((r) =>
-                  console.log(r)
-                );
+                (async () => {
+                  if (taskControlApi.nowTop)
+                    console.log(
+                      await taskControlApi.taskAll[
+                        taskControlApi.nowTop
+                      ].getAllSamplecase()
+                    );
+                })();
               },
             },
             {

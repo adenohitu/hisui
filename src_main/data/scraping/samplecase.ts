@@ -1,12 +1,13 @@
 const { JSDOM } = require("jsdom");
-/**
- * 問題ページから全てのサンプルケースをスクレイピング
- */
-export function scrapingSampleCase(body: any): {
+export interface SampleCase {
   name: string;
   case: string;
   answer?: string;
-}[] {
+}
+/**
+ * 問題ページから全てのサンプルケースをスクレイピング
+ */
+export function scrapingSampleCase(body: any): SampleCase[] {
   const dom = new JSDOM(body);
   const TaskReamain = dom.window.document
     .querySelector("#task-statement")

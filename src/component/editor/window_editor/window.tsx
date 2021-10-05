@@ -4,7 +4,6 @@ import "react-mosaic-component/react-mosaic-component.css";
 import { Editorwindow } from "./editorwindow";
 import { Box } from "@mui/material";
 import SpeedDials from "../tool/floatingbutton";
-import TestTool from "../../codetest/rundialog";
 import { CustomTestWindow } from "../../codetest/run-window";
 
 // const useStyles = makeStyles({});
@@ -26,7 +25,6 @@ export const Editor = () => {
   return (
     <>
       <div className="react-mosaic-app">
-        <TestTool />
         <CustomTestWindow />
         <Mosaic<string>
           renderTile={(id) => ELEMENT_MAP[id]}

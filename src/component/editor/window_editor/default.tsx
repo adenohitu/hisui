@@ -1,5 +1,5 @@
 import React from "react";
-import { CodeTestWindow } from "../../codetest/codetest";
+import { CodeTestWindow } from "../../codetest/codetest-status";
 import { MainEditor } from "../editor";
 import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
