@@ -32,7 +32,6 @@ export function cppAddIntellisence(monaco: Monaco) {
   }
   monaco.languages.registerCompletionItemProvider("cpp", {
     provideCompletionItems: function (model, position) {
-      // find out if we are completing a property in the 'dependencies' object.
       var word = model.getWordUntilPosition(position);
       var range = {
         startLineNumber: position.lineNumber,
@@ -48,8 +47,6 @@ export function cppAddIntellisence(monaco: Monaco) {
 }
 export function pythonAddIntellisence(monaco: Monaco) {
   function createDependencyProposals(range: any) {
-    // returning a static list of proposals, not even looking at the prefix (filtering is done by the Monaco editor),
-    // here you could do a server side lookup
     return [
       {
         label: "print",
@@ -76,7 +73,6 @@ export function pythonAddIntellisence(monaco: Monaco) {
 
   monaco.languages.registerCompletionItemProvider("python", {
     provideCompletionItems: function (model, position) {
-      // find out if we are completing a property in the 'dependencies' object.
       var word = model.getWordUntilPosition(position);
       var range = {
         startLineNumber: position.lineNumber,
