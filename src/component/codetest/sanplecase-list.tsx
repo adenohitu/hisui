@@ -28,7 +28,7 @@ const useRowStyles = makeStyles({
 });
 function Row(props: {
   row: SampleCase;
-  runSample: () => void;
+  runSample: (inputarg: string, ans: undefined | string) => void;
   setinput: (value: string) => void;
   issetans: (value: boolean) => void;
   setinputans: (value: string) => void;
@@ -62,7 +62,7 @@ function Row(props: {
               } else {
                 props.issetans(false);
               }
-              props.runSample();
+              props.runSample(row.case, row.answer);
             }}
           >
             実行
@@ -114,7 +114,7 @@ function Row(props: {
   );
 }
 type Props = {
-  runSample: () => void;
+  runSample: (inputarg: string, ans: string | undefined) => void;
   setinput: (value: string) => void;
   issetans: (value: boolean) => void;
   setinputans: (value: string) => void;
