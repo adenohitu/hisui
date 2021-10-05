@@ -1,5 +1,8 @@
+import { contestName } from "../../interfaces";
+
 const { JSDOM } = require("jsdom");
 export interface taskList {
+  contestName: contestName;
   taskScreenName: string;
   AssignmentName: string;
   taskName: string;
@@ -10,7 +13,7 @@ export interface taskList {
 /**
  * 問題情報を取得
  */
-export async function scrapingTaskList(body: any) {
+export async function scrapingTaskList(body: any, contestName: string) {
   const dom = new JSDOM(body);
 
   const tasklistBefore = dom.window.document.querySelector("tbody");
@@ -24,6 +27,7 @@ export async function scrapingTaskList(body: any) {
     const taskMemory = tmp_td[3].textContent.trim();
     const AssignmentName = element.querySelector("a").textContent.trim();
     const returnData: taskList = {
+      contestName,
       taskScreenName,
       AssignmentName,
       taskName,

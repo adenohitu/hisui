@@ -4,6 +4,7 @@ import { editorViewapi } from "../browserview/editorview";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
+import { ipcMainManager } from "../ipc/ipc";
 import { store } from "../save/save";
 import { taskcont } from "./taskcont";
 export interface createTaskContType {
@@ -18,7 +19,7 @@ export interface createTaskContType {
  */
 class taskControl {
   taskAll: { [id: string]: taskcont };
-  // id=TaskScreenName|contestname
+  // id:TaskScreenName
   nowTop: string | null;
   DefaultContestID: string | null;
   constructor() {
@@ -188,6 +189,14 @@ class taskControl {
         }
       }
     );
+    ipcMainManager.handle("GET_NOWTOP_TASK_SAMPLECASE", async () => {
+      if (this.nowTop !== null) {
+        const result = await this.taskAll[this.nowTop].getAllSamplecase();
+        return result;
+      } else {
+        return [];
+      }
+    });
   }
 }
 

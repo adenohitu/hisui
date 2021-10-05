@@ -1,22 +1,18 @@
 import { app, Menu } from "electron";
 import { setBrowserCoockie } from "../save/utility/session";
 import { createsampleViewapi } from "../browserview/createsampleview";
-// import { createsampleViewapi } from "../browserview/createsampleview";
 import { dashboardapi } from "../browserview/dashboardview";
 import { editorViewapi } from "../browserview/editorview";
-// import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
-// import { settingDialogOpen } from "../browserview/mgt/dialog";
-// import { timerApi } from "../clock/timer";
 import { Atcoder } from "../data/atcoder";
 import { submissionsApi } from "../data/submissions";
 import { taskControlApi } from "../editor/control";
 import { runMakeDefaultFolderDialog } from "../file/mkfile";
-// import { win } from "../main";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 const isMac = process.platform === "darwin";
+const packd = app.isPackaged;
 // ElectronのMenuの設定
 const template: any = [
   ...(isMac
@@ -63,7 +59,68 @@ const template: any = [
       isMac ? { role: "close" } : { role: "quit" },
     ],
   },
-  // { role: 'editMenu' }
+  ...(!packd
+    ? [
+        {
+          label: "開発",
+          submenu: [
+            {
+              label: "test",
+              click(item: any, focusedWindow: any, event: any) {
+                if (taskControlApi.nowTop) {
+                  taskControlApi.taskAll[taskControlApi.nowTop]
+                    .getAllSamplecase()
+                    .then((r) => console.log(r));
+                }
+              },
+            },
+            {
+              label: "extest",
+              click(item: any, focusedWindow: any, event: any) {
+                (async () => {
+                  if (taskControlApi.nowTop)
+                    console.log(
+                      await taskControlApi.taskAll[
+                        taskControlApi.nowTop
+                      ].getAllSamplecase()
+                    );
+                })();
+              },
+            },
+            {
+              label: "DevToolsOnMainwindow",
+              click(item: any, focusedWindow: any, event: any) {
+                focusedWindow.webContents.openDevTools({ mode: "detach" });
+              },
+            },
+            {
+              label: "DevToolsOnMainpage",
+              click(item: any, focusedWindow: any, event: any) {
+                mainPageapi.openDevTool();
+              },
+            },
+            {
+              label: "DevToolsOnDashboard",
+              click(item: any, focusedWindow: any, event: any) {
+                dashboardapi.openDevTool();
+              },
+            },
+            {
+              label: "DevToolsOnCaseCreate",
+              click(item: any, focusedWindow: any, event: any) {
+                createsampleViewapi.openDevTool();
+              },
+            },
+            {
+              label: "DevToolsOnEditor",
+              click(item: any, focusedWindow: any, event: any) {
+                editorViewapi.openDevTool();
+              },
+            },
+          ],
+        },
+      ]
+    : []),
   {
     label: "編集",
     submenu: [
@@ -143,43 +200,13 @@ const template: any = [
       { role: "zoomOut" },
       { type: "separator" },
       { role: "togglefullscreen" },
-      {
-        label: "DevToolsOnMainwindow",
-        click(item: any, focusedWindow: any, event: any) {
-          focusedWindow.webContents.openDevTools({ mode: "detach" });
-        },
-      },
-      {
-        label: "DevToolsOnMainpage",
-        click(item: any, focusedWindow: any, event: any) {
-          mainPageapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnDashboard",
-        click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnCaseCreate",
-        click(item: any, focusedWindow: any, event: any) {
-          createsampleViewapi.openDevTool();
-        },
-      },
-      {
-        label: "DevToolsOnEditor",
-        click(item: any, focusedWindow: any, event: any) {
-          editorViewapi.openDevTool();
-        },
-      },
     ],
   },
   {
     label: "表示",
     submenu: [
-      { role: "reload" },
-      { role: "forceReload" },
+      // { role: "reload" },
+      // { role: "forceReload" },
       {
         label: "提出一覧を更新",
         click(item: any, focusedWindow: any, event: any) {
@@ -188,16 +215,9 @@ const template: any = [
       },
     ],
   },
-  // { role: 'windowMenu' }
   {
     label: "ウィンドウ",
     submenu: [
-      // {
-      //   label: "stoptimer",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     timerApi.clearTimer();
-      //   },
-      // },
       {
         label: "配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
@@ -210,31 +230,6 @@ const template: any = [
           setWindowSplit();
         },
       },
-      // {
-      //   label: "logtest",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     console.log(focusedWindow.getBrowserViews());
-      //   },
-      // },
-      // {
-      //   label: "mainPageTop",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     mainPageapi.runWindowTop();
-      //   },
-      // },
-      // {
-      //   label: "dashboardTop",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     dashboardapi.runWindowTop();
-      //   },
-      // },
-      // {
-      //   label: "dashboardRankDataUpdate",
-      //   click(item: any, focusedWindow: any, event: any) {
-      //     dashboardapi.runUpdatedata();
-      //   },
-      // },
-
       { type: "separator" },
       { role: "minimize" },
       { role: "zoom" },

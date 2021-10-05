@@ -1,9 +1,12 @@
 // ソースファイルと問題URLを管理する
 // Editor、TaskViewの状態を管理する
 import { dialog, ipcMain } from "electron";
+import { readFile } from "fs/promises";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
 import { atcoderCodeTestApi } from "../casetester/runtest_atcoder";
+import { Atcoder } from "../data/atcoder";
+import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 
 import { runSubmit } from "../data/submit";
 import {
@@ -11,7 +14,12 @@ import {
   languagetype,
   submitLanguageId,
 } from "../file/extension";
-import { readFileAwait, runMakeFile, writeFileAwait } from "../file/mkfile";
+import { runMakeFile, writeFileAwait } from "../file/mkfile";
+import {
+  existSamplecases,
+  loadAllSamplecase,
+  saveSanplecase,
+} from "../file/save";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -122,7 +130,7 @@ export class taskcont {
       `${AssignmentName}${languageselect[language]}`,
       contestName
     );
-    const Data = await readFileAwait(filePath);
+    const Data = await readFile(filePath, "utf-8");
     this.filePath = filePath;
     this.Data = Data;
     return Data;
@@ -134,9 +142,9 @@ export class taskcont {
    */
   async filereload() {
     if (this.filePath !== null) {
-      const Data = await readFileAwait(this.filePath);
+      const Data = await readFile(this.filePath, "utf-8");
       this.Data = Data;
-      await this.syncEditor();
+      await this.syncEditorValue();
     }
   }
 
@@ -209,7 +217,7 @@ export class taskcont {
    * ファイルに保存されているデータを優先する
    * changeValue
    */
-  async syncEditor() {
+  async syncEditorValue() {
     if (this.Data) {
       this.sendValueEditor(this.Data);
     } else {
@@ -304,6 +312,48 @@ export class taskcont {
       return "success";
     } else {
       return "codeIsNull";
+    }
+  }
+  /**
+   * サンプルケースを取得、キャッシュする
+   * 保存されていない場合問題ページから取得
+   * 保存してある場合はファイルから読み込む
+   */
+  async getAllSamplecase(
+    cache: boolean = true
+  ): Promise<SampleCase[] | "not_saved" | "request_Error"> {
+    const existsamplecase = await existSamplecases(
+      this.contestName,
+      this.TaskScreenName
+    );
+    if (existsamplecase === false || cache === false) {
+      // サンプルケースを問題ページからダウンロード
+      const url = `https://atcoder.jp/contests/${this.contestName}/tasks/${this.TaskScreenName}`;
+      const getTaskPage = await Atcoder.axiosInstance.get(url);
+      if (getTaskPage.status === 200) {
+        // サンプルケースをスクレイピングする
+        const scrapingReturn = scrapingSampleCase(getTaskPage.data);
+        // スクレイピングしたものをキャッシュとしてファイルに保存
+        scrapingReturn.forEach((element) => {
+          saveSanplecase(
+            this.contestName,
+            this.TaskScreenName,
+            element.name,
+            element.case,
+            element.answer
+          );
+        });
+        return scrapingReturn;
+      } else {
+        return "request_Error";
+      }
+    } else {
+      // ファイルからキャッシュされたサンプルケースを読み込む
+      const returnData = await loadAllSamplecase(
+        this.contestName,
+        this.TaskScreenName
+      );
+      return returnData;
     }
   }
 }
