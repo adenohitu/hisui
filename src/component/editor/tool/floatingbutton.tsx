@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { monacoControlApi } from "../editor";
 import { SelectLanguageDialog } from "./languagedialog";
 import { focusEditor, focussubmission } from "../window_editor/editorwindow";
-import { TestToolhandleClickOpen } from "../../codetest/toolwindow";
+import { customTestWindowOpen } from "../../codetest/run-window";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,7 +65,7 @@ const actions = [
     icon: <PlaylistAddCheckIcon />,
     name: "テスト",
     click: () => {
-      TestToolhandleClickOpen();
+      if (customTestWindowOpen) customTestWindowOpen();
     },
   },
   {

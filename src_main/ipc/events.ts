@@ -32,6 +32,7 @@ export const IpcEvents = {
   OPEN_LOGIN_DIALOG: { mode: "on" },
   OPEN_SELECT_CONTEST_DIALOG: { mode: "on" },
   RUN_UPDATE_SUBMISSIONS: { mode: "on" },
+  GET_NOWTOP_TASK_SAMPLECASE: { mode: "handle" },
 
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },

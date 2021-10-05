@@ -18,7 +18,7 @@ export class monacocontrol {
   /**
    * editorのモデルを保持
    */
-  editorModel: {
+  editorModels: {
     [id: string]: {
       model: editor.ITextModel;
       state: editor.ICodeEditorViewState | null;
@@ -59,18 +59,17 @@ export class monacocontrol {
         // モデルとStateを取得
         const currentModel = this.editorInstance.getModel();
         const currentState = this.editorInstance.saveViewState();
-        console.log(currentState);
         if (currentModel !== null) {
           // 保存する
-          this.editorModel[this.nowmodelId] = {
+          this.editorModels[this.nowmodelId] = {
             model: currentModel,
             state: currentState,
           };
         }
       }
       // 変更するモデルをセット
-      this.editorInstance.setModel(this.editorModel[id].model);
-      const state = this.editorModel[id].state;
+      this.editorInstance.setModel(this.editorModels[id].model);
+      const state = this.editorModels[id].state;
       if (state) {
         this.editorInstance.restoreViewState(state);
       }
@@ -78,19 +77,32 @@ export class monacocontrol {
       this.editorInstance.focus();
     }
   }
-
+  saveNowModel() {
+    if (this.nowmodelId !== null && this.editorInstance) {
+      // モデルとStateを取得
+      const currentModel = this.editorInstance.getModel();
+      const currentState = this.editorInstance.saveViewState();
+      if (currentModel !== null) {
+        // 保存する
+        this.editorModels[this.nowmodelId] = {
+          model: currentModel,
+          state: currentState,
+        };
+      }
+    }
+  }
   /**
    * 新しいモデルを作成
    */
   createModel(id: string, data: string, language: string) {
-    if (this.monaco) {
+    if (this.monaco && this.editorInstance) {
       // モデルを作成
       const createmodel = this.monaco.editor.createModel(data, language);
-      // モデルを保存
-      this.editorModel[id] = { model: createmodel, state: null };
+      // モデルをeditorModelsに保存
+      this.editorModels[id] = { model: createmodel, state: null };
       // モデルをEditorにセット
       // モデル作成終了のタイミングがMain側でわからないためCreateの時はRender側でセットする
-      this.editorInstance?.setModel(createmodel);
+      this.setModel(id);
     }
   }
 
@@ -99,8 +111,8 @@ export class monacocontrol {
    */
   deleteModel(id: string) {
     if (id !== this.nowmodelId) {
-      this.editorModel[id].model.dispose();
-      delete this.editorModel[id];
+      this.editorModels[id].model.dispose();
+      delete this.editorModels[id];
     }
   }
 
@@ -108,14 +120,14 @@ export class monacocontrol {
    * 指定したモデルのValueを取得
    */
   getValue(id: string) {
-    const data = this.editorModel[id].model.getValue();
+    const data = this.editorModels[id].model.getValue();
     return data;
   }
   /**
    * 指定したモデルのValueを更新
    */
   changeValue(id: string, value: string) {
-    const data = this.editorModel[id].model.setValue(value);
+    const data = this.editorModels[id].model.setValue(value);
     return data;
   }
 
@@ -124,7 +136,10 @@ export class monacocontrol {
    */
   changeLanguage(id: string, language: string) {
     if (this.monaco) {
-      this.monaco.editor.setModelLanguage(this.editorModel[id].model, language);
+      this.monaco.editor.setModelLanguage(
+        this.editorModels[id].model,
+        language
+      );
     }
   }
 
