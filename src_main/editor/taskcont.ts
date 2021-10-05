@@ -4,7 +4,7 @@ import { dialog, ipcMain } from "electron";
 import { readFile } from "fs/promises";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
-import { atcoderCodeTestApi } from "../casetester/runtest_atcoder";
+import { atcoderCodeTestApi } from "../data/casetester/runtest_atcoder";
 import { Atcoder } from "../data/atcoder";
 import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 

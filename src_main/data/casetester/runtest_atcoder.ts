@@ -1,14 +1,14 @@
 // AtCoder custom_testを使ったコードのテスト
 //Copyright © 2021 adenohitu. All rights reserved.
 import { EventEmitter } from "stream";
-import { ipcSendall } from "../browserview/mgt/ipcall";
-import { Atcoder } from "../data/atcoder";
-import { contestDataApi } from "../data/contestdata";
+import { ipcSendall } from "../../browserview/mgt/ipcall";
+import { Atcoder } from "../atcoder";
+import { contestDataApi } from "../contestdata";
 import {
   languagetype,
   languagetypeId,
   submitLanguageId,
-} from "../file/extension";
+} from "../../file/extension";
 import { ansCheck } from "./judgetool";
 const sleepTime = 2000;
 /**
