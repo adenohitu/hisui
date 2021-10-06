@@ -8,17 +8,21 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
+import { monacoControlApi } from "../editor";
+export let handleClickOpenSelectLanguageDialog: () => void;
 interface SelectLanguageDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleClickOpen = () => {
+  handleClickOpenSelectLanguageDialog = () => {
+    updateNowLang();
     props.setOpen(true);
   };
-
+  const updateNowLang = () => {
+    const langp = monacoControlApi?.getNowModelLang();
+    if (langp) langState.setlang(langp);
+  };
   const handleClose = () => {
     props.setOpen(false);
   };

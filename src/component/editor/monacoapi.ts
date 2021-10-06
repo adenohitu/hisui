@@ -91,6 +91,9 @@ export class monacocontrol {
       }
     }
   }
+  getNowModelLang() {
+    return this.editorInstance?.getModel()?.getModeId();
+  }
   /**
    * 新しいモデルを作成
    */
