@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -16,19 +16,11 @@ import { atcoderCodeTestResult } from "../../../src_main/data/casetester/runtest
 import { makeStyles } from "@mui/styles";
 
 const useRowStyles = makeStyles({
-  root: {
-    "& > *": {
-      borderBottom: "unset",
-    },
-  },
   pre: {
     backgroundColor: "#F2F2F2",
   },
 });
-const useStyles = makeStyles({
-  root: { height: "100%" },
-  table: {},
-});
+
 const ansStatusText = (arg: atcoderCodeTestResult) => {
   if (arg.ansStatus !== undefined) {
     return arg.ansStatus;
@@ -67,12 +59,12 @@ const useTestStatus = () => {
 
 function Row(props: { row: atcoderCodeTestResult }) {
   const { row } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const classes = useRowStyles();
 
   return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
+    <>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -138,17 +130,16 @@ function Row(props: { row: atcoderCodeTestResult }) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </>
   );
 }
 
 export function CodeTestWindow() {
-  const classes = useStyles();
   const data = useTestStatus();
 
   return (
-    <TableContainer component={Paper} className={classes.root}>
-      <Table stickyHeader className={classes.table} size="small">
+    <TableContainer component={Paper} style={{ height: "100%" }}>
+      <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
             <TableCell />
