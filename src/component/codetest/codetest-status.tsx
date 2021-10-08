@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +13,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { atcoderCodeTestResult } from "../../../src_main/data/casetester/runtest_atcoder";
+import { makeStyles } from "@mui/styles";
 
 const useRowStyles = makeStyles({
   root: {
@@ -92,7 +92,7 @@ function Row(props: { row: atcoderCodeTestResult }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 詳細
               </Typography>
@@ -105,15 +105,15 @@ function Row(props: { row: atcoderCodeTestResult }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableCell component="th" scope="row">
-                    {row.Result.ExitCode}
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.Result.TimeConsumption} ms
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.Result.MemoryConsumption} KB
-                  </TableCell>
+                  <TableRow key={row.Result.Id}>
+                    <TableCell scope="row">{row.Result.ExitCode}</TableCell>
+                    <TableCell align="right">
+                      {row.Result.TimeConsumption} ms
+                    </TableCell>
+                    <TableCell align="right">
+                      {row.Result.MemoryConsumption} KB
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
               {row.Stderr !== "" && (
