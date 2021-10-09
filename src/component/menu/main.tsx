@@ -122,7 +122,7 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
     ipcRendererManager.on("LISTENER_VIEW_TOP", (e, viewName: string) => {
       setlocation(viewName);
     });
-  });
+  }, []);
   const pageChange = (viewName: string) => {
     setlocation(viewName);
     ipcRendererManager.send("CHANGE_VIEW_TOP", viewName);
