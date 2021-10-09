@@ -6,14 +6,15 @@
  *contributors    : @altair_kyopro
  *======================================================================
  */
-// cppスニペットのサンプル
-export const snippet: {
+export interface snippetObject {
   [key: string]: {
     prefix: string;
     body: string[];
     description: string;
   };
-} = {
+}
+// cppスニペットのサンプル
+export const snippet: snippetObject = {
   for: {
     prefix: "f",
     body: ["for (int i = $1; i < $2; i++){", "\t$0", "}"],

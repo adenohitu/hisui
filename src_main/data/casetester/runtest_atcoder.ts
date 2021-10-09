@@ -4,11 +4,7 @@ import { EventEmitter } from "stream";
 import { ipcSendall } from "../../browserview/mgt/ipcall";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
-import {
-  languagetype,
-  languagetypeId,
-  submitLanguageId,
-} from "../../file/extension";
+import { languagetype, languages } from "../../file/extension";
 import { ansCheck } from "./judgetool";
 const sleepTime = 2000;
 /**
@@ -57,7 +53,7 @@ export interface atcoderCodeTestResult {
     Status: number;
     // ISO 8601
     Created: string;
-    LanguageId: languagetypeId;
+    LanguageId: number;
     LanguageName: string;
   };
   Stderr: string;
@@ -107,7 +103,10 @@ class atcoderCodeTest {
       );
 
       const params = new URLSearchParams();
-      params.append("data.LanguageId", String(submitLanguageId[lang]));
+      params.append(
+        "data.LanguageId",
+        String(languages[lang].submitLanguageId)
+      );
       params.append("sourceCode", code);
       params.append("input", input);
       params.append("csrf_token", csrf_token[0]);

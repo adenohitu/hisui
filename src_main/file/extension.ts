@@ -1,5 +1,6 @@
 // 言語とその拡張子を管理
-export type languagetype = "cpp" | "python";
-export const languageselect = { cpp: ".cpp", python: ".py" };
-export const submitLanguageId = { cpp: 4003, python: 4006 };
-export type languagetypeId = typeof submitLanguageId[languagetype];
+export const languages = {
+  cpp: { submitLanguageId: 4003, extension: ".cpp" },
+  python: { submitLanguageId: 4006, extension: ".py" },
+};
+export type languagetype = keyof typeof languages;

@@ -9,11 +9,7 @@ import { Atcoder } from "../data/atcoder";
 import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 
 import { runSubmit } from "../data/submit";
-import {
-  languageselect,
-  languagetype,
-  submitLanguageId,
-} from "../file/extension";
+import { languagetype, languages } from "../file/extension";
 import { runMakeFile, writeFileAwait } from "../file/mkfile";
 import {
   existSamplecases,
@@ -127,7 +123,7 @@ export class taskcont {
     language: languagetype
   ) {
     const filePath = await runMakeFile(
-      `${AssignmentName}${languageselect[language]}`,
+      `${AssignmentName}${languages[language].extension}`,
       contestName
     );
     const Data = await readFile(filePath, "utf-8");
@@ -171,7 +167,7 @@ export class taskcont {
     this.language = language;
     // ファイルの存在、新規作成
     const filePath = await runMakeFile(
-      `${this.AssignmentName}${languageselect[language]}`,
+      `${this.AssignmentName}${languages[language].extension}`,
       this.contestName
     );
     this.filePath = filePath;
@@ -290,7 +286,7 @@ export class taskcont {
           this.contestName,
           this.TaskScreenName,
           this.Data,
-          submitLanguageId[this.language]
+          languages[this.language].submitLanguageId
         );
       }
     }

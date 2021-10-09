@@ -20,6 +20,7 @@ import {
   StyledEngineProvider,
   createTheme,
 } from "@mui/material/styles";
+import { SettingAppDialog } from "./component/setting/system-setting";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -43,6 +44,7 @@ const App: React.FC = () => {
               </Menu>
             </Route>
             <Route path="/" exact>
+              <SettingAppDialog />
               <FormDialog />
               <DefaltContest />
               <Home />
