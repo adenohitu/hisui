@@ -44,13 +44,7 @@ const template: any = [
         },
       },
       {
-        label: "createTask",
-        click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.createNewTask("abc198", "abc198_a", "A", "python");
-        },
-      },
-      {
-        label: "saveNowTop",
+        label: "保存する",
         click(item: any, focusedWindow: any, event: any) {
           taskControlApi.saveNowTop();
         },
