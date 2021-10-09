@@ -37,8 +37,6 @@ export class changeView {
   }
   setup() {
     hisuiEvent.on("view-main-top", (viewName) => {
-      console.log("view-main-top");
-
       ipcMainManager.send("LISTENER_VIEW_TOP", viewName);
     });
   }
