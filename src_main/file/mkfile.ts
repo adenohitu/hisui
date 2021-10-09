@@ -12,7 +12,7 @@ import {
   readFile,
   writeFile,
 } from "fs";
-import { languageselect, languagetype } from "./extension";
+import { languages, languagetype } from "./extension";
 /**
  * 非同期でファイルを読み込みPromiseを返す
  * ファイルのフルパスを入力
@@ -147,7 +147,7 @@ export const getFiledata = async (
   lang: languagetype
 ) => {
   const filename = await runMakeFile(
-    `${AssignmentName}${languageselect[lang]}`,
+    `${AssignmentName}${languages[lang].extension}`,
     contestname
   );
   const filedata = await readFileSync(filename, "utf8");
@@ -164,7 +164,7 @@ export const runWritefile = async (
   lang: languagetype
 ) => {
   const filename = await runMakeFile(
-    `${TaskScreenName}${languageselect[lang]}`,
+    `${TaskScreenName}${languages[lang].extension}`,
     contestname
   );
   try {

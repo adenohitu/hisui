@@ -1,8 +1,5 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
@@ -12,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { SnippetDialog } from "./item/snippet";
+import { ipcRendererManager } from "../../ipc";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -22,12 +21,18 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog() {
+export function SettingAppDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  React.useEffect(() => {
+    ipcRendererManager.on("LISTENER_OPEN_EDITOR_SETTING_DIALOG", () => {
+      handleClickOpen();
+    });
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
@@ -35,9 +40,6 @@ export default function FullScreenDialog() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open full-screen dialog
-      </Button>
       <Dialog
         fullScreen
         open={open}
@@ -45,7 +47,7 @@ export default function FullScreenDialog() {
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+          <Toolbar variant="dense">
             <IconButton
               edge="start"
               color="inherit"
@@ -55,24 +57,13 @@ export default function FullScreenDialog() {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              設定
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
           </Toolbar>
         </AppBar>
         <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
+          <SnippetDialog />
           <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
         </List>
       </Dialog>
     </div>

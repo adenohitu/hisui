@@ -8,11 +8,16 @@
 /* eslint-disable no-template-curly-in-string */
 // snippetを追加するサンプル
 import { Monaco } from "@monaco-editor/react";
-import { snippet } from "./sample";
+import { languagetype } from "../../../../src_main/file/extension";
+import { snippetObject } from "./sample";
 
-export function cppAddIntellisence(monaco: Monaco) {
+export function addSnippet(
+  monaco: Monaco,
+  language: languagetype,
+  snippetIn: snippetObject
+) {
   function createDependencyProposals(range: any) {
-    let testData = snippet;
+    let testData = snippetIn;
     let newarrey: any = [];
     Object.keys(testData).forEach((key) => {
       newarrey.push({
@@ -26,11 +31,9 @@ export function cppAddIntellisence(monaco: Monaco) {
         range: range,
       });
     });
-    console.log(newarrey);
-
     return newarrey;
   }
-  monaco.languages.registerCompletionItemProvider("cpp", {
+  return monaco.languages.registerCompletionItemProvider(language, {
     provideCompletionItems: function (model, position) {
       var word = model.getWordUntilPosition(position);
       var range = {
