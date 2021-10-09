@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 // import path from "path";
 import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
 // import { useSelector } from "react-redux";
@@ -19,8 +19,6 @@ export function MainEditor() {
 
   // const editorvalue = useSelector(selecteditorvalue);
   const editorRef: any = useRef(null);
-  // eslint-disable-next-line
-  const [lang, setlang] = useState("python");
 
   function handleEditorDidMount(
     editor: editor.IStandaloneCodeEditor,
