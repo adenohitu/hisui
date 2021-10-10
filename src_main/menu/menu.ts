@@ -7,10 +7,10 @@ import { mainPageapi } from "../browserview/mainpageview";
 import { Atcoder } from "../data/atcoder";
 import { submissionsApi } from "../data/submissions";
 import { taskControlApi } from "../editor/control";
-import { runMakeDefaultFolderDialog } from "../file/mkfile";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
+import { ipcMainManager } from "../ipc/ipc";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 // ElectronのMenuの設定
@@ -38,19 +38,13 @@ const template: any = [
     label: "ファイル",
     submenu: [
       {
-        label: "保存フォルダーを設定",
+        label: "Editorの設定を開く",
         click(item: any, focusedWindow: any, event: any) {
-          runMakeDefaultFolderDialog(focusedWindow);
+          ipcMainManager.send("LISTENER_OPEN_EDITOR_SETTING_DIALOG");
         },
       },
       {
-        label: "createTask",
-        click(item: any, focusedWindow: any, event: any) {
-          taskControlApi.createNewTask("abc198", "abc198_a", "A", "python");
-        },
-      },
-      {
-        label: "saveNowTop",
+        label: "保存する",
         click(item: any, focusedWindow: any, event: any) {
           taskControlApi.saveNowTop();
         },
