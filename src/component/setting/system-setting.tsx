@@ -11,7 +11,8 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { SnippetDialog } from "./item/snippet";
 import { ipcRendererManager } from "../../ipc";
-
+import SettingsIcon from "@mui/icons-material/Settings";
+let handleClickOpen: () => void;
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children?: React.ReactElement;
@@ -24,7 +25,7 @@ const Transition = React.forwardRef(function Transition(
 export function SettingAppDialog() {
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -69,3 +70,14 @@ export function SettingAppDialog() {
     </div>
   );
 }
+export const OpenSettingTool = () => {
+  return (
+    <IconButton
+      size="small"
+      aria-label="Refresh submissions"
+      onClick={handleClickOpen}
+    >
+      <SettingsIcon />
+    </IconButton>
+  );
+};

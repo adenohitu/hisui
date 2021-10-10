@@ -1,10 +1,7 @@
 import { editor, IDisposable } from "monaco-editor";
 import { languagetype } from "../../../src_main/file/extension";
 import { ipcRendererManager } from "../../ipc";
-import {
-  addSnippet,
-  pythonAddIntellisence,
-} from "./monaco/cppintellisense_test";
+import { addSnippet } from "./monaco/cppintellisense_test";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -44,7 +41,6 @@ export class monacocontrol {
     this.monaco = monacoapi;
     if (this.monaco) {
       ipcRendererManager.send("RUN_RELOAD_SNIPPET");
-      pythonAddIntellisence(this.monaco);
     }
   }
   setupSnippet() {

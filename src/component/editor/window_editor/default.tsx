@@ -3,18 +3,18 @@ import { CodeTestWindow } from "../../codetest/codetest-status";
 import { MainEditor } from "../editor";
 import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
+import { OpenSettingTool } from "../../setting/system-setting";
 export const TITLE_ELEMENT = {
   editor: {
     name: "コード",
     component: <MainEditor />,
-    toolbarControls: [],
+    toolbarControls: React.Children.toArray([<OpenSettingTool />]),
   },
   submission: {
     name: "提出一覧",
     component: <SubmissionTable />,
     toolbarControls: React.Children.toArray([<ReloadButtonTool />]),
   },
-
   codeTest: {
     name: "テスト結果:AtCoderCustomTest",
     component: <CodeTestWindow />,
