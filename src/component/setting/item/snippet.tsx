@@ -22,8 +22,8 @@ export function SnippetDialog() {
 
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      allowComments: true,
-      trailingCommas: "ignore",
+      allowComments: false,
+      trailingCommas: "error",
     });
   }
 
@@ -115,7 +115,7 @@ export function SnippetDialog() {
           beforeMount={handleEditorWillMount}
           onMount={handleEditorDidMount}
           height="600px"
-          defaultLanguage="json"
+          language="json"
           value={value}
           onChange={handleEditorChange}
         />
