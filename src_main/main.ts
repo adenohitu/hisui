@@ -32,6 +32,7 @@ import { submissionsApi } from "./data/submissions";
 import { setBrowserCoockie } from "./save/utility/session";
 import { setupDefaultFolder } from "./file/file";
 import { monitoringWebContents } from "./browser/monitoring/monitoring";
+import { monacoSettingApi } from "./editor/monaco";
 // webcontentsの監視の開始
 monitoringWebContents();
 
@@ -197,7 +198,8 @@ hisuiEvent.on("logout", async () => {
     createWindow();
   }, 1000);
 });
-
+changeViewapi.setup();
+monacoSettingApi.setup();
 //ipcの呼び出し
 load_ipc();
 //メニューのセット

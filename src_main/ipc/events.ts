@@ -33,14 +33,20 @@ export const IpcEvents = {
   OPEN_SELECT_CONTEST_DIALOG: { mode: "on" },
   RUN_UPDATE_SUBMISSIONS: { mode: "on" },
   GET_NOWTOP_TASK_SAMPLECASE: { mode: "handle" },
+  RUN_RELOAD_SNIPPET: { mode: "on" },
+  GET_LANG_SNIPPET: { mode: "handle" },
+  SET_LANG_SNIPPET: { mode: "handle" },
 
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
   LISTENER_OPEN_DEFAULT_DIALOG: { mode: "send" },
+  LISTENER_OPEN_EDITOR_SETTING_DIALOG: { mode: "send" },
   LISTENER_RESET_MOSAIC_WINDOW_STATE: { mode: "send" },
   LISTENER_TIMER_TICK: { mode: "send" },
   LISTENER_CHANGE_SET_CONTESTID: { mode: "send" },
   LISTENER_RETUEN_SUBMISSIONS: { mode: "send" },
+  LISTENER_VIEW_TOP: { mode: "send" },
+  LISTENER_CHANGE_EDITOR_SNIPPET: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

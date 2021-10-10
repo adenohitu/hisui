@@ -18,4 +18,4 @@ class dashboard extends view {
   }
 }
 
-export const dashboardapi = new dashboard(url);
+export const dashboardapi = new dashboard("dashboard", url);

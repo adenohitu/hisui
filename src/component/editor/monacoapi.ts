@@ -1,8 +1,7 @@
-import { editor } from "monaco-editor";
-import {
-  cppAddIntellisence,
-  pythonAddIntellisence,
-} from "./monaco/cppintellisense_test";
+import { editor, IDisposable } from "monaco-editor";
+import { languagetype } from "../../../src_main/file/extension";
+import { ipcRendererManager } from "../../ipc";
+import { addSnippet } from "./monaco/cppintellisense_test";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -15,6 +14,7 @@ export class monacocontrol {
    */
   editorInstance: editor.IStandaloneCodeEditor | null;
   nowmodelId: string | null;
+  snippetDisposeObject: { [language: string]: IDisposable };
   /**
    * editorのモデルを保持
    */
@@ -28,8 +28,10 @@ export class monacocontrol {
     this.monaco = null;
     this.editorInstance = null;
     this.nowmodelId = null;
+    this.snippetDisposeObject = {};
     // ipcの受付セットアップ
     this.ipcSetup();
+    this.setupSnippet();
   }
 
   /**
@@ -38,9 +40,29 @@ export class monacocontrol {
   setuseMonaco(monacoapi: useMonaco | null) {
     this.monaco = monacoapi;
     if (this.monaco) {
-      cppAddIntellisence(this.monaco);
-      pythonAddIntellisence(this.monaco);
+      ipcRendererManager.send("RUN_RELOAD_SNIPPET");
     }
+  }
+  setupSnippet() {
+    ipcRendererManager.on(
+      "LISTENER_CHANGE_EDITOR_SNIPPET",
+      (e, lang: languagetype, snippet) => {
+        console.log(snippet);
+
+        if (this.snippetDisposeObject[lang]) {
+          this.snippetDisposeObject[lang].dispose();
+          delete this.snippetDisposeObject[lang];
+        }
+        if (this.monaco) {
+          this.snippetDisposeObject[lang] = addSnippet(
+            this.monaco,
+            lang,
+            snippet
+          );
+        }
+      },
+      true
+    );
   }
   /**
    * editorInstanceを取得
@@ -90,6 +112,9 @@ export class monacocontrol {
         };
       }
     }
+  }
+  getNowModelLang() {
+    return this.editorInstance?.getModel()?.getModeId();
   }
   /**
    * 新しいモデルを作成

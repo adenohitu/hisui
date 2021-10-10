@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import makeStyles from "@mui/styles/makeStyles";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -13,22 +12,15 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { atcoderCodeTestResult } from "../../../src_main/casetester/runtest_atcoder";
+import { atcoderCodeTestResult } from "../../../src_main/data/casetester/runtest_atcoder";
+import { makeStyles } from "@mui/styles";
 
 const useRowStyles = makeStyles({
-  root: {
-    "& > *": {
-      borderBottom: "unset",
-    },
-  },
   pre: {
     backgroundColor: "#F2F2F2",
   },
 });
-const useStyles = makeStyles({
-  root: { height: "100%" },
-  table: {},
-});
+
 const ansStatusText = (arg: atcoderCodeTestResult) => {
   if (arg.ansStatus !== undefined) {
     return arg.ansStatus;
@@ -67,12 +59,12 @@ const useTestStatus = () => {
 
 function Row(props: { row: atcoderCodeTestResult }) {
   const { row } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const classes = useRowStyles();
 
   return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
+    <>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -92,7 +84,7 @@ function Row(props: { row: atcoderCodeTestResult }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 詳細
               </Typography>
@@ -105,15 +97,15 @@ function Row(props: { row: atcoderCodeTestResult }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableCell component="th" scope="row">
-                    {row.Result.ExitCode}
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.Result.TimeConsumption} ms
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.Result.MemoryConsumption} KB
-                  </TableCell>
+                  <TableRow key={row.Result.Id}>
+                    <TableCell scope="row">{row.Result.ExitCode}</TableCell>
+                    <TableCell align="right">
+                      {row.Result.TimeConsumption} ms
+                    </TableCell>
+                    <TableCell align="right">
+                      {row.Result.MemoryConsumption} KB
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
               {row.Stderr !== "" && (
@@ -138,17 +130,16 @@ function Row(props: { row: atcoderCodeTestResult }) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </>
   );
 }
 
 export function CodeTestWindow() {
-  const classes = useStyles();
   const data = useTestStatus();
 
   return (
-    <TableContainer component={Paper} className={classes.root}>
-      <Table stickyHeader className={classes.table} size="small">
+    <TableContainer component={Paper} style={{ height: "100%" }}>
+      <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
             <TableCell />

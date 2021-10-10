@@ -11,7 +11,10 @@ import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import LanguageIcon from "@mui/icons-material/Language";
 import EditIcon from "@mui/icons-material/Edit";
 import { monacoControlApi } from "../editor";
-import { SelectLanguageDialog } from "./languagedialog";
+import {
+  handleClickOpenSelectLanguageDialog,
+  SelectLanguageDialog,
+} from "./languagedialog";
 import { focusEditor, focussubmission } from "../window_editor/editorwindow";
 import { customTestWindowOpen } from "../../codetest/run-window";
 
@@ -71,7 +74,9 @@ const actions = [
   {
     icon: <LanguageIcon />,
     name: "言語変更",
-    click: () => {},
+    click: () => {
+      handleClickOpenSelectLanguageDialog();
+    },
   },
   {
     icon: <EditIcon />,
@@ -123,9 +128,6 @@ export default function SpeedDials() {
               onClick={() => {
                 handleClose();
                 action.click();
-                if (action.name === "言語変更") {
-                  dialogSetOpen(true);
-                }
               }}
             />
           ))}

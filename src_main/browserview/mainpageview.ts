@@ -21,4 +21,4 @@ class mainPage extends view {
   }
 }
 
-export const mainPageapi = new mainPage(test);
+export const mainPageapi = new mainPage("main", test);
