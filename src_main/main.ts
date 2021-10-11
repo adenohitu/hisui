@@ -33,6 +33,7 @@ import { setBrowserCoockie } from "./save/utility/session";
 import { setupDefaultFolder } from "./file/file";
 import { monitoringWebContents } from "./browser/monitoring/monitoring";
 import { monacoSettingApi } from "./editor/monaco";
+import { reloadAllWebContents } from "./browserview/mgt/reload-all";
 // webcontentsの監視の開始
 monitoringWebContents();
 
@@ -187,16 +188,10 @@ app.on("activate", () => {
 });
 // ログイン・ログアウトイベントが発行された時にウィンドウを再読み込み
 hisuiEvent.on("login", async () => {
-  win?.close();
-  setTimeout(() => {
-    createWindow();
-  }, 1000);
+  reloadAllWebContents();
 });
 hisuiEvent.on("logout", async () => {
-  win?.close();
-  setTimeout(() => {
-    createWindow();
-  }, 1000);
+  reloadAllWebContents();
 });
 changeViewapi.setup();
 monacoSettingApi.setup();
