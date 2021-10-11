@@ -24,7 +24,7 @@ export function addSnippet(
       newarrey.push({
         label: testData[key].prefix,
         kind: monaco.languages.CompletionItemKind.Snippet,
-        documentation: "",
+        documentation: key,
         insertText: testData[key].body.join("\n"),
         insertTextRules:
           monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
