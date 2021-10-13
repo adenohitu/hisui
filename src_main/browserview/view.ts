@@ -51,10 +51,6 @@ export class view {
           height: newBounds.height,
         });
       });
-      console.log(this.view.getBounds().height);
-      console.log(this.view.getBounds().width);
-      console.log(this.view.getBounds().x);
-      console.log(this.view.getBounds().y);
 
       this.view.setAutoResize({ width: false, height: false });
 
