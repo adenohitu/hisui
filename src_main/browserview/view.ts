@@ -29,7 +29,7 @@ export class view {
   /**
    * BrowserViewを初期化する
    */
-  async setupView(win: BrowserWindow | null) {
+  setupView(win: BrowserWindow | null) {
     if (this.view === null && win !== null) {
       this.mainWindow = win;
       this.view = new BrowserView({
@@ -42,12 +42,16 @@ export class view {
       win.addBrowserView(this.view);
 
       const newBounds = win.getContentBounds();
-      this.view.setBounds({
-        x: menuSize,
-        y: 0,
-        width: newBounds.width - menuSize,
-        height: newBounds.height,
+      // issue #116
+      this.view.webContents.once("dom-ready", () => {
+        this.view?.setBounds({
+          x: menuSize,
+          y: 0,
+          width: newBounds.width - menuSize,
+          height: newBounds.height,
+        });
       });
+
       this.view.setAutoResize({ width: false, height: false });
 
       if (isDev) {
