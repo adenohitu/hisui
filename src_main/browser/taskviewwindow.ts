@@ -34,6 +34,7 @@ export class taskViewWindow {
    */
   async open() {
     this.win = new BrowserWindow({
+      show: false,
       width: store.get("window.taskView.width", 800),
       height: store.get("window.taskView.height", 600),
       x: store.get("window.taskView.x"),
@@ -55,6 +56,9 @@ export class taskViewWindow {
       // 'build/index.html'
       this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
     }
+    this.win.once("ready-to-show", () => {
+      this.win?.show();
+    });
 
     // this.win.setAlwaysOnTop(true);
     // taskViewにデフォルトのコンテストーページをセット

@@ -41,6 +41,7 @@ export let win: null | BrowserWindow = null;
 
 function createWindow() {
   win = new BrowserWindow({
+    show: false,
     width: store.get("window.main.width", 800),
     height: store.get("window.main.height", 600),
     x: store.get("window.main.x"),
@@ -106,9 +107,10 @@ function createWindow() {
       forceHardReset: true,
       hardResetMethod: "exit",
     });
-    //フォーカスを当てる
   }
-  win.show();
+  win.once("ready-to-show", () => {
+    win?.show();
+  });
   //最大化状態の適用
   if (store.get("window.main.isMax")) {
     win.maximize();
