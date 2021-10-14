@@ -18,7 +18,7 @@
     "react:start": "react-scripts start",
     "react:lint": "yarn eslint src/",
     "react:build": "react-scripts build",
-    "react:test": "react-scripts test --watchAll=false",
+    "react:test": "set TZ=JST && react-scripts test --watchAll=false",
     "react:eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
