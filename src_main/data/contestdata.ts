@@ -1,7 +1,7 @@
 //コンテスト情報に関するモジュール
 //Copyright © 2021 adenohitu. All rights reserved.
 import contest_main from "./scraping/contest_main";
-import scraping_contest_list, { contest_list } from "./scraping/contest_list";
+import { scraping_contest_list, contest_list } from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";
 import { store } from "../save/save";
 import { Atcoder } from "./atcoder";

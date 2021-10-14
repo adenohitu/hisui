@@ -35,6 +35,9 @@ export default function SelectContest(prop: any): any {
   useEffect(() => {
     getdata();
   }, []);
+  useEffect(() => {
+    console.log(rows);
+  }, [rows]);
   return (
     <Box pt={2}>
       <TableContainer className={classes.root} component={Paper}>
@@ -59,10 +62,14 @@ export default function SelectContest(prop: any): any {
                   {dayjs(row.start_time).format("YYYY-MM-DD HH:mm:ss")}
                 </TableCell>
                 <TableCell align="center">
-                  {row.active ? (
+                  {row.status === "action" ? (
                     <Chip size="small" label="開催中" color="secondary" />
+                  ) : row.status === "recent" ? (
+                    <Chip size="small" label="終了" />
+                  ) : row.status === "upcoming" ? (
+                    <Chip size="small" label="開催予定" color="info" />
                   ) : (
-                    <Chip size="small" label="開催予定" />
+                    <Chip size="small" label="不明" />
                   )}
                 </TableCell>
                 {prop.select === true && (
