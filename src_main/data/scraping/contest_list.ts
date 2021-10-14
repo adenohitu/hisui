@@ -31,7 +31,7 @@ export function scraping_contest_list(body: any): contest_list[] {
           contest_list.push({
             contest_name: String(name),
             contestID: String(url),
-            start_time: time_format,
+            start_time: String(time_format),
             status,
           });
         });
