@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { scrapingSampleCase } from "../../scraping/samplecase";
+import { scrapingSampleCase } from "../../samplecase";
 async function runTasklist() {
   const get = await fs.readFile(__dirname + "/test.html", "utf-8");
   const returndata = scrapingSampleCase(get);
