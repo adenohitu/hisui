@@ -120,7 +120,7 @@ const ans = [
     status: "recent",
   },
 ];
-test("scraping SampleCase", async () => {
+test("scraping contest list", async () => {
   const data = await runTest();
   expect(data).toEqual(ans);
 });
