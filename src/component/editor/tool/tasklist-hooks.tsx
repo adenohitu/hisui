@@ -14,6 +14,8 @@ export const useTaskList = () => {
     // 更新イベントを受け取る
     ipcRendererManager.on("LISTENER_CHANGE_SET_CONTESTID", () => {
       updateTasklist();
+      // 選択していたContestをfalseに初期化
+      setValue(false);
     });
   }, []);
 
