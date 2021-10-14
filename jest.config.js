@@ -12,4 +12,5 @@ module.exports = {
       tsconfig: "./src_main/tsconfig.json",
     },
   },
+  setupFilesAfterEnv: ["./jest.setup.js"],
 };
