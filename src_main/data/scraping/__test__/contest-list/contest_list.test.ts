@@ -122,5 +122,5 @@ const ans = [
 ];
 test("scraping SampleCase", async () => {
   const data = await runTest();
-  expect(data).toStrictEqual(ans);
+  expect(data).toEqual(ans);
 });
