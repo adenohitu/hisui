@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { scraping_contest_list } from "../../scraping/contest_list";
+import { scraping_contest_list } from "../../contest_list";
 async function runTest() {
   const get = await fs.readFile(__dirname + "/test.html", "utf-8");
   const returndata = scraping_contest_list(get);
