@@ -1,4 +1,5 @@
 import { atcoderCodeTestResult } from "../../src_main/casetester/runtest_atcoder";
+import { createEditorModelType } from "../../src_main/editor/taskcont";
 
 export default interface Api {
   electronIpcInvoke: (channel: string, ...arg: any) => Promise<void | string[]>;
@@ -10,13 +11,7 @@ declare global {
        * Mainからのモデル作成イベントを受け付ける
        * taskcont:createEditorModelType
        */
-      createModel(
-        func: (createEditorModelType: {
-          id: string;
-          value: string;
-          language: string;
-        }) => void
-      );
+      createModel(func: (createEditorModelType: createEditorModelType) => void);
       /**
        * mainからモデルセットのイベントを受け付ける
        * id:string
