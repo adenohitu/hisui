@@ -15,9 +15,9 @@
     "electron:source_build": "tsc -p src_main --removeComments true",
     "electron:test": "jest",
     "electron:lint": "yarn eslint src_main/",
-    "react:start": "react-scripts start",
+    "react:start": "craco start",
     "react:lint": "yarn eslint src/",
-    "react:build": "react-scripts build",
+    "react:build": "craco build",
     "react:test": "set TZ=JST && react-scripts test --watchAll=false",
     "react:eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
@@ -103,6 +103,9 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
+    "@codingame/monaco-jsonrpc": "^0.3.1",
+    "@codingame/monaco-languageclient": "^0.14.0",
+    "@craco/craco": "^6.3.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@fontsource/roboto": "^4.5.0",
@@ -137,8 +140,17 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "recharts": "^2.0.9",
+    "reconnecting-websocket": "^4.4.0",
     "seedrandom": "^3.0.5",
     "ts-jest": "^26.3.0",
-    "typedoc": "^0.21.2"
+    "typedoc": "^0.21.2",
+    "vscode-json-languageservice": "^4.0.2",
+    "vscode-languageclient": "^7.0.0",
+    "vscode-languageserver": "^7.0.0",
+    "vscode-languageserver-types": "^3.16.0",
+    "vscode-uri": "^3.0.2"
+  },
+  "resolutions": {
+    "vscode-languageserver-types": "3.16.0"
   }
 }

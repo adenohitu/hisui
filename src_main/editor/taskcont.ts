@@ -20,6 +20,8 @@ export interface createEditorModelType {
   id: string;
   value: string;
   language: languagetype;
+  // LSPの初期設定に必要なPath情報
+  path: string;
 }
 export interface syncEditorType {
   id: string;
@@ -100,7 +102,9 @@ export class taskcont {
     await this.openTaskView(contestName, TaskScreenName);
 
     const Data = await this.fileload(contestName, AssignmentName, language);
-    this.setupEditor(TaskScreenName, Data, language);
+    if (this.filePath) {
+      this.setupEditor(TaskScreenName, Data, language, this.filePath);
+    }
   }
   /**
    * このクラスを破棄する直前に実行する
@@ -232,8 +236,18 @@ export class taskcont {
    * editorの初期設定
    * ロード、言語設定
    */
-  async setupEditor(id: string, value: string, language: languagetype) {
-    const createEditorModel: createEditorModelType = { id, value, language };
+  async setupEditor(
+    id: string,
+    value: string,
+    language: languagetype,
+    path: string
+  ) {
+    const createEditorModel: createEditorModelType = {
+      id,
+      value,
+      language,
+      path,
+    };
     editorViewapi.view?.webContents.send("createModel", createEditorModel);
   }
   /**
