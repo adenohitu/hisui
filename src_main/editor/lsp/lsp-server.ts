@@ -8,7 +8,7 @@ interface languageServer {
   command: string[];
 }
 let languageServers: { [key: string]: languageServer } = {
-  cpp: { command: ["clangd", "--pretty"] },
+  cpp: { command: ["/opt/homebrew/opt/llvm/bin/clangd", "--pretty"] },
 };
 
 export async function LSPsetup() {
