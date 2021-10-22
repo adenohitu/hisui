@@ -18,7 +18,7 @@
     "react:start": "webpack-dev-server --config webpack.dev.js --port 3000",
     "react:build": "webpack --config webpack.prod.js",
     "react:lint": "yarn eslint src/",
-    "react:test": "set TZ=JST && react-scripts test --watchAll=false",
+    "react:test": "set TZ=JST && jest ./src",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
     "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.json --out ./apidocs"
