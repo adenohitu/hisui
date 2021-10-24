@@ -102,6 +102,7 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
+    "@clangd/install": "0.1.4",
     "@codingame/monaco-jsonrpc": "^0.3.1",
     "@codingame/monaco-languageclient": "^0.14.0",
     "@emotion/react": "^11.4.1",
