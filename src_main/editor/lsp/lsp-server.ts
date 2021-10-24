@@ -4,14 +4,12 @@ import * as rpc from "vscode-ws-jsonrpc";
 import * as rpcServer from "vscode-ws-jsonrpc/lib/server";
 // import { getPortPromise } from "portfinder";
 
-interface languageServer {
+export interface languageServer {
   command: string[];
 }
-let languageServers: { [key: string]: languageServer } = {
-  cpp: { command: ["/opt/homebrew/opt/llvm/bin/clangd", "--pretty"] },
-};
+export type languageServers = { [key: string]: languageServer };
 
-export async function LSPsetup() {
+export async function LSPsetup(languageServers: languageServers) {
   // const serverPort: number = await getPortPromise({
   //   port: 49154,
   //   stopPort: 65535,
