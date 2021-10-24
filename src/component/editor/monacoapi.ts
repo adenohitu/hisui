@@ -1,7 +1,18 @@
 import { editor, IDisposable } from "monaco-editor";
+import { createEditorModelType } from "../../../src_main/editor/taskcont";
 import { languagetype } from "../../../src_main/file/extension";
 import { ipcRendererManager } from "../../ipc";
 import { addSnippet } from "./monaco/cppintellisense_test";
+import { listen } from "@codingame/monaco-jsonrpc";
+import {
+  MonacoLanguageClient,
+  MessageConnection,
+  CloseAction,
+  ErrorAction,
+  MonacoServices,
+  createConnection,
+} from "@codingame/monaco-languageclient";
+import ReconnectingWebSocket from "reconnecting-websocket";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -41,6 +52,7 @@ export class monacocontrol {
     this.monaco = monacoapi;
     if (this.monaco) {
       ipcRendererManager.send("RUN_RELOAD_SNIPPET");
+      this.setupLSP();
     }
   }
   setupSnippet() {
@@ -119,10 +131,14 @@ export class monacocontrol {
   /**
    * 新しいモデルを作成
    */
-  createModel(id: string, data: string, language: string) {
+  createModel(id: string, data: string, language: string, path: string) {
     if (this.monaco && this.editorInstance) {
       // モデルを作成
-      const createmodel = this.monaco.editor.createModel(data, language);
+      const createmodel = this.monaco.editor.createModel(
+        data,
+        language,
+        this.monaco.Uri.file(path)
+      );
       // モデルをeditorModelsに保存
       this.editorModels[id] = { model: createmodel, state: null };
       // モデルをEditorにセット
@@ -185,8 +201,8 @@ export class monacocontrol {
    */
   async ipcSetup() {
     // createModelの受付
-    window.editor.createModel((arg: any) => {
-      this.createModel(arg.id, arg.value, arg.language);
+    window.editor.createModel((arg: createEditorModelType) => {
+      this.createModel(arg.id, arg.value, arg.language, arg.path);
     });
     // setModelの受付
     window.editor.setModel((id: string) => {
@@ -209,6 +225,66 @@ export class monacocontrol {
       // Valueを返す
       window.editor.getValue_replay(id, Value);
     });
+  }
+  setupLSP() {
+    function createLanguageClient(
+      connection: MessageConnection
+    ): MonacoLanguageClient {
+      return new MonacoLanguageClient({
+        name: "Sample Language Client",
+        clientOptions: {
+          // use a language id as a document selector
+          documentSelector: ["cpp"],
+          // disable the default error handler
+          errorHandler: {
+            error: () => ErrorAction.Continue,
+            closed: () => CloseAction.DoNotRestart,
+          },
+        },
+        // create a language client connection from the JSON RPC connection on demand
+        connectionProvider: {
+          get: (errorHandler, closeHandler) => {
+            return Promise.resolve(
+              createConnection(connection, errorHandler, closeHandler)
+            );
+          },
+        },
+      });
+    }
+
+    function createWebSocket(url: string) {
+      const socketOptions = {
+        maxReconnectionDelay: 10000,
+        minReconnectionDelay: 1000,
+        reconnectionDelayGrowFactor: 1.3,
+        connectionTimeout: 10000,
+        maxRetries: Infinity,
+        debug: false,
+      };
+      return new ReconnectingWebSocket(url, [], socketOptions);
+    }
+    if (this.monaco) {
+      this.monaco.languages.register({
+        id: "cpp",
+        extensions: [".cpp"],
+        aliases: ["c++", "cpp"],
+      });
+      MonacoServices.install(this.monaco);
+
+      // create the web socket
+      const url = "ws://localhost:49154/cpp";
+      const webSocket: any = createWebSocket(url);
+      // listen when the web socket is opened
+      listen({
+        webSocket,
+        onConnection: (connection) => {
+          // create and start the language client
+          const languageClient = createLanguageClient(connection);
+          const disposable = languageClient.start();
+          connection.onClose(() => disposable.dispose());
+        },
+      });
+    }
   }
 }
 // export const monacoControlApi = new monacocontrol();

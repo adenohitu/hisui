@@ -69,6 +69,13 @@ const template: any = [
               },
             },
             {
+              label: "AppRelaunch",
+              click(item: any, focusedWindow: any, event: any) {
+                app.relaunch();
+                app.quit();
+              },
+            },
+            {
               label: "extest",
               click(item: any, focusedWindow: any, event: any) {
                 (async () => {
