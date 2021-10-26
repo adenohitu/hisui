@@ -36,6 +36,7 @@ export const IpcEvents = {
   RUN_RELOAD_SNIPPET: { mode: "on" },
   GET_LANG_SNIPPET: { mode: "handle" },
   SET_LANG_SNIPPET: { mode: "handle" },
+  RUN_SET_WINDOW_SPLIT: { mode: "on" },
 
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
