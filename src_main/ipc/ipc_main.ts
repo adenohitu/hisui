@@ -10,6 +10,7 @@ import { copyClipboard, readClipboard } from "../tool/clipboard";
 import { mainPageapi } from "../browserview/mainpageview";
 import { submissionsApi } from "../data/submissions";
 import { ipcMainManager } from "./ipc";
+import { setWindowSplit } from "../browser/tool/monitorsize";
 //ipc通信
 export const load_ipc = () => {
   //ブラウザでurlを開く
@@ -122,5 +123,11 @@ export const load_ipc = () => {
   //selectDafaultcontestを開く
   ipcMainManager.on("OPEN_SELECT_CONTEST_DIALOG", (event) => {
     mainPageapi.openDafaultContestDialog();
+  });
+  //
+  // setWindowSplitを実行
+  ipcMainManager.on("RUN_SET_WINDOW_SPLIT", (event) => {
+    // Workエリアを左右に分割しWindowをセット
+    setWindowSplit();
   });
 };
