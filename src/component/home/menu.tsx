@@ -49,6 +49,16 @@ export function HomeMenu() {
           コンテストを選択する
         </Button>
       )}
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={() => {
+          ipcRendererManager.send("RUN_SET_WINDOW_SPLIT");
+        }}
+      >
+        Windowを左右分割してに並べる
+      </Button>
     </div>
   );
 }

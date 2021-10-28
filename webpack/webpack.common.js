@@ -2,10 +2,10 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: path.join(__dirname, "../src/index.tsx"),
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "../build"),
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss", ".sass"],
@@ -46,10 +46,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "public/index.html"),
+      template: path.resolve(__dirname, "../public/index.html"),
     }),
     new CopyPlugin({
-      patterns: [{ from: "public", to: "" }],
+      patterns: [{ from: path.join(__dirname, "../public"), to: "" }],
     }),
   ],
 };
