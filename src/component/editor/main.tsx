@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import SpeedDials from "./tool/floatingbutton";
 import { CustomTestWindow } from "../codetest/run-window";
 import { SettingAppDialog } from "../setting/system-setting";
+import { StatusBar } from "./tool/statusbar/status-bar";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
@@ -26,7 +27,7 @@ export const Editor = () => {
   return (
     <>
       <div
-        style={{ margin: 0, paddingBottom: 30, height: "100%", width: "100%" }}
+        style={{ margin: 0, paddingBottom: 22, height: "100%", width: "100%" }}
       >
         <SettingAppDialog />
         <CustomTestWindow />
@@ -42,6 +43,7 @@ export const Editor = () => {
         />
         <SpeedDials />
       </div>
+      <StatusBar />
     </>
   );
 };
