@@ -209,7 +209,7 @@ updateSetup();
 submissionsApi.setup();
 // 保存ファイルの設定
 setupDefaultFolder();
-setupClangd().then((arg) => {
-  console.log(arg);
-  LSPsetup(arg);
-});
+// setupClangd().then((arg) => {
+//   console.log(arg);
+//   LSPsetup(arg);
+// });
