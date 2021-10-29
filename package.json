@@ -15,7 +15,7 @@
     "electron:source_build": "tsc -p src_main --removeComments true",
     "electron:test": "jest",
     "electron:lint": "yarn eslint src_main/",
-    "react:start": "webpack-dev-server --watch --hot --config ./webpack/webpack.dev.js --port 3000",
+    "react:start": "webpack-dev-server --config ./webpack/webpack.dev.js --port 3000",
     "react:build": "webpack --config ./webpack/webpack.prod.js",
     "react:lint": "yarn eslint src/",
     "react:test": "set TZ=JST && jest ./src",
@@ -148,7 +148,7 @@
     "vscode-languageserver": "^7.0.0",
     "vscode-languageserver-types": "^3.16.0",
     "vscode-uri": "^3.0.2",
-    "webpack": "^4.44.1",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
