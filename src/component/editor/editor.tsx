@@ -50,7 +50,7 @@ export function MainEditor() {
         onMount={handleEditorDidMount}
         beforeMount={handleEditorWillMount}
         // LSPの補完よりスニペットが上に来るように
-        options={{ snippetSuggestions: "top" }}
+        options={{ snippetSuggestions: "top", contextmenu: false }}
       />
     </div>
   );

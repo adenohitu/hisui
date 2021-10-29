@@ -79,7 +79,10 @@ export class monacocontrol {
   /**
    * editorInstanceを取得
    */
-  setEditorInstance(inputInstance: editor.IStandaloneCodeEditor | null) {
+  setEditorInstance(inputInstance: editor.IStandaloneCodeEditor) {
+    inputInstance.onDidChangeModelContent(() => {
+      ipcRendererManager.send("EDITOR_MODEL_CONTENTS_CHANGE");
+    });
     this.editorInstance = inputInstance;
   }
 
