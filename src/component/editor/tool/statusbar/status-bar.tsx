@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import { useAppStatus } from "./status-hooks";
-
+import { handleClickOpenSelectLanguageDialog } from "../languagedialog";
 export function StatusBar() {
   const appStatus = useAppStatus();
   return (
@@ -15,6 +15,14 @@ export function StatusBar() {
     >
       <StatusTextButton>{appStatus.contestName}</StatusTextButton>
       <StatusTextButton float="right">{`${appStatus.codeSize} Byte`}</StatusTextButton>
+      <StatusTextButton
+        onClick={() => {
+          handleClickOpenSelectLanguageDialog();
+        }}
+        float="right"
+      >
+        {appStatus.language}
+      </StatusTextButton>
     </div>
   );
 }
@@ -39,15 +47,21 @@ const useStayles = makeStyles({
 interface StatusTextButtonProps {
   children: string;
   float?: "right" | "left";
+  onClick?: () => void;
 }
 const StatusTextButton: React.FC<StatusTextButtonProps> = ({
   children,
+  onClick,
   float = "left",
 }) => {
   const classes = useStayles();
   return (
     <>
-      <button style={{ float: float }} className={classes.buttonStyle}>
+      <button
+        onClick={onClick}
+        style={{ float: float }}
+        className={classes.buttonStyle}
+      >
         <p className={classes.buttonText}>{children}</p>
       </button>
     </>
