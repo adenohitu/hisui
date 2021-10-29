@@ -52,7 +52,7 @@ export class monacocontrol {
     this.monaco = monacoapi;
     if (this.monaco) {
       ipcRendererManager.send("RUN_RELOAD_SNIPPET");
-      this.setupLSP();
+      // this.setupLSP();
     }
   }
   setupSnippet() {
