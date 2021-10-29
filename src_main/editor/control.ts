@@ -117,6 +117,7 @@ class taskControl {
     // editorの更新をチェック
     // editorのモデルをチェンジ
     editorViewapi.view?.webContents.send("setModel", TaskScreenName);
+    this.taskAll[TaskScreenName].sendValueStatus();
   }
   /**
    * TopViewのページ推移を初期状態に戻す
@@ -142,6 +143,12 @@ class taskControl {
     });
     ipcMain.on("save", (event, id: string) => {
       this.taskAll[id].save();
+    });
+    // Editorの更新イベントを受け取る
+    ipcMainManager.on("EDITOR_MODEL_CONTENTS_CHANGE", () => {
+      if (this.nowTop) {
+        this.taskAll[this.nowTop].changeEvent();
+      }
     });
     // taskViewのURLを初期値に戻す
     ipcMain.on("nowTaskViewReset", () => {

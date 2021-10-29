@@ -16,6 +16,7 @@ import {
   loadAllSamplecase,
   saveSanplecase,
 } from "../file/save";
+import { ipcMainManager } from "../ipc/ipc";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -39,6 +40,13 @@ export interface changeLanguageType {
  * unknown:不明(初期値)
  */
 export type JudgeStatus = "AC" | "WA" | "judge" | "unknown";
+export interface editorStatus {
+  contestName: string;
+  TaskScreenName: string;
+  AssignmentName: string;
+  taskcodeByte: number;
+}
+
 /**
  * １つのTaskを管理するClass
  */
@@ -61,7 +69,7 @@ export class taskcont {
   // ファイルのフルパス
   filePath: string | null = null;
   // ファイルの内容がエディターで変更されているか
-  Change: boolean = false;
+  change: boolean = false;
 
   // advanced State
 
@@ -102,6 +110,8 @@ export class taskcont {
     await this.openTaskView(contestName, TaskScreenName);
 
     const Data = await this.fileload(contestName, AssignmentName, language);
+    this.Data = Data;
+    this.sendValueStatus();
     if (this.filePath) {
       this.setupEditor(TaskScreenName, Data, language, this.filePath);
     }
@@ -155,6 +165,7 @@ export class taskcont {
     this.Data = await this.getValueEditor();
     if (this.Data !== null && this.filePath !== null) {
       const status = await writeFileAwait(this.filePath, this.Data);
+      this.change = false;
       return status;
     } else {
       return false;
@@ -279,6 +290,28 @@ export class taskcont {
       // editorにValueを送信するよう命令
       editorViewapi.view?.webContents.send("getValue", this.TaskScreenName);
     });
+  }
+  /**
+   * Editorのモデル更新イベントを受け取りValueを取得
+   */
+  async changeEvent() {
+    const nowEditorData = await this.getValueEditor();
+    this.Data = nowEditorData;
+    this.change = true;
+    this.sendValueStatus();
+  }
+  /**
+   * ToolbarにEditorの状態を送信する
+   */
+  async sendValueStatus() {
+    const byteLength = Buffer.byteLength(String(this.Data), "utf8");
+    const result: editorStatus = {
+      contestName: this.contestName,
+      TaskScreenName: this.TaskScreenName,
+      AssignmentName: this.AssignmentName,
+      taskcodeByte: byteLength,
+    };
+    ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
   }
 
   // 提出
