@@ -1,13 +1,22 @@
 import { app } from "electron";
 import { urlOpen } from "../../tool/openExternal";
-const urlList = ["https://atcoder.jp", "http://localhost:3000"];
+/**
+ * 許可なくアクセス可能なURLのListを取得
+ */
+export function getUrlList() {
+  if (app.isPackaged) {
+    return ["https://atcoder.jp"];
+  } else {
+    return ["https://atcoder.jp", "http://localhost:3000"];
+  }
+}
 export const monitoringWebContents = () => {
   // AtCoder以外のドメインへのナビケーションを無効化
   // 例外としてimg.atcoderなどに飛ばされる場合はurlopenする
   app.on("web-contents-created", (event, contents) => {
     contents.on("will-navigate", (event, navigationUrl) => {
       const parsedUrl = new URL(navigationUrl);
-      if (!(parsedUrl.origin in urlList)) {
+      if (!getUrlList().includes(parsedUrl.origin)) {
         event.preventDefault();
         urlOpen(navigationUrl);
       }
