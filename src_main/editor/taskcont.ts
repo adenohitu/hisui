@@ -44,6 +44,7 @@ export interface editorStatus {
   contestName: string;
   TaskScreenName: string;
   AssignmentName: string;
+  language: string;
   taskcodeByte: number;
 }
 
@@ -309,6 +310,7 @@ export class taskcont {
       contestName: this.contestName,
       TaskScreenName: this.TaskScreenName,
       AssignmentName: this.AssignmentName,
+      language: this.language,
       taskcodeByte: byteLength,
     };
     ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
