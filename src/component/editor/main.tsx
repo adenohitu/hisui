@@ -1,11 +1,11 @@
 import { Mosaic } from "react-mosaic-component";
-import { TaskSelect } from "../tool/selecttask";
+import { TaskSelect } from "./tool/selecttask";
 import "react-mosaic-component/react-mosaic-component.css";
-import { Editorwindow } from "./editorwindow";
+import { Editorwindow } from "./window_editor/editorwindow";
 import { Box } from "@mui/material";
-import SpeedDials from "../tool/floatingbutton";
-import { CustomTestWindow } from "../../codetest/run-window";
-import { SettingAppDialog } from "../../setting/system-setting";
+import SpeedDials from "./tool/floatingbutton";
+import { CustomTestWindow } from "../codetest/run-window";
+import { SettingAppDialog } from "../setting/system-setting";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
@@ -25,7 +25,9 @@ export const Editor = () => {
   // const classes = useStyles();
   return (
     <>
-      <div className="react-mosaic-app">
+      <div
+        style={{ margin: 0, paddingBottom: 30, height: "100%", width: "100%" }}
+      >
         <SettingAppDialog />
         <CustomTestWindow />
         <Mosaic<string>
