@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
 import { Menu } from "./component/menu/main";
 import Window from "./component/dashboard/window";
-import { Editor } from "./component/editor/window_editor/window";
+import { Editor } from "./component/editor/main";
 // import { WindowSize } from "./component/window/window_editor/WindowSize";
 // import { MyFirstGrid } from "./component/window/window_editor/editorwindow";
 import FormDialog from "./component/auth/login_dialog";
