@@ -4,7 +4,7 @@ import { createTaskContType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
 import { EventsArrey } from "./ipc/events";
-const { contextBridge, ipcRenderer } = require("electron");
+import { contextBridge, ipcRenderer } from "electron";
 //分離されたプリロードスクリプト
 
 /**
