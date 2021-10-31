@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
 import { Menu } from "./component/menu/main";
 import Window from "./component/dashboard/window";
@@ -20,6 +20,7 @@ import {
   StyledEngineProvider,
   createTheme,
 } from "@mui/material/styles";
+import { ipcRendererManager } from "./ipc";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -29,6 +30,12 @@ declare module "@mui/styles/defaultTheme" {
 const theme = createTheme();
 
 const App: React.FC = () => {
+  useEffect(() => {
+    window.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      ipcRendererManager.send("OPEN_CONTEXT_MENU");
+    });
+  }, []);
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>

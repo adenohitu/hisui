@@ -34,6 +34,7 @@ import { setupDefaultFolder } from "./file/file";
 import { monitoringWebContents } from "./browser/monitoring/monitoring";
 import { monacoSettingApi } from "./editor/monaco";
 import { reloadAllWebContents } from "./browserview/mgt/reload-all";
+import { setupContextMenu } from "./menu/context-menu";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -212,3 +213,4 @@ setupDefaultFolder();
 //   console.log(arg);
 //   LSPsetup(arg);
 // });
+setupContextMenu();
