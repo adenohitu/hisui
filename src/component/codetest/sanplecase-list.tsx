@@ -13,8 +13,8 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { SampleCase } from "../../../src_main/data/scraping/samplecase";
-import { Button } from "react-bootstrap";
 import { makeStyles } from "@mui/styles";
+import { Button } from "@mui/material";
 
 const useRowStyles = makeStyles({
   root: {
