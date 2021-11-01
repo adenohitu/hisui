@@ -37,10 +37,11 @@ export const IpcEvents = {
   GET_LANG_SNIPPET: { mode: "handle" },
   SET_LANG_SNIPPET: { mode: "handle" },
   RUN_SET_WINDOW_SPLIT: { mode: "on" },
-
+  OPEN_CONTEXT_MENU: { mode: "on" },
+  // EditorIPC
   EDITOR_MODEL_CONTENTS_CHANGE: { mode: "on" },
   LISTENER_EDITOR_STATUS: { mode: "send" },
-
+  // ListenerIPC
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
   LISTENER_OPEN_DEFAULT_DIALOG: { mode: "send" },

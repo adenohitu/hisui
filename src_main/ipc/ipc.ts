@@ -22,7 +22,7 @@ class IpcMainManager {
   ): () => void {
     ipcMain.on(channel, listener);
     return () => {
-      ipcRenderer.removeListener(channel, listener);
+      ipcMain.removeListener(channel, listener);
     };
   }
   /**
