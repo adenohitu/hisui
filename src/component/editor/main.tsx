@@ -7,6 +7,7 @@ import SpeedDials from "./tool/floatingbutton";
 import { CustomTestWindow } from "../codetest/run-window";
 import { SettingAppDialog } from "../setting/system-setting";
 import { StatusBar } from "./tool/statusbar/status-bar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // const useStyles = makeStyles({});
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
