@@ -101,6 +101,7 @@ export class taskViewWindow {
 
       const createdView = new BrowserView({
         webPreferences: {
+          preload: __dirname + "/preload/atcoder-preload.js",
           nodeIntegration: false,
         },
       });

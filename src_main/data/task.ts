@@ -33,7 +33,7 @@ class TaskList {
       this.lastestUpdate + cacheTime <= Date.now()
     ) {
       this.load = true;
-      this.tasklist = await getTasklist();
+      this.tasklist = await getTasklistPage();
       this.lastestUpdate = Date.now();
       this.load = false;
       this.emitter.emit("UPDATE_TASKLIST", this.tasklist);
@@ -52,7 +52,7 @@ export const TaskListApi = new TaskList();
 /**
  * 問題の一覧を取得
  */
-export async function getTasklist(
+export async function getTasklistPage(
   ContestID: string = contestDataApi.getDefaultContestID()
 ) {
   const standings_url = `https://atcoder.jp/contests/${ContestID}/tasks/`;
