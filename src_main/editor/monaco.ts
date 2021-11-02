@@ -3,6 +3,7 @@ import { readFile, mkdir, writeFile } from "fs/promises";
 import { join } from "path";
 import { languages, languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
+import { parse } from "jsonc-parser";
 class monacoSetting {
   savefilepath: string;
   constructor() {
@@ -39,19 +40,9 @@ class monacoSetting {
    */
   public async updateSnippet(lang: languagetype, snippetIn: string) {
     try {
-      const parsedJSON = JSON.stringify(
-        JSON.parse(
-          // eslint-disable-next-line no-useless-escape
-          String(snippetIn).replace(/\\"|"(?:\\"|[^"])*"|(\#.*)/g, (m, g) =>
-            g ? "" : m
-          )
-        ),
-        null,
-        2
-      );
       writeFile(
         join(this.savefilepath, lang + ".snippet"),
-        parsedJSON,
+        snippetIn,
         "utf-8"
       ).then((arg) => {
         this.loadSnippet(lang);
@@ -82,12 +73,7 @@ class monacoSetting {
         ipcMainManager.send(
           "LISTENER_CHANGE_EDITOR_SNIPPET",
           lang,
-          JSON.parse(
-            // eslint-disable-next-line no-useless-escape
-            snippetin.replace(/\\"|"(?:\\"|[^"])*"|(\#.*)/g, (m, g) =>
-              g ? "" : m
-            )
-          )
+          parse(snippetin)
         );
       })
       .catch((e) => {
