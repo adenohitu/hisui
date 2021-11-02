@@ -56,24 +56,22 @@ export default function DefaltContest() {
   // function addWindow(windowName: string) {}
   return (
     <>
-      <div className="react-mosaic-dashboard">
-        <Mosaic<string>
-          className={theme}
-          renderTile={(id, path) => (
-            <MosaicWindow<string>
-              toolbarControls={TITLE_ELEMENT[id].toolbarControls}
-              path={path}
-              title={TITLE_ELEMENT[id].name}
-              className="table-window"
-            >
-              {TITLE_ELEMENT[id].component}
-            </MosaicWindow>
-          )}
-          onChange={onChange}
-          onRelease={onRelease}
-          value={windowState}
-        />
-      </div>
+      <Mosaic<string>
+        className={theme}
+        renderTile={(id, path) => (
+          <MosaicWindow<string>
+            toolbarControls={TITLE_ELEMENT[id].toolbarControls}
+            path={path}
+            title={TITLE_ELEMENT[id].name}
+            className="table-window"
+          >
+            {TITLE_ELEMENT[id].component}
+          </MosaicWindow>
+        )}
+        onChange={onChange}
+        onRelease={onRelease}
+        value={windowState}
+      />
     </>
   );
 }
