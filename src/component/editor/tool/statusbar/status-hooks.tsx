@@ -5,7 +5,7 @@ import { ipcRendererManager } from "../../../../ipc";
 export const useAppStatus = () => {
   const [contestName, setContestName] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
-  const [codeSize, setCodeSize] = useState<string>("0");
+  const [codeSize, setCodeSize] = useState<string>("-");
   useEffect(() => {
     ipcRendererManager.on("LISTENER_EDITOR_STATUS", (e, arg: editorStatus) => {
       setContestName(`${arg.contestName}/${arg.AssignmentName}`);
