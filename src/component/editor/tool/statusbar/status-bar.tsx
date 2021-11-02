@@ -1,6 +1,7 @@
 import { makeStyles } from "@mui/styles";
-import { useAppStatus } from "./status-hooks";
+import { ipcRendererManager } from "../../../../ipc";
 import { handleClickOpenSelectLanguageDialog } from "../languagedialog";
+import { useAppStatus } from "./status-hooks";
 export function StatusBar() {
   const appStatus = useAppStatus();
   return (
@@ -13,7 +14,14 @@ export function StatusBar() {
         backgroundColor: "#338a3e",
       }}
     >
-      <StatusTextButton>{appStatus.contestName}</StatusTextButton>
+      <StatusTextButton
+        onClick={() => {
+          ipcRendererManager.send("OPEN_SELECT_CONTEST_DIALOG");
+        }}
+      >
+        {appStatus.contestName}
+      </StatusTextButton>
+      <StatusTextButton>{appStatus.taskname}</StatusTextButton>
       <StatusTextButton float="right">{`${appStatus.codeSize} Byte`}</StatusTextButton>
       <StatusTextButton
         onClick={() => {
@@ -28,7 +36,6 @@ export function StatusBar() {
 }
 const useStayles = makeStyles({
   buttonStyle: {
-    height: 22,
     padding: 0,
     border: "none",
     outline: "none",
@@ -41,6 +48,9 @@ const useStayles = makeStyles({
     marginLeft: 5,
     marginRight: 5,
     fontWeight: 300,
+    fontSize: 14,
+    height: 22,
+    lineHeight: 1.5,
   },
 });
 

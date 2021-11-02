@@ -21,6 +21,7 @@ import {
   createTheme,
 } from "@mui/material/styles";
 import { ipcRendererManager } from "./ipc";
+import { StatusBar } from "./component/editor/tool/statusbar/status-bar";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -65,6 +66,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/case" exact>
               <TestCaseBoard />
+            </Route>
+            <Route path="/tool" exact>
+              <StatusBar />
             </Route>
           </Switch>
         </HashRouter>
