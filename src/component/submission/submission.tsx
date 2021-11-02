@@ -7,12 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-// import { Typography } from "@mui/material";
-import { Badge } from "react-bootstrap";
 import IconButton from "@mui/material/IconButton";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Chip } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -71,14 +68,10 @@ export function SubmissionTable() {
               </TableCell>
               <TableCell align="center">
                 {row.result === "AC" && (
-                  <Badge pill variant="success">
-                    {row.result}
-                  </Badge>
+                  <Chip color="success" size="small" label={row.result}></Chip>
                 )}
                 {row.result !== "AC" && (
-                  <Badge pill variant="warning">
-                    {row.result}
-                  </Badge>
+                  <Chip color="error" size="small" label={row.result}></Chip>
                 )}
               </TableCell>
               <TableCell align="left">{row.task}</TableCell>

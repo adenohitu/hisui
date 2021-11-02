@@ -1,5 +1,5 @@
 import React from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,13 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 // import { Typography } from "@mui/material";
-import { Badge } from "react-bootstrap";
 import IconButton from "@mui/material/IconButton";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { selectSubmissions } from "../../app/Slice/submissions";
 import { useSelector } from "react-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { ipcRendererManager } from "../../ipc";
+import { Chip } from "@mui/material";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
@@ -58,14 +57,10 @@ export function JudgeResultList() {
               <TableCell align="left">{row.task}</TableCell>
               <TableCell align="center">
                 {row.result === "AC" && (
-                  <Badge pill variant="success">
-                    {row.result}
-                  </Badge>
+                  <Chip color="success" size="small" label={row.result}></Chip>
                 )}
                 {row.result !== "AC" && (
-                  <Badge pill variant="warning">
-                    {row.result}
-                  </Badge>
+                  <Chip color="error" size="small" label={row.result}></Chip>
                 )}
               </TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
