@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
-import { useAppStatus } from "./status-hooks";
 import { handleClickOpenSelectLanguageDialog } from "../languagedialog";
+import { useAppStatus } from "./status-hooks";
 export function StatusBar() {
   const appStatus = useAppStatus();
   return (
@@ -28,7 +28,6 @@ export function StatusBar() {
 }
 const useStayles = makeStyles({
   buttonStyle: {
-    height: 22,
     padding: 0,
     border: "none",
     outline: "none",
@@ -41,6 +40,9 @@ const useStayles = makeStyles({
     marginLeft: 5,
     marginRight: 5,
     fontWeight: 300,
+    fontSize: 14,
+    height: 22,
+    lineHeight: 1.5,
   },
 });
 
