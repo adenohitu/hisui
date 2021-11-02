@@ -7,9 +7,10 @@ export function StatusBar() {
   return (
     <div
       style={{
+        boxSizing: "border-box",
         position: "fixed",
         bottom: 0,
-        height: 22,
+        height: "22px",
         width: "100%",
         backgroundColor: "#338a3e",
       }}
@@ -36,6 +37,7 @@ export function StatusBar() {
 }
 const useStayles = makeStyles({
   buttonStyle: {
+    height: "22px",
     padding: 0,
     border: "none",
     outline: "none",
@@ -45,12 +47,10 @@ const useStayles = makeStyles({
   },
   buttonText: {
     color: "#fff",
+    margin: 0,
     marginLeft: 5,
     marginRight: 5,
     fontWeight: 300,
-    fontSize: 14,
-    height: 22,
-    lineHeight: 1.5,
   },
 });
 
