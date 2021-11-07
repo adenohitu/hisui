@@ -66,7 +66,6 @@ export const StyledTab = styled((props: StyledTabProps) => (
 const useStyles = makeStyles((theme: Theme) => ({
   demo2: {
     backgroundColor: "#eee",
-    height: "100%",
   },
 }));
 
