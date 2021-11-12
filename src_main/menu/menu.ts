@@ -250,7 +250,7 @@ const template: any = [
       {
         label: "Learn More",
         click: async () => {
-          urlOpen("https://github.com/adenohitu/Hisui-docs");
+          urlOpen("https://adenohitu.github.io/Hisui-docs/");
         },
       },
     ],
