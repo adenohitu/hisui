@@ -13,7 +13,21 @@ import { Box, Button, Chip } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import RefreshIcon from "@mui/icons-material/Refresh";
-
+import { submissionData } from "../../../src_main/data/scraping/submissions";
+function chipColor(status: string) {
+  if (status === "AC") {
+    return { text: "#eeeeee", back: "#4EAE49" };
+  } else if (
+    status.includes("WA") ||
+    status.includes("RE") ||
+    status.includes("TLE") ||
+    status.includes("CE")
+  ) {
+    return { text: "#eeeeee", back: "#EB9E3E" };
+  } else {
+    return undefined;
+  }
+}
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
   root: { height: "100%" },
@@ -21,16 +35,10 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-// let getdata: any = null;
-// export const update_submission = () => {
-//   getdata();
-// };
+
 export function SubmissionTable() {
   const classes = useStyles();
-  const [rows, setrows] = useState<any[]>([]);
-  // const [load, setload] = useState("ok");
-  // const rowdata = useSelector(selectSubmissions);
-  // const dispatch = useDispatch();
+  const [rows, setrows] = useState<submissionData[]>([]);
   useEffect(() => {
     ipcRendererManager.on("LISTENER_RETUEN_SUBMISSIONS", (event, arg) => {
       setrows(arg);
@@ -61,18 +69,20 @@ export function SubmissionTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: any) => (
+          {rows.map((row: submissionData) => (
             <TableRow key={row.created}>
               <TableCell>
                 {dayjs(row.created).format("YY/MM/DD HH:mm:ss")}
               </TableCell>
               <TableCell align="center">
-                {row.result === "AC" && (
-                  <Chip color="success" size="small" label={row.result}></Chip>
-                )}
-                {row.result !== "AC" && (
-                  <Chip color="error" size="small" label={row.result}></Chip>
-                )}
+                <Chip
+                  style={{
+                    color: chipColor(row.result)?.text,
+                    backgroundColor: chipColor(row.result)?.back,
+                  }}
+                  size="small"
+                  label={row.result}
+                ></Chip>
               </TableCell>
               <TableCell align="left">{row.task}</TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
@@ -92,11 +102,6 @@ export function SubmissionTable() {
           ))}
         </TableBody>
       </Table>
-      {/* {load !== "ok" && (
-        <Typography variant="h6" align="center">
-          {load}
-        </Typography>
-      )} */}
     </TableContainer>
   );
 }
