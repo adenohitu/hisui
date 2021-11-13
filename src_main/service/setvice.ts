@@ -20,17 +20,29 @@ export async function runServiceStatus() {
     const statusData: servicestatus = data.data;
     console.log(statusData);
 
-    if (statusData.useapp === false && statusData.statusMessage !== null) {
-      const selectStatus = await dialog.showMessageBox({
-        type: "error",
-        title: statusData.statusMessage.title,
-        message: statusData.statusMessage.title,
-        detail: statusData.statusMessage.detail,
-        buttons: ["アプリを終了する"],
-      });
-
-      if (selectStatus.response === 0) {
-        app.quit();
+    if (statusData.useapp === false) {
+      if (statusData.statusMessage !== null) {
+        const selectStatus = await dialog.showMessageBox({
+          type: "error",
+          title: statusData.statusMessage.title,
+          message: statusData.statusMessage.title,
+          detail: statusData.statusMessage.detail,
+          buttons: ["アプリを終了する"],
+        });
+        if (selectStatus.response === 0) {
+          app.quit();
+        }
+      } else {
+        const selectStatus = await dialog.showMessageBox({
+          type: "error",
+          title: "このアプリは現在使用できません",
+          message: "discordを確認してください",
+          detail: "discordを確認してください",
+          buttons: ["アプリを終了する"],
+        });
+        if (selectStatus.response === 0) {
+          app.quit();
+        }
       }
     }
 
