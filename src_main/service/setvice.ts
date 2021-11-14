@@ -1,4 +1,6 @@
 import axios from "axios";
+import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { win } from "../main";
 import { servicestatus } from "./status";
 const { app, dialog } = require("electron");
 const version = app.getVersion();
@@ -21,6 +23,8 @@ export async function runServiceStatus() {
     console.log(statusData);
 
     if (statusData.useapp === false) {
+      win?.close();
+      taskViewWindowApi.close();
       if (statusData.statusMessage !== null) {
         const selectStatus = await dialog.showMessageBox({
           type: "error",
