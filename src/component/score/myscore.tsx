@@ -8,14 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
-import Link from "@mui/material/Link";
 import lightGreen from "@mui/material/colors/lightGreen";
 import yellow from "@mui/material/colors/yellow";
 import { useSelector, useDispatch } from "react-redux";
 import { selectscoreData, requestScoreAsync } from "../../app/Slice/score";
 import { selectTotal } from "../../app/Slice/standings";
 import grey from "@mui/material/colors/grey";
-import { ipcRendererManager } from "../../ipc";
 
 // import store from "../../app/store";
 const dayjs = require("dayjs");
@@ -126,14 +124,6 @@ export default function BasicTable() {
       );
     }
   };
-
-  const openurl = async (url: string) => {
-    const contestId: string = await ipcRendererManager.invoke(
-      "GET_SET_CONTESTID"
-    );
-    const open = `https://atcoder.jp/contests/${contestId}/tasks/${url}`;
-    ipcRendererManager.invoke("OPEN_URL", open);
-  };
   //初回だけ実行
 
   useEffect(() => {
@@ -168,16 +158,7 @@ export default function BasicTable() {
                 <TableCell component="th" scope="row">
                   {row.AssignmentName}
                 </TableCell>
-                <TableCell align="left">
-                  <Link
-                    onClick={() => {
-                      openurl(row.TaskScreenName);
-                    }}
-                    color="inherit"
-                  >
-                    {row.TaskName}
-                  </Link>
-                </TableCell>
+                <TableCell align="left">{row.TaskName}</TableCell>
                 <TableCell align="right">{row.Score / 100}</TableCell>
                 {AcElapsedTime(row.ElapsedTime)}
                 {Created(row.Created, row.Num)}
