@@ -21,7 +21,8 @@
     "react:test": "set TZ=JST && jest ./src",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
-    "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.json --out ./apidocs"
+    "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.json --out ./apidocs",
+    "release": "standard-version"
   },
   "build": {
     "publish": {
@@ -140,6 +141,7 @@
     "sass-loader": "^12.2.0",
     "seedrandom": "^3.0.5",
     "source-map-loader": "^3.0.0",
+    "standard-version": "^9.3.2",
     "style-loader": "^2.0.0",
     "ts-jest": "^26.3.0",
     "ts-loader": "^7.0.5",
