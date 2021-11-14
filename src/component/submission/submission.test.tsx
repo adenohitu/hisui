@@ -1,4 +1,6 @@
 import { submissionData } from "../../../src_main/data/scraping/submissions";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testData: submissionData[] = [
   {
     waiting_judge: true,
