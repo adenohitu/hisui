@@ -35,6 +35,7 @@ import { monitoringWebContents } from "./browser/monitoring/monitoring";
 import { monacoSettingApi } from "./editor/monaco";
 import { reloadAllWebContents } from "./browserview/mgt/reload-all";
 import { setupContextMenu } from "./menu/context-menu";
+import { setupProtocols } from "./tool/protocols";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -214,3 +215,5 @@ setupDefaultFolder();
 //   LSPsetup(arg);
 // });
 setupContextMenu();
+// hisui-service://をシステムに登録
+setupProtocols();
