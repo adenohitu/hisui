@@ -29,10 +29,18 @@
       "owner": "adenohitu",
       "repo": "hisui"
     },
+    "appId": "com.adenohitu.hisui",
+    "compression": "maximum",
     "productName": "Hisui",
     "artifactName": "Hisui-${version}-${os}.${ext}",
     "copyright": "Copyright © 2020-2021 Adenohitu",
     "extends": null,
+    "protocols": {
+      "name": "Hisui service URL",
+      "schemes": [
+        "hisui-service"
+      ]
+    },
     "files": [
       "build/**/*"
     ],
@@ -118,7 +126,7 @@
     "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.2.7",
     "electron": "^15.0.0",
-    "electron-builder": "^22.11.1",
+    "electron-builder": "^22.14.5",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^3.2.0",
