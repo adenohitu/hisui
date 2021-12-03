@@ -69,4 +69,13 @@ export declare class hisuiEventtType extends EventEmitter {
    */
   on(event: "submit", listener: (taskScreenName: string) => void): this;
   emit(event: "submit", taskScreenName: string): boolean;
+
+  /**
+   * Taskcontが作成されたときに
+   */
+  on(
+    event: "create-taskcont",
+    listener: (taskScreenName: string) => void
+  ): this;
+  emit(event: "create-taskcont", taskScreenName: string): boolean;
 }

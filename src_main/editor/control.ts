@@ -7,12 +7,15 @@ import { languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 import { store } from "../save/save";
 import { taskcont } from "./taskcont";
-export interface createTaskContType {
+export interface taskContStatusType {
   contestName: string;
   TaskScreenName: string;
   AssignmentName: string;
   // 指定がない場合、デフォルトの言語を使用
   language?: languagetype;
+}
+export interface taskStatus extends taskContStatusType {
+  nowtop?: boolean;
 }
 /**
  * 全てのtaskcontを管理するAPI
@@ -127,12 +130,27 @@ class taskControl {
       this.taskAll[this.nowTop].resetTaskView();
     }
   }
+  getTaskStatusList() {
+    const statusList: taskStatus[] = (
+      Object.keys(this.taskAll) as (keyof taskcont)[]
+    ).map((key) => {
+      const topStatus = (this.nowTop === key && true) || false;
+      return {
+        contestName: this.taskAll[key].contestName,
+        TaskScreenName: this.taskAll[key].TaskScreenName,
+        AssignmentName: this.taskAll[key].AssignmentName,
+        language: this.taskAll[key].language,
+        nowtop: topStatus,
+      };
+    });
+    return statusList;
+  }
   /**
    * editor側からイベントを受け取る
    */
   setupIPCMain() {
     // taskcontを作成する
-    ipcMain.on("createTaskCont", (event, arg: createTaskContType) => {
+    ipcMain.on("createTaskCont", (event, arg: taskContStatusType) => {
       this.createNewTask(
         arg.contestName,
         arg.TaskScreenName,
@@ -203,6 +221,10 @@ class taskControl {
       } else {
         return [];
       }
+    });
+    ipcMainManager.handle("GET_TASK_CONT_STATUS_ALL", async (event) => {
+      const result = this.getTaskStatusList();
+      return result;
     });
   }
 }
