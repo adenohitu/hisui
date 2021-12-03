@@ -1,6 +1,6 @@
 import { type } from "os"; // eslint-disable-line
 import { atcoderCodeTestResult } from "./data/casetester/runtest_atcoder";
-import { createTaskContType } from "./editor/control";
+import { taskContStatusType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
 import { EventsArrey } from "./ipc/events";
@@ -53,7 +53,7 @@ contextBridge.exposeInMainWorld("editor", {
   },
 
   // mainに送信
-  createTaskCont: (arg: createTaskContType) => {
+  createTaskCont: (arg: taskContStatusType) => {
     ipcRenderer.send("createTaskCont", arg);
   },
   save: (id: string) => {

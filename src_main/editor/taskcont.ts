@@ -17,6 +17,7 @@ import {
   saveSanplecase,
 } from "../file/save";
 import { ipcMainManager } from "../ipc/ipc";
+import { hisuiEvent } from "../event/event";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -89,6 +90,8 @@ export class taskcont {
     AssignmentName: string,
     language: languagetype
   ) {
+    // TaskContEヴェンtを追加
+    hisuiEvent.emit("create-taskcont", TaskScreenName);
     this.contestName = contestName;
     this.TaskScreenName = TaskScreenName;
     this.AssignmentName = AssignmentName;

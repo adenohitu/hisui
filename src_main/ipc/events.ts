@@ -41,6 +41,8 @@ export const IpcEvents = {
   // EditorIPC
   EDITOR_MODEL_CONTENTS_CHANGE: { mode: "on" },
   LISTENER_EDITOR_STATUS: { mode: "send" },
+  GET_TASK_CONT_STATUS_ALL: { mode: "handle" },
+  LISTENER_CHANGE_TASK_CONT_STATUS: { mode: "send" },
   // ListenerIPC
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
