@@ -21,7 +21,7 @@ import { SampleCase } from "../../../src_main/data/scraping/samplecase";
 import { focuscodeTest } from "../editor/window_editor/editorwindow";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
-    children?: React.ReactElement;
+    children: React.ReactElement;
   },
   ref: React.Ref<unknown>
 ) {
