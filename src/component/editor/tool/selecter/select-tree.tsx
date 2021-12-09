@@ -13,7 +13,8 @@ import ForumIcon from "@mui/icons-material/Forum";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { SvgIconProps } from "@mui/material/SvgIcon";
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
+import { Chip } from "@mui/material";
 
 declare module "react" {
   interface CSSProperties {
@@ -60,7 +61,6 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
     },
   },
 }));
-
 function StyledTreeItem(props: StyledTreeItemProps) {
   const {
     bgColor,
@@ -75,7 +75,11 @@ function StyledTreeItem(props: StyledTreeItemProps) {
     <StyledTreeItemRoot
       label={
         <Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
-          <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
+          <Chip
+            sx={{ mr: 1, bgcolor: "green", color: "white" }}
+            size="small"
+            label="AC"
+          />
           <Typography
             variant="body2"
             sx={{ fontWeight: "inherit", flexGrow: 1 }}
@@ -96,7 +100,7 @@ function StyledTreeItem(props: StyledTreeItemProps) {
   );
 }
 
-export default function GmailTreeView() {
+export function TaskSelectTree() {
   return (
     <TreeView
       aria-label="gmail"
@@ -104,7 +108,7 @@ export default function GmailTreeView() {
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
-      sx={{ height: 264, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+      sx={{ height: "100%", flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
     >
       <StyledTreeItem nodeId="1" labelText="All Mail" labelIcon={MailIcon} />
       <StyledTreeItem nodeId="2" labelText="Trash" labelIcon={DeleteIcon} />
@@ -142,7 +146,9 @@ export default function GmailTreeView() {
           bgColor="#e6f4ea"
         />
       </StyledTreeItem>
-      <StyledTreeItem nodeId="4" labelText="History" labelIcon={Label} />
+      <StyledTreeItem nodeId="9" labelText="History" labelIcon={Label} />
+      <StyledTreeItem nodeId="10" labelText="History" labelIcon={Label} />
+      <StyledTreeItem nodeId="11" labelText="History" labelIcon={Label} />
     </TreeView>
   );
 }
