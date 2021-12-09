@@ -5,7 +5,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useTaskList } from "./tasklist-hooks";
+import { useTaskList } from "../tasklist-hooks";
 
 interface StyledTabsProps {
   children?: React.ReactNode;

@@ -1,5 +1,5 @@
 import { Mosaic } from "react-mosaic-component";
-import { TaskSelect } from "./tool/selecttask";
+import { TaskSelect } from "./tool/selecter/selecttask";
 import "react-mosaic-component/react-mosaic-component.css";
 import { Editorwindow } from "./window_editor/editorwindow";
 import SpeedDials from "./tool/floatingbutton";
