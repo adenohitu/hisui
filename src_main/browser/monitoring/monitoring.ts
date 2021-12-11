@@ -22,15 +22,11 @@ export const monitoringWebContents = () => {
       }
     });
   });
-
+  // 新規Windowの作成を無効化
   app.on("web-contents-created", (event, contents) => {
     contents.setWindowOpenHandler(({ url }) => {
       // この例では、既定のブラウザでこのイベントのURLを開くように
       // オペレーティングシステムに依頼します。
-      //
-      // shell.openExternal に渡す URL を許可する基準ついては、
-      // 以降の項目を参照してください。
-
       urlOpen(url);
 
       return { action: "deny" };
