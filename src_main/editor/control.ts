@@ -73,7 +73,7 @@ class taskControl {
     TaskScreenName: string,
     AssignmentName: string,
     // 指定がない場合、デフォルトの言語を使用
-    language: languagetype | undefined
+    language?: languagetype
   ) {
     if (this.taskAll[TaskScreenName] !== undefined) {
       this.changeTask(TaskScreenName);
