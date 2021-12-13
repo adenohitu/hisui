@@ -38,6 +38,29 @@ export const useTaskList = () => {
       AssignmentName: data.AssignmentName,
     });
   };
+  const custonValueChange = (newValue: number) => {
+    setValue(newValue);
+    // taskContを作成
+    // 存在する場合フォーカスする
+    const data = taskList[newValue];
+    console.log({
+      contestName: data.contestName,
+      TaskScreenName: data.taskScreenName,
+      AssignmentName: data.AssignmentName,
+    });
+    window.editor.createTaskCont({
+      contestName: data.contestName,
+      TaskScreenName: data.taskScreenName,
+      AssignmentName: data.AssignmentName,
+    });
+  };
 
-  return { taskList, value, setTasklist, updateTasklist, handleValueChange };
+  return {
+    taskList,
+    value,
+    setTasklist,
+    updateTasklist,
+    handleValueChange,
+    custonValueChange,
+  };
 };

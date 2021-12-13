@@ -7,8 +7,9 @@ import Typography from "@mui/material/Typography";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { SvgIconProps } from "@mui/material/SvgIcon";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import { Chip } from "@mui/material";
+// import AssignmentIcon from "@mui/icons-material/Assignment";
+// import { Chip, chipClasses } from "@mui/material";
+import { useTaskList } from "../tasklist-hooks";
 
 declare module "react" {
   interface CSSProperties {
@@ -20,7 +21,7 @@ declare module "react" {
 type StyledTreeItemProps = TreeItemProps & {
   bgColor?: string;
   color?: string;
-  labelIcon: React.ElementType<SvgIconProps>;
+  labelIcon?: React.ElementType<SvgIconProps>;
   labelInfo?: string;
   labelText: string;
 };
@@ -29,8 +30,6 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
   color: theme.palette.text.secondary,
   [`& .${treeItemClasses.content}`]: {
     color: theme.palette.text.secondary,
-    borderTopRightRadius: theme.spacing(2),
-    borderBottomRightRadius: theme.spacing(2),
     paddingRight: theme.spacing(1),
     fontWeight: theme.typography.fontWeightMedium,
     padding: "0 4px",
@@ -60,6 +59,12 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
     },
   },
 }));
+// const StyledChip = styled(Chip)(({ theme }) => ({
+//   [`.${chipClasses.label}`]: {
+//     paddingLeft: "6px",
+//     paddingRight: "6px",
+//   },
+// }));
 function StyledTreeItem(props: StyledTreeItemProps) {
   const {
     bgColor,
@@ -73,9 +78,9 @@ function StyledTreeItem(props: StyledTreeItemProps) {
   return (
     <StyledTreeItemRoot
       label={
-        <Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
+        <Box sx={{ alignItems: "center", p: 0.5, pr: 0 }}>
           {/* <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} /> */}
-          <Chip
+          {/* <StyledChip
             sx={{
               mr: 1,
               bgcolor: "green",
@@ -83,10 +88,11 @@ function StyledTreeItem(props: StyledTreeItemProps) {
               height: "15px",
               fontSize: "13px",
               paddingTop: "2px",
+              borderRadius: "4px",
             }}
             size="small"
             label="AC"
-          />
+          /> */}
           <Typography
             variant="body2"
             sx={{ fontWeight: "inherit", flexGrow: 1 }}
@@ -108,52 +114,27 @@ function StyledTreeItem(props: StyledTreeItemProps) {
 }
 
 export function TaskSelectTree() {
+  const taskListHooks = useTaskList();
+
   return (
     <TreeView
       aria-label="gmail"
       defaultExpanded={["3"]}
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
-      sx={{ height: "100%", flexGrow: 1, overflowY: "auto" }}
+      sx={{ height: "100%", flexGrow: 1, width: "100%" }}
     >
-      <StyledTreeItem
-        nodeId="1"
-        labelText="A-asnias"
-        labelIcon={AssignmentIcon}
-      />
-      <StyledTreeItem
-        disabled
-        nodeId="3"
-        labelText="A-asnias"
-        labelIcon={AssignmentIcon}
-      />
-      <StyledTreeItem
-        nodeId="4"
-        labelText="B-ashuags"
-        labelIcon={AssignmentIcon}
-      />
-      <StyledTreeItem nodeId="7" labelText="History" labelIcon={AssignmentIcon}>
+      {taskListHooks.taskList.map((row, index) => (
         <StyledTreeItem
-          nodeId="8"
-          labelText="History"
-          labelIcon={AssignmentIcon}
+          key={index}
+          nodeId={row.taskScreenName}
+          labelText={`${row.AssignmentName}-${row.contestName}`}
+          // labelInfo={row.taskName}
+          onClick={() => {
+            taskListHooks.custonValueChange(index);
+          }}
         />
-      </StyledTreeItem>
-      <StyledTreeItem
-        nodeId="9"
-        labelText="History"
-        labelIcon={AssignmentIcon}
-      />
-      <StyledTreeItem
-        nodeId="10"
-        labelText="History"
-        labelIcon={AssignmentIcon}
-      />
-      <StyledTreeItem
-        nodeId="11"
-        labelText="History"
-        labelIcon={AssignmentIcon}
-      />
+      ))}
     </TreeView>
   );
 }

@@ -1,5 +1,8 @@
 import { app } from "electron";
+import { TaskListApi } from "../../data/task";
+import { taskControlApi } from "../../editor/control";
 import { urlOpen } from "../../tool/openExternal";
+import { createTaskcontFromOriginalURL } from "../../tool/taskurl-preser";
 /**
  * 許可なくアクセス可能なURLのListを取得
  */
@@ -19,6 +22,22 @@ export const monitoringWebContents = () => {
       if (!getUrlList().includes(parsedUrl.origin)) {
         event.preventDefault();
         urlOpen(navigationUrl);
+      } else {
+        // もしURLが問題ページの場合TaskContを作成する
+        const checkURLResult = createTaskcontFromOriginalURL(navigationUrl);
+        if (checkURLResult) {
+          (async () => {
+            const getAssainmentname = await TaskListApi.getAssignmentName(
+              checkURLResult.contestName,
+              checkURLResult.taskScreenName
+            );
+            taskControlApi.createNewTask(
+              checkURLResult.contestName,
+              checkURLResult.taskScreenName,
+              getAssainmentname
+            );
+          })();
+        }
       }
     });
   });

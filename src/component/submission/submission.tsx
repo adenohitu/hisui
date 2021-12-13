@@ -30,7 +30,7 @@ function chipColor(status: string) {
 }
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
-  root: { height: "100%" },
+  root: { height: "100%", boxShadow: "none" },
   table: {
     minWidth: 650,
   },
