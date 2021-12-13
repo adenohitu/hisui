@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Mosaic } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
-import { TaskSelect } from "../editor/tool/selecttask";
+import { TaskSelect } from "../editor/tool/selecter/selecttask";
 import { Submitconsole } from "./submitconsole";
 
 // const useStyles = makeStyles({});

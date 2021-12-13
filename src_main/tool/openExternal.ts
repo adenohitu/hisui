@@ -1,5 +1,6 @@
 // ブラウザで開く
 import { dialog, shell } from "electron";
+
 /**
  * openExternalのURLチェック
  */
@@ -13,7 +14,10 @@ export const isSafeForExternalOpen = (url: string) => {
     return false;
   }
 };
-// openExternalでURLを開く
+
+/**
+ * openExternalでURLを開く
+ */
 export const urlOpen = async (url: string) => {
   if (isSafeForExternalOpen(url)) {
     setImmediate(() => {

@@ -1,16 +1,20 @@
 import { Mosaic } from "react-mosaic-component";
-import { TaskSelect } from "./tool/selecttask";
 import "react-mosaic-component/react-mosaic-component.css";
 import { Editorwindow } from "./window_editor/editorwindow";
 import SpeedDials from "./tool/floatingbutton";
 import { CustomTestWindow } from "../codetest/run-window";
 import { SettingAppDialog } from "../setting/system-setting";
 import { StatusBar } from "./tool/statusbar/status-bar";
+import { TaskSelectTree } from "./tool/selecter/select-tree";
 // import "bootstrap/dist/css/bootstrap.min.css";
-
-// const useStyles = makeStyles({});
+import "./mosaic-style.css";
+import { Box } from "@mui/system";
 const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
-  TaskSelect: <TaskSelect />,
+  TaskSelect: (
+    <Box>
+      <TaskSelectTree />
+    </Box>
+  ),
   EditorMain: (
     <div>
       <Editorwindow />

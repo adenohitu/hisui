@@ -6,7 +6,7 @@ import { MosaicNode } from "react-mosaic-component";
 import { OpenSettingTool } from "../../setting/system-setting";
 export const TITLE_ELEMENT = {
   editor: {
-    name: "コード",
+    name: "code",
     component: <MainEditor />,
     toolbarControls: React.Children.toArray([<OpenSettingTool />]),
   },

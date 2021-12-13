@@ -1,5 +1,8 @@
 import { app } from "electron";
+import { TaskListApi } from "../../data/task";
+import { taskControlApi } from "../../editor/control";
 import { urlOpen } from "../../tool/openExternal";
+import { createTaskcontFromOriginalURL } from "../../tool/taskurl-preser";
 /**
  * 許可なくアクセス可能なURLのListを取得
  */
@@ -19,18 +22,30 @@ export const monitoringWebContents = () => {
       if (!getUrlList().includes(parsedUrl.origin)) {
         event.preventDefault();
         urlOpen(navigationUrl);
+      } else {
+        // もしURLが問題ページの場合TaskContを作成する
+        const checkURLResult = createTaskcontFromOriginalURL(navigationUrl);
+        if (checkURLResult) {
+          (async () => {
+            const getAssainmentname = await TaskListApi.getAssignmentName(
+              checkURLResult.contestName,
+              checkURLResult.taskScreenName
+            );
+            taskControlApi.createNewTask(
+              checkURLResult.contestName,
+              checkURLResult.taskScreenName,
+              getAssainmentname
+            );
+          })();
+        }
       }
     });
   });
-
+  // 新規Windowの作成を無効化
   app.on("web-contents-created", (event, contents) => {
     contents.setWindowOpenHandler(({ url }) => {
       // この例では、既定のブラウザでこのイベントのURLを開くように
       // オペレーティングシステムに依頼します。
-      //
-      // shell.openExternal に渡す URL を許可する基準ついては、
-      // 以降の項目を参照してください。
-
       urlOpen(url);
 
       return { action: "deny" };
