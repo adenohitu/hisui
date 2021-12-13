@@ -1,0 +1,32 @@
+.mosaic.mosaic-blueprint-theme {
+  background-color: #cad8e3;
+}
+/* .mosaic-root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+} */
+/* .mosaic-tile {
+  margin: 0;
+} */
+/* .mosaic.mosaic-blueprint-theme .mosaic-window,
+.mosaic.mosaic-blueprint-theme .mosaic-preview {
+  box-shadow: none;
+  border-radius: 0;
+}
+.mosaic.mosaic-blueprint-theme .mosaic-window .mosaic-window-toolbar,
+.mosaic.mosaic-blueprint-theme .mosaic-preview .mosaic-window-toolbar {
+  box-shadow: none;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.mosaic.mosaic-blueprint-theme .mosaic-window .mosaic-window-body,
+.mosaic.mosaic-blueprint-theme .mosaic-preview .mosaic-window-body {
+  box-shadow: none;
+  border-top-width: 0;
+  background: #f5f8fa;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+} */

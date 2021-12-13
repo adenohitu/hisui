@@ -50,7 +50,10 @@ export default function DefaltContest() {
     const data = await ipcRendererManager.invoke("GET_SET_CONTESTID");
     setText(data);
   };
-  const handleClose_snack = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose_snack = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
