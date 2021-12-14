@@ -27,6 +27,7 @@ export const Editor = () => {
   return (
     <>
       <div
+        className="editor-main-1"
         style={{
           boxSizing: "border-box",
           paddingBottom: "22px",
