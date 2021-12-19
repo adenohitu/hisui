@@ -1,6 +1,10 @@
 import { Atcoder } from "../data/atcoder";
 import { urlOpen } from "../tool/openExternal";
-import { getWindowState, saveWindowState } from "../save/utility/renderState";
+import {
+  loadMosaicState,
+  mosaicStateFormat,
+  saveMosaicState,
+} from "../save/utility/renderState";
 import { contestDataApi } from "../data/contestdata";
 import { getRank, getTotal, standingsApi } from "../data/standing";
 import { TaskListApi } from "../data/task";
@@ -88,14 +92,17 @@ export const load_ipc = () => {
     return get;
   });
   //windowの状態を取得
-  ipcMainManager.handle("GET_MOSAIC_WINDOW_STATE", async (event) => {
-    const get = await getWindowState();
+  ipcMainManager.handle("GET_MOSAIC_WINDOW_STATE", async (event, id) => {
+    const get = await loadMosaicState(id);
     return get;
   });
   //windowの状態を保存
-  ipcMainManager.on("SAVE_MOSAIC_WINDOW_STATE", (event, value) => {
-    saveWindowState(value);
-  });
+  ipcMainManager.on(
+    "SAVE_MOSAIC_WINDOW_STATE",
+    (event, value: mosaicStateFormat) => {
+      saveMosaicState(value);
+    }
+  );
   //問題情報を取得
   ipcMainManager.handle("GET_TASK_LIST", async (event) => {
     const get = await TaskListApi.getTaskList();
