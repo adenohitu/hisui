@@ -10,6 +10,7 @@ import { requestScoreAsync } from "../../app/Slice/score";
 import { sendGetmysubmission } from "../../app/Slice/submissions";
 import { ipcRendererManager } from "../../ipc";
 import { useMosaicState } from "../mosaic/mosaic-hooks";
+import { DashboaedSpeedDial } from "./reset-button";
 const theme: string = "mosaic-blueprint-theme react-mosaic-app";
 
 export default function DefaltContest() {
@@ -35,13 +36,14 @@ export default function DefaltContest() {
   }, [dispatch]);
   return (
     <>
-      <button
+      {/* <button
         onClick={() => {
           mosaicHook.resetDefaultState();
         }}
       >
         Reset
-      </button>
+      </button> */}
+      <DashboaedSpeedDial windowReset={mosaicHook.resetDefaultState} />
       <Mosaic<string>
         className={theme}
         renderTile={(id, path) => (
