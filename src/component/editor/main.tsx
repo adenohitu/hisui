@@ -1,4 +1,4 @@
-import { Mosaic } from "react-mosaic-component";
+import { Mosaic, MosaicNode } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
 import { Editorwindow } from "./window_editor/editorwindow";
 import SpeedDials from "./tool/floatingbutton";
@@ -9,25 +9,36 @@ import { TaskSelectTree } from "./tool/selecter/select-tree";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "./mosaic-style.css";
 import { Box } from "@mui/system";
-const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
-  TaskSelect: (
-    <Box>
-      <TaskSelectTree />
-    </Box>
-  ),
-  EditorMain: (
-    <div>
-      <Editorwindow />
-    </div>
-  ),
+import { monacoElement, useMosaicState } from "../mosaic/mosaic-hooks";
+const ELEMENT_MAP: monacoElement = {
+  TaskSelect: {
+    component: (
+      <Box>
+        <TaskSelectTree />
+      </Box>
+    ),
+  },
+  EditorMain: {
+    component: (
+      <div>
+        <Editorwindow />
+      </div>
+    ),
+  },
 };
-
+const defaultState: MosaicNode<string> = {
+  direction: "row",
+  first: "TaskSelect",
+  second: "EditorMain",
+  splitPercentage: 13,
+};
 export const Editor = () => {
   // const classes = useStyles();
+  const mosaicHook = useMosaicState("editor_parent", ELEMENT_MAP, defaultState);
   return (
     <>
       <div
-        className="editor-main-1"
+        className="editor-parent"
         style={{
           boxSizing: "border-box",
           paddingBottom: "22px",
@@ -38,14 +49,11 @@ export const Editor = () => {
         <SettingAppDialog />
         <CustomTestWindow />
         <Mosaic<string>
-          renderTile={(id) => ELEMENT_MAP[id]}
+          renderTile={(id) => ELEMENT_MAP[id].component}
           resize={{ minimumPaneSizePercentage: 0 }}
-          initialValue={{
-            direction: "row",
-            first: "TaskSelect",
-            second: "EditorMain",
-            splitPercentage: 13,
-          }}
+          onChange={mosaicHook.onChange}
+          onRelease={mosaicHook.onRelease}
+          value={mosaicHook.windowState}
         />
         <SpeedDials />
       </div>
