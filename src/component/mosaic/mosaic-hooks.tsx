@@ -59,9 +59,15 @@ export const useMosaicState = (
     ipcRendererManager.on("LISTENER_RESET_MOSAIC_WINDOW_STATE", (e, arg) => {
       if (arg === mosaicWindowID) {
         setState(defaultWindowState);
+        console.log("Saved:mosaic");
+        ipcRendererManager.invoke("SAVE_MOSAIC_WINDOW_STATE", {
+          mosaicWindowID,
+          elementViewIdList: Object.keys(TITLE_ELEMENT),
+          saveState: defaultWindowState,
+        });
       }
     });
-  }, [mosaicWindowID, defaultWindowState]);
+  }, [mosaicWindowID, TITLE_ELEMENT, defaultWindowState]);
   /**
    * 削除されたMosaicWindowをもう一度表示させる
    */
