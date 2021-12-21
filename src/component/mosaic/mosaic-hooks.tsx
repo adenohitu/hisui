@@ -10,7 +10,7 @@ import {
   getOtherDirection,
   updateTree,
 } from "react-mosaic-component";
-import { mosaicStateFormat } from "../../../src_main/save/utility/renderState";
+import { mosaicStateFormat } from "../../../src_main/save/utility/mosaic-state";
 import { ipcRendererManager } from "../../ipc";
 
 export interface monacoElement {
@@ -56,6 +56,11 @@ export const useMosaicState = (
         });
     };
     setup();
+    ipcRendererManager.on("LISTENER_RESET_MOSAIC_WINDOW_STATE", (e, arg) => {
+      if (arg === mosaicWindowID) {
+        setState(defaultWindowState);
+      }
+    });
   }, [mosaicWindowID, defaultWindowState]);
   /**
    * 削除されたMosaicWindowをもう一度表示させる

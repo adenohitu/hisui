@@ -1,4 +1,5 @@
 //ウィンドウの状態に関するvalueを保存
+import { ipcMainManager } from "../../ipc/ipc";
 import { store } from "../save";
 
 function makeSaveMosaicKey(mosaicWindowID: string) {
@@ -26,4 +27,10 @@ export function loadMosaicState(
   const saveKey = makeSaveMosaicKey(mosaicWindowID);
   const storeData: any = store.get(saveKey, null);
   return storeData;
+}
+/**
+ * Mosaicの状態を初期化する信号を送信
+ */
+export function resetMosaicState(mosaicWindowID: string) {
+  ipcMainManager.send("LISTENER_RESET_MOSAIC_WINDOW_STATE", mosaicWindowID);
 }
