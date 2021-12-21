@@ -10,12 +10,6 @@ class dashboard extends view {
   runUpdatedata() {
     this.send("LISTENER_UPDATE_DASHBOARD");
   }
-  /**
-   * windowの配置状態を初期化する
-   */
-  resetWindowState() {
-    this.send("LISTENER_RESET_MOSAIC_WINDOW_STATE");
-  }
 }
 
 export const dashboardapi = new dashboard("dashboard", url);

@@ -1,51 +1,37 @@
-import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
+import { Mosaic, MosaicWindow } from "react-mosaic-component";
 
-// import { EditorTool } from "../tool/editortool";
-import React, { useState } from "react";
-import {
-  codeTest,
-  editor,
-  editorWindowMosaicKey,
-  initial,
-  submission,
-} from "./default";
+import { codeTest, editor, initial, submission } from "./default";
 import { TITLE_ELEMENT } from "./default";
 import { useAppStatus } from "../tool/statusbar/status-hooks";
+import { useMosaicState } from "../../mosaic/mosaic-hooks";
 
 export let focusEditor: () => void | undefined;
 export let focuscodeTest: () => void | undefined;
 export let focussubmission: () => void | undefined;
 export const Editorwindow = () => {
-  const [windowState, setState] =
-    useState<MosaicNode<editorWindowMosaicKey> | null>(initial);
-  const onChange = (windowState: MosaicNode<editorWindowMosaicKey> | null) => {
-    // console.log(windowState);
-    setState(windowState);
-  };
+  const appstatusHooks = useAppStatus();
+  const mosaicHook = useMosaicState("editor_main", TITLE_ELEMENT, initial);
   focusEditor = () => {
-    setState(editor);
+    mosaicHook.setState(editor);
   };
   focuscodeTest = () => {
-    setState(codeTest);
+    mosaicHook.setState(codeTest);
   };
 
   focussubmission = () => {
-    setState(submission);
+    mosaicHook.setState(submission);
   };
-  const onRelease = (windowState: MosaicNode<editorWindowMosaicKey> | null) => {
-    // setState(windowState);
-  };
-  const appstatusHooks = useAppStatus();
+
   return (
     <>
-      <Mosaic<editorWindowMosaicKey>
+      <Mosaic<string>
         renderTile={(id, path) => (
-          <MosaicWindow<editorWindowMosaicKey>
+          <MosaicWindow<string>
             path={path}
             title={
               (TITLE_ELEMENT[id].name === "code" &&
                 `${appstatusHooks.contestName}-${appstatusHooks.taskname}`) ||
-              TITLE_ELEMENT[id].name
+              String(TITLE_ELEMENT[id].name)
             }
             toolbarControls={TITLE_ELEMENT[id].toolbarControls}
             className="table-window"
@@ -54,9 +40,9 @@ export const Editorwindow = () => {
           </MosaicWindow>
         )}
         resize={{ minimumPaneSizePercentage: 0 }}
-        onChange={onChange}
-        onRelease={onRelease}
-        value={windowState}
+        onChange={mosaicHook.onChange}
+        onRelease={mosaicHook.onRelease}
+        value={mosaicHook.windowState}
       />
     </>
   );

@@ -1,40 +1,24 @@
-import { useState, useEffect } from "react";
-import { Mosaic, MosaicWindow, MosaicNode } from "react-mosaic-component";
+import { useEffect } from "react";
+import { Mosaic, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
 import { TITLE_ELEMENT } from "./load_window";
 import { dashboadWindowState } from "./dafaltwindowState";
-import { setValue, getValue, setResetOn } from "./stateControle";
 import { useDispatch } from "react-redux";
 import { sendGetmyrank } from "../../app/Slice/standings";
 import { sendGetTasklist } from "../../app/Slice/taskdata";
 import { requestScoreAsync } from "../../app/Slice/score";
 import { sendGetmysubmission } from "../../app/Slice/submissions";
 import { ipcRendererManager } from "../../ipc";
-export let [windowState, setState]: any = "";
+import { useMosaicState } from "../mosaic/mosaic-hooks";
+import { DashboaedSpeedDial } from "./reset-button";
 const theme: string = "mosaic-blueprint-theme react-mosaic-app";
 
 export default function DefaltContest() {
-  [windowState, setState] = useState<MosaicNode<string>>(dashboadWindowState);
-  const onChange = (windowState: MosaicNode<string> | null) => {
-    // console.log(windowState);
-    setState(windowState);
-  };
-  const onRelease = (windowState: MosaicNode<string> | null) => {
-    setValue(windowState);
-  };
-
-  //保存されているものを読み出す
-  async function value() {
-    console.log("value start");
-    const data: any = await getValue();
-    console.log("value end");
-    setState(data);
-  }
-
-  useEffect(() => {
-    value();
-    setResetOn();
-  }, []);
+  const mosaicHook = useMosaicState(
+    "dashboard",
+    TITLE_ELEMENT,
+    dashboadWindowState
+  );
   const dispatch = useDispatch();
   // dashboardapiからの更新イベントを受け取る
   useEffect(() => {
@@ -50,12 +34,16 @@ export default function DefaltContest() {
     };
     ipcRendererManager.on("LISTENER_UPDATE_DASHBOARD", updateStanding_event);
   }, [dispatch]);
-  /**
-   * 削除されたMosaicWindowをもう一度表示させる
-   */
-  // function addWindow(windowName: string) {}
   return (
     <>
+      {/* <button
+        onClick={() => {
+          mosaicHook.resetDefaultState();
+        }}
+      >
+        Reset
+      </button> */}
+      <DashboaedSpeedDial windowReset={mosaicHook.resetDefaultState} />
       <Mosaic<string>
         className={theme}
         renderTile={(id, path) => (
@@ -68,9 +56,9 @@ export default function DefaltContest() {
             {TITLE_ELEMENT[id].component}
           </MosaicWindow>
         )}
-        onChange={onChange}
-        onRelease={onRelease}
-        value={windowState}
+        onChange={mosaicHook.onChange}
+        onRelease={mosaicHook.onRelease}
+        value={mosaicHook.windowState}
       />
     </>
   );

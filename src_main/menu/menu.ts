@@ -11,6 +11,7 @@ import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
+import { resetMosaicState } from "../save/utility/mosaic-state";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 // ElectronのMenuの設定
@@ -220,11 +221,18 @@ const template: any = [
     label: "ウィンドウ",
     submenu: [
       {
-        label: "配置を初期化する",
+        label: "エディターの配置を初期化する",
         click(item: any, focusedWindow: any, event: any) {
-          dashboardapi.resetWindowState();
+          resetMosaicState("editor_main");
         },
       },
+      {
+        label: "ダッシュボードの配置を初期化する",
+        click(item: any, focusedWindow: any, event: any) {
+          resetMosaicState("dashboard");
+        },
+      },
+      { type: "separator" },
       {
         label: "setWindowSplit",
         click(item: any, focusedWindow: any, event: any) {

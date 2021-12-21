@@ -4,7 +4,8 @@ import { MainEditor } from "../editor";
 import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
 import { OpenSettingTool } from "../../setting/system-setting";
-export const TITLE_ELEMENT = {
+import { monacoElement } from "../../mosaic/mosaic-hooks";
+export const TITLE_ELEMENT: monacoElement = {
   editor: {
     name: "code",
     component: <MainEditor />,
@@ -21,8 +22,7 @@ export const TITLE_ELEMENT = {
     toolbarControls: [],
   },
 };
-export type editorWindowMosaicKey = keyof typeof TITLE_ELEMENT;
-export const initial: MosaicNode<editorWindowMosaicKey> = {
+export const initial: MosaicNode<string> = {
   direction: "column",
   first: "editor",
   second: {
@@ -33,7 +33,7 @@ export const initial: MosaicNode<editorWindowMosaicKey> = {
   },
   splitPercentage: 60,
 };
-export const editor: MosaicNode<editorWindowMosaicKey> = {
+export const editor: MosaicNode<string> = {
   direction: "column",
   first: "editor",
   second: {
@@ -44,7 +44,7 @@ export const editor: MosaicNode<editorWindowMosaicKey> = {
   },
   splitPercentage: 100,
 };
-export const codeTest: MosaicNode<editorWindowMosaicKey> = {
+export const codeTest: MosaicNode<string> = {
   direction: "column",
   first: "editor",
   second: {
@@ -56,7 +56,7 @@ export const codeTest: MosaicNode<editorWindowMosaicKey> = {
   splitPercentage: 60,
 };
 
-export const submission: MosaicNode<editorWindowMosaicKey> = {
+export const submission: MosaicNode<string> = {
   direction: "column",
   first: "editor",
   second: {
