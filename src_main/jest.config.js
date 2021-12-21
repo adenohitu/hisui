@@ -9,7 +9,7 @@ module.exports = {
   },
   globals: {
     "ts-jest": {
-      tsconfig: "./src_main/tsconfig.json",
+      tsconfig: "./tsconfig.json",
     },
   },
   setupFilesAfterEnv: ["./jest.setup.js"],
