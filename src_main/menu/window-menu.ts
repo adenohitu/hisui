@@ -5,13 +5,20 @@ import { dashboardapi } from "../browserview/dashboardview";
 import { editorViewapi } from "../browserview/editorview";
 import { mainPageapi } from "../browserview/mainpageview";
 import { Atcoder } from "../data/atcoder";
+<<<<<<< HEAD
+=======
+import { submissionsApi } from "../data/submissions";
+>>>>>>> 5facc595684c6cb5df82912ba610afa6ef0bb3eb
 import { taskControlApi } from "../editor/control";
 import { urlOpen } from "../tool/openExternal";
 import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
+<<<<<<< HEAD
 import { submissionsApi } from "../data/submissions";
+=======
+>>>>>>> 5facc595684c6cb5df82912ba610afa6ef0bb3eb
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
