@@ -13,13 +13,12 @@ import {
 import { mosaicStateFormat } from "../../../src_main/save/utility/renderState";
 import { ipcRendererManager } from "../../ipc";
 
-interface monacoElement {
+export interface monacoElement {
   [viewId: string]: {
-    name: string;
+    name?: string;
     component: JSX.Element;
-    toolbarControls:
-      | (React.ReactChild | React.ReactFragment | React.ReactPortal)[]
-      | undefined;
+    toolbarControls?:
+      | (React.ReactChild | React.ReactFragment | React.ReactPortal)[];
   };
 }
 /**
