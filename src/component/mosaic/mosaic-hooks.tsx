@@ -121,6 +121,7 @@ export const useMosaicState = (
   };
   return {
     windowState,
+    setState,
     reRenderWindow,
     onChange,
     onRelease,
