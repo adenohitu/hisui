@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ["."],
+  roots: ["./src", "./src_main"],
   testMatch: [
     "**/__tests__/**/*.+(ts|tsx|js)",
     "**/?(*.)+(spec|test).+(ts|tsx|js)",
@@ -9,7 +9,7 @@ module.exports = {
   },
   globals: {
     "ts-jest": {
-      tsconfig: "./tsconfig.json",
+      tsconfig: "<rootDir>/tsconfig.json",
     },
   },
   setupFilesAfterEnv: ["./jest.setup.js"],
