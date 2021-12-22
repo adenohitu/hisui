@@ -19,7 +19,5 @@ jobs:
         run: yarn
       - name: lint
         run: yarn lint
-      - name: React test
-        run: yarn react:test
-      - name: MainProcess(electron) test
-        run: yarn electron:test
+      - name: Unit test
+        run: yarn test

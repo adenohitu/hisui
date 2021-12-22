@@ -6,7 +6,7 @@ import { ipcRendererManager } from "../../ipc";
 import SelectContest from "../setting/select_contestlist";
 import Chart from "./Chart";
 import { HomeMenu } from "./menu";
-function colorRating(rating: number | null) {
+export function colorRating(rating: number | null) {
   if (rating == null) return "gray";
   else if (rating >= 2800) return "red";
   else if (rating >= 2400) return "#FF8C00";
