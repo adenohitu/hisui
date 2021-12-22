@@ -9,16 +9,14 @@
   "scripts": {
     "start": "concurrently \"set BROWSER=none && yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
     "lint": "yarn react:lint && yarn electron:lint",
-    "test": "yarn react:test && yarn electron:test",
+    "test": "jest -c ./jest.config.js",
     "build:mac": "yarn react:build && yarn electron:source_build && electron-builder --mac --universal",
     "build:win": "yarn react:build && yarn electron:source_build&& electron-builder --win --x64",
     "electron:source_build": "tsc -p src_main --removeComments true",
-    "electron:test": "jest -c ./src_main/jest.config.js --passWithNoTests",
     "electron:lint": "yarn eslint --max-warnings 0 src_main/",
     "react:start": "webpack-dev-server --config ./webpack/webpack.dev.js --port 3000",
     "react:build": "webpack --config ./webpack/webpack.prod.js",
     "react:lint": "yarn eslint --max-warnings 0 src/",
-    "react:test": "set TZ=JST && jest ./src/jest.config.js --passWithNoTests",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
     "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.json --out ./apidocs"
