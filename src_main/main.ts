@@ -12,7 +12,6 @@ import * as path from "path";
 //   REDUX_DEVTOOLS,
 // } from "electron-devtools-installer";
 import { store } from "./save/save";
-import setmenu from "./menu/menu";
 import { load_ipc } from "./ipc/ipc_main";
 import {
   startCheckServiceStatus,
@@ -36,6 +35,7 @@ import { monacoSettingApi } from "./editor/monaco";
 import { reloadAllWebContents } from "./browserview/mgt/reload-all";
 import { setupContextMenu } from "./menu/context-menu";
 import { setupProtocols } from "./tool/protocols";
+import { setMenu } from "./menu/window-menu";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -203,7 +203,7 @@ monacoSettingApi.setup();
 //ipcの呼び出し
 load_ipc();
 //メニューのセット
-setmenu();
+setMenu();
 //オートアップデートのセットアップ
 updateSetup();
 // submissionのセットアップ
