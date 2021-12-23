@@ -137,6 +137,14 @@ class taskControl {
       this.taskAll[this.nowTop].resetTaskView();
     }
   }
+  /**
+   * 今のページをリロード
+   */
+  nowTaskViewReload() {
+    if (this.nowTop) {
+      this.taskAll[this.nowTop].reloadTaskView();
+    }
+  }
   getTaskStatusList(): taskNowStatus[] {
     const statusList = Object.keys(this.taskAll).map((key) => {
       const topStatus = (this.nowTop === key && true) || false;
@@ -175,6 +183,9 @@ class taskControl {
     // taskViewのURLを初期値に戻す
     ipcMain.on("nowTaskViewReset", () => {
       this.nowTaskViewReset();
+    });
+    ipcMain.on("nowTaskViewReload", () => {
+      this.nowTaskViewReload();
     });
 
     // dafaultlangageに関するIPC

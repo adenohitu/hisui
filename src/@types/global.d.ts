@@ -86,6 +86,7 @@ declare global {
        * TaskViewのURLを初期状態に戻す
        */
       nowTaskViewReset();
+      nowTaskViewReload();
     };
     ipc: any;
   }
