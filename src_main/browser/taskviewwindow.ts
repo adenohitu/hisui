@@ -162,9 +162,14 @@ export class taskViewWindow {
    * 開いた時のURLに戻す
    */
   async resetView(id: string) {
-    this.view[id].view.webContents.loadURL(
-      `${this.baseurl}${this.view[id].initUrl}`
-    );
+    if (
+      `${this.baseurl}${this.view[id].initUrl}` !==
+      this.view[id].view.webContents.getURL()
+    ) {
+      this.view[id].view.webContents.loadURL(
+        `${this.baseurl}${this.view[id].initUrl}`
+      );
+    }
     console.log(`${this.baseurl}${this.view[id].initUrl}`);
   }
 

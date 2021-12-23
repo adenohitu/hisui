@@ -30,6 +30,7 @@ export const monitoringWebContents = () => {
               checkURLResult.contestName,
               checkURLResult.taskScreenName
             );
+            event.preventDefault();
           })();
         }
       }
