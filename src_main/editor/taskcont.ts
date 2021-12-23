@@ -75,15 +75,8 @@ export class taskcont {
   change: boolean = false;
 
   // advanced State
-
-  /**
-   * 問題のシステムジャッジ状況
-   * AC:正解
-   * WA:不正解（理由は含めずACではない場合）
-   * judge:ジャッジの回答待ち
-   * unknown:不明(初期値)
-   */
-  SubmitState: "AC" | "WA" | "judge" | "unknown" = "unknown";
+  // 提出状況を保持
+  SubmitState: JudgeStatus = "unknown";
 
   constructor(
     contestName: string,
@@ -372,7 +365,7 @@ export class taskcont {
    */
   async getAllSamplecase(
     cache: boolean = true
-  ): Promise<SampleCase[] | "not_saved" | "request_Error"> {
+  ): Promise<SampleCase[] | "load_Error" | "request_Error"> {
     const existsamplecase = await existSamplecases(
       this.contestName,
       this.TaskScreenName
@@ -404,7 +397,11 @@ export class taskcont {
         this.contestName,
         this.TaskScreenName
       );
-      return returnData;
+      if (returnData === "not_saved") {
+        return "load_Error";
+      } else {
+        return returnData;
+      }
     }
   }
 }
