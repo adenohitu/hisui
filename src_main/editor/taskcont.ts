@@ -18,6 +18,7 @@ import {
 } from "../file/save";
 import { ipcMainManager } from "../ipc/ipc";
 import { hisuiEvent } from "../event/event";
+import { TaskListApi } from "../data/task";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -44,7 +45,7 @@ export type JudgeStatus = "AC" | "WA" | "judge" | "unknown";
 export interface editorStatus {
   contestName: string;
   TaskScreenName: string;
-  AssignmentName: string;
+  AssignmentName: string | null;
   language: string;
   taskcodeByte: number;
 }
@@ -59,7 +60,7 @@ export class taskcont {
   // ex:abc206_a
   TaskScreenName: string;
   // ex:A
-  AssignmentName: string;
+  AssignmentName: string | null;
 
   // コード管理に関する変数
   language: languagetype;
@@ -87,16 +88,15 @@ export class taskcont {
   constructor(
     contestName: string,
     TaskScreenName: string,
-    AssignmentName: string,
     language: languagetype
   ) {
     // TaskContEヴェンtを追加
     hisuiEvent.emit("create-taskcont", TaskScreenName);
     this.contestName = contestName;
     this.TaskScreenName = TaskScreenName;
-    this.AssignmentName = AssignmentName;
+    this.AssignmentName = null;
     this.language = language;
-    this.setup(contestName, TaskScreenName, AssignmentName, language);
+    this.setup(contestName, TaskScreenName, language);
   }
 
   // 基本操作
@@ -108,12 +108,15 @@ export class taskcont {
   async setup(
     contestName: string,
     TaskScreenName: string,
-    AssignmentName: string,
     language: languagetype
   ) {
     await this.openTaskView(contestName, TaskScreenName);
-
-    const Data = await this.fileload(contestName, AssignmentName, language);
+    const AssignmentName = await TaskListApi.getAssignmentName(
+      contestName,
+      TaskScreenName
+    );
+    this.AssignmentName = AssignmentName;
+    const Data = await this.fileload(contestName, TaskScreenName, language);
     this.Data = Data;
     this.sendValueStatus();
     if (this.filePath) {
@@ -137,11 +140,11 @@ export class taskcont {
    */
   async fileload(
     contestName: string,
-    AssignmentName: string,
+    TaskScreenName: string,
     language: languagetype
   ) {
     const filePath = await runMakeFile(
-      `${AssignmentName}${languages[language].extension}`,
+      `${TaskScreenName}${languages[language].extension}`,
       contestName
     );
     const Data = await readFile(filePath, "utf-8");
@@ -186,7 +189,7 @@ export class taskcont {
     this.language = language;
     // ファイルの存在、新規作成
     const filePath = await runMakeFile(
-      `${this.AssignmentName}${languages[language].extension}`,
+      `${this.TaskScreenName}${languages[language].extension}`,
       this.contestName
     );
     this.filePath = filePath;
