@@ -121,6 +121,7 @@ class taskControl {
   async changeTask(TaskScreenName: string) {
     // ViewのTopの変更
     this.taskAll[TaskScreenName].settopTaskView();
+    this.nowTaskViewReset();
     this.nowTop = TaskScreenName;
     // editorEvent
     // editorの更新をチェック
