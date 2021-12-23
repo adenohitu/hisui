@@ -9,12 +9,12 @@ import { store } from "../save/save";
 import { taskcont } from "./taskcont";
 export interface taskContStatusType {
   contestName: string;
-  TaskScreenName: string;
+  taskScreenName: string;
   AssignmentName: string | null;
   // 指定がない場合、デフォルトの言語を使用
   language?: languagetype;
 }
-export interface taskStatus extends taskContStatusType {
+export interface taskNowStatus extends taskContStatusType {
   nowtop?: boolean;
 }
 /**
@@ -58,6 +58,14 @@ class taskControl {
     this.taskAll = {};
   }
   /**
+   * 指定したKeyのTaskContを閉じる
+   */
+  async closeTaskCont(taskScreenName: string) {
+    await this.taskAll[taskScreenName].close();
+    delete this.taskAll[taskScreenName];
+    ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
+  }
+  /**
    * runDefaultContestIDを取得
    *  更新された時のイベントを開始
    */
@@ -70,26 +78,26 @@ class taskControl {
    */
   async createNewTask(
     contestName: string,
-    TaskScreenName: string,
+    taskScreenName: string,
     // 指定がない場合、デフォルトの言語を使用
     language?: languagetype
   ) {
-    if (this.taskAll[TaskScreenName] !== undefined) {
-      this.changeTask(TaskScreenName);
+    if (this.taskAll[taskScreenName] !== undefined) {
+      this.changeTask(taskScreenName);
     } else {
       //taskcontを作成
       if (language === undefined) {
         const uselang = await store.get("defaultLanguage", "cpp");
         // const uselang = "cpp";
-        this.taskAll[TaskScreenName] = new taskcont(
+        this.taskAll[taskScreenName] = new taskcont(
           contestName,
-          TaskScreenName,
+          taskScreenName,
           uselang
         );
       } else {
-        this.taskAll[TaskScreenName] = new taskcont(
+        this.taskAll[taskScreenName] = new taskcont(
           contestName,
-          TaskScreenName,
+          taskScreenName,
           language
         );
       }
@@ -97,7 +105,8 @@ class taskControl {
        * 初回ロードはTopに自動的になる
        * モデルが作られる前にchangeTaskを実行することができない
        */
-      this.nowTop = TaskScreenName;
+      this.nowTop = taskScreenName;
+      ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     }
   }
   /**
@@ -127,14 +136,12 @@ class taskControl {
       this.taskAll[this.nowTop].resetTaskView();
     }
   }
-  getTaskStatusList() {
-    const statusList: taskStatus[] = (
-      Object.keys(this.taskAll) as (keyof taskStatus)[]
-    ).map((key) => {
+  getTaskStatusList(): taskNowStatus[] {
+    const statusList = Object.keys(this.taskAll).map((key) => {
       const topStatus = (this.nowTop === key && true) || false;
       return {
         contestName: this.taskAll[key].contestName,
-        TaskScreenName: this.taskAll[key].TaskScreenName,
+        taskScreenName: this.taskAll[key].taskScreenName,
         AssignmentName: this.taskAll[key].AssignmentName,
         language: this.taskAll[key].language,
         nowtop: topStatus,
@@ -150,7 +157,7 @@ class taskControl {
     ipcMain.on("createTaskCont", (event, arg: taskContStatusType) => {
       this.createNewTask(
         arg.contestName,
-        arg.TaskScreenName,
+        arg.taskScreenName,
         // 基本undefined
         arg.language
       );

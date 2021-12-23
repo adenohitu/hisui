@@ -58,7 +58,7 @@ export class taskcont {
   // ex:ABC001
   contestName: string;
   // ex:abc206_a
-  TaskScreenName: string;
+  taskScreenName: string;
   // ex:A
   AssignmentName: string | null;
 
@@ -83,13 +83,15 @@ export class taskcont {
     TaskScreenName: string,
     language: languagetype
   ) {
-    // TaskContEヴェンtを追加
+    // TaskContイベントを発行
     hisuiEvent.emit("create-taskcont", TaskScreenName);
     this.contestName = contestName;
-    this.TaskScreenName = TaskScreenName;
-    this.AssignmentName = null;
+    this.taskScreenName = TaskScreenName;
+    this.AssignmentName = "";
     this.language = language;
-    this.setup(contestName, TaskScreenName, language);
+    this.setup(contestName, TaskScreenName, language).then(() => {
+      ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
+    });
   }
 
   // 基本操作
@@ -122,7 +124,7 @@ export class taskcont {
    * TaskViewを閉じる
    */
   async close() {
-    taskViewWindowApi.removeView(this.TaskScreenName);
+    taskViewWindowApi.removeView(this.taskScreenName);
     this.save();
     this.closeModelEditor();
   }
@@ -182,7 +184,7 @@ export class taskcont {
     this.language = language;
     // ファイルの存在、新規作成
     const filePath = await runMakeFile(
-      `${this.TaskScreenName}${languages[language].extension}`,
+      `${this.taskScreenName}${languages[language].extension}`,
       this.contestName
     );
     this.filePath = filePath;
@@ -207,19 +209,19 @@ export class taskcont {
    * TaskViewを一番上に持ってくる
    */
   async settopTaskView() {
-    taskViewWindowApi.changeViewTop(this.TaskScreenName);
+    taskViewWindowApi.changeViewTop(this.taskScreenName);
   }
   /**
    * TaskViewをリロードする
    */
   async reloadTaskView() {
-    taskViewWindowApi.reloadView(this.TaskScreenName);
+    taskViewWindowApi.reloadView(this.taskScreenName);
   }
   /**
    * TaskViewを元のURLに戻す
    */
   async resetTaskView() {
-    taskViewWindowApi.resetView(this.TaskScreenName);
+    taskViewWindowApi.resetView(this.taskScreenName);
   }
 
   // editor
@@ -238,7 +240,7 @@ export class taskcont {
   }
   private async sendValueEditor(data: string) {
     const syncEditor: syncEditorType = {
-      id: this.TaskScreenName,
+      id: this.taskScreenName,
       value: data,
     };
     editorViewapi.view?.webContents.send("changeValue", syncEditor);
@@ -266,7 +268,7 @@ export class taskcont {
    */
   changeLanguageEditor(language: languagetype) {
     const changeLanguage: changeLanguageType = {
-      id: this.TaskScreenName,
+      id: this.taskScreenName,
       language,
     };
     editorViewapi.view?.webContents.send("changeLanguage", changeLanguage);
@@ -275,20 +277,20 @@ export class taskcont {
    * モデルの削除
    */
   closeModelEditor() {
-    editorViewapi.view?.webContents.send("closeModel", this.TaskScreenName);
+    editorViewapi.view?.webContents.send("closeModel", this.taskScreenName);
   }
   /**
    * editorからValueを取得する
    */
   getValueEditor(): Promise<string> {
     return new Promise((resolve, reject) => {
-      const channel = `getValue_replay-${this.TaskScreenName}`;
+      const channel = `getValue_replay-${this.taskScreenName}`;
       // Editorから結果を取得する準備
       ipcMain.once(channel, (event, value: string) => {
         resolve(value);
       });
       // editorにValueを送信するよう命令
-      editorViewapi.view?.webContents.send("getValue", this.TaskScreenName);
+      editorViewapi.view?.webContents.send("getValue", this.taskScreenName);
     });
   }
   /**
@@ -307,7 +309,7 @@ export class taskcont {
     const byteLength = Buffer.byteLength(String(this.Data), "utf8");
     const result: editorStatus = {
       contestName: this.contestName,
-      TaskScreenName: this.TaskScreenName,
+      TaskScreenName: this.taskScreenName,
       AssignmentName: this.AssignmentName,
       language: this.language,
       taskcodeByte: byteLength,
@@ -332,7 +334,7 @@ export class taskcont {
       if (saveStatus === "succsess" && this.Data !== null) {
         runSubmit(
           this.contestName,
-          this.TaskScreenName,
+          this.taskScreenName,
           this.Data,
           languages[this.language].submitLanguageId
         );
@@ -351,7 +353,7 @@ export class taskcont {
         this.Data,
         samplecase,
         answer,
-        this.TaskScreenName
+        this.taskScreenName
       );
       return "success";
     } else {
@@ -368,11 +370,11 @@ export class taskcont {
   ): Promise<SampleCase[] | "load_Error" | "request_Error"> {
     const existsamplecase = await existSamplecases(
       this.contestName,
-      this.TaskScreenName
+      this.taskScreenName
     );
     if (existsamplecase === false || cache === false) {
       // サンプルケースを問題ページからダウンロード
-      const url = `https://atcoder.jp/contests/${this.contestName}/tasks/${this.TaskScreenName}`;
+      const url = `https://atcoder.jp/contests/${this.contestName}/tasks/${this.taskScreenName}`;
       const getTaskPage = await Atcoder.axiosInstance.get(url);
       if (getTaskPage.status === 200) {
         // サンプルケースをスクレイピングする
@@ -381,7 +383,7 @@ export class taskcont {
         scrapingReturn.forEach((element) => {
           saveSanplecase(
             this.contestName,
-            this.TaskScreenName,
+            this.taskScreenName,
             element.name,
             element.case,
             element.answer
@@ -395,7 +397,7 @@ export class taskcont {
       // ファイルからキャッシュされたサンプルケースを読み込む
       const returnData = await loadAllSamplecase(
         this.contestName,
-        this.TaskScreenName
+        this.taskScreenName
       );
       if (returnData === "not_saved") {
         return "load_Error";
