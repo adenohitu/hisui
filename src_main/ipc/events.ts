@@ -49,11 +49,13 @@ export const IpcEvents = {
   LISTENER_OPEN_DEFAULT_DIALOG: { mode: "send" },
   LISTENER_OPEN_EDITOR_SETTING_DIALOG: { mode: "send" },
   LISTENER_RESET_MOSAIC_WINDOW_STATE: { mode: "send" },
-  LISTENER_TIMER_TICK: { mode: "send" },
   LISTENER_CHANGE_SET_CONTESTID: { mode: "send" },
   LISTENER_RETUEN_SUBMISSIONS: { mode: "send" },
   LISTENER_VIEW_TOP: { mode: "send" },
   LISTENER_CHANGE_EDITOR_SNIPPET: { mode: "send" },
+  // timerIPC
+  LISTENER_TIMER_TICK: { mode: "send" },
+  LISTENER_CONTEST_START: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

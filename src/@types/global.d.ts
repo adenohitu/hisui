@@ -49,8 +49,7 @@ declare global {
        */
       createTaskCont(arg: {
         contestName: string;
-        TaskScreenName: string;
-        AssignmentName: string;
+        taskScreenName: string;
         // 指定がない場合、デフォルトの言語を使用
         language?: languagetype;
       });

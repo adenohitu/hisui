@@ -9,7 +9,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
 // import { Chip, chipClasses } from "@mui/material";
-import { useTaskList } from "../tasklist-hooks";
+import { useSelectTask } from "./taskhook";
 
 declare module "react" {
   interface CSSProperties {
@@ -114,7 +114,7 @@ function StyledTreeItem(props: StyledTreeItemProps) {
 }
 
 export function TaskSelectTree() {
-  const taskListHooks = useTaskList();
+  const selectTaskHooks = useSelectTask();
 
   return (
     <TreeView
@@ -124,14 +124,14 @@ export function TaskSelectTree() {
       defaultExpandIcon={<ArrowRightIcon />}
       sx={{ height: "100%", flexGrow: 1, width: "100%" }}
     >
-      {taskListHooks.taskList.map((row, index) => (
+      {selectTaskHooks.taskList.map((row, index) => (
         <StyledTreeItem
           key={index}
           nodeId={row.taskScreenName}
           labelText={`${row.AssignmentName}-${row.contestName}`}
           // labelInfo={row.taskName}
           onClick={() => {
-            taskListHooks.custonValueChange(index);
+            selectTaskHooks.custonValueChange(index);
           }}
         />
       ))}
