@@ -10,7 +10,7 @@ import { taskcont } from "./taskcont";
 export interface taskContStatusType {
   contestName: string;
   TaskScreenName: string;
-  AssignmentName: string;
+  AssignmentName: string | null;
   // 指定がない場合、デフォルトの言語を使用
   language?: languagetype;
 }
@@ -71,7 +71,6 @@ class taskControl {
   async createNewTask(
     contestName: string,
     TaskScreenName: string,
-    AssignmentName: string,
     // 指定がない場合、デフォルトの言語を使用
     language?: languagetype
   ) {
@@ -85,14 +84,12 @@ class taskControl {
         this.taskAll[TaskScreenName] = new taskcont(
           contestName,
           TaskScreenName,
-          AssignmentName,
           uselang
         );
       } else {
         this.taskAll[TaskScreenName] = new taskcont(
           contestName,
           TaskScreenName,
-          AssignmentName,
           language
         );
       }
@@ -132,7 +129,7 @@ class taskControl {
   }
   getTaskStatusList() {
     const statusList: taskStatus[] = (
-      Object.keys(this.taskAll) as (keyof taskcont)[]
+      Object.keys(this.taskAll) as (keyof taskStatus)[]
     ).map((key) => {
       const topStatus = (this.nowTop === key && true) || false;
       return {
@@ -154,7 +151,6 @@ class taskControl {
       this.createNewTask(
         arg.contestName,
         arg.TaskScreenName,
-        arg.AssignmentName,
         // 基本undefined
         arg.language
       );
