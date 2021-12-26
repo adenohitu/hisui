@@ -30,11 +30,6 @@ declare global {
         func: (changeLanguageType: { id: string; language: string }) => void
       );
       /**
-       * modelの削除を受け取る
-       */
-      closeModel(func: (id: string) => void);
-
-      /**
        * mainからValueを送信するように依頼されるイベント
        */
       getValue(func: (id: string) => void);

@@ -33,10 +33,17 @@ export const useSelectTask = () => {
       taskScreenName: data.taskScreenName,
     });
   };
+  /**
+   * 	TaskContを閉じる
+   */
+  const closeTaskCont = (taskScreenName: string) => {
+    ipcRendererManager.send("CLOSE_TASKCONT", taskScreenName);
+  };
   return {
     taskList,
     value,
     updateTaskContList,
     custonValueChange,
+    closeTaskCont,
   };
 };
