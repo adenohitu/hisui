@@ -32,11 +32,6 @@ contextBridge.exposeInMainWorld("editor", {
       func(arg);
     });
   },
-  closeModel: (func: any) => {
-    ipcRenderer.on("closeModel", (event, id: string) => {
-      func(id);
-    });
-  },
 
   // Mainからイベントを送ってデータを取得
 

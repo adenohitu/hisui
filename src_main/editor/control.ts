@@ -171,6 +171,9 @@ class taskControl {
         arg.language
       );
     });
+    ipcMainManager.on("CLOSE_TASKCONT", (e, taskScreenName: string) => {
+      this.closeTaskCont(taskScreenName);
+    });
     ipcMain.on("save", (event, id: string) => {
       this.taskAll[id].save();
     });

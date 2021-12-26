@@ -277,7 +277,7 @@ export class taskcont {
    * モデルの削除
    */
   closeModelEditor() {
-    editorViewapi.view?.webContents.send("closeModel", this.taskScreenName);
+    ipcMainManager.send("LISTENER_EDITOR_MODEL_REMOVE", this.taskScreenName);
   }
   /**
    * editorからValueを取得する

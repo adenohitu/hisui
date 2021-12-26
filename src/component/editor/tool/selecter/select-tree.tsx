@@ -23,6 +23,7 @@ type StyledTreeItemProps = TreeItemProps & {
   color?: string;
   labelIcon?: React.ElementType<SvgIconProps>;
   labelInfo?: string;
+  onCloseButtonClick: () => void;
   labelText: string;
 };
 
@@ -72,6 +73,7 @@ function StyledTreeItem(props: StyledTreeItemProps) {
     labelIcon: LabelIcon,
     labelInfo,
     labelText,
+    onCloseButtonClick,
     ...other
   } = props;
 
@@ -99,9 +101,6 @@ function StyledTreeItem(props: StyledTreeItemProps) {
           >
             {labelText}
           </Typography>
-          <Typography variant="caption" color="inherit">
-            {labelInfo}
-          </Typography>
         </Box>
       }
       style={{
@@ -125,15 +124,29 @@ export function TaskSelectTree() {
       sx={{ height: "100%", flexGrow: 1, width: "100%" }}
     >
       {selectTaskHooks.taskList.map((row, index) => (
-        <StyledTreeItem
-          key={index}
-          nodeId={row.taskScreenName}
-          labelText={`${row.AssignmentName}-${row.contestName}`}
-          // labelInfo={row.taskName}
-          onClick={() => {
-            selectTaskHooks.custonValueChange(index);
-          }}
-        />
+        <>
+          <StyledTreeItem
+            key={index}
+            nodeId={row.taskScreenName}
+            labelText={`${row.AssignmentName}-${row.contestName}`}
+            // labelInfo={row.taskName}
+            onClick={() => {
+              selectTaskHooks.custonValueChange(index);
+            }}
+            onCloseButtonClick={() => {
+              selectTaskHooks.closeTaskCont(row.taskScreenName);
+            }}
+          />
+          <Typography
+            onClick={() => {
+              selectTaskHooks.closeTaskCont(row.taskScreenName);
+            }}
+            variant="caption"
+            color="inherit"
+          >
+            閉じる
+          </Typography>
+        </>
       ))}
     </TreeView>
   );
