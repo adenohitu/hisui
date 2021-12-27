@@ -137,15 +137,6 @@ export function TaskSelectTree() {
               selectTaskHooks.closeTaskCont(row.taskScreenName);
             }}
           />
-          <Typography
-            onClick={() => {
-              selectTaskHooks.closeTaskCont(row.taskScreenName);
-            }}
-            variant="caption"
-            color="inherit"
-          >
-            閉じる
-          </Typography>
         </>
       ))}
     </TreeView>
