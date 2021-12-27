@@ -1,6 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { IconButton } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import UndoIcon from "@mui/icons-material/Undo";
 import "./toolbar.css";
 export function TaskViewToolbar() {
@@ -22,13 +23,22 @@ export function TaskViewToolbar() {
         <Box my="28px" mx="35px"></Box>
         <Box className="no-drag">
           <IconButton
-            style={{ color: "#fff" }}
+            sx={{ color: "#fff" }}
             onClick={async () => {
               window.taskview.nowTaskViewReset();
             }}
             size={"small"}
           >
             <UndoIcon />
+          </IconButton>
+          <IconButton
+            sx={{ color: "#fff" }}
+            onClick={async () => {
+              window.taskview.nowTaskViewReload();
+            }}
+            size={"small"}
+          >
+            <RefreshIcon />
           </IconButton>
         </Box>
       </Box>

@@ -30,11 +30,6 @@ declare global {
         func: (changeLanguageType: { id: string; language: string }) => void
       );
       /**
-       * modelの削除を受け取る
-       */
-      closeModel(func: (id: string) => void);
-
-      /**
        * mainからValueを送信するように依頼されるイベント
        */
       getValue(func: (id: string) => void);
@@ -49,8 +44,7 @@ declare global {
        */
       createTaskCont(arg: {
         contestName: string;
-        TaskScreenName: string;
-        AssignmentName: string;
+        taskScreenName: string;
         // 指定がない場合、デフォルトの言語を使用
         language?: languagetype;
       });
@@ -87,6 +81,7 @@ declare global {
        * TaskViewのURLを初期状態に戻す
        */
       nowTaskViewReset();
+      nowTaskViewReload();
     };
     ipc: any;
   }

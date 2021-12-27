@@ -9,12 +9,12 @@ import { store } from "../save/save";
 import { taskcont } from "./taskcont";
 export interface taskContStatusType {
   contestName: string;
-  TaskScreenName: string;
-  AssignmentName: string;
+  taskScreenName: string;
+  AssignmentName: string | null;
   // 指定がない場合、デフォルトの言語を使用
   language?: languagetype;
 }
-export interface taskStatus extends taskContStatusType {
+export interface taskNowStatus extends taskContStatusType {
   nowtop?: boolean;
 }
 /**
@@ -58,6 +58,14 @@ class taskControl {
     this.taskAll = {};
   }
   /**
+   * 指定したKeyのTaskContを閉じる
+   */
+  async closeTaskCont(taskScreenName: string) {
+    await this.taskAll[taskScreenName].close();
+    delete this.taskAll[taskScreenName];
+    ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
+  }
+  /**
    * runDefaultContestIDを取得
    *  更新された時のイベントを開始
    */
@@ -70,29 +78,26 @@ class taskControl {
    */
   async createNewTask(
     contestName: string,
-    TaskScreenName: string,
-    AssignmentName: string,
+    taskScreenName: string,
     // 指定がない場合、デフォルトの言語を使用
     language?: languagetype
   ) {
-    if (this.taskAll[TaskScreenName] !== undefined) {
-      this.changeTask(TaskScreenName);
+    if (this.taskAll[taskScreenName] !== undefined) {
+      this.changeTask(taskScreenName);
     } else {
       //taskcontを作成
       if (language === undefined) {
         const uselang = await store.get("defaultLanguage", "cpp");
         // const uselang = "cpp";
-        this.taskAll[TaskScreenName] = new taskcont(
+        this.taskAll[taskScreenName] = new taskcont(
           contestName,
-          TaskScreenName,
-          AssignmentName,
+          taskScreenName,
           uselang
         );
       } else {
-        this.taskAll[TaskScreenName] = new taskcont(
+        this.taskAll[taskScreenName] = new taskcont(
           contestName,
-          TaskScreenName,
-          AssignmentName,
+          taskScreenName,
           language
         );
       }
@@ -100,7 +105,8 @@ class taskControl {
        * 初回ロードはTopに自動的になる
        * モデルが作られる前にchangeTaskを実行することができない
        */
-      this.nowTop = TaskScreenName;
+      this.nowTop = taskScreenName;
+      ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     }
   }
   /**
@@ -115,6 +121,7 @@ class taskControl {
   async changeTask(TaskScreenName: string) {
     // ViewのTopの変更
     this.taskAll[TaskScreenName].settopTaskView();
+    this.taskAll[TaskScreenName].resetTaskView();
     this.nowTop = TaskScreenName;
     // editorEvent
     // editorの更新をチェック
@@ -130,14 +137,20 @@ class taskControl {
       this.taskAll[this.nowTop].resetTaskView();
     }
   }
-  getTaskStatusList() {
-    const statusList: taskStatus[] = (
-      Object.keys(this.taskAll) as (keyof taskcont)[]
-    ).map((key) => {
+  /**
+   * 今のページをリロード
+   */
+  nowTaskViewReload() {
+    if (this.nowTop) {
+      this.taskAll[this.nowTop].reloadTaskView();
+    }
+  }
+  getTaskStatusList(): taskNowStatus[] {
+    const statusList = Object.keys(this.taskAll).map((key) => {
       const topStatus = (this.nowTop === key && true) || false;
       return {
         contestName: this.taskAll[key].contestName,
-        TaskScreenName: this.taskAll[key].TaskScreenName,
+        taskScreenName: this.taskAll[key].taskScreenName,
         AssignmentName: this.taskAll[key].AssignmentName,
         language: this.taskAll[key].language,
         nowtop: topStatus,
@@ -153,11 +166,13 @@ class taskControl {
     ipcMain.on("createTaskCont", (event, arg: taskContStatusType) => {
       this.createNewTask(
         arg.contestName,
-        arg.TaskScreenName,
-        arg.AssignmentName,
+        arg.taskScreenName,
         // 基本undefined
         arg.language
       );
+    });
+    ipcMainManager.on("CLOSE_TASKCONT", (e, taskScreenName: string) => {
+      this.closeTaskCont(taskScreenName);
     });
     ipcMain.on("save", (event, id: string) => {
       this.taskAll[id].save();
@@ -171,6 +186,9 @@ class taskControl {
     // taskViewのURLを初期値に戻す
     ipcMain.on("nowTaskViewReset", () => {
       this.nowTaskViewReset();
+    });
+    ipcMain.on("nowTaskViewReload", () => {
+      this.nowTaskViewReload();
     });
 
     // dafaultlangageに関するIPC

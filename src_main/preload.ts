@@ -1,6 +1,5 @@
 import { type } from "os"; // eslint-disable-line
 import { atcoderCodeTestResult } from "./data/casetester/runtest_atcoder";
-import { taskContStatusType } from "./editor/control";
 import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
 import { EventsArrey } from "./ipc/events";
@@ -33,11 +32,6 @@ contextBridge.exposeInMainWorld("editor", {
       func(arg);
     });
   },
-  closeModel: (func: any) => {
-    ipcRenderer.on("closeModel", (event, id: string) => {
-      func(id);
-    });
-  },
 
   // Mainからイベントを送ってデータを取得
 
@@ -53,7 +47,7 @@ contextBridge.exposeInMainWorld("editor", {
   },
 
   // mainに送信
-  createTaskCont: (arg: taskContStatusType) => {
+  createTaskCont: (arg: any) => {
     ipcRenderer.send("createTaskCont", arg);
   },
   save: (id: string) => {

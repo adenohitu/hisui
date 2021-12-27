@@ -30,12 +30,10 @@ export const useTaskList = () => {
     console.log({
       contestName: data.contestName,
       TaskScreenName: data.taskScreenName,
-      AssignmentName: data.AssignmentName,
     });
     window.editor.createTaskCont({
       contestName: data.contestName,
-      TaskScreenName: data.taskScreenName,
-      AssignmentName: data.AssignmentName,
+      taskScreenName: data.taskScreenName,
     });
   };
   const custonValueChange = (newValue: number) => {
@@ -46,12 +44,10 @@ export const useTaskList = () => {
     console.log({
       contestName: data.contestName,
       TaskScreenName: data.taskScreenName,
-      AssignmentName: data.AssignmentName,
     });
     window.editor.createTaskCont({
       contestName: data.contestName,
-      TaskScreenName: data.taskScreenName,
-      AssignmentName: data.AssignmentName,
+      taskScreenName: data.taskScreenName,
     });
   };
 

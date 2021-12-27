@@ -1,5 +1,4 @@
 import { app } from "electron";
-import { TaskListApi } from "../../data/task";
 import { taskControlApi } from "../../editor/control";
 import { urlOpen } from "../../tool/openExternal";
 import { createTaskcontFromOriginalURL } from "../../tool/taskurl-preser";
@@ -27,15 +26,11 @@ export const monitoringWebContents = () => {
         const checkURLResult = createTaskcontFromOriginalURL(navigationUrl);
         if (checkURLResult) {
           (async () => {
-            const getAssainmentname = await TaskListApi.getAssignmentName(
+            taskControlApi.createNewTask(
               checkURLResult.contestName,
               checkURLResult.taskScreenName
             );
-            taskControlApi.createNewTask(
-              checkURLResult.contestName,
-              checkURLResult.taskScreenName,
-              getAssainmentname
-            );
+            event.preventDefault();
           })();
         }
       }
