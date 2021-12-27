@@ -5,6 +5,7 @@ import { dashboardapi } from "../browserview/dashboardview";
 import { contestDataApi } from "../data/contestdata";
 
 import { hisuiEvent } from "../event/event";
+import { ipcMainManager } from "../ipc/ipc";
 export interface timeData {
   status: string;
   time: number;
@@ -40,6 +41,7 @@ export class timer {
     if (this.starttime?.unix() === nowUnix && this.nowContestID !== undefined) {
       // コンテスト開始イベントを実行
       hisuiEvent.emit("contest-start");
+      ipcMainManager.send("LISTENER_CONTEST_START", this.nowContestID);
     }
     if (this.endtime?.unix() === nowUnix && this.nowContestID !== undefined) {
       // コンテスト終了イベントを実行

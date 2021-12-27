@@ -211,6 +211,9 @@ export class monacocontrol {
     window.editor.setModel((id: string) => {
       this.setModel(id);
     });
+    ipcRendererManager.on("LISTENER_EDITOR_MODEL_REMOVE", (e, id: string) => {
+      this.deleteModel(id);
+    });
     // changeValueの受付
     window.editor.changeValue((arg) => {
       this.changeValue(arg.id, arg.value);

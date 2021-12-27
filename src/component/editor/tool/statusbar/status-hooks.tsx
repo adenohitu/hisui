@@ -10,7 +10,7 @@ export const useAppStatus = () => {
   useEffect(() => {
     ipcRendererManager.on("LISTENER_EDITOR_STATUS", (e, arg: editorStatus) => {
       setContestName(arg.contestName);
-      setTaskname(arg.AssignmentName);
+      setTaskname(String(arg.AssignmentName));
       setLanguage(arg.language);
       setCodeSize(String(arg.taskcodeByte));
     });

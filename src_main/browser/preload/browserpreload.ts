@@ -8,4 +8,7 @@ contextBridge.exposeInMainWorld("taskview", {
   nowTaskViewReset: () => {
     ipcRenderer.send("nowTaskViewReset");
   },
+  nowTaskViewReload: () => {
+    ipcRenderer.send("nowTaskViewReload");
+  },
 });
