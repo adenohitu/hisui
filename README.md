@@ -1,31 +1,56 @@
-# Hisui
+# Hisui--競技プログラミングサポートツール--
 
 ---
 
-## **警告**
+![build workflow](https://github.com/adenohitu/hisui/actions/workflows/test.yml/badge.svg)
+[![Electron Discord Invite](https://img.shields.io/discord/836870553838551050?color=%237289DA&label=chat&logo=discord&logoColor=white)](https://discord.com/invite/H2R6HrDvuc)
 
-このソフトウエアは開発段階です。
+## :rotating_light: :construction: **警告** :construction: :rotating_light:
+
+このソフトウエアは開発段階です。予期せぬ動作をする可能性があります。
 
 ---
 
+「Hisui」は競技プログラミングサポートツールです。  
+競プロの万能ツールのようなものです。
 **[紹介サイト](https://adenohitu.github.io/Hisui-introduce/)**
 
-競技プログラミングサポートツールです  
-AtCoder に対応したのち Codeforces などの様々な競プロサイトに対応予定です  
-Competitive programming support tool.  
-After supporting "AtCoder", we plan to support other Competitive programming sites such as "Codeforces".
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/hisui-screen-re1.png">
 
-## このプロジェクトの目的
+このアプリケーションは、Windows or MacOS で実行することができます。
+詳しい使い方は、[hisui-docs](https://adenohitu.github.io/Hisui-docs/docs/intro)（準備中）で知ることができます。
 
-### 競技プログラミングを簡単に
+## 競プロのために最適化されたエディター
 
-- 複雑な競技プログラミングの環境をこれひとつで完結させることができる
-- 既に環境がある人に向けて、さらに便利になるようなツールの提供
+VSCode のエディターコアとして使われている MonacoEditor を採用
 
-### 競技プログラミングをもっと楽しく
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/editor-screen-1.png">
 
-- 競プロがもっと楽しくなるような機能や問題を解くのを助ける機能
+## 必要な情報だけをすぐに見れるダッシュボード
+
+コンテスト中に必要な情報だけを選択して素早く確認することができる
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/dashboard-screen-1.png">
+
+## テストから提出まで
+
+書いたコードをすぐにテスト
+問題がなければアプリ内で提出できる
+
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/test-screen-1.png">
+
+## Hisui の目標
+
+#### 複雑な競技プログラミングの環境をこれひとつで完結させることができる
+
+複雑な環境構築などの作業をなしで、競プロを始められる。  
+ コーディングから提出まで一つのアプリケーション内で完結できる。
+
+#### 既に環境がある人に向けて、さらに便利になるようなツールの提供
+
+「問題を解く」ことや「誰かと競争する」という競技プログラミングの醍醐味をもっと楽しめるようにする。
 
 ## License
 
-パッケージされたソフトウェアの使用のみ許可し、再頒布及び利用（ソースコード等を含む）は禁止する。
+Copyright (C) 2020-2021 Adenohitu  
+このソフトウェアは GNU Affero General Public License (AGPL)のライセンスのもとで公開されています。  
+[LICENSE.md](https://github.com/adenohitu/hisui/blob/master/LICENSE)
