@@ -2,7 +2,7 @@
 
 ---
 
-![build workflow](https://github.com/adenohitu/hisui/actions/workflows/test.yml/badge.svg)
+![build workflow](https://github.com/adenohitu/hisui/actions/workflows/main.yml/badge.svg)
 [![Electron Discord Invite](https://img.shields.io/discord/836870553838551050?color=%237289DA&label=chat&logo=discord&logoColor=white)](https://discord.com/invite/H2R6HrDvuc)
 
 ## :rotating_light: :construction: **警告** :construction: :rotating_light:
