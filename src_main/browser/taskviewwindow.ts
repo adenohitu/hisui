@@ -4,13 +4,12 @@ import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { win } from "../main";
 import { store } from "../save/save";
+import { baseAtCoderUrl } from "../static";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
 // toolbarの分、viewの上にマージンを設定するための値
 const windowTopMargin = 28;
 export class taskViewWindow {
-  private baseurl = "https://atcoder.jp/contests/";
-
   win: null | BrowserWindow;
   // idはTaskScreenNameを入れる
   // 例外としてContestのホームページの時は
@@ -128,8 +127,8 @@ export class taskViewWindow {
         }
       });
       // ページをロード
-      createdView.webContents.loadURL(`${this.baseurl}${url}`);
-      console.log(`${this.baseurl}${url}`);
+      createdView.webContents.loadURL(url);
+      console.log(url);
 
       // 最上部にセット
       this.win.setTopBrowserView(createdView);
@@ -162,15 +161,9 @@ export class taskViewWindow {
    * 開いた時のURLに戻す
    */
   async resetView(id: string) {
-    if (
-      `${this.baseurl}${this.view[id].initUrl}` !==
-      this.view[id].view.webContents.getURL()
-    ) {
-      this.view[id].view.webContents.loadURL(
-        `${this.baseurl}${this.view[id].initUrl}`
-      );
+    if (this.view[id].initUrl !== this.view[id].view.webContents.getURL()) {
+      this.view[id].view.webContents.loadURL(`${this.view[id].initUrl}`);
     }
-    console.log(`${this.baseurl}${this.view[id].initUrl}`);
   }
 
   /**
@@ -222,14 +215,17 @@ export class taskViewWindow {
   async setupContestPage() {
     const DefaultContestID = contestDataApi.getDefaultContestID();
     this.contestpageId = DefaultContestID;
-    this.addView(DefaultContestID, DefaultContestID);
+
+    const taskListPageURL = `${baseAtCoderUrl}${DefaultContestID}/tasks`;
+    this.addView(DefaultContestID, taskListPageURL);
     /**
      * DefaultContestID-changeが変更されたらViewも更新
      */
     hisuiEvent.on("DefaultContestID-change", (arg) => {
       if (this.contestpageId) {
         this.removeView(this.contestpageId);
-        this.addView(arg, arg);
+        const taskListPageURL = `${baseAtCoderUrl}${arg}/tasks`;
+        this.addView(arg, taskListPageURL);
         this.contestpageId = arg;
       }
     });
