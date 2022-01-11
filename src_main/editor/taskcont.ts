@@ -19,6 +19,7 @@ import {
 import { ipcMainManager } from "../ipc/ipc";
 import { hisuiEvent } from "../event/event";
 import { TaskListApi } from "../data/task";
+import { baseAtCoderUrl } from "../static";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -200,7 +201,7 @@ export class taskcont {
    * TaskViewを開く(初期設定)
    */
   async openTaskView(contestName: string, TaskScreenName: string) {
-    const taskUrl = `${contestName}/tasks/${TaskScreenName}`;
+    const taskUrl = `${baseAtCoderUrl}${contestName}/tasks/${TaskScreenName}`;
     console.log(taskUrl);
 
     await taskViewWindowApi.addView(TaskScreenName, taskUrl);
