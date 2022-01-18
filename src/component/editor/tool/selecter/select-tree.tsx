@@ -8,7 +8,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
-import { Chip, chipClasses } from "@mui/material";
+// import { Chip, chipClasses } from "@mui/material";
 import { useSelectTask } from "./taskhook";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -63,12 +63,12 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
     },
   },
 }));
-const StyledChip = styled(Chip)(({ theme }) => ({
-  [`.${chipClasses.label}`]: {
-    paddingLeft: "6px",
-    paddingRight: "6px",
-  },
-}));
+// const StyledChip = styled(Chip)(({ theme }) => ({
+//   [`.${chipClasses.label}`]: {
+//     paddingLeft: "6px",
+//     paddingRight: "6px",
+//   },
+// }));
 function StyledTreeItem(props: StyledTreeItemProps) {
   const {
     bgColor,
