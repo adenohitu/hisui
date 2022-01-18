@@ -154,10 +154,8 @@ export class monacocontrol {
    * モデルを削除
    */
   deleteModel(id: string) {
-    if (id !== this.nowmodelId) {
-      this.editorModels[id].model.dispose();
-      delete this.editorModels[id];
-    }
+    this.editorModels[id].model.dispose();
+    delete this.editorModels[id];
   }
 
   /**
