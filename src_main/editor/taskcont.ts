@@ -48,7 +48,7 @@ export interface editorStatus {
   TaskScreenName: string;
   AssignmentName: string | null;
   language: string;
-  taskcodeByte: number;
+  taskcodeByte: number | string;
 }
 
 /**

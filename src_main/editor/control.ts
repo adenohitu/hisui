@@ -6,7 +6,7 @@ import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 import { store } from "../save/save";
-import { taskcont } from "./taskcont";
+import { editorStatus, taskcont } from "./taskcont";
 export interface taskContStatusType {
   contestName: string;
   taskScreenName: string;
@@ -64,6 +64,21 @@ class taskControl {
     await this.taskAll[taskScreenName].close();
     delete this.taskAll[taskScreenName];
     ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
+    // TaskAllにTaskContが一つでも存在する場合,NowTopを更新する
+    const taskAllKey = Object.keys(this.taskAll);
+    if (taskAllKey.length !== 0) {
+      this.changeTask(taskAllKey[0]);
+    } else {
+      // editorStatus を空にする
+      const result: editorStatus = {
+        contestName: "",
+        TaskScreenName: "",
+        AssignmentName: "",
+        language: "",
+        taskcodeByte: "-",
+      };
+      ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
+    }
   }
   /**
    * runDefaultContestIDを取得
