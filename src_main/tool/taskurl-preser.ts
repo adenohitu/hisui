@@ -13,8 +13,9 @@ export function createTaskcontFromOriginalURL(
   url: string
 ): null | returnCreateTaskcontFromURL {
   const urlclass = new URL(url);
-
-  if (urlclass.hostname === "atcoder.jp" && url.includes("tasks/")) {
+  if (urlclass.hostname === "atcoder.jp" && url.includes("editorial")) {
+    return null;
+  } else if (urlclass.hostname === "atcoder.jp" && url.includes("tasks/")) {
     const pathName = urlclass.pathname;
     const name = pathName.slice(
       pathName.indexOf("contests/") + 9,
