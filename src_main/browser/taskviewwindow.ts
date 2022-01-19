@@ -44,10 +44,10 @@ export class taskViewWindow {
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
-        preload: __dirname + "/preload/browserpreload.js",
+        preload: __dirname + "/../preload.js",
       },
     });
-    // this.win.webContents.openDevTools({ mode: "detach" });
+    this.win.webContents.openDevTools({ mode: "detach" });
     // ロード
     if (!app.isPackaged) {
       this.win.loadURL("http://localhost:3000#/taskview");
@@ -229,6 +229,12 @@ export class taskViewWindow {
         this.contestpageId = arg;
       }
     });
+  }
+  // 問題一覧をTaskViewに表示する
+  async openTasksPage() {
+    if (this.contestpageId) {
+      this.changeViewTop(this.contestpageId);
+    }
   }
 }
 export const taskViewWindowApi = new taskViewWindow();
