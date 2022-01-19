@@ -1,5 +1,5 @@
 //問題情報に関するモジュール
-//Copyright © 2021 adenohitu. All rights reserved.
+//Copyright © 2021-2022 adenohitu. All rights reserved.
 import dayjs from "dayjs";
 import EventEmitter from "events";
 import { contestName, taskScreenName } from "../interfaces";
