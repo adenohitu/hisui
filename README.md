@@ -51,6 +51,6 @@ VSCode のエディターコアとして使われている MonacoEditor を採�
 
 ## License
 
-Copyright (C) 2020-2021 Adenohitu  
+Copyright (C) 2020-2022 Adenohitu  
 このソフトウェアは GNU Affero General Public License (AGPL)のライセンスのもとで公開されています。  
 [LICENSE.md](https://github.com/adenohitu/hisui/blob/main/LICENSE)
