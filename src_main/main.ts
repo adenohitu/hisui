@@ -36,6 +36,7 @@ import { reloadAllWebContents } from "./browserview/mgt/reload-all";
 import { setupContextMenu } from "./menu/context-menu";
 import { setupProtocols } from "./tool/protocols";
 import { setMenu } from "./menu/window-menu";
+import { setWindowSplit } from "./browser/tool/monitorsize";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -118,9 +119,6 @@ function createWindow() {
   if (store.get("window.main.isMax")) {
     win.maximize();
   }
-  if (store.get("window.main.width") === undefined) {
-    win.maximize();
-  }
   // // DevTools
   // installExtension(REACT_DEVELOPER_TOOLS)
   //   .then((name) => console.log(`Added Extension:  ${name}`))
@@ -130,16 +128,22 @@ function createWindow() {
   //   .then((name) => console.log(`Added Extension:  ${name}`))
   //   .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
-    //editorをセットアップ
-    editorViewapi.setupView(win);
-    //dashboardをセットアップ
-    dashboardapi.setupView(win);
-    //mainページをセットアップ
-    mainPageapi.setupView(win);
-    //制約生成ツールをセットアップ
-    createsampleViewapi.setupView(win);
-    // taskViewWindowをセットアップ
-    taskViewWindowApi.open();
+    Promise.all([
+      //mainページをセットアップ
+      mainPageapi.setupView(win),
+      //editorをセットアップ
+      editorViewapi.setupView(win),
+      //dashboardをセットアップ
+      dashboardapi.setupView(win),
+      //制約生成ツールをセットアップ
+      createsampleViewapi.setupView(win),
+      // taskViewWindowをセットアップ
+      taskViewWindowApi.open(),
+    ]).then(() => {
+      if (store.get("window.main.width") === undefined) {
+        setWindowSplit();
+      }
+    });
     // timerの初期化
     timerApi.setup();
   }

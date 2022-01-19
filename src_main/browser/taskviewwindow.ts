@@ -47,13 +47,6 @@ export class taskViewWindow {
         preload: __dirname + "/../preload.js",
       },
     });
-    // ロード
-    if (!app.isPackaged) {
-      this.win.loadURL("http://localhost:3000#/taskview");
-    } else {
-      // 'build/index.html'
-      this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
-    }
     this.win.once("ready-to-show", () => {
       this.win?.show();
     });
@@ -83,6 +76,13 @@ export class taskViewWindow {
       this.view = {};
       win?.close();
     });
+    // ロード
+    if (!app.isPackaged) {
+      return this.win.loadURL("http://localhost:3000#/taskview");
+    } else {
+      // 'build/index.html'
+      return this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
+    }
   }
 
   /**
