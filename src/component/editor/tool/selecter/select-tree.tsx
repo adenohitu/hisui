@@ -114,7 +114,12 @@ function StyledTreeItem(props: StyledTreeItemProps) {
           >
             {labelText}
           </Typography>
-          <IconButton size="small">
+          <IconButton
+            onClick={() => {
+              onCloseButtonClick();
+            }}
+            size="small"
+          >
             <CloseIcon />
           </IconButton>
         </Box>
