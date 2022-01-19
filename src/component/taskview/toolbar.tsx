@@ -4,6 +4,8 @@ import { IconButton } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import UndoIcon from "@mui/icons-material/Undo";
 import "./toolbar.css";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import { ipcRendererManager } from "../../ipc";
 export function TaskViewToolbar() {
   return (
     <div
@@ -25,7 +27,7 @@ export function TaskViewToolbar() {
           <IconButton
             sx={{ color: "#fff" }}
             onClick={async () => {
-              window.taskview.nowTaskViewReset();
+              ipcRendererManager.send("RUN_NOWTASKVIEW_RESET");
             }}
             size={"small"}
           >
@@ -34,11 +36,20 @@ export function TaskViewToolbar() {
           <IconButton
             sx={{ color: "#fff" }}
             onClick={async () => {
-              window.taskview.nowTaskViewReload();
+              ipcRendererManager.send("RUN_NOWTASKVIEW_RELOAD");
             }}
             size={"small"}
           >
             <RefreshIcon />
+          </IconButton>
+          <IconButton
+            sx={{ color: "#fff" }}
+            onClick={async () => {
+              ipcRendererManager.send("LISTENER_CHANGE_TASKPAGE_VIEW");
+            }}
+            size={"small"}
+          >
+            <ListAltIcon />
           </IconButton>
         </Box>
       </Box>

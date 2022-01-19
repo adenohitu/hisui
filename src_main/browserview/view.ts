@@ -29,7 +29,7 @@ export class view {
   /**
    * BrowserViewを初期化する
    */
-  setupView(win: BrowserWindow | null) {
+  async setupView(win: BrowserWindow | null) {
     if (this.view === null && win !== null) {
       this.mainWindow = win;
       this.view = new BrowserView({
@@ -54,17 +54,15 @@ export class view {
 
       this.view.setAutoResize({ width: false, height: false });
 
-      if (isDev) {
-        this.view.webContents.loadURL(this.url.dev);
-      } else {
-        // 'build/index.html'
-        this.view.webContents.loadURL(this.url.product);
-      }
-
       win.on("resize", () => {
         this.windowSizeChange(this.mainWindow, this.view);
       });
-      return "success";
+      if (isDev) {
+        return this.view.webContents.loadURL(this.url.dev);
+      } else {
+        // 'build/index.html'
+        return this.view.webContents.loadURL(this.url.product);
+      }
     } else {
       return "alrady";
     }

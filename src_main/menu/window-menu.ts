@@ -12,6 +12,7 @@ import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
 import { submissionsApi } from "../data/submissions";
+import { taskViewWindowApi } from "../browser/taskviewwindow";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -71,11 +72,7 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
           {
             label: "test",
             click(item: any, focusedWindow: any, event: any) {
-              if (taskControlApi.nowTop) {
-                taskControlApi.taskAll[taskControlApi.nowTop]
-                  .getAllSamplecase()
-                  .then((r) => console.log(r));
-              }
+              taskViewWindowApi.openTasksPage();
             },
           },
           {
