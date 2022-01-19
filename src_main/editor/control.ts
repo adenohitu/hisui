@@ -199,10 +199,10 @@ class taskControl {
       }
     });
     // taskViewのURLを初期値に戻す
-    ipcMain.on("nowTaskViewReset", () => {
+    ipcMainManager.on("RUN_NOWTASKVIEW_RESET", () => {
       this.nowTaskViewReset();
     });
-    ipcMain.on("nowTaskViewReload", () => {
+    ipcMainManager.on("RUN_NOWTASKVIEW_RELOAD", () => {
       this.nowTaskViewReload();
     });
 
