@@ -10,6 +10,8 @@ import { SvgIconProps } from "@mui/material/SvgIcon";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
 // import { Chip, chipClasses } from "@mui/material";
 import { useSelectTask } from "./taskhook";
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 declare module "react" {
   interface CSSProperties {
@@ -24,6 +26,7 @@ type StyledTreeItemProps = TreeItemProps & {
   labelIcon?: React.ElementType<SvgIconProps>;
   labelInfo?: string;
   onCloseButtonClick: () => void;
+  onClickValueChange: () => void;
   labelText: string;
 };
 
@@ -73,6 +76,7 @@ function StyledTreeItem(props: StyledTreeItemProps) {
     labelIcon: LabelIcon,
     labelInfo,
     labelText,
+    onClickValueChange,
     onCloseButtonClick,
     ...other
   } = props;
@@ -80,8 +84,14 @@ function StyledTreeItem(props: StyledTreeItemProps) {
   return (
     <StyledTreeItemRoot
       label={
-        <Box sx={{ alignItems: "center", p: 0.5, pr: 0 }}>
-          {/* <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} /> */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            p: 0.5,
+            pr: 0,
+          }}
+        >
           {/* <StyledChip
             sx={{
               mr: 1,
@@ -97,10 +107,21 @@ function StyledTreeItem(props: StyledTreeItemProps) {
           /> */}
           <Typography
             variant="body2"
-            sx={{ fontWeight: "inherit", flexGrow: 1 }}
+            sx={{ fontWeight: "inherit", flexGrow: 3 }}
+            onClick={() => {
+              onClickValueChange();
+            }}
           >
             {labelText}
           </Typography>
+          <IconButton
+            onClick={() => {
+              onCloseButtonClick();
+            }}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
         </Box>
       }
       style={{
@@ -124,20 +145,19 @@ export function TaskSelectTree() {
       sx={{ height: "100%", flexGrow: 1, width: "100%" }}
     >
       {selectTaskHooks.taskList.map((row, index) => (
-        <>
+        <div key={index}>
           <StyledTreeItem
-            key={index}
             nodeId={row.taskScreenName}
             labelText={`${row.AssignmentName}-${row.contestName}`}
             // labelInfo={row.taskName}
-            onClick={() => {
-              selectTaskHooks.custonValueChange(index);
-            }}
             onCloseButtonClick={() => {
               selectTaskHooks.closeTaskCont(row.taskScreenName);
             }}
+            onClickValueChange={() => {
+              selectTaskHooks.custonValueChange(index);
+            }}
           />
-        </>
+        </div>
       ))}
     </TreeView>
   );

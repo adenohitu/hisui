@@ -8,6 +8,7 @@ export const useSelectTask = () => {
   const updateTaskContList = async () => {
     const getlist = await ipcRendererManager.invoke("GET_TASK_CONT_STATUS_ALL");
     setTaskList(getlist);
+    console.log("status", getlist);
   };
   useEffect(() => {
     updateTaskContList();

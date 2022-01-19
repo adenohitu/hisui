@@ -18,10 +18,7 @@ const sample = [
   },
   {
     URL: "https://atcoder.jp/contests/abc231/tasks/abc231_a/editorial",
-    ans: {
-      contestName: "abc231",
-      taskScreenName: "abc231_a",
-    },
+    ans: null,
   },
 ];
 test("task URL scrapping1", async () => {

@@ -76,13 +76,6 @@ declare global {
       codeTestStatusEvent(func: (arg: atcoderCodeTestResult) => void);
     };
     // TaskViewWindowのPreloadにだけ存在
-    taskview: {
-      /**
-       * TaskViewのURLを初期状態に戻す
-       */
-      nowTaskViewReset();
-      nowTaskViewReload();
-    };
     ipc: any;
   }
 }

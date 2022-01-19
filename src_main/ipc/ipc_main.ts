@@ -15,6 +15,7 @@ import { mainPageapi } from "../browserview/mainpageview";
 import { submissionsApi } from "../data/submissions";
 import { ipcMainManager } from "./ipc";
 import { setWindowSplit } from "../browser/tool/monitorsize";
+import { taskViewWindowApi } from "../browser/taskviewwindow";
 //ipc通信
 export const load_ipc = () => {
   //ブラウザでurlを開く
@@ -136,5 +137,8 @@ export const load_ipc = () => {
   ipcMainManager.on("RUN_SET_WINDOW_SPLIT", (event) => {
     // Workエリアを左右に分割しWindowをセット
     setWindowSplit();
+  });
+  ipcMainManager.on("LISTENER_CHANGE_TASKPAGE_VIEW", () => {
+    taskViewWindowApi.openTasksPage();
   });
 };

@@ -58,6 +58,10 @@ export const IpcEvents = {
   // timerIPC
   LISTENER_TIMER_TICK: { mode: "send" },
   LISTENER_CONTEST_START: { mode: "send" },
+  // taskViewcontIPC
+  LISTENER_CHANGE_TASKPAGE_VIEW: { mode: "on" },
+  RUN_NOWTASKVIEW_RESET: { mode: "on" },
+  RUN_NOWTASKVIEW_RELOAD: { mode: "on" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);
