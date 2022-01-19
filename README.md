@@ -8,8 +8,11 @@
 ## :rotating_light: :construction: **警告** :construction: :rotating_light:
 
 このソフトウエアは開発段階です。予期せぬ動作をする可能性があります。
+アプリの使用に関して、詳しくは Discord の α テストのチャンネルをご覧ください。
 
 ---
+
+現在 [Github Sponsor](https://github.com/sponsors/adenohitu)にて支援を募っています。 よろしくお願いします！
 
 「Hisui」は競技プログラミングサポートツールです。  
 競プロの万能ツールのようなものです。
@@ -48,6 +51,16 @@ VSCode のエディターコアとして使われている MonacoEditor を採�
 #### 既に環境がある人に向けて、さらに便利になるようなツールの提供
 
 「問題を解く」ことや「誰かと競争する」という競技プログラミングの醍醐味をもっと楽しめるようにする。
+
+## Contributing to Hisui Projects
+
+質問や意見をするために Discord にチャンネルを用意しています。たくさんの意見をお待ちしています。  
+[![Electron Discord Invite](https://img.shields.io/discord/836870553838551050?color=%237289DA&label=chat&logo=discord&logoColor=white)](https://discord.com/invite/H2R6HrDvuc)  
+また現在 GithubSponsor にて支援を募っています。  
+[Github Sponsor @adenohitu](https://github.com/sponsors/adenohitu)  
+もしこのアプリケーションに興味を持っていただけたならば、支援もご検討お願いします。  
+Issue も歓迎ですが、まず Discord に問いかけてもらえると嬉しいです。  
+Alpha 版段階では、Pull Request に対応できないかもしれません。まず、Adenohitu に Twitter または Discord で DM をください！
 
 ## License
 
