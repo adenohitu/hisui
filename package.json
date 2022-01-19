@@ -31,7 +31,7 @@
     "compression": "maximum",
     "productName": "Hisui",
     "artifactName": "Hisui-${version}-${os}.${ext}",
-    "copyright": "Copyright © 2020-2021 Adenohitu",
+    "copyright": "Copyright © 20202 Adenohitu",
     "extends": null,
     "protocols": {
       "name": "Hisui service URL",
