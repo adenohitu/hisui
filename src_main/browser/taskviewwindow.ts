@@ -47,7 +47,6 @@ export class taskViewWindow {
         preload: __dirname + "/../preload.js",
       },
     });
-    this.win.webContents.openDevTools({ mode: "detach" });
     // ロード
     if (!app.isPackaged) {
       this.win.loadURL("http://localhost:3000#/taskview");
