@@ -1,4 +1,4 @@
-//Copyright © 2021 adenohitu. All rights reserved.
+//Copyright © 2021-2022 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
