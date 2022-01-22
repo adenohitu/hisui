@@ -1,5 +1,5 @@
 //コンテスト情報に関するモジュール
-//Copyright © 2021 adenohitu. All rights reserved.
+//Copyright © 2021-2022 adenohitu. All rights reserved.
 import contest_main from "./scraping/contest_main";
 import { scraping_contest_list, contest_list } from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";

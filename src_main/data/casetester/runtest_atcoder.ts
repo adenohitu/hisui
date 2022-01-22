@@ -1,5 +1,5 @@
 // AtCoder custom_testを使ったコードのテスト
-//Copyright © 2021 adenohitu. All rights reserved.
+//Copyright © 2021-2022 adenohitu. All rights reserved.
 import { EventEmitter } from "events";
 import { ipcSendall } from "../../browserview/mgt/ipcall";
 import { Atcoder } from "../atcoder";

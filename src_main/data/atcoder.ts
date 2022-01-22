@@ -1,6 +1,6 @@
 //atcoderとの通信用クラス
 //ログインや通信を管理
-//Copyright © 2021 adenohitu. All rights reserved.
+//Copyright © 2021-2022 adenohitu. All rights reserved.
 import axios, {
   AxiosError,
   AxiosInstance,
