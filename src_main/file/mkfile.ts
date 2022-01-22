@@ -1,5 +1,5 @@
 //フォルダ操作に関する関数
-//Copyright © 2021 adenohitu. All rights reserved.
+//Copyright © 2021-2022 adenohitu. All rights reserved.
 //ファイル操作に関するモジュール
 import { app } from "electron";
 import { store } from "../save/save";
