@@ -2,6 +2,7 @@
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import dayjs from "dayjs";
 import EventEmitter from "events";
+import { hisuiEvent } from "../event/event";
 import { contestName, taskScreenName } from "../interfaces";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
@@ -16,6 +17,10 @@ class TaskList {
     this.tasklist = [];
     this.load = false;
     this.emitter = new EventEmitter();
+    // デフォルトのコンテストが更新された時にキャッシュタイムをリセット
+    hisuiEvent.on("DefaultContestID-change", () => {
+      this.lastestUpdate = undefined;
+    });
   }
   async getTaskList(contestName?: contestName, cache: boolean = true) {
     if (this.load === true) {
@@ -35,7 +40,9 @@ class TaskList {
     ) {
       this.load = true;
       this.tasklist = await getTasklistPage(contestName);
-      this.lastestUpdate = Date.now();
+      if (this.tasklist.length !== 0) {
+        this.lastestUpdate = Date.now();
+      }
       this.load = false;
       this.emitter.emit("UPDATE_TASKLIST", this.tasklist);
       return this.tasklist;
@@ -51,7 +58,10 @@ class TaskList {
   /**
    * contestNameとTaskScreenNameからAssignmentNameを取得する
    */
-  async getAssignmentName(conName: contestName, taskscName: taskScreenName) {
+  async getAssignmentName(
+    conName: contestName,
+    taskscName: taskScreenName
+  ): Promise<string | "-"> {
     const contesttaskListAll = await this.getTaskList(conName);
     const selectedtask = contesttaskListAll.find(
       (e) => e.taskScreenName === taskscName
