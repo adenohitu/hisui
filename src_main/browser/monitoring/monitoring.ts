@@ -1,7 +1,7 @@
 import { app } from "electron";
 import { taskControlApi } from "../../editor/control";
 import { urlOpen } from "../../tool/openExternal";
-import { createTaskcontFromOriginalURL } from "../../tool/taskurl-preser";
+import { createTaskcontFromOriginalURL } from "../../tool/taskurl-parser";
 /**
  * 許可なくアクセス可能なURLのListを取得
  */
