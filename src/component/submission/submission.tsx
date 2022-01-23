@@ -9,25 +9,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Box, Button, Chip } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { submissionData } from "../../../src_main/data/scraping/submissions";
-function chipColor(status: string) {
-  if (status === "AC") {
-    return { text: "#eeeeee", back: "#4EAE49" };
-  } else if (
-    status.includes("WA") ||
-    status.includes("RE") ||
-    status.includes("TLE") ||
-    status.includes("CE")
-  ) {
-    return { text: "#eeeeee", back: "#EB9E3E" };
-  } else {
-    return undefined;
-  }
-}
+import { ChipJudgeResult } from "../chip/judge-result";
+
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
   root: { height: "100%", boxShadow: "none" },
@@ -75,16 +63,22 @@ export function SubmissionTable() {
                 {dayjs(row.created).format("YY/MM/DD HH:mm:ss")}
               </TableCell>
               <TableCell align="center">
-                <Chip
-                  style={{
-                    color: chipColor(row.result)?.text,
-                    backgroundColor: chipColor(row.result)?.back,
-                  }}
-                  size="small"
-                  label={row.result}
-                ></Chip>
+                <ChipJudgeResult result={row.result} />
               </TableCell>
-              <TableCell align="left">{row.task}</TableCell>
+              <TableCell align="left">
+                <Typography
+                  variant="body2"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    window.editor.createTaskCont({
+                      contestName: row.contestName,
+                      taskScreenName: row.taskScreenName,
+                    });
+                  }}
+                >
+                  {row.taskname_render}
+                </Typography>
+              </TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
               <TableCell align="right">{row.memory_consumption}</TableCell>
               <TableCell align="right">

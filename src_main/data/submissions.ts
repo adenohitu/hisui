@@ -110,7 +110,10 @@ class submissions {
     if (responce.status !== 302) {
       //提出ページが公開されていない場合は"ready"を返す
       if (responce.status !== 404) {
-        const data_after = await scraping_submissions_list(responce.data);
+        const data_after = await scraping_submissions_list(
+          responce.data,
+          contestID
+        );
         console.log("end get_submissions_me");
         return data_after;
       } else {
