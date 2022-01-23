@@ -4,7 +4,6 @@ import {
   Action,
   // getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import counterReducer from "../component/counter/counterSlice";
 import standingsSlice from "./Slice/standings";
 import scoreDataSlice from "./Slice/score";
 import submissionsSlice from "./Slice/submissions";
@@ -14,7 +13,6 @@ import createCaseSlice from "./Slice/casecont";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     standingData: standingsSlice,
     scoreData: scoreDataSlice,
     submissionsData: submissionsSlice,

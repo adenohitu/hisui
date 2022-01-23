@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { atcoderCodeTestResult } from "../../../src_main/data/casetester/runtest_atcoder";
 import { makeStyles } from "@mui/styles";
+import { ChipJudgeResult } from "../chip/judge-result";
 
 const useRowStyles = makeStyles({
   pre: {
@@ -21,17 +22,6 @@ const useRowStyles = makeStyles({
   },
 });
 
-const ansStatusText = (arg: atcoderCodeTestResult) => {
-  if (arg.ansStatus !== undefined) {
-    return arg.ansStatus;
-  } else {
-    if (arg.Result.ExitCode === 0) {
-      return "Runned";
-    } else {
-      return "Error";
-    }
-  }
-};
 const useTestStatus = () => {
   const [status, setstatus] = useState<atcoderCodeTestResult[]>([]);
   useEffect(() => {
@@ -77,7 +67,9 @@ function Row(props: { row: atcoderCodeTestResult }) {
         <TableCell component="th" scope="row">
           {row.TaskScreenName}
         </TableCell>
-        <TableCell align="left">{ansStatusText(row)}</TableCell>
+        <TableCell align="left">
+          <ChipJudgeResult result={row.ansStatus} />
+        </TableCell>
         <TableCell align="left">{row.Result.TimeConsumption} ms</TableCell>
         <TableCell align="left">{row.Result.LanguageName}</TableCell>
       </TableRow>
@@ -122,6 +114,14 @@ function Row(props: { row: atcoderCodeTestResult }) {
                 入力
               </Typography>
               <pre className={classes.pre}>{row.Result.Input}</pre>
+              {row.answer && (
+                <>
+                  <Typography variant="subtitle1" component="div">
+                    答え
+                  </Typography>
+                  <pre className={classes.pre}>{row.answer}</pre>
+                </>
+              )}
               <Typography variant="subtitle1" component="div">
                 出力
               </Typography>
