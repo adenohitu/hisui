@@ -8,7 +8,6 @@ import { Editor } from "./component/editor/main";
 import FormDialog from "./component/auth/login_dialog";
 import DefaltContest from "./component/setting/dafalt_contest";
 import { Home } from "./component/home/Home";
-import { Submitmain } from "./component/submit/submitwindow";
 import { TestCaseBoard } from "./component/case/main";
 import { BackgroungMenu } from "./component/menu/background";
 import { TaskViewToolbar } from "./component/taskview/toolbar";
@@ -57,9 +56,6 @@ const App: React.FC = () => {
             </Route>
             <Route path="/editor" exact>
               <Editor />
-            </Route>
-            <Route path="/submit" exact>
-              <Submitmain />
             </Route>
             <Route path="/dashboard" exact>
               <Window />
