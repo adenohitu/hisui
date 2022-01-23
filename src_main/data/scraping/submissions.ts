@@ -1,12 +1,16 @@
+import { createTaskcontFromOriginalURL_NoOrigin } from "../../tool/taskurl-parser";
+
 //atcoder.jp/contests/*/submissions/meをスクレイピングする
 const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
 export interface submissionData {
   waiting_judge: boolean;
   created: any;
-  task: any;
-  task_url: any;
-  user: any;
+  contestName: string;
+  taskScreenName: string;
+  taskname_render: string;
+  task_url: string;
+  user: string;
   language: any;
   score: any;
   source_length: any;
@@ -20,7 +24,7 @@ export interface submissionData {
 /**
  * submission ページをスクレイピング
  */
-async function scraping_submissions_list(body: any) {
+async function scraping_submissions_list(body: any, contestID: string) {
   const dom = new JSDOM(body);
   //   var alllist: any = [];
   const check_null = dom.window.document.querySelector(".panel-body");
@@ -43,7 +47,7 @@ async function scraping_submissions_list(body: any) {
         const created: any = dayjs(
           element.querySelectorAll("td")[0].textContent.trim()
         ).format();
-        const task: any = element
+        const taskname_render: any = element
           .querySelectorAll("td")[1]
           .querySelector("a")
           .textContent.trim();
@@ -67,6 +71,11 @@ async function scraping_submissions_list(body: any) {
           .querySelectorAll("td")[5]
           .textContent.trim();
         const resultCol_All: any = element.querySelectorAll("td")[6];
+        // URLをパースしてtaskScreenNameを取得
+        const urlParse = createTaskcontFromOriginalURL_NoOrigin(
+          `https://atcoder.jp${task_url}`
+        );
+
         // CEなどの場合colが３になるのでここで場合分け
         if (resultCol_All.getAttribute("colspan") === "3") {
           const result = resultCol_All.querySelector("span").textContent.trim();
@@ -77,10 +86,12 @@ async function scraping_submissions_list(body: any) {
             .querySelectorAll("td")[7]
             .querySelector("a")
             .getAttribute("href");
-          const return_data = {
+          const return_data: submissionData = {
             waiting_judge,
             created,
-            task,
+            contestName: contestID,
+            taskScreenName: urlParse.taskScreenName,
+            taskname_render,
             task_url,
             user,
             language,
@@ -110,10 +121,12 @@ async function scraping_submissions_list(body: any) {
             .querySelector("a")
             .getAttribute("href");
 
-          const return_data = {
+          const return_data: submissionData = {
             waiting_judge,
             created,
-            task,
+            contestName: contestID,
+            taskScreenName: urlParse.taskScreenName,
+            taskname_render,
             task_url,
             user,
             language,

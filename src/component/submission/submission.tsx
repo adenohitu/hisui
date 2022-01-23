@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -65,7 +65,20 @@ export function SubmissionTable() {
               <TableCell align="center">
                 <ChipJudgeResult result={row.result} />
               </TableCell>
-              <TableCell align="left">{row.task}</TableCell>
+              <TableCell align="left">
+                <Typography
+                  variant="body2"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    window.editor.createTaskCont({
+                      contestName: row.contestName,
+                      taskScreenName: row.taskScreenName,
+                    });
+                  }}
+                >
+                  {row.taskname_render}
+                </Typography>
+              </TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
               <TableCell align="right">{row.memory_consumption}</TableCell>
               <TableCell align="right">

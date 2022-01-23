@@ -37,3 +37,26 @@ export function createTaskcontFromOriginalURL(
     return null;
   }
 }
+/**
+ * /contests/abc200/tasks/abc200_a
+ * のような形式から作成
+ */
+export function createTaskcontFromOriginalURL_NoOrigin(urlNoOrigin: string) {
+  const pathName = urlNoOrigin;
+  const name = pathName.slice(
+    pathName.indexOf("contests/") + 9,
+    pathName.indexOf("/tasks")
+  );
+  // TaskScreenNameの前側を切り取る
+  const taskscNameStartCut = pathName.slice(pathName.indexOf("tasks/") + 6);
+  // 後ろに"/editorial"などがついている時外す
+  const taskscNamerResult =
+    (taskscNameStartCut.includes("/") &&
+      taskscNameStartCut.slice(undefined, taskscNameStartCut.indexOf("/"))) ||
+    taskscNameStartCut;
+
+  return {
+    contestName: name,
+    taskScreenName: taskscNamerResult,
+  };
+}
