@@ -2,6 +2,7 @@
 import { ipcMain } from "electron";
 import { editorViewapi } from "../browserview/editorview";
 import { contestDataApi } from "../data/contestdata";
+import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
@@ -100,28 +101,38 @@ class taskControl {
     if (this.taskAll[taskScreenName] !== undefined) {
       this.changeTask(taskScreenName);
     } else {
-      //taskcontを作成
-      if (language === undefined) {
-        const uselang = await store.get("defaultLanguage", "cpp");
-        // const uselang = "cpp";
-        this.taskAll[taskScreenName] = new taskcont(
-          contestName,
-          taskScreenName,
-          uselang
-        );
+      // AssignmentNameで問題の存在を確認する
+      const assignmentName = await TaskListApi.getAssignmentName(
+        contestName,
+        taskScreenName
+      );
+      if (assignmentName !== "-") {
+        //taskcontを作成
+        if (language === undefined) {
+          const uselang = await store.get("defaultLanguage", "cpp");
+          // const uselang = "cpp";
+          this.taskAll[taskScreenName] = new taskcont(
+            contestName,
+            taskScreenName,
+            uselang
+          );
+        } else {
+          this.taskAll[taskScreenName] = new taskcont(
+            contestName,
+            taskScreenName,
+            language
+          );
+        }
+        /**
+         * 初回ロードはTopに自動的になる
+         * モデルが作られる前にchangeTaskを実行することができない
+         */
+        this.nowTop = taskScreenName;
+        ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
       } else {
-        this.taskAll[taskScreenName] = new taskcont(
-          contestName,
-          taskScreenName,
-          language
-        );
+        // 問題の存在を確認できない
+        console.log(`CantFindTask:${taskScreenName}`);
       }
-      /**
-       * 初回ロードはTopに自動的になる
-       * モデルが作られる前にchangeTaskを実行することができない
-       */
-      this.nowTop = taskScreenName;
-      ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     }
   }
   /**
