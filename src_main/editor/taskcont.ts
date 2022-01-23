@@ -1,7 +1,6 @@
 // ソースファイルと問題URLを管理する
 // Editor、TaskViewの状態を管理する
 import { dialog, ipcMain } from "electron";
-import { readFile } from "fs/promises";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
 import { atcoderCodeTestApi } from "../data/casetester/runtest_atcoder";
@@ -10,16 +9,16 @@ import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 
 import { runSubmit } from "../data/submit";
 import { languagetype, languages } from "../file/extension";
-import { runMakeFile, writeFileAwait } from "../file/mkfile";
 import {
   existSamplecases,
   loadAllSamplecase,
   saveSanplecase,
-} from "../file/save";
+} from "../file/sample-fs";
 import { ipcMainManager } from "../ipc/ipc";
 import { hisuiEvent } from "../event/event";
 import { TaskListApi } from "../data/task";
 import { baseAtCoderUrl } from "../static";
+import { readFileData, writeFileData } from "../file/editor-fs";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -139,26 +138,10 @@ export class taskcont {
     TaskScreenName: string,
     language: languagetype
   ) {
-    const filePath = await runMakeFile(
-      `${TaskScreenName}${languages[language].extension}`,
-      contestName
-    );
-    const Data = await readFile(filePath, "utf-8");
-    this.filePath = filePath;
-    this.Data = Data;
-    return Data;
-  }
-  /**
-   * ファイルの更新をチェック
-   * 別アプリ等で更新した時
-   * langを更新した時に実行
-   */
-  async filereload() {
-    if (this.filePath !== null) {
-      const Data = await readFile(this.filePath, "utf-8");
-      this.Data = Data;
-      await this.syncEditorValue();
-    }
+    const Data = await readFileData(contestName, TaskScreenName, language);
+    this.filePath = Data.saveDir;
+    this.Data = Data.data;
+    return Data.data;
   }
 
   /**
@@ -167,7 +150,12 @@ export class taskcont {
   async save() {
     this.Data = await this.getValueEditor();
     if (this.Data !== null && this.filePath !== null) {
-      const status = await writeFileAwait(this.filePath, this.Data);
+      const status = await writeFileData(
+        this.Data,
+        this.contestName,
+        this.taskScreenName,
+        this.language
+      );
       this.change = false;
       return status;
     } else {
@@ -182,18 +170,18 @@ export class taskcont {
    * false=EditorのValueを引き継ぐ
    */
   async languageChange(language: languagetype, load: boolean) {
+    await this.save();
     this.language = language;
-    // ファイルの存在、新規作成
-    const filePath = await runMakeFile(
-      `${this.taskScreenName}${languages[language].extension}`,
-      this.contestName
+    // ファイルを読み込むことで存在確認する
+    const fileData = await readFileData(
+      this.contestName,
+      this.taskScreenName,
+      this.language
     );
-    this.filePath = filePath;
+    this.filePath = fileData.saveDir;
     this.changeLanguageEditor(language);
-    // 再読み込みするか
-    if (load === true) {
-      await this.filereload();
-    }
+    this.Data = fileData.data;
+    await this.syncEditorValue();
   }
 
   // TaskView
@@ -331,8 +319,8 @@ export class taskcont {
       buttons: ["提出", "キャンセル"],
     });
     if (selectStatus.response === 0) {
-      const saveStatus = await this.save();
-      if (saveStatus === "succsess" && this.Data !== null) {
+      await this.save();
+      if (this.Data !== null) {
         runSubmit(
           this.contestName,
           this.taskScreenName,
