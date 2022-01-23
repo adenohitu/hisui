@@ -1,5 +1,6 @@
 import { app } from "electron";
 import { mkdir } from "fs";
+import path from "path";
 import { store } from "../save/save";
 /**
  * 保存フォルダの設定
@@ -12,7 +13,7 @@ export const setupDefaultFolder = () => {
     console.log(`saveDir:${savedir}`);
   } else {
     //   設定されていない場合ファイルの存在をチェックした後Storeにディレクトリーを保存
-    const savepath = `${app.getPath("userData")}/${"UserData"}`;
+    const savepath = path.join(app.getPath("userData"), "UserData");
     mkdir(savepath, (err: any) => {
       if (err) {
         console.log("すでに保存フォルダが存在します");
@@ -33,6 +34,6 @@ export const setupDefaultFolder = () => {
 /**
  * デフォルトの保存フォルダーのディレクトリーを取得
  */
-export const getDefaultder = () => {
+export const getDefaultdir = () => {
   return store.get("saveDefaultFolder");
 };

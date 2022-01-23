@@ -1,8 +1,9 @@
 import { statSync } from "fs";
 import { lstat, mkdir, readdir, readFile, writeFile } from "fs/promises";
+import path from "path";
 import { SampleCase } from "../data/scraping/samplecase";
 import { contestName, taskScreenName } from "../interfaces";
-import { getDefaultder } from "./file";
+import { getDefaultdir } from "./file";
 /**
  * サンプルケースを保存する
  */
@@ -13,9 +14,9 @@ export const saveSanplecase = async (
   input: string,
   answer: string | null = null
 ) => {
-  const taskdir = await getTaskDir(contestname, taskScreenName);
-  const inputpath = `${taskdir}/sample-${sampleName}.in`;
-  const answerpath = `${taskdir}/sample-${sampleName}.out`;
+  const taskdir = await getSampleDataDir(contestname, taskScreenName);
+  const inputpath = path.join(taskdir, `sample-${sampleName}.in`);
+  const answerpath = path.join(taskdir, `sample-${sampleName}.out`);
   await writeFile(inputpath, input, "utf8");
   if (answer !== null) {
     await writeFile(answerpath, answer, "utf8");
@@ -38,8 +39,8 @@ export const existSamplecaseKnowName = async (
   taskScreenName: taskScreenName,
   sampleName: string
 ) => {
-  const taskdir = await getTaskDir(contestname, taskScreenName);
-  const inputpath = `${taskdir}/sample-${sampleName}.in`;
+  const taskdir = await getSampleDataDir(contestname, taskScreenName);
+  const inputpath = path.join(taskdir, `sample-${sampleName}.in`);
   const inputExist = await fileExists(inputpath);
   if (inputExist) {
     return true;
@@ -58,9 +59,9 @@ export const loadSamplecase: (
   input: string;
   answer?: string;
 }> = async (contestname, taskScreenName, sampleName) => {
-  const taskdir = await getTaskDir(contestname, taskScreenName);
-  const inputpath = `${taskdir}/sample-${sampleName}.in`;
-  const answerpath = `${taskdir}/sample-${sampleName}.out`;
+  const taskdir = await getSampleDataDir(contestname, taskScreenName);
+  const inputpath = path.join(taskdir, `sample-${sampleName}.in`);
+  const answerpath = path.join(taskdir, `sample-${sampleName}.out`);
   const input = await readFile(inputpath, "utf8");
   const answerExist = await fileExists(answerpath);
   if (answerExist) {
@@ -81,18 +82,16 @@ function isExistfolder(file: any) {
     if (err.code === "ENOENT") return false;
   }
 }
-export const getTaskDir = async (
+export const getSampleDataDir = async (
   contestname: contestName,
   taskScreenName: taskScreenName
 ) => {
-  const defaultdir = getDefaultder();
-
-  const taskdir = `${defaultdir}/${contestname}/${taskScreenName}`;
+  const defaultdir = getDefaultdir();
+  const taskdir = path.join(defaultdir, "sample", contestname, taskScreenName);
   if (isExistfolder(taskdir) !== true) {
     await mkdir(taskdir, { recursive: true });
   }
-
-  return `${defaultdir}/${contestname}/${taskScreenName}`;
+  return taskdir;
 };
 /**
  * サンプルケースが保存されているかをチェック
@@ -101,7 +100,9 @@ export const existSamplecases = async (
   contestname: contestName,
   taskScreenName: taskScreenName
 ) => {
-  const filelist = await readdir(await getTaskDir(contestname, taskScreenName));
+  const filelist = await readdir(
+    await getSampleDataDir(contestname, taskScreenName)
+  );
   if (filelist.findIndex((e) => e.indexOf("sample") !== -1) !== -1) {
     return true;
   } else {
@@ -119,7 +120,7 @@ export const loadAllSamplecase: (
   const exist = await existSamplecases(contestname, taskScreenName);
   if (exist === true) {
     const filelist = await readdir(
-      await getTaskDir(contestname, taskScreenName)
+      await getSampleDataDir(contestname, taskScreenName)
     );
     const inputFileNames = filelist.filter(
       (e) => e.includes("sample") && e.includes("in")
@@ -139,12 +140,15 @@ export const loadAllSamplecase: (
       }
     });
     // ファイルからサンプルを読み込む
-    const taskdir = await getTaskDir(contestname, taskScreenName);
+    const taskdir = await getSampleDataDir(contestname, taskScreenName);
     const returnData = await Promise.all(
       fileNamePair.map(async (ele) => {
-        const inputSanple = await readFile(`${taskdir}/${ele.in}`, "utf-8");
+        const inputSanple = await readFile(path.join(taskdir, ele.in), "utf-8");
         if (ele.ans) {
-          const answerSample = await readFile(`${taskdir}/${ele.ans}`, "utf-8");
+          const answerSample = await readFile(
+            path.join(taskdir, ele.ans),
+            "utf-8"
+          );
           return { name: ele.name, case: inputSanple, answer: answerSample };
         } else {
           return { name: ele.name, case: inputSanple };
