@@ -2,6 +2,7 @@
 import { app, BrowserView, BrowserWindow } from "electron";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
+import { ipcMainManager } from "../ipc/ipc";
 import { win } from "../main";
 import { store } from "../save/save";
 import { baseAtCoderUrl } from "../static";
@@ -26,6 +27,7 @@ export class taskViewWindow {
     this.win = null;
     this.nowTop = null;
     this.contestpageId = null;
+    this.setupIPC();
   }
 
   /**
@@ -84,7 +86,14 @@ export class taskViewWindow {
       return this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
     }
   }
-
+  setupIPC() {
+    // taskViewのURLを初期値に戻す
+    ipcMainManager.on("RUN_NOWTASKVIEW_RESET", () => {
+      if (this.nowTop) {
+        this.resetView(this.nowTop);
+      }
+    });
+  }
   /**
    * Windowを閉じる
    */
@@ -215,16 +224,16 @@ export class taskViewWindow {
     const DefaultContestID = contestDataApi.getDefaultContestID();
     this.contestpageId = DefaultContestID;
 
-    const taskListPageURL = `${baseAtCoderUrl}${DefaultContestID}/tasks`;
-    this.addView(DefaultContestID, taskListPageURL);
+    const contestMainPageURL = `${baseAtCoderUrl}${DefaultContestID}`;
+    this.addView(DefaultContestID, contestMainPageURL);
     /**
      * DefaultContestID-changeが変更されたらViewも更新
      */
     hisuiEvent.on("DefaultContestID-change", (arg) => {
       if (this.contestpageId) {
         this.removeView(this.contestpageId);
-        const taskListPageURL = `${baseAtCoderUrl}${arg}/tasks`;
-        this.addView(arg, taskListPageURL);
+        const contestMainPageURL = `${baseAtCoderUrl}${arg}`;
+        this.addView(arg, contestMainPageURL);
         this.contestpageId = arg;
       }
     });
@@ -232,6 +241,8 @@ export class taskViewWindow {
   // 問題一覧をTaskViewに表示する
   async openTasksPage() {
     if (this.contestpageId) {
+      const taskListPageURL = `${baseAtCoderUrl}${this.contestpageId}/tasks`;
+      this.view[this.contestpageId].view.webContents.loadURL(taskListPageURL);
       this.changeViewTop(this.contestpageId);
     }
   }
