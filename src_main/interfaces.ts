@@ -1,3 +1,4 @@
+import { editor } from "monaco-editor";
 export type returnLogin =
   | "already"
   | "success"
@@ -25,3 +26,9 @@ export type taskScreenName = string;
  * abc220 等
  */
 export type contestName = string;
+
+export interface hisuiEditorChangeModelContentObject {
+  nowmodelId: string;
+  editorValue: string;
+  eventArg: editor.IModelContentChangedEvent;
+}
