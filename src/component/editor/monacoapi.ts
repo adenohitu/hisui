@@ -13,6 +13,7 @@ import {
   createConnection,
 } from "@codingame/monaco-languageclient";
 import ReconnectingWebSocket from "reconnecting-websocket";
+import { hisuiEditorChangeModelContentObject } from "../../../src_main/interfaces";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -80,8 +81,18 @@ export class monacocontrol {
    * editorInstanceを取得
    */
   setEditorInstance(inputInstance: editor.IStandaloneCodeEditor) {
-    inputInstance.onDidChangeModelContent(() => {
-      ipcRendererManager.send("EDITOR_MODEL_CONTENTS_CHANGE");
+    // editoeModelの中身が更新された時、IPCEventを発行
+    inputInstance.onDidChangeModelContent((event) => {
+      // Modelがセットされていない時無視する
+      if (this.nowmodelId !== null) {
+        const value = this.getValue(this.nowmodelId);
+        const changeData: hisuiEditorChangeModelContentObject = {
+          nowmodelId: this.nowmodelId,
+          editorValue: value,
+          eventArg: event,
+        };
+        ipcRendererManager.send("EDITOR_MODEL_CONTENTS_CHANGE", changeData);
+      }
     });
     this.editorInstance = inputInstance;
   }
@@ -214,6 +225,8 @@ export class monacocontrol {
     });
     // changeValueの受付
     window.editor.changeValue((arg) => {
+      console.log(arg);
+
       this.changeValue(arg.id, arg.value);
     });
     // language変更の受付

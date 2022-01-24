@@ -70,9 +70,9 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
         label: "開発",
         submenu: [
           {
-            label: "test",
+            label: "allcont remove",
             click(item: any, focusedWindow: any, event: any) {
-              taskViewWindowApi.openTasksPage();
+              taskControlApi.removeAllTaskCont();
             },
           },
           {
