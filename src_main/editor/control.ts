@@ -157,14 +157,6 @@ class taskControl {
     this.taskAll[TaskScreenName].sendValueStatus();
   }
   /**
-   * TopViewのページ推移を初期状態に戻す
-   */
-  nowTaskViewReset() {
-    if (this.nowTop) {
-      this.taskAll[this.nowTop].resetTaskView();
-    }
-  }
-  /**
    * 今のページをリロード
    */
   nowTaskViewReload() {
@@ -213,10 +205,6 @@ class taskControl {
         }
       }
     );
-    // taskViewのURLを初期値に戻す
-    ipcMainManager.on("RUN_NOWTASKVIEW_RESET", () => {
-      this.nowTaskViewReset();
-    });
     ipcMainManager.on("RUN_NOWTASKVIEW_RELOAD", () => {
       this.nowTaskViewReload();
     });
