@@ -140,7 +140,7 @@ export class monacocontrol {
     }
   }
   getNowModelLang() {
-    return this.editorInstance?.getModel()?.getModeId();
+    return this.editorInstance?.getModel()?.getLanguageId();
   }
   /**
    * 新しいモデルを作成
