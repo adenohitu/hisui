@@ -1,6 +1,6 @@
 // ソースファイルと問題URLを管理する
 // Editor、TaskViewの状態を管理する
-import { dialog, ipcMain } from "electron";
+import { dialog } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { editorViewapi } from "../browserview/editorview";
 import { atcoderCodeTestApi } from "../data/casetester/runtest_atcoder";
@@ -19,6 +19,7 @@ import { hisuiEvent } from "../event/event";
 import { TaskListApi } from "../data/task";
 import { baseAtCoderUrl } from "../static";
 import { readFileData, writeFileData } from "../file/editor-fs";
+import { hisuiEditorChangeModelContentObject } from "../interfaces";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -148,8 +149,8 @@ export class taskcont {
    * データをファイルに保存
    */
   async save() {
-    this.Data = await this.getValueEditor();
-    if (this.Data !== null && this.filePath !== null) {
+    console.log(`saveEvent${this.taskScreenName}}`);
+    if (this.Data !== null) {
       const status = await writeFileData(
         this.Data,
         this.contestName,
@@ -181,7 +182,7 @@ export class taskcont {
     this.filePath = fileData.saveDir;
     this.changeLanguageEditor(language);
     this.Data = fileData.data;
-    await this.syncEditorValue();
+    await this.syncEditorValue(fileData.data);
   }
 
   // TaskView
@@ -219,13 +220,8 @@ export class taskcont {
    * ファイルに保存されているデータを優先する
    * changeValue
    */
-  async syncEditorValue() {
-    if (this.Data) {
-      this.sendValueEditor(this.Data);
-    } else {
-      // nullの時空文字を送る
-      this.sendValueEditor("");
-    }
+  async syncEditorValue(value: string) {
+    this.sendValueEditor(value);
   }
   private async sendValueEditor(data: string) {
     const syncEditor: syncEditorType = {
@@ -269,25 +265,10 @@ export class taskcont {
     ipcMainManager.send("LISTENER_EDITOR_MODEL_REMOVE", this.taskScreenName);
   }
   /**
-   * editorからValueを取得する
-   */
-  getValueEditor(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const channel = `getValue_replay-${this.taskScreenName}`;
-      // Editorから結果を取得する準備
-      ipcMain.once(channel, (event, value: string) => {
-        resolve(value);
-      });
-      // editorにValueを送信するよう命令
-      editorViewapi.view?.webContents.send("getValue", this.taskScreenName);
-    });
-  }
-  /**
    * Editorのモデル更新イベントを受け取りValueを取得
    */
-  async changeEvent() {
-    const nowEditorData = await this.getValueEditor();
-    this.Data = nowEditorData;
+  async changeEvent(arg: hisuiEditorChangeModelContentObject) {
+    this.Data = arg.editorValue;
     this.change = true;
     this.sendValueStatus();
   }

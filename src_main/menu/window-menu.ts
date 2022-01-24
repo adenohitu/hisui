@@ -12,7 +12,6 @@ import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
 import { submissionsApi } from "../data/submissions";
-import { taskViewWindowApi } from "../browser/taskviewwindow";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -70,9 +69,9 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
         label: "開発",
         submenu: [
           {
-            label: "test",
+            label: "allcont remove",
             click(item: any, focusedWindow: any, event: any) {
-              taskViewWindowApi.openTasksPage();
+              taskControlApi.removeAllTaskCont();
             },
           },
           {

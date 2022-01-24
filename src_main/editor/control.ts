@@ -5,6 +5,7 @@ import { contestDataApi } from "../data/contestdata";
 import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
+import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { ipcMainManager } from "../ipc/ipc";
 import { store } from "../save/save";
 import { editorStatus, taskcont } from "./taskcont";
@@ -204,11 +205,14 @@ class taskControl {
       this.taskAll[id].save();
     });
     // Editorの更新イベントを受け取る
-    ipcMainManager.on("EDITOR_MODEL_CONTENTS_CHANGE", () => {
-      if (this.nowTop) {
-        this.taskAll[this.nowTop].changeEvent();
+    ipcMainManager.on(
+      "EDITOR_MODEL_CONTENTS_CHANGE",
+      (e, arg: hisuiEditorChangeModelContentObject) => {
+        if (this.nowTop) {
+          this.taskAll[arg.nowmodelId].changeEvent(arg);
+        }
       }
-    });
+    );
     // taskViewのURLを初期値に戻す
     ipcMainManager.on("RUN_NOWTASKVIEW_RESET", () => {
       this.nowTaskViewReset();
