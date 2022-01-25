@@ -132,7 +132,7 @@
     "jest": "26.6.0",
     "mathjs": "^9.4.1",
     "mini-css-extract-plugin": "^2.4.3",
-    "monaco-editor": "0.31.0",
+    "monaco-editor": "0.31.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-grid-layout": "^1.2.4",
