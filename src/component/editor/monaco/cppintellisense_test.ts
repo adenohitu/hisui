@@ -8,7 +8,7 @@
 /* eslint-disable no-template-curly-in-string */
 // snippetを追加するサンプル
 import { Monaco } from "@monaco-editor/react";
-import { languages } from "monaco-editor";
+import { IRange, languages } from "monaco-editor";
 import { languagetype } from "../../../../src_main/file/extension";
 import { snippetObject } from "./sample";
 
@@ -17,21 +17,21 @@ export function addSnippet(
   language: languagetype,
   snippetIn: snippetObject
 ) {
-  function createDependencyProposals(range: any) {
-    let testData = snippetIn;
-    let newarrey: languages.CompletionItem[] = [];
-    Object.keys(testData).forEach((key) => {
-      newarrey.push({
-        label: testData[key].prefix,
-        kind: monaco.languages.CompletionItemKind.Snippet,
-        documentation: key,
-        insertText: testData[key].body.join("\n"),
+  function createDependencyProposals(
+    range: IRange
+  ): languages.CompletionItem[] {
+    return Object.keys(snippetIn).map((key) => {
+      return {
+        label: snippetIn[key].prefix,
+        kind: monaco.languages.CompletionItemKind.Function,
+        documentation: snippetIn[key].documentation,
+        detail: snippetIn[key].description,
+        insertText: snippetIn[key].body.join("\n"),
         insertTextRules:
           monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         range: range,
-      });
+      };
     });
-    return newarrey;
   }
   return monaco.languages.registerCompletionItemProvider(language, {
     provideCompletionItems: function (model, position) {
