@@ -1,164 +1,48 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import TreeView from "@mui/lab/TreeView";
-import TreeItem, { TreeItemProps, treeItemClasses } from "@mui/lab/TreeItem";
-import Typography from "@mui/material/Typography";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { SvgIconProps } from "@mui/material/SvgIcon";
-// import AssignmentIcon from "@mui/icons-material/Assignment";
-// import { Chip, chipClasses } from "@mui/material";
-import { useSelectTask } from "./taskhook";
-import { IconButton } from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useSelectTask } from "./taskhook";
 
-declare module "react" {
-  interface CSSProperties {
-    "--tree-view-color"?: string;
-    "--tree-view-bg-color"?: string;
-  }
-}
-
-type StyledTreeItemProps = TreeItemProps & {
-  bgColor?: string;
-  color?: string;
-  labelIcon?: React.ElementType<SvgIconProps>;
-  labelInfo?: string;
-  onCloseButtonClick: () => void;
-  onClickValueChange: () => void;
-  labelText: string;
-};
-
-const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  [`& .${treeItemClasses.content}`]: {
-    color: theme.palette.text.secondary,
-    paddingRight: theme.spacing(1),
-    fontWeight: theme.typography.fontWeightMedium,
-    padding: "0 4px",
-    ".MuiTreeItem-iconContainer": {
-      width: "0",
-      marginRight: 0,
-    },
-    "&.Mui-expanded": {
-      fontWeight: theme.typography.fontWeightRegular,
-    },
-    "&:hover": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&.Mui-focused, &.Mui-selected, &.Mui-selected.Mui-focused": {
-      backgroundColor: `var(--tree-view-bg-color, ${theme.palette.action.selected})`,
-      color: "var(--tree-view-color)",
-    },
-    [`& .${treeItemClasses.label}`]: {
-      fontWeight: "inherit",
-      color: "inherit",
-    },
-  },
-  [`& .${treeItemClasses.group}`]: {
-    marginLeft: 0,
-    [`& .${treeItemClasses.content}`]: {
-      paddingLeft: theme.spacing(2),
-    },
-  },
-}));
-// const StyledChip = styled(Chip)(({ theme }) => ({
-//   [`.${chipClasses.label}`]: {
-//     paddingLeft: "6px",
-//     paddingRight: "6px",
-//   },
-// }));
-function StyledTreeItem(props: StyledTreeItemProps) {
-  const {
-    bgColor,
-    color,
-    labelIcon: LabelIcon,
-    labelInfo,
-    labelText,
-    onClickValueChange,
-    onCloseButtonClick,
-    ...other
-  } = props;
-
-  return (
-    <StyledTreeItemRoot
-      label={
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            p: 0.5,
-            pr: 0,
-          }}
-        >
-          {/* <StyledChip
-            sx={{
-              mr: 1,
-              bgcolor: "green",
-              color: "white",
-              height: "15px",
-              fontSize: "13px",
-              paddingTop: "2px",
-              borderRadius: "4px",
-            }}
-            size="small"
-            label="AC"
-          /> */}
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: "inherit", flexGrow: 3 }}
-            onClick={() => {
-              onClickValueChange();
-            }}
-          >
-            {labelText}
-          </Typography>
-          <IconButton
-            onClick={() => {
-              onCloseButtonClick();
-            }}
-            size="small"
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      }
-      style={{
-        "--tree-view-color": color,
-        "--tree-view-bg-color": bgColor,
-      }}
-      {...other}
-    />
-  );
-}
-
-export function TaskSelectTree() {
+export function TaskSelectList() {
   const selectTaskHooks = useSelectTask();
 
   return (
-    <TreeView
-      aria-label="gmail"
-      defaultExpanded={["3"]}
-      defaultCollapseIcon={<ArrowDropDownIcon />}
-      defaultExpandIcon={<ArrowRightIcon />}
-      sx={{ height: "100%", flexGrow: 1, width: "100%" }}
-    >
-      {selectTaskHooks.taskList.map((row, index) => (
-        <div key={index}>
-          <StyledTreeItem
-            nodeId={row.taskScreenName}
-            labelText={`${row.AssignmentName}-${row.contestName}`}
-            // labelInfo={row.taskName}
-            onCloseButtonClick={() => {
-              selectTaskHooks.closeTaskCont(row.taskScreenName);
-            }}
-            onClickValueChange={() => {
-              selectTaskHooks.custonValueChange(index);
-            }}
-          />
-        </div>
-      ))}
-    </TreeView>
+    <List sx={{ width: "100%" }}>
+      {selectTaskHooks.taskList.map((value, index) => {
+        return (
+          <ListItem
+            key={index}
+            secondaryAction={
+              <IconButton
+                onClick={() => {
+                  selectTaskHooks.closeTaskCont(value.taskScreenName);
+                }}
+                size="small"
+              >
+                <CloseIcon />
+              </IconButton>
+            }
+            disablePadding
+          >
+            <ListItemButton
+              role={undefined}
+              onClick={() => {
+                selectTaskHooks.custonValueChange(index);
+              }}
+              dense
+            >
+              <ListItemText
+                id={value.taskScreenName}
+                primary={value.taskScreenName}
+              />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </List>
   );
 }
