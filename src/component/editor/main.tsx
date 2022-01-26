@@ -5,16 +5,16 @@ import SpeedDials from "./tool/floatingbutton";
 import { CustomTestWindow } from "../codetest/run-window";
 import { SettingAppDialog } from "../setting/system-setting";
 import { StatusBar } from "./tool/statusbar/status-bar";
-import { TaskSelectTree } from "./tool/selecter/select-tree";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "./mosaic-style.css";
 import { Box } from "@mui/system";
 import { monacoElement, useMosaicState } from "../mosaic/mosaic-hooks";
+import { TaskSelectList } from "./tool/selecter/select-tree";
 const ELEMENT_MAP: monacoElement = {
   TaskSelect: {
     component: (
       <Box>
-        <TaskSelectTree />
+        <TaskSelectList />
       </Box>
     ),
   },
