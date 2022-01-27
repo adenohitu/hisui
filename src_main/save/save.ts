@@ -1,5 +1,6 @@
 import Store from "electron-store";
 import { languagetype } from "../file/extension";
+import { ipcMainManager } from "../ipc/ipc";
 type StoreType = {
   // mainwindowの状態
   "window.main.width": number | undefined;
@@ -20,3 +21,13 @@ type StoreType = {
 };
 
 export const store = new Store<StoreType>();
+
+export const setupStoreIPC = () => {
+  ipcMainManager.handle("GET_STORE", async (e, storeKey, defaultValue) => {
+    const storeData = await store.get(storeKey, defaultValue);
+    return storeData;
+  });
+  ipcMainManager.handle("SET_STORE", async (e, storeKey, value) => {
+    return store.set(storeKey, value);
+  });
+};
