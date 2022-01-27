@@ -52,7 +52,7 @@ export class taskViewWindow {
     this.win.once("ready-to-show", () => {
       this.win?.show();
     });
-
+    this.setupLibManegimentView();
     // this.win.setAlwaysOnTop(true);
     // taskViewにデフォルトのコンテストーページをセット
     this.setupContestPage();
@@ -102,13 +102,15 @@ export class taskViewWindow {
   }
 
   // Viewが存在する場合フォーカス(setTop)する
-  async addView(id: string, url: string) {
+  async addView(id: string, url: string, preloadURI?: string) {
     if (!(id in this.view) && this.win !== null) {
       console.log("run");
 
       const createdView = new BrowserView({
         webPreferences: {
-          preload: __dirname + "/preload/atcoder-preload.js",
+          preload:
+            (preloadURI !== undefined && preloadURI) ||
+            __dirname + "/preload/atcoder-preload.js",
           nodeIntegration: false,
         },
       });
@@ -135,13 +137,12 @@ export class taskViewWindow {
         }
       });
       // ページをロード
-      createdView.webContents.loadURL(url);
-      console.log(url);
+      console.log(`ViewOpen:${url}`);
 
       // 最上部にセット
       this.win.setTopBrowserView(createdView);
       this.nowTop = id;
-      return "success";
+      return createdView.webContents.loadURL(url);
     } else {
       this.win?.setTopBrowserView(this.view[id].view);
       this.nowTop = id;
@@ -244,6 +245,25 @@ export class taskViewWindow {
       const taskListPageURL = `${baseAtCoderUrl}${this.contestpageId}/tasks`;
       this.view[this.contestpageId].view.webContents.loadURL(taskListPageURL);
       this.changeViewTop(this.contestpageId);
+    }
+  }
+  /**
+   * library managementPage のセットアップ
+   */
+  async setupLibManegimentView() {
+    // ロード
+    if (!app.isPackaged) {
+      return this.addView(
+        "lib-management",
+        "http://localhost:3000#/lib-management",
+        __dirname + "/../preload.js"
+      );
+    } else {
+      return this.addView(
+        "lib-management",
+        `file://${__dirname}/../../index.html#/lib-management`,
+        __dirname + "/../preload.js"
+      );
     }
   }
 }

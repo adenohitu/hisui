@@ -20,7 +20,7 @@ import {
   createTheme,
 } from "@mui/material/styles";
 import { ipcRendererManager } from "./ipc";
-import { SnippetAssistant } from "./component/temp-snippet/main";
+import { LibManagement } from "./component/lib-management/main";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -63,8 +63,8 @@ const App: React.FC = () => {
             <Route path="/case" exact>
               <TestCaseBoard />
             </Route>
-            <Route path="/tool" exact>
-              <SnippetAssistant />
+            <Route path="/lib-management" exact>
+              <LibManagement />
             </Route>
           </Switch>
         </HashRouter>

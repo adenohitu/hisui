@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 export function SnippetAssistantAppBar() {
   return (
     <Box>
-      <AppBar sx={{ backgroundColor: "#02162E" }} position="static">
+      <AppBar sx={{ backgroundColor: "#1E1E1E" }} position="static">
         <Toolbar variant="dense">
           <IconButton
             edge="start"
