@@ -20,7 +20,7 @@ import {
   createTheme,
 } from "@mui/material/styles";
 import { ipcRendererManager } from "./ipc";
-import { TaskSelectTree } from "./component/editor/tool/selecter/select-tree";
+import { SnippetAssistant } from "./component/temp-snippet/main";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -64,7 +64,7 @@ const App: React.FC = () => {
               <TestCaseBoard />
             </Route>
             <Route path="/tool" exact>
-              <TaskSelectTree />
+              <SnippetAssistant />
             </Route>
           </Switch>
         </HashRouter>
