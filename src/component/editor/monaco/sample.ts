@@ -9,12 +9,13 @@
 import { IMarkdownString } from "monaco-editor";
 
 export interface snippetObject {
-  [key: string]: {
-    prefix: string;
-    body: string[];
-    description: string;
-    documentation?: string | IMarkdownString;
-  };
+  [key: string]: snippetInfomation;
+}
+export interface snippetInfomation {
+  prefix: string;
+  body: string[];
+  description: string;
+  documentation?: IMarkdownString;
 }
 // cppスニペットのサンプル
 export const snippet: snippetObject = {
