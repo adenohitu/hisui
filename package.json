@@ -142,6 +142,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-syntax-highlighter": "^15.4.5",
     "recharts": "^2.0.9",
     "reconnecting-websocket": "^4.4.0",
     "sass": "^1.43.3",

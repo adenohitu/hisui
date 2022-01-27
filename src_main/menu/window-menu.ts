@@ -82,6 +82,14 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
             },
           },
           {
+            label: "oprn lib-management",
+            click(item: any, focusedWindow: any, event: any) {
+              taskViewWindowApi.view[
+                "lib-management"
+              ].view.webContents.openDevTools();
+            },
+          },
+          {
             label: "AppRelaunch",
             click(item: any, focusedWindow: any, event: any) {
               app.relaunch();

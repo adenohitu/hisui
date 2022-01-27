@@ -4,15 +4,15 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Card, CardActions, CardContent, Divider } from "@mui/material";
-import Editor from "@monaco-editor/react";
-import { snippetInfomation } from "../editor/monaco/sample";
 import ReactMarkdown from "react-markdown";
+import { snippetInfomationinArrey } from "./lib-management-hooks";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 interface Props {
-  title: string;
-  snippetChildren: snippetInfomation;
+  snippetChildren: snippetInfomationinArrey;
   language: string;
 }
-export const SnippetCard = ({ title, snippetChildren, language }: Props) => {
+export const SnippetCard = ({ snippetChildren, language }: Props) => {
   return (
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Card sx={{ minWidth: 275 }}>
@@ -24,7 +24,7 @@ export const SnippetCard = ({ title, snippetChildren, language }: Props) => {
                 variant="h4"
                 component="div"
               >
-                {title}
+                {snippetChildren.title}
               </Typography>
             </Grid>
             <Grid item>
@@ -40,25 +40,25 @@ export const SnippetCard = ({ title, snippetChildren, language }: Props) => {
             <Typography variant="h5">予測候補文字</Typography>
             <Typography variant="h6">{snippetChildren.prefix}</Typography>
             <Divider>補完コード</Divider>
-            <Editor
-              height="200px"
-              defaultLanguage="python"
-              defaultValue={snippetChildren.body.join("\n")}
-              theme="vs-dark"
-              options={{
-                domReadOnly: true,
-                readOnly: true,
-                renderControlCharacters: true,
-              }}
+            <SyntaxHighlighter
+              children={String(snippetChildren.body.join("\n")).replace(
+                /\n$/,
+                ""
+              )}
+              style={dark}
+              language={language}
+              PreTag="div"
             />
           </Box>
-          <ReactMarkdown>
-            {String(snippetChildren.documentation?.value)}
-          </ReactMarkdown>
+          {snippetChildren.documentation !== undefined && (
+            <ReactMarkdown>
+              {String(snippetChildren.documentation?.value)}
+            </ReactMarkdown>
+          )}
         </CardContent>
         <CardActions>
-          <Button>入力</Button>
-          <Button sx={{ marginLeft: "100%" }}>編集</Button>
+          {/* <Button>入力</Button> */}
+          <Button sx={{ marginLeft: "auto" }}>編集</Button>
         </CardActions>
       </Card>
     </Box>

@@ -10,19 +10,14 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { languagetype } from "../../../src_main/file/extension";
 import { SnippetAssistantAppBar } from "./appbar";
 import { SnippetCard } from "./content";
+import { useLibManagement } from "./lib-management-hooks";
 
 export function LibManagement() {
-  const [language, setLanguage] = useState<languagetype>("cpp");
-  const handleChangeLang = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value as languagetype);
-  };
+  const libManagimentState = useLibManagement();
   return (
     <>
       <SnippetAssistantAppBar />
@@ -32,9 +27,9 @@ export function LibManagement() {
             <FormControl sx={{ width: "100px" }}>
               <InputLabel>言語</InputLabel>
               <Select
-                value={language}
+                value={libManagimentState.language}
                 label="language"
-                onChange={handleChangeLang}
+                onChange={libManagimentState.handleChangeLang}
               >
                 <MenuItem value={"cpp"}>C++</MenuItem>
                 <MenuItem value={"python"}>Python</MenuItem>
@@ -42,18 +37,16 @@ export function LibManagement() {
             </FormControl>
           </Box>
           <Box pt={4}>
-            <SnippetCard
-              title="input_ini"
-              snippetChildren={{
-                prefix: "ini",
-                body: ["= int(input())"],
-                description: "標準入力(int)",
-                documentation: {
-                  value: "### 入力を補完するSnippet",
-                },
-              }}
-              language={"Python"}
-            />
+            {libManagimentState.value.map((arg, indexNum) => {
+              return (
+                <Box py={3} key={indexNum}>
+                  <SnippetCard
+                    snippetChildren={arg}
+                    language={libManagimentState.language}
+                  />
+                </Box>
+              );
+            })}
           </Box>
         </Container>
       </Box>
