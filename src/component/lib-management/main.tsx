@@ -18,7 +18,7 @@ import { languagetype } from "../../../src_main/file/extension";
 import { SnippetAssistantAppBar } from "./appbar";
 import { SnippetCard } from "./content";
 
-export function SnippetAssistant() {
+export function LibManagement() {
   const [language, setLanguage] = useState<languagetype>("cpp");
   const handleChangeLang = (event: SelectChangeEvent) => {
     setLanguage(event.target.value as languagetype);
@@ -48,7 +48,9 @@ export function SnippetAssistant() {
                 prefix: "ini",
                 body: ["= int(input())"],
                 description: "標準入力(int)",
-                documentation: { value: "### 入力を補完するSnippet" },
+                documentation: {
+                  value: "### 入力を補完するSnippet",
+                },
               }}
               language={"Python"}
             />
