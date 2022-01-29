@@ -5,6 +5,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import UndoIcon from "@mui/icons-material/Undo";
 import "./toolbar.css";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { ipcRendererManager } from "../../ipc";
 export function TaskViewToolbar() {
   return (
@@ -50,6 +51,15 @@ export function TaskViewToolbar() {
             size={"small"}
           >
             <ListAltIcon />
+          </IconButton>
+          <IconButton
+            sx={{ color: "#fff" }}
+            onClick={async () => {
+              ipcRendererManager.send("LISTENER_CHANGE_LIBMANAGEMENT_VIEW");
+            }}
+            size={"small"}
+          >
+            <SettingsIcon />
           </IconButton>
         </Box>
       </Box>
