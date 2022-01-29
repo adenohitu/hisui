@@ -5,14 +5,24 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Card, CardActions, CardContent, Divider } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { snippetInfomationinArrey } from "./lib-management-hooks";
+import {
+  snippetInfomationinArrey,
+  useLibManagement,
+} from "./lib-management-hooks";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 interface Props {
   snippetChildren: snippetInfomationinArrey;
   language: string;
+  indexNum: number;
+  libManagementHookProp: ReturnType<typeof useLibManagement>;
 }
-export const SnippetCard = ({ snippetChildren, language }: Props) => {
+export const SnippetCard = ({
+  snippetChildren,
+  language,
+  indexNum,
+  libManagementHookProp,
+}: Props) => {
   return (
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Card sx={{ minWidth: 275 }}>
@@ -58,7 +68,14 @@ export const SnippetCard = ({ snippetChildren, language }: Props) => {
         </CardContent>
         <CardActions>
           {/* <Button>入力</Button> */}
-          <Button sx={{ marginLeft: "auto" }}>編集</Button>
+          <Button
+            onClick={() => {
+              libManagementHookProp.openSettingDialog(indexNum);
+            }}
+            sx={{ marginLeft: "auto" }}
+          >
+            編集
+          </Button>
         </CardActions>
       </Card>
     </Box>
