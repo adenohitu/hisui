@@ -5,6 +5,7 @@
  *======================================================================
  */
 import {
+  Button,
   Container,
   FormControl,
   InputLabel,
@@ -12,6 +13,7 @@ import {
   Select,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { SetSnippetDialog } from "./add-dialog";
 import { SnippetAssistantAppBar } from "./appbar";
 import { SnippetCard } from "./content";
 import { useLibManagement } from "./lib-management-hooks";
@@ -21,6 +23,7 @@ export function LibManagement() {
   return (
     <>
       <SnippetAssistantAppBar />
+      <SetSnippetDialog libManagementHookProp={libManagimentState} />
       <Box pt={3}>
         <Container>
           <Box width="60px">
@@ -36,13 +39,22 @@ export function LibManagement() {
               </Select>
             </FormControl>
           </Box>
+          <Button
+            onClick={() => {
+              libManagimentState.openNewDataSettingDialog();
+            }}
+          >
+            新規作成
+          </Button>
           <Box pt={4}>
-            {libManagimentState.value.map((arg, indexNum) => {
+            {libManagimentState.values.map((arg, indexNum) => {
               return (
                 <Box py={3} key={indexNum}>
                   <SnippetCard
+                    indexNum={indexNum}
                     snippetChildren={arg}
                     language={libManagimentState.language}
+                    libManagementHookProp={libManagimentState}
                   />
                 </Box>
               );
