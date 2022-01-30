@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { languagetype } from "../../../src_main/file/extension";
 import { ipcRendererManager } from "../../ipc";
 import { snippetInfomation, snippetObject } from "../editor/monaco/sample";
+import { parse } from "jsonc-parser";
 export interface snippetInfomationinArrey extends snippetInfomation {
   title: string;
 }
@@ -11,7 +12,7 @@ export interface snippetInfomationinArrey extends snippetInfomation {
  * LibManagimentを管理するHooks
  */
 export const useLibManagement = () => {
-  const [language, setLanguage] = useState<languagetype>("python");
+  const [language, setLanguage] = useState<string>("cpp");
   const [values, setValue] = useState<snippetInfomationinArrey[]>([]);
 
   useEffect(() => {
@@ -20,12 +21,12 @@ export const useLibManagement = () => {
         "GET_STORE",
         "defaultLanguage"
       );
-      const Data: snippetObject = JSON.parse(
-        await ipcRendererManager.invoke(
-          "GET_LANG_SNIPPET",
-          (defaultLang !== undefined && defaultLang) || "cpp"
-        )
+      const lang = (defaultLang !== undefined && defaultLang) || "cpp";
+
+      const Data: snippetObject = parse(
+        await ipcRendererManager.invoke("GET_LANG_SNIPPET", lang)
       );
+      setLanguage(lang);
       const convertArrey: snippetInfomationinArrey[] = Object.keys(Data).map(
         (title) => {
           return { title, ...Data[title] };
@@ -42,7 +43,7 @@ export const useLibManagement = () => {
   const handleChangeLang = (event: SelectChangeEvent) => {
     setLanguage(event.target.value as languagetype);
     (async () => {
-      const Data: snippetObject = JSON.parse(
+      const Data: snippetObject = parse(
         await ipcRendererManager.invoke("GET_LANG_SNIPPET", event.target.value)
       );
       const convertArrey: snippetInfomationinArrey[] = Object.keys(Data).map(
