@@ -4,6 +4,14 @@ import { join } from "path";
 import { languages, languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 import { parse } from "jsonc-parser";
+const snippetDataInit = `{
+  "map": {
+    "prefix": "map",
+    "body": ["= map(int, input().split())"],
+    "description": "Atcoder_snippets"
+  }
+}
+`;
 class monacoSetting {
   savefilepath: string;
   constructor() {
@@ -30,8 +38,10 @@ class monacoSetting {
       join(this.savefilepath, lang + ".snippet"),
       "utf-8"
     ).catch((e) => {
+      // もしファイルが存在しない場合初期値をセット
+      this.updateSnippet(lang, snippetDataInit);
       console.log(`ReadError:${e}`);
-      return "";
+      return snippetDataInit;
     });
     return data;
   }
