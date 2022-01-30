@@ -22,7 +22,7 @@ export function SnippetDialog() {
 
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      allowComments: false,
+      allowComments: true,
       trailingCommas: "error",
     });
   }
