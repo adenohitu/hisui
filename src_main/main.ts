@@ -11,7 +11,7 @@ import * as path from "path";
 //   REACT_DEVELOPER_TOOLS,
 //   REDUX_DEVTOOLS,
 // } from "electron-devtools-installer";
-import { store } from "./save/save";
+import { setupStoreIPC, store } from "./save/save";
 import { load_ipc } from "./ipc/ipc_main";
 import {
   startCheckServiceStatus,
@@ -204,6 +204,8 @@ hisuiEvent.on("logout", async () => {
 });
 changeViewapi.setup();
 monacoSettingApi.setup();
+// StoreにアクセスするIPCの初期化
+setupStoreIPC();
 //ipcの呼び出し
 load_ipc();
 //メニューのセット
