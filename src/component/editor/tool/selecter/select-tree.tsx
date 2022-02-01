@@ -6,7 +6,15 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelectTask } from "./taskhook";
-
+import { styled } from "@mui/material/styles";
+const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
+  "& .MuiListItemSecondaryAction-root": {
+    right: "0px",
+  },
+  "& .MuiListItemButton-root": {
+    right: "10px",
+  },
+});
 export function TaskSelectList() {
   const selectTaskHooks = useSelectTask();
 
@@ -14,7 +22,7 @@ export function TaskSelectList() {
     <List sx={{ width: "100%" }}>
       {selectTaskHooks.taskList.map((value, index) => {
         return (
-          <ListItem
+          <StyleListItem
             key={index}
             secondaryAction={
               <IconButton
@@ -40,7 +48,7 @@ export function TaskSelectList() {
                 primary={value.taskScreenName}
               />
             </ListItemButton>
-          </ListItem>
+          </StyleListItem>
         );
       })}
     </List>
