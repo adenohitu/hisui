@@ -59,8 +59,8 @@ VSCode のエディターコアとして使われている MonacoEditor を採�
 また現在 GithubSponsor にて支援を募っています。  
 [Github Sponsor @adenohitu](https://github.com/sponsors/adenohitu)  
 もしこのアプリケーションに興味を持っていただけたならば、支援もご検討お願いします。  
-Issue も歓迎ですが、まず Discord に問いかけてもらえると嬉しいです。  
-Alpha 版段階では、Pull Request に対応できないかもしれません。まず、Adenohitu に Twitter または Discord で DM をください！
+Issue も歓迎です！まずはDiscord に問いかけてもらえると嬉しいです。  
+Alpha 版段階では、Pull Request に対応できないかもしれません。不明な点はAdenohitu に Twitter または Discord で DM をください！
 
 ## License
 
