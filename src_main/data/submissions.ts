@@ -139,7 +139,6 @@ class submissions {
       setTimeout(() => {
         serf.updateSubmissions();
       }, 5000);
-    } else {
     }
   }
 }
