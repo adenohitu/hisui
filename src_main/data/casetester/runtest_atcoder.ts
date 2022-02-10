@@ -4,7 +4,6 @@ import { EventEmitter } from "events";
 import { ipcSendall } from "../../browserview/mgt/ipcall";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
-import { languagetype, languages } from "../../file/extension";
 import { ansCheck } from "./judgetool";
 const sleepTime = 2000;
 /**
@@ -60,7 +59,7 @@ export interface atcoderCodeTestResult {
   Stdout: string;
 }
 export interface codeTestIn {
-  lang: languagetype;
+  languageId: string | number;
   code: string;
   input: string;
   answer: string | null;
@@ -88,7 +87,7 @@ class atcoderCodeTest {
    * コードを実行する
    */
   async runCodeTest(
-    lang: languagetype,
+    languageId: string | number,
     code: string,
     input: string,
     answer: string | null = null,
@@ -103,10 +102,7 @@ class atcoderCodeTest {
       );
 
       const params = new URLSearchParams();
-      params.append(
-        "data.LanguageId",
-        String(languages[lang].submitLanguageId)
-      );
+      params.append("data.LanguageId", String(languageId));
       params.append("sourceCode", code);
       params.append("input", input);
       params.append("csrf_token", csrf_token[0]);
@@ -139,7 +135,7 @@ class atcoderCodeTest {
       }
     } else {
       this.codeTestQueue.push({
-        lang,
+        languageId,
         code,
         input,
         answer,
@@ -197,7 +193,7 @@ class atcoderCodeTest {
     const next = this.codeTestQueue.shift();
     if (next) {
       this.runCodeTest(
-        next.lang,
+        next.languageId,
         next.code,
         next.input,
         next.answer,
