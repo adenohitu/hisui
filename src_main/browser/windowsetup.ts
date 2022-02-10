@@ -24,8 +24,9 @@ export function setWindowMode(mode: windowmode) {
     taskViewWindowApi.win?.on("focus", () => {
       allwindowTop("task");
     });
-  } else if (mode === "opacity") {
   }
+  // else if (mode === "opacity") {
+  // }
 }
 /**
  * フルスクリーンになっているWindowがあるかチェック
