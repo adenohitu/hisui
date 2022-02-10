@@ -8,7 +8,7 @@ import { Atcoder } from "../data/atcoder";
 import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 
 import { runSubmit } from "../data/submit";
-import { languagetype, languages } from "../file/extension";
+import { languagetype } from "../file/extension";
 import {
   existSamplecases,
   loadAllSamplecase,
@@ -194,6 +194,11 @@ export class taskcont {
     await this.syncEditorValue(fileData.data);
   }
 
+  async submitLanguageChange(arg: submitLanguage) {
+    this.submitLanguage = arg;
+    this.sendValueStatus();
+  }
+
   // TaskView
   /**
    * TaskViewを開く(初期設定)
@@ -306,7 +311,7 @@ export class taskcont {
     const selectStatus = await dialog.showMessageBox({
       type: "info",
       title: "提出確認",
-      message: "提出してもいいですか？",
+      message: `${this.taskScreenName},${this.submitLanguage.Languagename}`,
       buttons: ["提出", "キャンセル"],
     });
     if (selectStatus.response === 0) {
@@ -316,7 +321,7 @@ export class taskcont {
           this.contestName,
           this.taskScreenName,
           this.Data,
-          languages[this.language].submitLanguageId
+          this.submitLanguage.LanguageId
         );
       }
     }
