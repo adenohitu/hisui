@@ -1,6 +1,5 @@
 /**
  * コードデータの読み込みと書き込み
- *
  */
 import { lstat, mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
@@ -56,7 +55,7 @@ export async function writeFileData(
   await mkdir(contestDir, { recursive: true }).catch(() => {
     console.log("既に保存ファイルがあります");
   });
-  //　ファイルに書き込み
+  // ファイルに書き込み
   const fileName = taskScreenName + languages[language].extension;
   const loadFileDir = path.join(defalutdir, "codeData", contestName, fileName);
   console.log(`Write:${loadFileDir}`);
