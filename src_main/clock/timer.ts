@@ -1,5 +1,5 @@
 // コンテストの時間を管理
-// Dashboardの更新　コンテスト開始終了時のイベント発行
+// Dashboardの更新 コンテスト開始終了時のイベント発行
 import dayjs, { Dayjs } from "dayjs";
 import { dashboardapi } from "../browserview/dashboardview";
 import { contestDataApi } from "../data/contestdata";
