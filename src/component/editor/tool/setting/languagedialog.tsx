@@ -8,8 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { monacoControlApi } from "../editor";
-import { ipcRendererManager } from "../../../ipc";
+import { monacoControlApi } from "../../editor";
+import { ipcRendererManager } from "../../../../ipc";
 export let handleClickOpenSelectLanguageDialog: () => void;
 interface SelectLanguageDialogProps {
   open: boolean;

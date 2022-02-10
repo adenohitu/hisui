@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import { ipcRendererManager } from "../../../../ipc";
-import { handleClickOpenSelectLanguageDialog } from "../languagedialog";
+import { handleClickOpenSelectLanguageDialog } from "../setting/languagedialog";
 import { useAppStatus } from "./status-hooks";
 export function StatusBar() {
   const appStatus = useAppStatus();
