@@ -2,39 +2,39 @@
 // issue #15 を参照
 const { JSDOM } = require("jsdom");
 //問題ごとの提出可能言語を取得
-export interface lang {
-  taskScreenName: string;
+export interface submitLanguage {
+  LanguageId: string;
   Languagename: string;
-  LanguageId: number;
+}
+export interface scrapingLangReturn {
+  taskScreenName: string;
+  Taskname: string;
+  submitlangList: submitLanguage[];
 }
 
-export async function scrapingSubmitlang(body: any) {
+export async function scrapingSubmitlang(
+  body: any
+): Promise<scrapingLangReturn[]> {
   const dom = new JSDOM(body);
 
   const tasklistBefore = dom.window.document.querySelector("#select-task");
   const taskAll = tasklistBefore.querySelectorAll("option");
-  const taskAllList = [].map.call(taskAll, (element: any) => {
-    const Taskname = element.textContent.trim();
-    const taskScreenName = element.getAttribute("value");
-    return { taskScreenName, Taskname };
-  });
-
-  const taskLang: any = [].map.call(taskAllList, (element: any) => {
+  const returnData = Array.from(taskAll).map((element: any) => {
+    const Taskname: string = element.textContent.trim();
+    const taskScreenName: string = element.getAttribute("value");
     const taskLang_dom = dom.window.document.querySelector(
-      `#select-lang-${element.taskScreenName}`
+      `#select-lang-${taskScreenName}`
     );
     const submitlangAll = taskLang_dom.querySelectorAll("option");
-    const submitlangList = [].map.call(submitlangAll, (element2: any) => {
-      const Languagename = element2.textContent.trim();
-      const LanguageId = element2.getAttribute("value");
-      return { LanguageId, Languagename };
-    });
-    return {
-      taskScreenName: element.taskScreenName,
-      Taskname: element.Taskname,
-      submitlangList,
-    };
-  });
+    const submitlangList = Array.from(submitlangAll)
+      .map((element2: any) => {
+        const Languagename: string = element2.textContent.trim();
+        const LanguageId: string = element2.getAttribute("value");
+        return { LanguageId, Languagename };
+      })
+      .filter((word) => word.LanguageId !== null);
 
-  return taskLang;
+    return { taskScreenName, Taskname, submitlangList };
+  });
+  return returnData;
 }

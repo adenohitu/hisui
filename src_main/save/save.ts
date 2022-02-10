@@ -1,4 +1,5 @@
 import Store from "electron-store";
+import { submitLanguage } from "../data/scraping/submitlang";
 import { languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 type StoreType = {
@@ -16,6 +17,7 @@ type StoreType = {
   // ファイル保存に関する状態
   saveDefaultFolder: string;
   defaultLanguage: languagetype;
+  submitLanguage: submitLanguage;
   // mosaicの状態保持
   WindowState: any;
 };

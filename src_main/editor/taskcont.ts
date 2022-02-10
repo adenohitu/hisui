@@ -20,6 +20,8 @@ import { TaskListApi } from "../data/task";
 import { baseAtCoderUrl } from "../static";
 import { readFileData, writeFileData } from "../file/editor-fs";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
+import { store } from "../save/save";
+import { submitLanguage } from "../data/scraping/submitlang";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -48,6 +50,7 @@ export interface editorStatus {
   TaskScreenName: string;
   AssignmentName: string | null;
   language: string;
+  submitLanguage: submitLanguage | null;
   taskcodeByte: number | string;
 }
 
@@ -65,6 +68,8 @@ export class taskcont {
 
   // コード管理に関する変数
   language: languagetype;
+  // 提出する言語 コンパイラー別などに対応
+  submitLanguage: submitLanguage;
   // ファイルから読み込みされるデータ
   Data: string | null = null;
 
@@ -90,6 +95,10 @@ export class taskcont {
     this.taskScreenName = TaskScreenName;
     this.AssignmentName = "";
     this.language = language;
+    this.submitLanguage = store.get("submitLanguage", {
+      LanguageId: "4003",
+      Languagename: "C++ (GCC 9.2.1)",
+    });
     this.setup(contestName, TaskScreenName, language).then(() => {
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     });
@@ -282,6 +291,7 @@ export class taskcont {
       TaskScreenName: this.taskScreenName,
       AssignmentName: this.AssignmentName,
       language: this.language,
+      submitLanguage: this.submitLanguage,
       taskcodeByte: byteLength,
     };
     ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
