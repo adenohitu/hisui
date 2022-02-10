@@ -37,6 +37,7 @@ import { setupContextMenu } from "./menu/context-menu";
 import { setupProtocols } from "./tool/protocols";
 import { setMenu } from "./menu/window-menu";
 import { setWindowSplit } from "./browser/tool/monitorsize";
+import { SetIPCgetSubmitLangOption } from "./data/submit";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -223,3 +224,5 @@ setupDefaultFolder();
 setupContextMenu();
 // hisui-service://をシステムに登録
 setupProtocols();
+// 提出可能言語を取得するIPC
+SetIPCgetSubmitLangOption();

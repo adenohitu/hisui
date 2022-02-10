@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import { ipcRendererManager } from "../../../../ipc";
-import { handleClickOpenSelectLanguageDialog } from "../languagedialog";
+import { handleClickOpenSelectLanguageDialog } from "../setting/languagedialog";
 import { useAppStatus } from "./status-hooks";
 export function StatusBar() {
   const appStatus = useAppStatus();
@@ -24,6 +24,14 @@ export function StatusBar() {
       </StatusTextButton>
       <StatusTextButton>{appStatus.taskname}</StatusTextButton>
       <StatusTextButton float="right">{`${appStatus.codeSize} Byte`}</StatusTextButton>
+      <StatusTextButton
+        onClick={() => {
+          handleClickOpenSelectLanguageDialog();
+        }}
+        float="right"
+      >
+        {appStatus.submitLanguagename}
+      </StatusTextButton>
       <StatusTextButton
         onClick={() => {
           handleClickOpenSelectLanguageDialog();

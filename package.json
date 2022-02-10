@@ -7,19 +7,22 @@
   "main": "build/src_main/main.js",
   "private": true,
   "scripts": {
-    "start": "concurrently \"set BROWSER=none && yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
+    "prestart": "rimraf build",
+    "start": "run-p dev:*",
+    "dev:tsc": "tsc -w -p ./src_main/tsconfig.main.json",
+    "dev:react": "yarn react:start",
+    "dev:electron": "wait-on http://localhost:3000 && cross-env NODE_ENV=\"development\" electron .",
     "lint": "yarn react:lint && yarn electron:lint",
     "test": "jest -c ./jest.config.js",
     "build:mac": "yarn react:build && yarn electron:source_build && electron-builder --mac --universal",
-    "build:win": "yarn react:build && yarn electron:source_build&& electron-builder --win --x64",
-    "electron:source_build": "tsc -p src_main --removeComments true",
+    "build:win": "yarn react:build && yarn electron:source_build && electron-builder --win --x64",
+    "electron:source_build": "tsc -p ./src_main/tsconfig.main.json --removeComments true",
     "electron:lint": "yarn eslint --max-warnings 0 src_main/",
     "react:start": "webpack-dev-server --config ./webpack/webpack.dev.js --port 3000",
     "react:build": "webpack --config ./webpack/webpack.prod.js",
     "react:lint": "yarn eslint --max-warnings 0 src/",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && tsc -p src_main -w\" \"wait-on http://localhost:3000 && tsc -p src_main && electron .\"",
-    "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.json --out ./apidocs"
+    "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.main.json --out ./apidocs"
   },
   "build": {
     "publish": {
@@ -81,7 +84,6 @@
   "dependencies": {
     "@clangd/install": "^0.1.4",
     "axios": "^0.21.1",
-    "concurrently": "^6.0.0",
     "dayjs": "^1.10.3",
     "electron-devtools-installer": "^3.1.1",
     "electron-log": "^4.3.5",
@@ -94,7 +96,7 @@
     "portfinder": "^1.0.28",
     "typescript": "4.3.5",
     "vscode-ws-jsonrpc": "^0.2.0",
-    "wait-on": "^5.2.1",
+    "wait-on": "^6.0.0",
     "ws": "^8.2.3"
   },
   "devDependencies": {
@@ -123,6 +125,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/ws": "^8.2.0",
     "copy-webpack-plugin": "^6.3.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.2.7",
     "electron": "^15.0.0",
     "electron-builder": "^22.14.5",
@@ -133,6 +136,7 @@
     "mathjs": "^9.4.1",
     "mini-css-extract-plugin": "^2.4.3",
     "monaco-editor": "0.31.1",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-grid-layout": "^1.2.4",
@@ -145,6 +149,7 @@
     "react-syntax-highlighter": "^15.4.5",
     "recharts": "^2.0.9",
     "reconnecting-websocket": "^4.4.0",
+    "rimraf": "^3.0.2",
     "sass": "^1.43.3",
     "sass-loader": "^12.2.0",
     "seedrandom": "^3.0.5",

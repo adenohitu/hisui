@@ -77,6 +77,7 @@ class taskControl {
         TaskScreenName: "",
         AssignmentName: "",
         language: "",
+        submitLanguage: null,
         taskcodeByte: "-",
       };
       ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
@@ -226,6 +227,13 @@ class taskControl {
         }
       }
     );
+    // 提出言語を保存する
+    ipcMainManager.on("SET_SUBMIT_LANGUAGE", (e, arg) => {
+      store.set("submitLanguage", arg);
+      if (this.nowTop !== null) {
+        this.taskAll[this.nowTop].submitLanguageChange(arg);
+      }
+    });
     ipcMain.handle("getdefaultLanguage", async (event) => {
       // console.log(Atcoder_class.axiosInstance);
       const dafaultlanguage = await store.get("defaultLanguage", "cpp");

@@ -8,7 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { monacoControlApi } from "../editor";
+import { monacoControlApi } from "../../editor";
+import { SetSubmitLang } from "./set-submitlang";
 export let handleClickOpenSelectLanguageDialog: () => void;
 interface SelectLanguageDialogProps {
   open: boolean;
@@ -54,19 +55,11 @@ export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
               />
             ))}
           </RadioGroup>
+          <SetSubmitLang />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              handleClose();
-              langState.handleOk();
-            }}
-            color="primary"
-          >
-            変更
+            閉じる
           </Button>
         </DialogActions>
       </Dialog>
@@ -87,9 +80,7 @@ function Uselanguage() {
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setlang((event.target as HTMLInputElement).value);
+    window.editor.setdefaultLanguage(event.target.value, true);
   };
-  const handleOk = () => {
-    window.editor.setdefaultLanguage(lang, true);
-  };
-  return { lang, setlang, handleChange, langOptions, handleOk };
+  return { lang, setlang, handleChange, langOptions };
 }

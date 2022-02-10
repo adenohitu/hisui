@@ -14,7 +14,7 @@ import { monacoControlApi } from "../editor";
 import {
   handleClickOpenSelectLanguageDialog,
   SelectLanguageDialog,
-} from "./languagedialog";
+} from "./setting/languagedialog";
 import { focusEditor, focussubmission } from "../window_editor/editorwindow";
 import { customTestWindowOpen } from "../../codetest/run-window";
 

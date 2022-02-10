@@ -1,0 +1,2194 @@
+[
+  {
+    "taskScreenName": "abc236_a",
+    "Taskname": "A - chukodai",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_b",
+    "Taskname": "B - Who is missing?",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_c",
+    "Taskname": "C - Route Map",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_d",
+    "Taskname": "D - Dance",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_e",
+    "Taskname": "E - Average and Median",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_f",
+    "Taskname": "F - Spices",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_g",
+    "Taskname": "G - Good Vertices",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  },
+  {
+    "taskScreenName": "abc236_h",
+    "Taskname": "Ex - Distinct Multiples",
+    "submitlangList": [
+      {
+        "LanguageId": "4001",
+        "Languagename": "C (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4002",
+        "Languagename": "C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4003",
+        "Languagename": "C++ (GCC 9.2.1)"
+      },
+      {
+        "LanguageId": "4004",
+        "Languagename": "C++ (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4005",
+        "Languagename": "Java (OpenJDK 11.0.6)"
+      },
+      {
+        "LanguageId": "4006",
+        "Languagename": "Python (3.8.2)"
+      },
+      {
+        "LanguageId": "4007",
+        "Languagename": "Bash (5.0.11)"
+      },
+      {
+        "LanguageId": "4008",
+        "Languagename": "bc (1.07.1)"
+      },
+      {
+        "LanguageId": "4009",
+        "Languagename": "Awk (GNU Awk 4.1.4)"
+      },
+      {
+        "LanguageId": "4010",
+        "Languagename": "C# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4011",
+        "Languagename": "C# (Mono-mcs 6.8.0.105)"
+      },
+      {
+        "LanguageId": "4012",
+        "Languagename": "C# (Mono-csc 3.5.0)"
+      },
+      {
+        "LanguageId": "4013",
+        "Languagename": "Clojure (1.10.1.536)"
+      },
+      {
+        "LanguageId": "4014",
+        "Languagename": "Crystal (0.33.0)"
+      },
+      {
+        "LanguageId": "4015",
+        "Languagename": "D (DMD 2.091.0)"
+      },
+      {
+        "LanguageId": "4016",
+        "Languagename": "D (GDC 9.2.1)"
+      },
+      {
+        "LanguageId": "4017",
+        "Languagename": "D (LDC 1.20.1)"
+      },
+      {
+        "LanguageId": "4018",
+        "Languagename": "Dart (2.7.2)"
+      },
+      {
+        "LanguageId": "4019",
+        "Languagename": "dc (1.4.1)"
+      },
+      {
+        "LanguageId": "4020",
+        "Languagename": "Erlang (22.3)"
+      },
+      {
+        "LanguageId": "4021",
+        "Languagename": "Elixir (1.10.2)"
+      },
+      {
+        "LanguageId": "4022",
+        "Languagename": "F# (.NET Core 3.1.201)"
+      },
+      {
+        "LanguageId": "4023",
+        "Languagename": "F# (Mono 10.2.3)"
+      },
+      {
+        "LanguageId": "4024",
+        "Languagename": "Forth (gforth 0.7.3)"
+      },
+      {
+        "LanguageId": "4025",
+        "Languagename": "Fortran (GNU Fortran 9.2.1)"
+      },
+      {
+        "LanguageId": "4026",
+        "Languagename": "Go (1.14.1)"
+      },
+      {
+        "LanguageId": "4027",
+        "Languagename": "Haskell (GHC 8.8.3)"
+      },
+      {
+        "LanguageId": "4028",
+        "Languagename": "Haxe (4.0.3); js"
+      },
+      {
+        "LanguageId": "4029",
+        "Languagename": "Haxe (4.0.3); Java"
+      },
+      {
+        "LanguageId": "4030",
+        "Languagename": "JavaScript (Node.js 12.16.1)"
+      },
+      {
+        "LanguageId": "4031",
+        "Languagename": "Julia (1.4.0)"
+      },
+      {
+        "LanguageId": "4032",
+        "Languagename": "Kotlin (1.3.71)"
+      },
+      {
+        "LanguageId": "4033",
+        "Languagename": "Lua (Lua 5.3.5)"
+      },
+      {
+        "LanguageId": "4034",
+        "Languagename": "Lua (LuaJIT 2.1.0)"
+      },
+      {
+        "LanguageId": "4035",
+        "Languagename": "Dash (0.5.8)"
+      },
+      {
+        "LanguageId": "4036",
+        "Languagename": "Nim (1.0.6)"
+      },
+      {
+        "LanguageId": "4037",
+        "Languagename": "Objective-C (Clang 10.0.0)"
+      },
+      {
+        "LanguageId": "4038",
+        "Languagename": "Common Lisp (SBCL 2.0.3)"
+      },
+      {
+        "LanguageId": "4039",
+        "Languagename": "OCaml (4.10.0)"
+      },
+      {
+        "LanguageId": "4040",
+        "Languagename": "Octave (5.2.0)"
+      },
+      {
+        "LanguageId": "4041",
+        "Languagename": "Pascal (FPC 3.0.4)"
+      },
+      {
+        "LanguageId": "4042",
+        "Languagename": "Perl (5.26.1)"
+      },
+      {
+        "LanguageId": "4043",
+        "Languagename": "Raku (Rakudo 2020.02.1)"
+      },
+      {
+        "LanguageId": "4044",
+        "Languagename": "PHP (7.4.4)"
+      },
+      {
+        "LanguageId": "4045",
+        "Languagename": "Prolog (SWI-Prolog 8.0.3)"
+      },
+      {
+        "LanguageId": "4046",
+        "Languagename": "PyPy2 (7.3.0)"
+      },
+      {
+        "LanguageId": "4047",
+        "Languagename": "PyPy3 (7.3.0)"
+      },
+      {
+        "LanguageId": "4048",
+        "Languagename": "Racket (7.6)"
+      },
+      {
+        "LanguageId": "4049",
+        "Languagename": "Ruby (2.7.1)"
+      },
+      {
+        "LanguageId": "4050",
+        "Languagename": "Rust (1.42.0)"
+      },
+      {
+        "LanguageId": "4051",
+        "Languagename": "Scala (2.13.1)"
+      },
+      {
+        "LanguageId": "4052",
+        "Languagename": "Java (OpenJDK 1.8.0)"
+      },
+      {
+        "LanguageId": "4053",
+        "Languagename": "Scheme (Gauche 0.9.9)"
+      },
+      {
+        "LanguageId": "4054",
+        "Languagename": "Standard ML (MLton 20130715)"
+      },
+      {
+        "LanguageId": "4055",
+        "Languagename": "Swift (5.2.1)"
+      },
+      {
+        "LanguageId": "4056",
+        "Languagename": "Text (cat 8.28)"
+      },
+      {
+        "LanguageId": "4057",
+        "Languagename": "TypeScript (3.8)"
+      },
+      {
+        "LanguageId": "4058",
+        "Languagename": "Visual Basic (.NET Core 3.1.101)"
+      },
+      {
+        "LanguageId": "4059",
+        "Languagename": "Zsh (5.4.2)"
+      },
+      {
+        "LanguageId": "4060",
+        "Languagename": "COBOL - Fixed (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4061",
+        "Languagename": "COBOL - Free (OpenCOBOL 1.1.0)"
+      },
+      {
+        "LanguageId": "4062",
+        "Languagename": "Brainfuck (bf 20041219)"
+      },
+      {
+        "LanguageId": "4063",
+        "Languagename": "Ada2012 (GNAT 9.2.1)"
+      },
+      {
+        "LanguageId": "4064",
+        "Languagename": "Unlambda (2.0.0)"
+      },
+      {
+        "LanguageId": "4065",
+        "Languagename": "Cython (0.29.16)"
+      },
+      {
+        "LanguageId": "4066",
+        "Languagename": "Sed (4.4)"
+      },
+      {
+        "LanguageId": "4067",
+        "Languagename": "Vim (8.2.0460)"
+      }
+    ]
+  }
+]

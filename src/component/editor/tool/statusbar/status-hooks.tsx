@@ -7,13 +7,15 @@ export const useAppStatus = () => {
   const [taskname, setTaskname] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
   const [codeSize, setCodeSize] = useState<string>("-");
+  const [submitLanguagename, setSubmitLanguagename] = useState<string>("");
   useEffect(() => {
     ipcRendererManager.on("LISTENER_EDITOR_STATUS", (e, arg: editorStatus) => {
       setContestName(arg.contestName);
       setTaskname(String(arg.AssignmentName));
       setLanguage(arg.language);
       setCodeSize(String(arg.taskcodeByte));
+      setSubmitLanguagename(String(arg.submitLanguage?.Languagename));
     });
   }, []);
-  return { contestName, taskname, language, codeSize };
+  return { contestName, taskname, language, codeSize, submitLanguagename };
 };
