@@ -3,6 +3,7 @@ import { Atcoder } from "./atcoder";
 import { scrapingSubmitlang } from "./scraping/submitlang";
 import { returnSubmit } from "../interfaces";
 import { hisuiEvent } from "../event/event";
+import { ipcMainManager } from "../ipc/ipc";
 const baseUrlAtCoderContest = "https://atcoder.jp/contests/";
 
 /**
@@ -15,7 +16,15 @@ export const getSubmitLangOption = async (contestid: string) => {
   const submitLangalist = await scrapingSubmitlang(responce.data);
   return submitLangalist;
 };
-
+export const SetIPCgetSubmitLangOption = () => {
+  ipcMainManager.handle(
+    "GET_SUBMIT_LANGUAGE_LIST",
+    async (e, contestid: string) => {
+      const data = await getSubmitLangOption(contestid);
+      return data;
+    }
+  );
+};
 /**
  * コードを提出する
  */
