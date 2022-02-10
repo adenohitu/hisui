@@ -47,6 +47,7 @@ export const IpcEvents = {
   LISTENER_CHANGE_TASK_CONT_STATUS: { mode: "send" },
   CLOSE_TASKCONT: { mode: "on" },
   LISTENER_EDITOR_MODEL_REMOVE: { mode: "send" },
+  SET_SUBMIT_LANGUAGE: { mode: "on" },
   // ListenerIPC
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
