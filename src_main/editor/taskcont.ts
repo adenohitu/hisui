@@ -334,7 +334,7 @@ export class taskcont {
     await this.save();
     if (this.Data !== null) {
       atcoderCodeTestApi.runCodeTest(
-        this.language,
+        this.submitLanguage.LanguageId,
         this.Data,
         samplecase,
         answer,
