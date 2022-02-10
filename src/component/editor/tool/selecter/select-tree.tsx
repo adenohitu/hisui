@@ -11,9 +11,9 @@ const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
   "& .MuiListItemSecondaryAction-root": {
     right: "0px",
   },
-  "& .MuiListItemButton-root": {
-    right: "10px",
-  },
+  // "& .MuiListItemButton-root": {
+  //   right: "10px",
+  // },
 });
 export function TaskSelectList() {
   const selectTaskHooks = useSelectTask();
@@ -31,7 +31,7 @@ export function TaskSelectList() {
                 }}
                 size="small"
               >
-                <CloseIcon />
+                <CloseIcon fontSize="inherit" />
               </IconButton>
             }
             disablePadding
