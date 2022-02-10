@@ -77,6 +77,7 @@ class taskControl {
         TaskScreenName: "",
         AssignmentName: "",
         language: "",
+        submitLanguage: null,
         taskcodeByte: "-",
       };
       ipcMainManager.send("LISTENER_EDITOR_STATUS", result);

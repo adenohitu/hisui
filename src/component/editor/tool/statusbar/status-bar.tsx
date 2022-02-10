@@ -24,6 +24,9 @@ export function StatusBar() {
       </StatusTextButton>
       <StatusTextButton>{appStatus.taskname}</StatusTextButton>
       <StatusTextButton float="right">{`${appStatus.codeSize} Byte`}</StatusTextButton>
+      <StatusTextButton onClick={() => {}} float="right">
+        {appStatus.submitLanguagename}
+      </StatusTextButton>
       <StatusTextButton
         onClick={() => {
           handleClickOpenSelectLanguageDialog();

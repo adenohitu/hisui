@@ -38,6 +38,8 @@ export const IpcEvents = {
   SET_LANG_SNIPPET: { mode: "handle" },
   RUN_SET_WINDOW_SPLIT: { mode: "on" },
   OPEN_CONTEXT_MENU: { mode: "on" },
+  // ContestDataIPC
+  GET_SUBMIT_LANGUAGE_LIST: { mode: "handle" },
   // EditorIPC
   EDITOR_MODEL_CONTENTS_CHANGE: { mode: "on" },
   LISTENER_EDITOR_STATUS: { mode: "send" },
