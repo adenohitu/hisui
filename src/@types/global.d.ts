@@ -52,12 +52,6 @@ declare global {
        * ファイルに状態を保存
        */
       save(id: string);
-
-      /**
-       * 保存されているdafaultlanguageを取得
-       * 初期値はcpp
-       */
-      getdefaultLanguage();
       /**
        * dafaultlanguageを更新
        */
