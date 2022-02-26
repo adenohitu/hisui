@@ -10,6 +10,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { monacoControlApi } from "../../editor";
 import { SetSubmitLang } from "./set-submitlang";
+import { ipcRendererManager } from "../../../../ipc";
 export let handleClickOpenSelectLanguageDialog: () => void;
 interface SelectLanguageDialogProps {
   open: boolean;
@@ -73,7 +74,9 @@ function Uselanguage() {
   const [lang, setlang] = useState<string>("");
   useEffect(() => {
     async function fetchData() {
-      const defaultlang = await window.editor.getdefaultLanguage();
+      const defaultlang = await ipcRendererManager.invoke(
+        "GET_NOWTOP_EDITOR_LANGUAGE"
+      );
       setlang(defaultlang);
     }
     fetchData();
