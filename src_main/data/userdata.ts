@@ -1,3 +1,4 @@
+import { logger } from "../tool/logger/logger";
 import { Atcoder } from "./atcoder";
 import { scrapingUserData, UserData } from "./scraping/userdata";
 const NodeCache = require("node-cache");
@@ -22,13 +23,13 @@ export async function getUserData(
       if (data.status === 200) {
         const returnData = await scrapingUserData(data.data);
         myCache.set(`User_${userScreenName}`, returnData, 3600);
-        console.log(`user:${userScreenName}_set`);
+        logger.info(`GetUserStatus:${userScreenName}`, "UserDataFn");
         return returnData;
       } else {
         return "reqError";
       }
     } else {
-      console.log(`user:${userScreenName}_load`);
+      logger.info(`LoadUserStatus:${userScreenName}`, "UserDataFn");
       return cacheData;
     }
   } else {

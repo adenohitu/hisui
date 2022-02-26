@@ -1,5 +1,6 @@
 import { app, screen } from "electron";
 import { win } from "../../main";
+import { logger } from "../../tool/logger/logger";
 import { taskViewWindowApi } from "../taskviewwindow";
 
 /**
@@ -26,12 +27,12 @@ export const setWindowSplit = () => {
       // windowにセット
       win.setBounds(leftWindowSize);
       taskViewWindowApi.win?.setBounds(rightWindowSize);
-      console.log("windowSetSplit");
+      logger.info("windowSetSplit", "WindowManager");
     } else {
-      console.log("windowClosed");
+      logger.error("windowClosed", "WindowManager");
     }
   } else {
-    console.log("ElectronAppisnotReady");
+    logger.error("ElectronAppisnotReady", "WindowManager");
   }
 };
 

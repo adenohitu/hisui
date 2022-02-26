@@ -6,6 +6,7 @@ import { ipcMainManager } from "../ipc/ipc";
 import { win } from "../main";
 import { store } from "../save/save";
 import { baseAtCoderUrl } from "../static";
+import { logger } from "../tool/logger/logger";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
 // toolbarの分、viewの上にマージンを設定するための値
@@ -104,7 +105,7 @@ export class taskViewWindow {
   // Viewが存在する場合フォーカス(setTop)する
   async addView(id: string, url: string, preloadURI?: string) {
     if (!(id in this.view) && this.win !== null) {
-      console.log("run");
+      logger.info(`CreateView:id=${id}`, "TaskViewWindowAPI");
 
       const createdView = new BrowserView({
         webPreferences: {
@@ -137,7 +138,7 @@ export class taskViewWindow {
         }
       });
       // ページをロード
-      console.log(`ViewOpen:${url}`);
+      logger.info(`ViewOpen:id=${id}`, "TaskViewWindowAPI");
 
       // 最上部にセット
       this.win.setTopBrowserView(createdView);
@@ -146,6 +147,7 @@ export class taskViewWindow {
     } else {
       this.win?.setTopBrowserView(this.view[id].view);
       this.nowTop = id;
+      logger.info(`ViewOpen:id=${id}`, "TaskViewWindowAPI");
       return "already";
     }
   }
