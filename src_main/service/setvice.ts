@@ -1,6 +1,7 @@
 import axios from "axios";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { win } from "../main";
+import { logger } from "../tool/logger/logger";
 import { servicestatus } from "./status";
 const { app, dialog } = require("electron");
 const version = app.getVersion();
@@ -20,7 +21,10 @@ export async function runServiceStatus() {
     const data = await axios.get(statusUrl, { timeout: 30000 });
 
     const statusData: servicestatus = data.data;
-    console.log(statusData);
+    logger.info(
+      `StatusAPIReturn:${JSON.stringify(statusData)}`,
+      "ServiceStatusManagiment"
+    );
 
     if (statusData.useapp === false) {
       win?.close();
