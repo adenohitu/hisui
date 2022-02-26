@@ -30,7 +30,7 @@ const defaultState: MosaicNode<string> = {
   direction: "row",
   first: "TaskSelect",
   second: "EditorMain",
-  splitPercentage: 13,
+  splitPercentage: 15,
 };
 export const Editor = () => {
   // const classes = useStyles();

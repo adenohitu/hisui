@@ -8,9 +8,18 @@
   bottom: 0;
   left: 0;
 } */
-/* .mosaic-tile {
-  margin: 0;
-} */
+.mosaic-tile {
+  position: absolute;
+  margin: 1px;
+  padding: 1px;
+}
+.mosaic-root {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+}
 /* .mosaic.mosaic-blueprint-theme .mosaic-window,
 .mosaic.mosaic-blueprint-theme .mosaic-preview {
   box-shadow: none;

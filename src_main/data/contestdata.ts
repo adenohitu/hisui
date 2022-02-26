@@ -10,6 +10,7 @@ import { timerApi } from "../clock/timer";
 import { hisuiEvent } from "../event/event";
 import { ipcSendall } from "../browserview/mgt/ipcall";
 import { contestName } from "../interfaces";
+import { logger } from "../tool/logger/logger";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -47,7 +48,8 @@ export class contestData {
    * 開催中・開催予定のコンテストを取得し出力
    */
   async getContestInfo(): Promise<contest_list[]> {
-    console.log("run getContestInfo");
+    logger.info(`Get ContestInfo`, "ContestDataAPI");
+
     const cache = myCache.get("ContestInfo");
     const url_contest: string = "https://atcoder.jp/contests/?lang=ja";
     if (cache === undefined) {
@@ -56,10 +58,11 @@ export class contestData {
       const data_after = scraping_contest_list(data.data);
 
       myCache.set("ContestInfo", { data: data_after, time: Date.now() }, 300);
-      console.log("set getContestInfo");
+      logger.info("set myCache getContestInfo", "ContestDataAPI");
+
       return data_after;
     } else {
-      console.log("load getContestInfo");
+      logger.info("load myCache getContestInfo", "ContestDataAPI");
       return cache.data;
     }
   }
@@ -69,7 +72,7 @@ export class contestData {
    * 認証による権限の関係でアクセスできない場合はfalse
    */
   async checkContestID(taskScreenName: string) {
-    console.log("run check_SetContestID");
+    logger.info("run check_SetContestID", "ContestDataAPI");
     const url = `https://atcoder.jp/contests/${taskScreenName}`;
     const responce = await Atcoder.axiosInstance.get(url, {
       maxRedirects: 0,
@@ -96,7 +99,7 @@ export class contestData {
       }
     | "error"
   > {
-    console.log("run get_date");
+    logger.info(`get ContestDate:id=${contestID}`, "ContestDataAPI");
     const cache = myCache.get(`Date_${contestID}`);
     if (cache === undefined) {
       const url = `https://atcoder.jp/contests/${contestID}`;
@@ -113,17 +116,14 @@ export class contestData {
           { data: data, time: Date.now() },
           21600
         );
-        console.log("set get_date");
-
+        logger.info(`get ContestDate:id=${contestID}`, "ContestDataAPI");
         return data;
       } else {
-        console.log("error");
-
+        logger.error(`can't get ContestDate`, "ContestDataAPI");
         return "error";
       }
     } else {
-      console.log("load get_date");
-
+      logger.info(`load ContestDate:id=${contestID}`, "ContestDataAPI");
       return cache.data;
     }
   }
