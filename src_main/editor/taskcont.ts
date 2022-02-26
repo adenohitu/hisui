@@ -22,6 +22,7 @@ import { readFileData, writeFileData } from "../file/editor-fs";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { store } from "../save/save";
 import { submitLanguage } from "../data/scraping/submitlang";
+import { logger } from "../tool/logger/logger";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -158,7 +159,10 @@ export class taskcont {
    * データをファイルに保存
    */
   async save() {
-    console.log(`saveEvent${this.taskScreenName}}`);
+    logger.info(
+      `saveEvent:taskScreenName=${this.taskScreenName}`,
+      "taskContClass"
+    );
     if (this.Data !== null) {
       const status = await writeFileData(
         this.Data,
