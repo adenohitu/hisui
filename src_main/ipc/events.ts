@@ -48,6 +48,7 @@ export const IpcEvents = {
   CLOSE_TASKCONT: { mode: "on" },
   LISTENER_EDITOR_MODEL_REMOVE: { mode: "send" },
   SET_SUBMIT_LANGUAGE: { mode: "on" },
+  GET_NOWTOP_EDITOR_LANGUAGE: { mode: "handle" },
   // ListenerIPC
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },

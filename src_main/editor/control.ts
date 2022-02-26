@@ -234,10 +234,15 @@ class taskControl {
         this.taskAll[this.nowTop].submitLanguageChange(arg);
       }
     });
-    ipcMain.handle("getdefaultLanguage", async (event) => {
-      // console.log(Atcoder_class.axiosInstance);
-      const dafaultlanguage = await store.get("defaultLanguage", "cpp");
-      return dafaultlanguage;
+    // 現在一番上のTaskContの言語を取得
+    ipcMainManager.handle("GET_NOWTOP_EDITOR_LANGUAGE", async () => {
+      if (this.nowTop !== null) {
+        const dafaultlanguage = await this.taskAll[this.nowTop].language;
+        return dafaultlanguage;
+      } else {
+        const dafaultlanguage = await store.get("defaultLanguage", "cpp");
+        return dafaultlanguage;
+      }
     });
     // 提出する
     ipcMain.on("submitNowTop", (event) => {

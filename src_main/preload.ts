@@ -53,14 +53,6 @@ contextBridge.exposeInMainWorld("editor", {
   save: (id: string) => {
     ipcRenderer.send("save", id);
   },
-
-  // renderから送信してデータを取得 handle invoke
-  getdefaultLanguage: async () => {
-    const dafaultlanguage: string = await ipcRenderer.invoke(
-      "getdefaultLanguage"
-    );
-    return dafaultlanguage;
-  },
   setdefaultLanguage: (language: languagetype, load: boolean) => {
     ipcRenderer.send("setdefaultLanguage", language, load);
   },
