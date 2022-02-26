@@ -11,6 +11,7 @@ import { sessionRemove, setBrowserCoockie } from "../save/utility/session";
 import { hisuiEvent } from "../event/event";
 import { returnLogin, returnLogout } from "../interfaces";
 import { saveSession } from "../save/save_session";
+import { logger } from "../tool/logger/logger";
 
 const url_login: string = "https://atcoder.jp/login";
 /**
@@ -25,7 +26,11 @@ export class atcoderClass {
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
         const url = `${config.url}`;
-        console.log(`Start:Url=${url} Method=${config.method}`);
+        // console.log(`Start:Url=${url} Method=${config.method}`);
+        logger.info(
+          `start request:Url=${url} Method=${config.method}`,
+          "axios"
+        );
         return config;
       }
     );
@@ -34,14 +39,14 @@ export class atcoderClass {
       (response: AxiosResponse) => {
         const status = response.status;
         const url = response?.config.url;
-        console.log(`Success:Url=${url} Status=${status}`);
+        logger.info(`request success:Url=${url} Status=${status}`, "axios");
         return response;
       },
       (error: AxiosError) => {
-        // const status = error.response?.status;
-        // const message = error.response?.data.messages[0] || "No message.";
-        // const url = error.response?.config.url;
-        console.log(`Error:Url=${error.config.url} Status=${error.message}`);
+        logger.error(
+          `error:Url="${error.config.url}" message=${error.message}`,
+          "axios"
+        );
       }
     );
   }
