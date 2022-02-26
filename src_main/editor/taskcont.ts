@@ -20,8 +20,8 @@ import { TaskListApi } from "../data/task";
 import { baseAtCoderUrl } from "../static";
 import { readFileData, writeFileData } from "../file/editor-fs";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
-import { store } from "../save/save";
 import { submitLanguage } from "../data/scraping/submitlang";
+import { logger } from "../tool/logger/logger";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -95,10 +95,22 @@ export class taskcont {
     this.taskScreenName = TaskScreenName;
     this.AssignmentName = "";
     this.language = language;
-    this.submitLanguage = store.get("submitLanguage", {
-      LanguageId: "4003",
-      Languagename: "C++ (GCC 9.2.1)",
-    });
+    if (language === "cpp") {
+      this.submitLanguage = {
+        LanguageId: "4003",
+        Languagename: "C++ (GCC 9.2.1)",
+      };
+    } else if (language === "python") {
+      this.submitLanguage = {
+        LanguageId: "4006",
+        Languagename: "Python (3.8.2)",
+      };
+    } else {
+      this.submitLanguage = {
+        LanguageId: "4003",
+        Languagename: "C++ (GCC 9.2.1)",
+      };
+    }
     this.setup(contestName, TaskScreenName, language).then(() => {
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     });
@@ -158,7 +170,10 @@ export class taskcont {
    * データをファイルに保存
    */
   async save() {
-    console.log(`saveEvent${this.taskScreenName}}`);
+    logger.info(
+      `saveEvent:taskScreenName=${this.taskScreenName}`,
+      "taskContClass"
+    );
     if (this.Data !== null) {
       const status = await writeFileData(
         this.Data,
@@ -191,6 +206,22 @@ export class taskcont {
     this.filePath = fileData.saveDir;
     this.changeLanguageEditor(language);
     this.Data = fileData.data;
+    if (language === "cpp") {
+      this.submitLanguage = {
+        LanguageId: "4003",
+        Languagename: "C++ (GCC 9.2.1)",
+      };
+    } else if (language === "python") {
+      this.submitLanguage = {
+        LanguageId: "4006",
+        Languagename: "Python (3.8.2)",
+      };
+    } else {
+      this.submitLanguage = {
+        LanguageId: "4003",
+        Languagename: "C++ (GCC 9.2.1)",
+      };
+    }
     await this.syncEditorValue(fileData.data);
   }
 
