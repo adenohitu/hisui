@@ -1,6 +1,7 @@
 import { ipcSendall } from "../browserview/mgt/ipcall";
 import { hisuiEvent } from "../event/event";
 import { ipcMainManager } from "../ipc/ipc";
+import { logger } from "../tool/logger/logger";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import scraping_submissions_list, {
@@ -99,7 +100,7 @@ class submissions {
   async getSubmissionMe(
     contestID: string = contestDataApi.getDefaultContestID()
   ) {
-    console.log("run get_submissions_me");
+    logger.info("run get_submissions_me", "submissionsAPI");
     const standings_url = `https://atcoder.jp/contests/${contestID}/submissions/me`;
     const responce = await Atcoder.axiosInstance.get(standings_url, {
       maxRedirects: 0,
@@ -114,14 +115,14 @@ class submissions {
           responce.data,
           contestID
         );
-        console.log("end get_submissions_me");
+        logger.info("end get_submissions_me", "submissionsAPI");
         return data_after;
       } else {
-        console.log("ready");
+        logger.info("SubmissionsPage is not ready", "submissionsAPI");
         return [];
       }
     } else {
-      console.log("must login");
+      logger.info("Need to Login", "submissionsAPI");
       return [];
     }
   }
@@ -131,14 +132,16 @@ class submissions {
       this.updateSubmissions();
     });
   }
-  // 不具合により一時的に使用不可
+  /**
+   * ジャッジ中のものがある場合、Intervalを取った後もう一度リクエスト
+   */
   private async checkInterval(data: submissionData[]) {
     const getindex = data.find((element) => element.waiting_judge === true);
     if (getindex !== undefined) {
       var serf = this;
       setTimeout(() => {
         serf.updateSubmissions();
-      }, 5000);
+      }, 3000);
     }
   }
 }
