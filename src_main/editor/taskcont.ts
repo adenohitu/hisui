@@ -236,7 +236,7 @@ export class taskcont {
    */
   async openTaskView(contestName: string, TaskScreenName: string) {
     const taskUrl = `${baseAtCoderUrl}${contestName}/tasks/${TaskScreenName}`;
-    console.log(taskUrl);
+    logger.info(`OpenViewRequest:URL=${taskUrl}`, "taskContClass");
 
     await taskViewWindowApi.addView(TaskScreenName, taskUrl);
   }
@@ -389,6 +389,10 @@ export class taskcont {
       this.taskScreenName
     );
     if (existsamplecase === false || cache === false) {
+      logger.info(
+        `getAllSampleCase:URL=${this.taskScreenName}`,
+        "taskContClass"
+      );
       // サンプルケースを問題ページからダウンロード
       const url = `https://atcoder.jp/contests/${this.contestName}/tasks/${this.taskScreenName}`;
       const getTaskPage = await Atcoder.axiosInstance.get(url);
@@ -410,6 +414,11 @@ export class taskcont {
         return "request_Error";
       }
     } else {
+      logger.info(
+        `LoadCache AllSampleCase:URL=${this.taskScreenName}`,
+        "taskContClass"
+      );
+
       // ファイルからキャッシュされたサンプルケースを読み込む
       const returnData = await loadAllSamplecase(
         this.contestName,
