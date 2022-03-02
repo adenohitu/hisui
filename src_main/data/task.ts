@@ -7,7 +7,7 @@ import { contestName, taskScreenName } from "../interfaces";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { scrapingTaskList, taskList } from "./scraping/tasklist";
-const cacheTime = 4000;
+const cacheTime = 120000;
 class TaskList {
   tasklist: taskList[];
   lastestUpdate: number | undefined;

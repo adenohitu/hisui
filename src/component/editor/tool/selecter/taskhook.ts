@@ -1,17 +1,36 @@
 import { useEffect, useState } from "react";
+import { taskList } from "../../../../../src_main/data/scraping/tasklist";
 import { taskNowStatus } from "../../../../../src_main/editor/control";
 import { ipcRendererManager } from "../../../../ipc";
 
 export const useSelectTask = () => {
   const [taskList, setTaskList] = useState<taskNowStatus[]>([]);
   const [value, setValue] = useState<number | false>(false);
-  const updateTaskContList = async () => {
-    const getlist = await ipcRendererManager.invoke("GET_TASK_CONT_STATUS_ALL");
+  const [nowContestTaskList, setNowContestTaskList] = useState<taskList[]>([]);
+
+  const updateTaskContList = async (getTaskList: boolean = false) => {
+    // TaskContのListを取得
+    const getlist: taskNowStatus[] = await ipcRendererManager.invoke(
+      "GET_TASK_CONT_STATUS_ALL"
+    );
     setTaskList(getlist);
-    console.log("status", getlist);
+    // 現在のコンテストのListを取得
+    const data: taskList[] = await ipcRendererManager.invoke("GET_TASK_LIST");
+    setNowContestTaskList(data);
+    // TaskListで重複が出ないように更新時に毎回実行
+    const nowRemoveData = data.slice().filter((ele) => {
+      return !getlist.some((element) => {
+        return element.taskScreenName === ele.taskScreenName;
+      });
+    });
+    setNowContestTaskList(nowRemoveData);
+    console.log(nowRemoveData);
   };
   useEffect(() => {
     updateTaskContList();
+    ipcRendererManager.on("LISTENER_CHANGE_SET_CONTESTID", () => {
+      updateTaskContList();
+    });
     ipcRendererManager.on("LISTENER_CONTEST_START", async (e, contestName) => {
       updateTaskContList();
     });
@@ -19,6 +38,20 @@ export const useSelectTask = () => {
       updateTaskContList();
     });
   }, []);
+
+  const custonValueChangeDefaltTask = (newValue: number) => {
+    // taskContを作成
+    // 存在する場合フォーカスする
+    const data = nowContestTaskList[newValue];
+    console.log({
+      contestName: data.contestName,
+      taskScreenName: data.taskScreenName,
+    });
+    window.editor.createTaskCont({
+      contestName: data.contestName,
+      taskScreenName: data.taskScreenName,
+    });
+  };
 
   const custonValueChange = (newValue: number) => {
     setValue(newValue);
@@ -42,9 +75,11 @@ export const useSelectTask = () => {
   };
   return {
     taskList,
+    nowContestTaskList,
     value,
     updateTaskContList,
     custonValueChange,
+    custonValueChangeDefaltTask,
     closeTaskCont,
   };
 };
