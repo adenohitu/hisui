@@ -14,7 +14,11 @@ export const useAppStatus = () => {
       setTaskname(String(arg.AssignmentName));
       setLanguage(arg.language);
       setCodeSize(String(arg.taskcodeByte));
-      setSubmitLanguagename(String(arg.submitLanguage?.Languagename));
+      setSubmitLanguagename(
+        (arg.submitLanguage?.Languagename &&
+          arg.submitLanguage?.Languagename) ||
+          ""
+      );
     });
   }, []);
   return { contestName, taskname, language, codeSize, submitLanguagename };
