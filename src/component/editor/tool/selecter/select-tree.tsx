@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelectTask } from "./taskhook";
 import { styled } from "@mui/material/styles";
+import { Divider } from "@mui/material";
 const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
   "& .MuiListItemSecondaryAction-root": {
     right: "0px",
@@ -20,6 +21,25 @@ export function TaskSelectList() {
 
   return (
     <List sx={{ width: "100%" }}>
+      {selectTaskHooks.nowContestTaskList.map((value, index) => {
+        return (
+          <StyleListItem key={index} disablePadding>
+            <ListItemButton
+              role={undefined}
+              onClick={() => {
+                selectTaskHooks.custonValueChangeDefaltTask(index);
+              }}
+              dense
+            >
+              <ListItemText
+                id={value.taskScreenName}
+                primary={value.taskScreenName}
+              />
+            </ListItemButton>
+          </StyleListItem>
+        );
+      })}
+      <Divider />
       {selectTaskHooks.taskList.map((value, index) => {
         return (
           <StyleListItem
