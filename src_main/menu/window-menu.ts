@@ -9,6 +9,7 @@ import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
 import { submissionsApi } from "../data/submissions";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { win } from "../main";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -108,7 +109,15 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
           {
             label: "DevToolsOnMainwindow",
             click(item: any, focusedWindow: any, event: any) {
-              focusedWindow.webContents.openDevTools({ mode: "detach" });
+              win?.webContents.openDevTools({ mode: "detach" });
+            },
+          },
+          {
+            label: "DevToolsOnTaskView",
+            click(item: any, focusedWindow: any, event: any) {
+              taskViewWindowApi.win?.webContents.openDevTools({
+                mode: "detach",
+              });
             },
           },
         ],
