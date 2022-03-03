@@ -41,13 +41,13 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <HashRouter>
           <Switch>
-            <Route path="/taskview" exact>
-              <TaskViewToolbar />
-            </Route>
             <Route path="/leftmenu" exact>
               <Menu>
-                <BackgroungMenu />
+                <Editor />
               </Menu>
+            </Route>
+            <Route path="/taskview" exact>
+              <TaskViewToolbar />
             </Route>
             <Route path="/" exact>
               <FormDialog />

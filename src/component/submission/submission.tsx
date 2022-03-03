@@ -70,7 +70,7 @@ export function SubmissionTable() {
                   variant="body2"
                   sx={{ cursor: "pointer" }}
                   onClick={() => {
-                    window.editor.createTaskCont({
+                    ipcRendererManager.send("CREATE_TASKCONT", {
                       contestName: row.contestName,
                       taskScreenName: row.taskScreenName,
                     });

@@ -1,4 +1,3 @@
-import { ipcSendall } from "../browserview/mgt/ipcall";
 import { hisuiEvent } from "../event/event";
 import { ipcMainManager } from "../ipc/ipc";
 import { logger } from "../tool/logger/logger";
@@ -60,7 +59,10 @@ class submissions {
       );
       this.checkInterval(this.selectContestSubmissions);
       // viewに取得したデータを送信
-      ipcSendall("LISTENER_RETUEN_SUBMISSIONS", this.selectContestSubmissions);
+      ipcMainManager.send(
+        "LISTENER_RETUEN_SUBMISSIONS",
+        this.selectContestSubmissions
+      );
     }
   }
 

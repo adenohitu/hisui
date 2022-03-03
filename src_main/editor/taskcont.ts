@@ -2,7 +2,6 @@
 // Editor、TaskViewの状態を管理する
 import { dialog } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
-import { editorViewapi } from "../browserview/editorview";
 import { atcoderCodeTestApi } from "../data/casetester/runtest_atcoder";
 import { Atcoder } from "../data/atcoder";
 import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
@@ -263,7 +262,6 @@ export class taskcont {
   /**
    * editorと状態をファイルの状態を同期
    * ファイルに保存されているデータを優先する
-   * changeValue
    */
   async syncEditorValue(value: string) {
     this.sendValueEditor(value);
@@ -273,7 +271,7 @@ export class taskcont {
       id: this.taskScreenName,
       value: data,
     };
-    editorViewapi.view?.webContents.send("changeValue", syncEditor);
+    ipcMainManager.send("CHANGE_EDITOR_VALUE", syncEditor);
   }
   /**
    * editorの初期設定
@@ -291,7 +289,7 @@ export class taskcont {
       language,
       path,
     };
-    editorViewapi.view?.webContents.send("createModel", createEditorModel);
+    ipcMainManager.send("CREATE_EDITOR_MODEL", createEditorModel);
   }
   /**
    * 言語変更をEditorに送信
@@ -301,7 +299,7 @@ export class taskcont {
       id: this.taskScreenName,
       language,
     };
-    editorViewapi.view?.webContents.send("changeLanguage", changeLanguage);
+    ipcMainManager.send("CHANGE_EDITOR_LANGUAGE", changeLanguage);
   }
   /**
    * モデルの削除

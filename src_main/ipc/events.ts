@@ -49,8 +49,22 @@ export const IpcEvents = {
   LISTENER_EDITOR_MODEL_REMOVE: { mode: "send" },
   SET_SUBMIT_LANGUAGE: { mode: "on" },
   GET_NOWTOP_EDITOR_LANGUAGE: { mode: "handle" },
-  // ListenerIPC
+  // MonacoIPC
+  CREATE_EDITOR_MODEL: { mode: "send" },
+  SET_EDITOR_MODEL: { mode: "send" },
+  CHANGE_EDITOR_VALUE: { mode: "send" },
+  CHANGE_EDITOR_LANGUAGE: { mode: "send" },
+  // GET_VALUE: { mode: "send" },
+  // TaskContIPC
+  CREATE_TASKCONT: { mode: "on" },
+  RUN_SAVE_TASKCONT: { mode: "on" },
+  SET_DEFAULT_LANGUAGE: { mode: "on" },
+  RUN_SUBMIT_NOWTOP: { mode: "on" },
+  RUN_CODETEST_NOWTOP: { mode: "on" },
+  // CodeTestIPC
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
+  // ListenerIPC
+  LISTENER_CODETEST_STATUS_EVENT: { mode: "send" },
   LISTENER_OPEN_LOGIN_DIALOG: { mode: "send" },
   LISTENER_OPEN_DEFAULT_DIALOG: { mode: "send" },
   LISTENER_OPEN_EDITOR_SETTING_DIALOG: { mode: "send" },

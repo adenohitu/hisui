@@ -13,6 +13,7 @@ import {
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { focuscodeTest } from "../editor/window_editor/editorwindow";
+import { ipcRendererManager } from "../../ipc";
 export let TestToolhandleClickOpen: () => void | undefined;
 export default function TestTool() {
   const [input, setinput] = useState("");
@@ -22,9 +23,9 @@ export default function TestTool() {
     handleClose();
     focuscodeTest();
     if (ans) {
-      window.editor.runcodeTestNowTop(input, inputans);
+      ipcRendererManager.send("RUN_CODETEST_NOWTOP", input, inputans);
     } else {
-      window.editor.runcodeTestNowTop(input, null);
+      ipcRendererManager.send("RUN_CODETEST_NOWTOP", input, null);
     }
   };
   const [open, setOpen] = useState(false);

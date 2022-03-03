@@ -202,8 +202,7 @@ export class monacocontrol {
   saveNowValue() {
     const taskid = this.nowmodelId;
     if (taskid !== null) {
-      // mainのTaskContで保存イベントを発生させるよう
-      window.editor.save(taskid);
+      ipcRendererManager.send("RUN_SAVE_TASKCONT", taskid);
     }
   }
 
@@ -213,24 +212,25 @@ export class monacocontrol {
    */
   async ipcSetup() {
     // createModelの受付
-    window.editor.createModel((arg: createEditorModelType) => {
-      this.createModel(arg.id, arg.value, arg.language, arg.path);
-    });
-    // setModelの受付
-    window.editor.setModel((id: string) => {
+    ipcRendererManager.on(
+      "CREATE_EDITOR_MODEL",
+      (e, arg: createEditorModelType) => {
+        this.createModel(arg.id, arg.value, arg.language, arg.path);
+      }
+    );
+    ipcRendererManager.on("SET_EDITOR_MODEL", (e, id: string) => {
       this.setModel(id);
     });
     ipcRendererManager.on("LISTENER_EDITOR_MODEL_REMOVE", (e, id: string) => {
       this.deleteModel(id);
     });
     // changeValueの受付
-    window.editor.changeValue((arg) => {
+    ipcRendererManager.on("CHANGE_EDITOR_VALUE", (e, arg) => {
       console.log(arg);
-
       this.changeValue(arg.id, arg.value);
     });
     // language変更の受付
-    window.editor.changeLanguage((arg) => {
+    ipcRendererManager.on("CHANGE_EDITOR_LANGUAGE", (e, arg) => {
       console.log(arg);
 
       this.changeLanguage(arg.id, arg.language);

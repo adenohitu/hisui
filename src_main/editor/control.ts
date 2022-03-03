@@ -1,5 +1,4 @@
 // taskcontを管理するApi
-import { ipcMain } from "electron";
 import { editorViewapi } from "../browserview/editorview";
 import { contestDataApi } from "../data/contestdata";
 import { TaskListApi } from "../data/task";
@@ -154,7 +153,7 @@ class taskControl {
     // editorEvent
     // editorの更新をチェック
     // editorのモデルをチェンジ
-    editorViewapi.view?.webContents.send("setModel", TaskScreenName);
+    ipcMainManager.send("SET_EDITOR_MODEL", TaskScreenName);
     this.taskAll[TaskScreenName].sendValueStatus();
   }
   /**
@@ -183,7 +182,7 @@ class taskControl {
    */
   setupIPCMain() {
     // taskcontを作成する
-    ipcMain.on("createTaskCont", (event, arg: taskContStatusType) => {
+    ipcMainManager.on("CREATE_TASKCONT", (event, arg: taskContStatusType) => {
       this.createNewTask(
         arg.contestName,
         arg.taskScreenName,
@@ -194,7 +193,7 @@ class taskControl {
     ipcMainManager.on("CLOSE_TASKCONT", (e, taskScreenName: string) => {
       this.closeTaskCont(taskScreenName);
     });
-    ipcMain.on("save", (event, id: string) => {
+    ipcMainManager.on("RUN_SAVE_TASKCONT", (event, id: string) => {
       this.taskAll[id].save();
     });
     // Editorの更新イベントを受け取る
@@ -212,8 +211,8 @@ class taskControl {
 
     // dafaultlangageに関するIPC
     // デフォルトの言語を変更
-    ipcMain.on(
-      "setdefaultLanguage",
+    ipcMainManager.on(
+      "SET_DEFAULT_LANGUAGE",
       (event, language: languagetype, load: boolean) => {
         // storeに保存
         console.log(language);
@@ -245,14 +244,14 @@ class taskControl {
       }
     });
     // 提出する
-    ipcMain.on("submitNowTop", (event) => {
+    ipcMainManager.on("RUN_SUBMIT_NOWTOP", (event) => {
       if (this.nowTop !== null) {
         this.taskAll[this.nowTop].submit();
       }
     });
     // コードテストを実行
-    ipcMain.on(
-      "runcodeTestNowTop",
+    ipcMainManager.on(
+      "RUN_CODETEST_NOWTOP",
       async (event, samplecase: string, answer: string | null = null) => {
         if (this.nowTop !== null) {
           const result = await this.taskAll[this.nowTop].codeTest(

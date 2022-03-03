@@ -197,7 +197,7 @@ function getHisuiControlMenu(): Array<MenuItemConstructorOptions> {
         {
           label: "login",
           click(item: any, focusedWindow: any, event: any) {
-            mainPageapi.openLoginDialog();
+            ipcMainManager.send("LISTENER_OPEN_LOGIN_DIALOG");
           },
         },
         {
@@ -221,7 +221,7 @@ function getHisuiControlMenu(): Array<MenuItemConstructorOptions> {
         {
           label: "Select Contest",
           click(item: any, focusedWindow: any, event: any) {
-            mainPageapi.openDafaultContestDialog();
+            ipcMainManager.send("LISTENER_OPEN_DEFAULT_DIALOG");
           },
         },
         { type: "separator" },
