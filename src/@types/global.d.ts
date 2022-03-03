@@ -1,34 +1,9 @@
-import { atcoderCodeTestResult } from "../../src_main/casetester/runtest_atcoder";
-import { createEditorModelType } from "../../src_main/editor/taskcont";
-
 export default interface Api {
   electronIpcInvoke: (channel: string, ...arg: any) => Promise<void | string[]>;
 }
 declare global {
   interface Window {
     editor: {
-      /**
-       * Mainからのモデル作成イベントを受け付ける
-       * taskcont:createEditorModelType
-       */
-      createModel(func: (createEditorModelType: createEditorModelType) => void);
-      /**
-       * mainからモデルセットのイベントを受け付ける
-       * id:string
-       */
-      setModel(func: (id: string) => void);
-      /**
-       * mainからファイルのデータの更新を受け取る
-       */
-      changeValue(
-        func: (syncEditorType: { id: string; value: string }) => void
-      );
-      /**
-       * mainから言語の変更を受け取る
-       */
-      changeLanguage(
-        func: (changeLanguageType: { id: string; language: string }) => void
-      );
       /**
        * mainからValueを送信するように依頼されるイベント
        */
@@ -37,37 +12,6 @@ declare global {
        * 返信イベント
        */
       getValue_replay(TaskScreenName: string, value: string);
-
-      // mainに送信
-      /**
-       * TaskContを作成
-       */
-      createTaskCont(arg: {
-        contestName: string;
-        taskScreenName: string;
-        // 指定がない場合、デフォルトの言語を使用
-        language?: languagetype;
-      });
-      /**
-       * ファイルに状態を保存
-       */
-      save(id: string);
-      /**
-       * dafaultlanguageを更新
-       */
-      setdefaultLanguage(language: string, load: boolean);
-      /**
-       * 一番上になっているTaskContのコードを提出する
-       */
-      submitNowTop();
-      /**
-       * 一番上になっているTaskContのコードをテストする
-       */
-      runcodeTestNowTop(samplecase: string, answer: string | null = null);
-      /**
-       * コードテストの結果の更新イベントを受け取る
-       */
-      codeTestStatusEvent(func: (arg: atcoderCodeTestResult) => void);
     };
     // TaskViewWindowのPreloadにだけ存在
     ipc: any;

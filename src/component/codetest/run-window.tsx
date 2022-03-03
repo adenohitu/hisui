@@ -39,9 +39,9 @@ export function CustomTestWindow() {
     handleClose();
     focuscodeTest();
     if (ans) {
-      window.editor.runcodeTestNowTop(inputarg, ans);
+      ipcRendererManager.send("RUN_CODETEST_NOWTOP", inputarg, ans);
     } else {
-      window.editor.runcodeTestNowTop(inputarg, null);
+      ipcRendererManager.send("RUN_CODETEST_NOWTOP", inputarg, null);
     }
   };
   customTestWindowOpen = () => {

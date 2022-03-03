@@ -5,12 +5,11 @@ import { scraping_contest_list, contest_list } from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";
 import { store } from "../save/save";
 import { Atcoder } from "./atcoder";
-import { dashboardapi } from "../browserview/dashboardview";
 import { timerApi } from "../clock/timer";
 import { hisuiEvent } from "../event/event";
-import { ipcSendall } from "../browserview/mgt/ipcall";
 import { contestName } from "../interfaces";
 import { logger } from "../tool/logger/logger";
+import { ipcMainManager } from "../ipc/ipc";
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -31,9 +30,9 @@ export class contestData {
       this.DefaultContestID = contestName;
       // イベントを発行
       hisuiEvent.emit("DefaultContestID-change", contestName);
-      ipcSendall("LISTENER_CHANGE_SET_CONTESTID", contestName);
+      ipcMainManager.send("LISTENER_CHANGE_SET_CONTESTID", contestName);
       // dashboardを更新
-      dashboardapi.runUpdatedata();
+      ipcMainManager.send("LISTENER_UPDATE_DASHBOARD");
       // timerをアップデート
       timerApi.setup();
       return true;

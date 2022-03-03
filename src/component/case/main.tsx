@@ -7,8 +7,11 @@ import { StyledTabs, StyledTab } from "./tab";
 import { ResultCard } from "./result";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    backgroundColor: "#ffffff",
     flexGrow: 1,
     padding: 10,
+    height: "100%",
+    width: "100%",
   },
   padding: {
     padding: theme.spacing(3),

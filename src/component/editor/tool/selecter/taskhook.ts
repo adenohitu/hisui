@@ -47,7 +47,7 @@ export const useSelectTask = () => {
       contestName: data.contestName,
       taskScreenName: data.taskScreenName,
     });
-    window.editor.createTaskCont({
+    ipcRendererManager.send("CREATE_TASKCONT", {
       contestName: data.contestName,
       taskScreenName: data.taskScreenName,
     });
@@ -62,7 +62,7 @@ export const useSelectTask = () => {
       contestName: data.contestName,
       taskScreenName: data.taskScreenName,
     });
-    window.editor.createTaskCont({
+    ipcRendererManager.send("CREATE_TASKCONT", {
       contestName: data.contestName,
       taskScreenName: data.taskScreenName,
     });

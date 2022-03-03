@@ -1,6 +1,4 @@
 import { type } from "os"; // eslint-disable-line
-import { atcoderCodeTestResult } from "./data/casetester/runtest_atcoder";
-import { syncEditorType, createEditorModelType } from "./editor/taskcont";
 import { languagetype } from "./file/extension";
 import { EventsArrey } from "./ipc/events";
 import { contextBridge, ipcRenderer } from "electron";
@@ -10,29 +8,6 @@ import { contextBridge, ipcRenderer } from "electron";
  * editorに関するIPC
  */
 contextBridge.exposeInMainWorld("editor", {
-  // editorに向けてイベントを送信
-
-  createModel: (func: any) => {
-    ipcRenderer.on("createModel", (event, arg: createEditorModelType) => {
-      func(arg);
-    });
-  },
-  setModel: (func: any) => {
-    ipcRenderer.on("setModel", (event, id: string) => {
-      func(id);
-    });
-  },
-  changeValue: (func: any) => {
-    ipcRenderer.on("changeValue", (event, arg: syncEditorType) => {
-      func(arg);
-    });
-  },
-  changeLanguage: (func: any) => {
-    ipcRenderer.on("changeLanguage", (event, arg: languagetype) => {
-      func(arg);
-    });
-  },
-
   // Mainからイベントを送ってデータを取得
 
   getValue: async (func: any) => {
@@ -49,27 +24,6 @@ contextBridge.exposeInMainWorld("editor", {
   // mainに送信
   createTaskCont: (arg: any) => {
     ipcRenderer.send("createTaskCont", arg);
-  },
-  save: (id: string) => {
-    ipcRenderer.send("save", id);
-  },
-  setdefaultLanguage: (language: languagetype, load: boolean) => {
-    ipcRenderer.send("setdefaultLanguage", language, load);
-  },
-  submitNowTop: () => {
-    ipcRenderer.send("submitNowTop");
-  },
-  runcodeTestNowTop: (samplecase: string, answer: string | null = null) => {
-    ipcRenderer.send("runcodeTestNowTop", samplecase, answer);
-  },
-  // コードテストの結果に更新があったら受け取る
-  codeTestStatusEvent: async (func: (arg: atcoderCodeTestResult) => void) => {
-    ipcRenderer.on(
-      "codeTestStatusEvent",
-      (event, arg: atcoderCodeTestResult) => {
-        func(arg);
-      }
-    );
   },
 });
 

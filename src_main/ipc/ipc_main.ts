@@ -11,7 +11,6 @@ import { TaskListApi } from "../data/task";
 import { getUserData } from "../data/userdata";
 import { changeViewapi } from "../browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "../tool/clipboard";
-import { mainPageapi } from "../browserview/mainpageview";
 import { submissionsApi } from "../data/submissions";
 import { ipcMainManager } from "./ipc";
 import { setWindowSplit } from "../browser/tool/monitorsize";
@@ -126,11 +125,11 @@ export const load_ipc = () => {
   });
   //loginDialogを開く
   ipcMainManager.on("OPEN_LOGIN_DIALOG", (event) => {
-    mainPageapi.openLoginDialog();
+    ipcMainManager.send("LISTENER_OPEN_LOGIN_DIALOG");
   });
   //selectDafaultcontestを開く
   ipcMainManager.on("OPEN_SELECT_CONTEST_DIALOG", (event) => {
-    mainPageapi.openDafaultContestDialog();
+    ipcMainManager.send("LISTENER_OPEN_DEFAULT_DIALOG");
   });
   //
   // setWindowSplitを実行
