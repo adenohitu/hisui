@@ -1,5 +1,4 @@
 // taskcontを管理するApi
-import { editorViewapi } from "../browserview/editorview";
 import { contestDataApi } from "../data/contestdata";
 import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";

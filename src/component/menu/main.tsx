@@ -17,6 +17,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { ipcRendererManager } from "../../ipc";
+import Window from "../dashboard/window";
+import { Editor } from "../editor/main";
+import FormDialog from "../auth/login_dialog";
+import DefaltContest from "../setting/dafalt_contest";
+import { StatusBar } from "../editor/tool/statusbar/status-bar";
+import { Home } from "../home/Home";
+import { TestCaseBoard } from "../case/main";
+
 const drawerWidth = 240;
 // let nowItem = 0;
 
@@ -24,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
+      boxSizing: "border-box",
+      paddingBottom: "22px",
+      height: "100%",
     },
     toolbar: {
       paddingRight: 24,
@@ -82,8 +93,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
+      position: "relative",
+      zIndex: 0,
       flexGrow: 1,
-      height: "100vh",
+      height: "100%",
       overflow: "auto",
       backgroundColor: "#666363",
     },
@@ -109,13 +122,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-// export function getnow() {
-//   return windowValue;
-// }
-export interface GenericTemplateProps {
-  children: React.ReactNode;
-}
-export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
+export const WindowRoot = () => {
   //react routor hooks
   const [location, setlocation] = useState("main");
   useEffect(() => {
@@ -138,20 +145,27 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
     setOpen(false);
   };
 
-  var menulist = [
+  const menulist = [
     {
       id: 0,
       viewName: "main",
       text: "ホーム",
       icon: <HomeIcon />,
+      component: <Home />,
     },
-    { id: 1, viewName: "editor", text: "エディター", icon: <CodeIcon /> },
-    // { id: 2, viewName: "submit", text: "提出", icon: <SendIcon /> },
+    {
+      id: 1,
+      viewName: "editor",
+      text: "エディター",
+      icon: <CodeIcon />,
+      component: <Editor />,
+    },
     {
       id: 3,
       viewName: "dashboard",
       text: "ダッシュボード",
       icon: <LiveTv />,
+      component: <Window />,
     },
 
     {
@@ -159,6 +173,7 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
       viewName: "case",
       text: "テストケース",
       icon: <AssignmentTurnedInIcon />,
+      component: <TestCaseBoard />,
     },
   ];
 
@@ -201,24 +216,27 @@ export const Menu: React.FC<GenericTemplateProps> = ({ children }) => {
               </ListItem>
             </Box>
           ))}
-          {/* <Box
-              borderLeft={3}
-              borderColor={"#424242"}
-              className={classes.viewName}
-            >
-              <ListItem button>
-                <ListItemIcon className={classes.iconDi}>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText
-                  className={classes.itemText}
-                  primary={"setting"}
-                />
-              </ListItem>
-            </Box> */}
         </List>
       </Drawer>
-      <main className={classes.content}>{children}</main>
+      <FormDialog />
+      <DefaltContest />
+      {menulist.map((element) => (
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            position: "absolute",
+            zIndex: (location === element.viewName && 1) || -1,
+            paddingBottom: "22px",
+            paddingLeft: "56px",
+          }}
+        >
+          <Box sx={{ height: "100%", overflow: "scroll" }}>
+            {element.component}
+          </Box>
+        </Box>
+      ))}
+      <StatusBar />
     </div>
   );
 };
