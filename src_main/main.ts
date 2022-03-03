@@ -18,11 +18,7 @@ import {
   stopCheckServiceStatus,
 } from "./service/setvice";
 import { updateSetup } from "./update/update";
-import { mainPageapi } from "./browserview/mainpageview";
-import { dashboardapi } from "./browserview/dashboardview";
-import { editorViewapi } from "./browserview/editorview";
 import { changeViewapi } from "./browserview/mgt/changeview";
-import { createsampleViewapi } from "./browserview/createsampleview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
@@ -59,13 +55,11 @@ function createWindow() {
   });
 
   if (!app.isPackaged) {
-    win.loadURL("http://localhost:3000#/leftmenu");
+    win.loadURL("http://localhost:3000#/mainwindow-root");
   } else {
     // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../index.html#/leftmenu`);
+    win.loadURL(`file://${__dirname}/../index.html#/mainwindow-root`);
   }
-
-  // win.loadURL(`file://${__dirname}/../index.html#/leftmenu`);
 
   win.on("closed", () => (win = null));
 
@@ -84,11 +78,6 @@ function createWindow() {
     timerApi.clearTimer();
     // submissionsの自動更新を停止
     submissionsApi.stopSubmissionsTimer();
-    // windowViewを閉じる
-    createsampleViewapi.closeView();
-    dashboardapi.closeView();
-    mainPageapi.closeView();
-    editorViewapi.closeView();
     // taskViewを閉じる
     taskControlApi.close();
     taskViewWindowApi.close();
@@ -130,15 +119,7 @@ function createWindow() {
   //   .catch((err) => console.log("An error occurred: ", err));
   async function initView() {
     Promise.all([
-      //mainページをセットアップ
-      // mainPageapi.setupView(win),
-      // //editorをセットアップ
-      // editorViewapi.setupView(win),
-      // //dashboardをセットアップ
-      // dashboardapi.setupView(win),
-      // //制約生成ツールをセットアップ
-      // createsampleViewapi.setupView(win),
-      // // taskViewWindowをセットアップ
+      // taskViewWindowをセットアップ
       taskViewWindowApi.open(),
     ]).then(() => {
       if (store.get("window.main.width") === undefined) {

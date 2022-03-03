@@ -4,7 +4,6 @@ import { Editorwindow } from "./window_editor/editorwindow";
 import SpeedDials from "./tool/floatingbutton";
 import { CustomTestWindow } from "../codetest/run-window";
 import { SettingAppDialog } from "../setting/system-setting";
-import { StatusBar } from "./tool/statusbar/status-bar";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "./mosaic-style.css";
 import { Box } from "@mui/system";
@@ -41,7 +40,6 @@ export const Editor = () => {
         className="editor-parent"
         style={{
           boxSizing: "border-box",
-          paddingBottom: "22px",
           height: "100%",
           width: "100%",
         }}
@@ -57,7 +55,6 @@ export const Editor = () => {
         />
         <SpeedDials />
       </div>
-      <StatusBar />
     </>
   );
 };
