@@ -83,7 +83,7 @@ function Uselanguage() {
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setlang((event.target as HTMLInputElement).value);
-    window.editor.setdefaultLanguage(event.target.value, true);
+    ipcRendererManager.send("SET_DEFAULT_LANGUAGE", event.target.value, true);
   };
   return { lang, setlang, handleChange, langOptions };
 }

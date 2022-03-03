@@ -131,14 +131,14 @@ function createWindow() {
   async function initView() {
     Promise.all([
       //mainページをセットアップ
-      mainPageapi.setupView(win),
-      //editorをセットアップ
-      editorViewapi.setupView(win),
-      //dashboardをセットアップ
-      dashboardapi.setupView(win),
-      //制約生成ツールをセットアップ
-      createsampleViewapi.setupView(win),
-      // taskViewWindowをセットアップ
+      // mainPageapi.setupView(win),
+      // //editorをセットアップ
+      // editorViewapi.setupView(win),
+      // //dashboardをセットアップ
+      // dashboardapi.setupView(win),
+      // //制約生成ツールをセットアップ
+      // createsampleViewapi.setupView(win),
+      // // taskViewWindowをセットアップ
       taskViewWindowApi.open(),
     ]).then(() => {
       if (store.get("window.main.width") === undefined) {

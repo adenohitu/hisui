@@ -17,6 +17,7 @@ import {
 } from "./setting/languagedialog";
 import { focusEditor, focussubmission } from "../window_editor/editorwindow";
 import { customTestWindowOpen } from "../../codetest/run-window";
+import { ipcRendererManager } from "../../../ipc";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,7 +61,7 @@ const actions = [
     icon: <SendIcon />,
     name: "提出",
     click: () => {
-      window.editor.submitNowTop();
+      ipcRendererManager.send("RUN_SUBMIT_NOWTOP");
       focussubmission();
     },
   },
