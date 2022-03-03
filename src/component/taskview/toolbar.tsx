@@ -6,6 +6,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import "./toolbar.css";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { ipcRendererManager } from "../../ipc";
 export function TaskViewToolbar() {
   return (
@@ -60,6 +61,17 @@ export function TaskViewToolbar() {
             size={"small"}
           >
             <SettingsIcon />
+          </IconButton>
+        </Box>
+        <Box sx={{ marginLeft: "auto" }} className="no-drag">
+          <IconButton
+            sx={{ color: "#fff" }}
+            onClick={async () => {
+              // ipcRendererManager.send("LISTENER_CHANGE_LIBMANAGEMENT_VIEW");
+            }}
+            size={"small"}
+          >
+            <ManageSearchIcon />
           </IconButton>
         </Box>
       </Box>
