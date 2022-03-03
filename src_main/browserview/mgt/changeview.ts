@@ -1,9 +1,5 @@
 import { hisuiEvent } from "../../event/event";
 import { ipcMainManager } from "../../ipc/ipc";
-import { createsampleViewapi } from "../createsampleview";
-import { dashboardapi } from "../dashboardview";
-import { editorViewapi } from "../editorview";
-import { mainPageapi } from "../mainpageview";
 
 export type viewName = "main" | "editor" | "dashboard" | "case";
 /**
@@ -17,16 +13,16 @@ export class changeView {
   change(viewName: viewName) {
     switch (viewName) {
       case "main":
-        mainPageapi.runWindowTop();
+        // mainPageapi.runWindowTop();
         break;
       case "editor":
-        editorViewapi.runWindowTop();
+        // editorViewapi.runWindowTop();
         break;
       case "dashboard":
-        dashboardapi.runWindowTop();
+        // dashboardapi.runWindowTop();
         break;
       case "case":
-        createsampleViewapi.runWindowTop();
+        // createsampleViewapi.runWindowTop();
         break;
       default:
         break;

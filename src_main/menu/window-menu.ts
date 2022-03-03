@@ -1,9 +1,5 @@
 import { app, Menu, MenuItemConstructorOptions } from "electron";
 import { setBrowserCoockie } from "../save/utility/session";
-import { createsampleViewapi } from "../browserview/createsampleview";
-import { dashboardapi } from "../browserview/dashboardview";
-import { editorViewapi } from "../browserview/editorview";
-import { mainPageapi } from "../browserview/mainpageview";
 import { Atcoder } from "../data/atcoder";
 import { taskControlApi } from "../editor/control";
 import { urlOpen } from "../tool/openExternal";
@@ -115,30 +111,6 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
               focusedWindow.webContents.openDevTools({ mode: "detach" });
             },
           },
-          {
-            label: "DevToolsOnMainpage",
-            click(item: any, focusedWindow: any, event: any) {
-              mainPageapi.openDevTool();
-            },
-          },
-          {
-            label: "DevToolsOnDashboard",
-            click(item: any, focusedWindow: any, event: any) {
-              dashboardapi.openDevTool();
-            },
-          },
-          {
-            label: "DevToolsOnCaseCreate",
-            click(item: any, focusedWindow: any, event: any) {
-              createsampleViewapi.openDevTool();
-            },
-          },
-          {
-            label: "DevToolsOnEditor",
-            click(item: any, focusedWindow: any, event: any) {
-              editorViewapi.openDevTool();
-            },
-          },
         ],
       },
     ];
@@ -197,7 +169,7 @@ function getHisuiControlMenu(): Array<MenuItemConstructorOptions> {
         {
           label: "login",
           click(item: any, focusedWindow: any, event: any) {
-            mainPageapi.openLoginDialog();
+            ipcMainManager.send("LISTENER_OPEN_LOGIN_DIALOG");
           },
         },
         {
@@ -221,7 +193,7 @@ function getHisuiControlMenu(): Array<MenuItemConstructorOptions> {
         {
           label: "Select Contest",
           click(item: any, focusedWindow: any, event: any) {
-            mainPageapi.openDafaultContestDialog();
+            ipcMainManager.send("LISTENER_OPEN_DEFAULT_DIALOG");
           },
         },
         { type: "separator" },

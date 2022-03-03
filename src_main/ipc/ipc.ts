@@ -1,7 +1,4 @@
 import { ipcMain } from "electron";
-import { dashboardapi } from "../browserview/dashboardview";
-import { editorViewapi } from "../browserview/editorview";
-import { mainPageapi } from "../browserview/mainpageview";
 import { win } from "../main";
 
 import { IpcEventsKey } from "./events";
@@ -31,9 +28,9 @@ class IpcMainManager {
    */
   public send(channel: IpcEventsKey, ...args: any[]) {
     win?.webContents.send(channel, ...args);
-    mainPageapi.send(channel, ...args);
-    editorViewapi.send(channel, ...args);
-    dashboardapi.send(channel, ...args);
+    // mainPageapi.send(channel, ...args);
+    // editorViewapi.send(channel, ...args);
+    // dashboardapi.send(channel, ...args);
   }
 }
 

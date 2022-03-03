@@ -15,6 +15,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { atcoderCodeTestResult } from "../../../src_main/data/casetester/runtest_atcoder";
 import { makeStyles } from "@mui/styles";
 import { ChipJudgeResult } from "../chip/judge-result";
+import { ipcRendererManager } from "../../ipc";
 
 const useRowStyles = makeStyles({
   pre: {
@@ -25,24 +26,27 @@ const useRowStyles = makeStyles({
 const useTestStatus = () => {
   const [status, setstatus] = useState<atcoderCodeTestResult[]>([]);
   useEffect(() => {
-    window.editor.codeTestStatusEvent((arg) => {
-      function changeStatus(
-        data: atcoderCodeTestResult,
-        prev: atcoderCodeTestResult[]
-      ) {
-        const getIndex = prev.findIndex(
-          (element) => element.Result.Id === data.Result.Id
-        );
+    ipcRendererManager.on(
+      "LISTENER_CODETEST_STATUS_EVENT",
+      (e, arg: atcoderCodeTestResult) => {
+        function changeStatus(
+          data: atcoderCodeTestResult,
+          prev: atcoderCodeTestResult[]
+        ) {
+          const getIndex = prev.findIndex(
+            (element) => element.Result.Id === data.Result.Id
+          );
 
-        if (getIndex === -1) {
-          return [data, ...prev.slice(0, 9)];
-        } else {
-          prev.splice(getIndex, 1);
-          return [data, ...prev];
+          if (getIndex === -1) {
+            return [data, ...prev.slice(0, 9)];
+          } else {
+            prev.splice(getIndex, 1);
+            return [data, ...prev];
+          }
         }
+        setstatus((prev) => changeStatus(arg, prev));
       }
-      setstatus((prev) => changeStatus(arg, prev));
-    });
+    );
   }, []);
   return { status, setstatus };
 };

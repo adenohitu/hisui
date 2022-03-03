@@ -1,7 +1,7 @@
 // AtCoder custom_testを使ったコードのテスト
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import { EventEmitter } from "events";
-import { ipcSendall } from "../../browserview/mgt/ipcall";
+import { ipcMainManager } from "../../ipc/ipc";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
 import { ansCheck } from "./judgetool";
@@ -210,11 +210,11 @@ class atcoderCodeTest {
     return `https://atcoder.jp/contests/${contestid}/custom_test`;
   }
   private sendCodeTestStatus(data: atcoderCodeTestResult) {
-    ipcSendall("codeTestStatusEvent", data);
+    ipcMainManager.send("LISTENER_CODETEST_STATUS_EVENT", data);
   }
   private LISTENER_sendCodeTestStatusFinish() {
     this.CodeTestEmitter.on("finish", async (res) => {
-      ipcSendall("codeTestStatusEvent", res);
+      ipcMainManager.send("LISTENER_CODETEST_STATUS_EVENT", res);
     });
   }
 }
