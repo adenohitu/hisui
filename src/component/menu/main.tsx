@@ -220,8 +220,10 @@ export const WindowRoot = () => {
       </Drawer>
       <FormDialog />
       <DefaltContest />
-      {menulist.map((element) => (
+      <StatusBar />
+      {menulist.map((element, index) => (
         <Box
+          key={index}
           sx={{
             height: "100%",
             width: "100%",
@@ -236,7 +238,6 @@ export const WindowRoot = () => {
           </Box>
         </Box>
       ))}
-      <StatusBar />
     </div>
   );
 };

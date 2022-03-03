@@ -25,7 +25,9 @@ export function SetSubmitLang() {
           onChange={submitLangHook.handleChange}
         >
           {submitLangHook.submitLangList.map((arg, indexid) => (
-            <MenuItem value={indexid}>{arg.Languagename}</MenuItem>
+            <MenuItem key={indexid} value={indexid}>
+              {arg.Languagename}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

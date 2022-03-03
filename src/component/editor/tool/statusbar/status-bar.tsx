@@ -13,6 +13,7 @@ export function StatusBar() {
         height: "22px",
         width: "100%",
         backgroundColor: "#338a3e",
+        zIndex: 2,
       }}
     >
       <StatusTextButton
