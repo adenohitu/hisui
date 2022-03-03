@@ -220,6 +220,7 @@ export const WindowRoot = () => {
       </Drawer>
       <FormDialog />
       <DefaltContest />
+      <StatusBar />
       {menulist.map((element) => (
         <Box
           sx={{
@@ -236,7 +237,6 @@ export const WindowRoot = () => {
           </Box>
         </Box>
       ))}
-      <StatusBar />
     </div>
   );
 };
