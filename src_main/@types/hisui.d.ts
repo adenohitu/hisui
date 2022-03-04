@@ -78,4 +78,12 @@ export declare class hisuiEventtType extends EventEmitter {
     listener: (taskScreenName: string) => void
   ): this;
   emit(event: "create-taskcont", taskScreenName: string): boolean;
+
+  // Pluginに関するEvent
+
+  /**
+   * MainWindowが開かれViewを追加する準備ができた時
+   */
+  on(event: "setup-addView", listener: () => void): this;
+  emit(event: "setup-addView"): boolean;
 }

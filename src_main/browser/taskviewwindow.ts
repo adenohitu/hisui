@@ -53,6 +53,8 @@ export class taskViewWindow {
     this.win.once("ready-to-show", () => {
       this.win?.show();
     });
+    // Plugin用のEvent
+    hisuiEvent.emit("setup-addView");
     this.setupLibManegimentView();
     // this.win.setAlwaysOnTop(true);
     // taskViewにデフォルトのコンテストーページをセット
