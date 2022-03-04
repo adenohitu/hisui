@@ -96,6 +96,9 @@ export class taskViewWindow {
         this.resetView(this.nowTop);
       }
     });
+    ipcMainManager.on("RUN_CHANGE_TASKVIEW", (e, id: string) => {
+      this.changeViewTop(id);
+    });
   }
   /**
    * Windowを閉じる

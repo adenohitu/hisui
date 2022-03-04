@@ -67,7 +67,7 @@ export function TaskViewToolbar() {
           <IconButton
             sx={{ color: "#fff" }}
             onClick={async () => {
-              // ipcRendererManager.send("LISTENER_CHANGE_LIBMANAGEMENT_VIEW");
+              ipcRendererManager.send("RUN_CHANGE_TASKVIEW", "atcoder-ploblem");
             }}
             size={"small"}
           >

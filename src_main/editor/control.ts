@@ -106,8 +106,6 @@ class taskControl {
         contestName,
         taskScreenName
       );
-      console.log("asas", assignmentName);
-
       if (assignmentName !== "-") {
         //taskcontを作成
         if (language === undefined) {
