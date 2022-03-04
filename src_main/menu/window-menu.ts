@@ -60,8 +60,10 @@ function getFileMenu() {
   ];
   return FileMenu;
 }
-function getDevelopMenu(): Array<MenuItemConstructorOptions> {
-  if (!packd) {
+function getDevelopMenu(
+  developarg: boolean
+): Array<MenuItemConstructorOptions> {
+  if (!packd || developarg) {
     return [
       {
         label: "開発",
@@ -321,11 +323,11 @@ function getHelpMenu(): Array<MenuItemConstructorOptions> {
     },
   ];
 }
-export function setMenu() {
+export function setMenu(develop: boolean = false) {
   const menu: Array<MenuItemConstructorOptions> = [
     ...getMacmenu(),
     ...getFileMenu(),
-    ...getDevelopMenu(),
+    ...getDevelopMenu(develop),
     ...getEditMenu(),
     ...getEditMenu(),
     ...getHisuiControlMenu(),
