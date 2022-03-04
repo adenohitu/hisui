@@ -53,6 +53,8 @@ export class taskViewWindow {
     this.win.once("ready-to-show", () => {
       this.win?.show();
     });
+    // Plugin用のEvent
+    hisuiEvent.emit("setup-addView");
     this.setupLibManegimentView();
     // this.win.setAlwaysOnTop(true);
     // taskViewにデフォルトのコンテストーページをセット
@@ -93,6 +95,9 @@ export class taskViewWindow {
       if (this.nowTop) {
         this.resetView(this.nowTop);
       }
+    });
+    ipcMainManager.on("RUN_CHANGE_TASKVIEW", (e, id: string) => {
+      this.changeViewTop(id);
     });
   }
   /**

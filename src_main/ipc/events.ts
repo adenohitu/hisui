@@ -81,9 +81,12 @@ export const IpcEvents = {
   LISTENER_CHANGE_LIBMANAGEMENT_VIEW: { mode: "on" },
   RUN_NOWTASKVIEW_RESET: { mode: "on" },
   RUN_NOWTASKVIEW_RELOAD: { mode: "on" },
+  RUN_CHANGE_TASKVIEW: { mode: "on" },
   // StoreIPC
   GET_STORE: { mode: "handle" },
   SET_STORE: { mode: "handle" },
+  // PluginIPC
+  // LISTENER_ADD_VIEWOPEN_BUTTON: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

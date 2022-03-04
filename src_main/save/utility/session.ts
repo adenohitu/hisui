@@ -28,7 +28,7 @@ export const setBrowserCoockie = async () => {
   //セッションが保存されている文字列からセッションのvalueを無理矢理取り出す
   const valuestartindex = sessiondata[1].indexOf("=") + 1;
   const valueendindex = sessiondata[1].indexOf(";");
-  console.log(sessiondata[1].indexOf("="));
+  // console.log(sessiondata[1].indexOf("="));
 
   const sessionvalue = sessiondata[1].substring(valuestartindex, valueendindex);
 
