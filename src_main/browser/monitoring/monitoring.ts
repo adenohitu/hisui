@@ -28,7 +28,6 @@ export const monitoringWebContents = () => {
       } else {
         // もしURLが問題ページの場合TaskContを作成する
         const checkURLResult = createTaskcontFromOriginalURL(navigationUrl);
-        console.log(checkURLResult);
         if (checkURLResult) {
           (async () => {
             taskControlApi.createNewTask(
@@ -45,8 +44,6 @@ export const monitoringWebContents = () => {
   app.on("web-contents-created", (event, contents) => {
     contents.setWindowOpenHandler(({ url }) => {
       const checkURLResult = createTaskcontFromOriginalURL(url);
-      console.log(checkURLResult);
-
       if (checkURLResult) {
         (async () => {
           taskControlApi.createNewTask(
