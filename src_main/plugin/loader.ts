@@ -14,16 +14,20 @@ export const pluginloader = async () => {
     const { setupView }: plugin = await import(
       path.join(__dirname, "../../plugins", pluginFileName, "index.js")
     );
-
-    const userID = Atcoder.getUsername();
-    const urlInfo = setupView(userID || "");
-
-    hisuiEvent.on("setup-addView", () => {
+    const listner = () => {
+      const userID = Atcoder.getUsername();
+      const urlInfo = setupView(userID || "");
       taskViewWindowApi.addView(
         "atcoder-ploblem",
         urlInfo.url,
         __dirname + "../browser/preload/web-preload.js"
       );
+    };
+    hisuiEvent.on("setup-addView", listner);
+    // ログイン後USETIDを指定するためViewを再ロード
+    hisuiEvent.on("login", async () => {
+      await taskViewWindowApi.removeView("atcoder-ploblem");
+      listner();
     });
   });
 };
