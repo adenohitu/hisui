@@ -1,35 +1,41 @@
-import { readdir } from "fs/promises";
-import path from "path";
+// import { readdir } from "fs/promises";
+// import path from "path";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { Atcoder } from "../data/atcoder";
 import { hisuiEvent } from "../event/event";
-interface plugin {
-  setupView: (userID: string) => {
-    url: string;
+// interface plugin {
+//   setupView: (userID: string) => {
+//     url: string;
+//   };
+// }
+export function setupView(userID: string) {
+  return {
+    url: `https://kenkoooo.com/atcoder/#/table/${userID}`,
   };
 }
+
 export const pluginloader = async () => {
-  const pluginPath = await readdir(path.join(__dirname, "../../plugins"));
-  pluginPath.forEach(async (pluginFileName: string) => {
-    const { setupView }: plugin = await import(
-      path.join(__dirname, "../../plugins", pluginFileName, "index.js")
+  // const pluginPath = await readdir(path.join(__dirname, "../../plugins"));
+  // pluginPath.forEach(async (pluginFileName: string) => {
+  //   const { setupView }: plugin = await import(
+  //     path.join(__dirname, "../../plugins", pluginFileName, "index.js")
+  //   );
+  const listner = () => {
+    const userID = Atcoder.getUsername();
+    const urlInfo = setupView(userID || "");
+    taskViewWindowApi.addView(
+      "atcoder-ploblem",
+      urlInfo.url,
+      __dirname + "../browser/preload/web-preload.js"
     );
-    const listner = () => {
-      const userID = Atcoder.getUsername();
-      const urlInfo = setupView(userID || "");
-      taskViewWindowApi.addView(
-        "atcoder-ploblem",
-        urlInfo.url,
-        __dirname + "../browser/preload/web-preload.js"
-      );
-    };
-    hisuiEvent.on("setup-addView", listner);
-    // ログイン後USETIDを指定するためViewを再ロード
-    hisuiEvent.on("login", async () => {
-      await taskViewWindowApi.removeView("atcoder-ploblem");
-      listner();
-    });
+  };
+  hisuiEvent.on("setup-addView", listner);
+  // ログイン後USETIDを指定するためViewを再ロード
+  hisuiEvent.on("login", async () => {
+    await taskViewWindowApi.removeView("atcoder-ploblem");
+    listner();
   });
+  //   });
 };
 /**
  * ファイル改ざんをチェック
