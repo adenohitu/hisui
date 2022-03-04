@@ -7,9 +7,13 @@ import { createTaskcontFromOriginalURL } from "../../tool/taskurl-parser";
  */
 export function getUrlList() {
   if (app.isPackaged) {
-    return ["https://atcoder.jp"];
+    return ["https://atcoder.jp", "https://kenkoooo.com"];
   } else {
-    return ["https://atcoder.jp", "http://localhost:3000"];
+    return [
+      "https://atcoder.jp",
+      "http://localhost:3000",
+      "https://kenkoooo.com",
+    ];
   }
 }
 export const monitoringWebContents = () => {
@@ -39,10 +43,15 @@ export const monitoringWebContents = () => {
   // 新規Windowの作成を無効化
   app.on("web-contents-created", (event, contents) => {
     contents.setWindowOpenHandler(({ url }) => {
-      // この例では、既定のブラウザでこのイベントのURLを開くように
-      // オペレーティングシステムに依頼します。
-      urlOpen(url);
-
+      const checkURLResult = createTaskcontFromOriginalURL(url);
+      if (checkURLResult) {
+        (async () => {
+          taskControlApi.createNewTask(
+            checkURLResult.contestName,
+            checkURLResult.taskScreenName
+          );
+        })();
+      }
       return { action: "deny" };
     });
   });

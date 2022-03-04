@@ -34,6 +34,8 @@ import { setupProtocols } from "./tool/protocols";
 import { setMenu } from "./menu/window-menu";
 import { setWindowSplit } from "./browser/tool/monitorsize";
 import { SetIPCgetSubmitLangOption } from "./data/submit";
+import { setupKeyBind } from "./tool/keybind/setup-keybind";
+import { pluginloader } from "./plugin/loader";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -145,6 +147,8 @@ function createWindow() {
   if (!app.isPackaged) {
     // win.webContents.openDevTools({ mode: "detach" });
   }
+  // キーボードのイベントを監視するセットアップ
+  setupKeyBind(win);
 }
 
 // 複数インスタンスの禁止
@@ -207,3 +211,4 @@ setupContextMenu();
 setupProtocols();
 // 提出可能言語を取得するIPC
 SetIPCgetSubmitLangOption();
+pluginloader();

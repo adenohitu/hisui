@@ -9,6 +9,8 @@ import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
 import { submissionsApi } from "../data/submissions";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { win } from "../main";
+import { TaskListApi } from "../data/task";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -59,8 +61,10 @@ function getFileMenu() {
   ];
   return FileMenu;
 }
-function getDevelopMenu(): Array<MenuItemConstructorOptions> {
-  if (!packd) {
+function getDevelopMenu(
+  developarg: boolean
+): Array<MenuItemConstructorOptions> {
+  if (!packd || developarg) {
     return [
       {
         label: "開発",
@@ -72,17 +76,29 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
             },
           },
           {
-            label: "oprn lib-management",
+            label: "open lib-management",
             click(item: any, focusedWindow: any, event: any) {
               taskViewWindowApi.changeViewTop("lib-management");
             },
           },
           {
-            label: "oprn lib-management",
+            label: "open lib-management devtool",
             click(item: any, focusedWindow: any, event: any) {
               taskViewWindowApi.view[
                 "lib-management"
               ].view.webContents.openDevTools();
+            },
+          },
+          {
+            label: "open ploblems",
+            click(item: any, focusedWindow: any, event: any) {
+              taskViewWindowApi.changeViewTop("atcoder-ploblem");
+            },
+          },
+          {
+            label: "reset taskList cache",
+            click(item: any, focusedWindow: any, event: any) {
+              TaskListApi.resetTaskListCache();
             },
           },
           {
@@ -108,7 +124,15 @@ function getDevelopMenu(): Array<MenuItemConstructorOptions> {
           {
             label: "DevToolsOnMainwindow",
             click(item: any, focusedWindow: any, event: any) {
-              focusedWindow.webContents.openDevTools({ mode: "detach" });
+              win?.webContents.openDevTools({ mode: "detach" });
+            },
+          },
+          {
+            label: "DevToolsOnTaskView",
+            click(item: any, focusedWindow: any, event: any) {
+              taskViewWindowApi.win?.webContents.openDevTools({
+                mode: "detach",
+              });
             },
           },
         ],
@@ -312,11 +336,11 @@ function getHelpMenu(): Array<MenuItemConstructorOptions> {
     },
   ];
 }
-export function setMenu() {
+export function setMenu(develop: boolean = false) {
   const menu: Array<MenuItemConstructorOptions> = [
     ...getMacmenu(),
     ...getFileMenu(),
-    ...getDevelopMenu(),
+    ...getDevelopMenu(develop),
     ...getEditMenu(),
     ...getEditMenu(),
     ...getHisuiControlMenu(),
