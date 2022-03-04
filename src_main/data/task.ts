@@ -2,59 +2,67 @@
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import dayjs from "dayjs";
 import EventEmitter from "events";
-import { hisuiEvent } from "../event/event";
 import { contestName, taskScreenName } from "../interfaces";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { scrapingTaskList, taskList } from "./scraping/tasklist";
-const cacheTime = 120000;
 class TaskList {
-  tasklist: taskList[];
-  lastestUpdate: number | undefined;
-  load: boolean;
+  tasklists: {
+    [contestName: string]: {
+      lastestUpdate?: number;
+      load: boolean;
+      tasklists?: taskList[];
+    };
+  };
   emitter: EventEmitter;
   constructor() {
-    this.tasklist = [];
-    this.load = false;
+    this.tasklists = {};
     this.emitter = new EventEmitter();
-    // デフォルトのコンテストが更新された時にキャッシュタイムをリセット
-    hisuiEvent.on("DefaultContestID-change", () => {
-      this.lastestUpdate = undefined;
-    });
   }
-  async getTaskList(contestName?: contestName, cache: boolean = true) {
-    if (this.load === true) {
+  async getTaskList(
+    contestName: contestName = contestDataApi.getDefaultContestID()
+  ) {
+    if (this.tasklists[contestName]?.load === true) {
       var serf = this;
       const promise: Promise<taskList[]> = new Promise(function (
         resolve,
         reject
       ) {
-        serf.emitter.once("UPDATE_TASKLIST", (arg) => {
+        serf.emitter.once(contestName, (arg) => {
           resolve(arg);
         });
       });
       return promise;
-    } else if (
-      this.lastestUpdate === undefined ||
-      this.lastestUpdate + cacheTime <= Date.now()
-    ) {
-      this.load = true;
-      this.tasklist = await getTasklistPage(contestName);
-      if (this.tasklist.length !== 0) {
-        this.lastestUpdate = Date.now();
+    } else if (this.tasklists[contestName] === undefined) {
+      this.tasklists[contestName] = { load: true };
+      const data = await getTasklistPage(contestName);
+      if (data.length !== 0) {
+        this.tasklists[contestName].tasklists = data;
+        this.tasklists[contestName].lastestUpdate = Date.now();
       }
-      this.load = false;
-      this.emitter.emit("UPDATE_TASKLIST", this.tasklist);
-      return this.tasklist;
+      this.tasklists[contestName].load = false;
+      this.emitter.emit(contestName, data);
+      return data;
     } else {
       console.log(
-        `load_TaskList:updateLastest ${dayjs(this.lastestUpdate).format(
-          "YYYY-MM-DDTHH:mm:ssZ[Z]"
-        )}`
+        `load_TaskList:updateLastest ${dayjs(
+          this.tasklists[contestName].lastestUpdate
+        ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`
       );
-      return this.tasklist;
+      const data = this.tasklists[contestName].tasklists;
+      if (data) {
+        return data;
+      } else {
+        return [];
+      }
     }
   }
+  /**
+   * 問題一覧のキャッシュを初期化する
+   */
+  resetTaskListCache = () => {
+    this.tasklists = {};
+  };
   /**
    * contestNameとTaskScreenNameからAssignmentNameを取得する
    */

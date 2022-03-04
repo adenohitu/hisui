@@ -10,6 +10,7 @@ import { resetMosaicState } from "../save/utility/mosaic-state";
 import { submissionsApi } from "../data/submissions";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { win } from "../main";
+import { TaskListApi } from "../data/task";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -75,17 +76,29 @@ function getDevelopMenu(
             },
           },
           {
-            label: "oprn lib-management",
+            label: "open lib-management",
             click(item: any, focusedWindow: any, event: any) {
               taskViewWindowApi.changeViewTop("lib-management");
             },
           },
           {
-            label: "oprn lib-management",
+            label: "open lib-management devtool",
             click(item: any, focusedWindow: any, event: any) {
               taskViewWindowApi.view[
                 "lib-management"
               ].view.webContents.openDevTools();
+            },
+          },
+          {
+            label: "open ploblems",
+            click(item: any, focusedWindow: any, event: any) {
+              taskViewWindowApi.changeViewTop("atcoder-ploblem");
+            },
+          },
+          {
+            label: "reset taskList cache",
+            click(item: any, focusedWindow: any, event: any) {
+              TaskListApi.resetTaskListCache();
             },
           },
           {
