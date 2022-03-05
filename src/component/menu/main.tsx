@@ -233,9 +233,7 @@ export const WindowRoot = () => {
             paddingLeft: "56px",
           }}
         >
-          <Box sx={{ height: "100%", overflow: "scroll" }}>
-            {element.component}
-          </Box>
+          {element.component}
         </Box>
       ))}
     </div>
