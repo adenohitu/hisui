@@ -35,7 +35,14 @@ export function Home() {
     run();
   }, []);
   return (
-    <Container sx={{ backgroundColor: "#ffffff" }}>
+    <Container
+      sx={{
+        backgroundColor: "#ffffff",
+        height: "100%",
+        width: "100%",
+        overflowY: "scroll",
+      }}
+    >
       <Box pb={3}>
         <Box py={1}>
           {(loginstatus === true && (
