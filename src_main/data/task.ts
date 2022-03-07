@@ -6,6 +6,7 @@ import { contestName, taskScreenName } from "../interfaces";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { scrapingTaskList, taskList } from "./scraping/tasklist";
+const cacheTime = 30000;
 class TaskList {
   tasklists: {
     [contestName: string]: {
@@ -20,7 +21,8 @@ class TaskList {
     this.emitter = new EventEmitter();
   }
   async getTaskList(
-    contestName: contestName = contestDataApi.getDefaultContestID()
+    contestName: contestName = contestDataApi.getDefaultContestID(),
+    cache: boolean = true
   ) {
     if (this.tasklists[contestName]?.load === true) {
       var serf = this;
@@ -44,16 +46,29 @@ class TaskList {
       this.emitter.emit(contestName, data);
       return data;
     } else {
-      console.log(
-        `load_TaskList:updateLastest ${dayjs(
-          this.tasklists[contestName].lastestUpdate
-        ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`
-      );
-      const data = this.tasklists[contestName].tasklists;
-      if (data) {
+      const timeData = this.tasklists[contestName].lastestUpdate;
+      if (timeData && (!cache || timeData + cacheTime <= Date.now())) {
+        this.tasklists[contestName] = { load: true };
+        const data = await getTasklistPage(contestName);
+        if (data.length !== 0) {
+          this.tasklists[contestName].tasklists = data;
+          this.tasklists[contestName].lastestUpdate = Date.now();
+        }
+        this.tasklists[contestName].load = false;
+        this.emitter.emit(contestName, data);
         return data;
       } else {
-        return [];
+        console.log(
+          `load_TaskList:updateLastest ${dayjs(
+            this.tasklists[contestName].lastestUpdate
+          ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`
+        );
+        const data = this.tasklists[contestName].tasklists;
+        if (data) {
+          return data;
+        } else {
+          return [];
+        }
       }
     }
   }
