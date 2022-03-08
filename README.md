@@ -1,6 +1,8 @@
 # Hisui--競技プログラミングサポートツール--
 
----
+現在 [Github Sponsor](https://github.com/sponsors/adenohitu)にて支援を募っています。 よろしくお願いします！
+
+* * *
 
 ![build workflow](https://github.com/adenohitu/hisui/actions/workflows/main.yml/badge.svg)
 [![Electron Discord Invite](https://img.shields.io/discord/836870553838551050?color=%237289DA&label=chat&logo=discord&logoColor=white)](https://discord.com/invite/H2R6HrDvuc)
@@ -10,9 +12,7 @@
 このソフトウエアは開発段階です。予期せぬ動作をする可能性があります。
 アプリの使用に関して、詳しくは Discord の α テストのチャンネルをご覧ください。
 
----
-
-現在 [Github Sponsor](https://github.com/sponsors/adenohitu)にて支援を募っています。 よろしくお願いします！
+* * *
 
 「Hisui」は競技プログラミングサポートツールです。  
 競プロの万能ツールのようなものです。
