@@ -104,8 +104,8 @@ export const load_ipc = () => {
     }
   );
   //問題情報を取得
-  ipcMainManager.handle("GET_TASK_LIST", async (event) => {
-    const get = await TaskListApi.getTaskList();
+  ipcMainManager.handle("GET_TASK_LIST", async (event, cache) => {
+    const get = await TaskListApi.getTaskList(cache);
     return get;
   });
   //表示するViewを変更

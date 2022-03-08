@@ -6,7 +6,7 @@ import { contestName, taskScreenName } from "../interfaces";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { scrapingTaskList, taskList } from "./scraping/tasklist";
-const cacheTime = 30000;
+const cacheTime = 60000;
 class TaskList {
   tasklists: {
     [contestName: string]: {
@@ -21,8 +21,8 @@ class TaskList {
     this.emitter = new EventEmitter();
   }
   async getTaskList(
-    contestName: contestName = contestDataApi.getDefaultContestID(),
-    cache: boolean = true
+    cache: boolean = true,
+    contestName: contestName = contestDataApi.getDefaultContestID()
   ) {
     if (this.tasklists[contestName]?.load === true) {
       var serf = this;
@@ -85,7 +85,7 @@ class TaskList {
     conName: contestName,
     taskscName: taskScreenName
   ): Promise<string | "-"> {
-    const contesttaskListAll = await this.getTaskList(conName);
+    const contesttaskListAll = await this.getTaskList(true, conName);
     const selectedtask = contesttaskListAll.find(
       (e) => e.taskScreenName === taskscName
     );

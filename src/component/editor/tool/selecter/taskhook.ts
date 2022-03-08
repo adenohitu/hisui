@@ -8,14 +8,17 @@ export const useSelectTask = () => {
   const [value, setValue] = useState<number | false>(false);
   const [nowContestTaskList, setNowContestTaskList] = useState<taskList[]>([]);
 
-  const updateTaskContList = async (getTaskList: boolean = false) => {
+  const updateTaskContList = async (cache: boolean = true) => {
     // TaskContのListを取得
     const getlist: taskNowStatus[] = await ipcRendererManager.invoke(
       "GET_TASK_CONT_STATUS_ALL"
     );
     setTaskList(getlist);
     // 現在のコンテストのListを取得
-    const data: taskList[] = await ipcRendererManager.invoke("GET_TASK_LIST");
+    const data: taskList[] = await ipcRendererManager.invoke(
+      "GET_TASK_LIST",
+      cache
+    );
     setNowContestTaskList(data);
     // TaskListで重複が出ないように更新時に毎回実行
     const nowRemoveData = data.slice().filter((ele) => {
