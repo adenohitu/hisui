@@ -9,6 +9,7 @@ import { useSelectTask } from "./taskhook";
 import { styled } from "@mui/material/styles";
 import { Divider } from "@mui/material";
 import Refresh from "@mui/icons-material/Refresh";
+import { ListSubheader } from "@mui/material";
 const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
   "& .MuiListItemSecondaryAction-root": {
     right: "0px",
@@ -21,26 +22,35 @@ export function TaskSelectList() {
   const selectTaskHooks = useSelectTask();
 
   return (
-    <List sx={{ width: "100%" }}>
-      <ListItem
-        secondaryAction={
-          <IconButton
-            onClick={() => {
-              selectTaskHooks.updateTaskContList(false);
-            }}
-            edge="end"
-            aria-label="delete"
-            size="small"
-          >
-            <Refresh fontSize="inherit" />
-          </IconButton>
-        }
-        dense
-      >
-        <ListItemText sx={{ overflow: "hidden", whiteSpace: "nowrap" }}>
-          Tasks
-        </ListItemText>
-      </ListItem>
+    <List
+      sx={{
+        paddingTop: "0",
+        overflow: "auto",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <ListSubheader sx={{ backgroundColor: "#BFCFDC" }}>
+        <ListItem
+          secondaryAction={
+            <IconButton
+              onClick={() => {
+                selectTaskHooks.updateTaskContList(false);
+              }}
+              edge="end"
+              aria-label="delete"
+              size="small"
+            >
+              <Refresh fontSize="inherit" />
+            </IconButton>
+          }
+          dense
+        >
+          <ListItemText sx={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+            Tasks
+          </ListItemText>
+        </ListItem>
+      </ListSubheader>
       {selectTaskHooks.nowContestTaskList.map((value, index) => {
         return (
           <StyleListItem key={index} disablePadding>
