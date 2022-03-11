@@ -15,10 +15,10 @@
 }
 .mosaic-root {
   position: absolute;
-  top: 1px;
-  right: 1px;
-  bottom: 1px;
-  left: 1px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 }
 /* .mosaic.mosaic-blueprint-theme .mosaic-window,
 .mosaic.mosaic-blueprint-theme .mosaic-preview {

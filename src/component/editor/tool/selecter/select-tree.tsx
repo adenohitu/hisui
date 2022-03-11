@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelectTask } from "./taskhook";
 import { styled } from "@mui/material/styles";
-import { Divider } from "@mui/material";
+import { Chip, Divider } from "@mui/material";
 import Refresh from "@mui/icons-material/Refresh";
 const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
   "& .MuiListItemSecondaryAction-root": {
@@ -21,44 +21,20 @@ export function TaskSelectList() {
   const selectTaskHooks = useSelectTask();
 
   return (
-    <List sx={{ width: "100%" }}>
-      <ListItem
-        secondaryAction={
-          <IconButton
-            onClick={() => {
-              selectTaskHooks.updateTaskContList(false);
-            }}
-            edge="end"
-            aria-label="delete"
-            size="small"
-          >
-            <Refresh fontSize="inherit" />
-          </IconButton>
-        }
-        dense
-      >
+    <List
+      sx={{
+        paddingTop: "0",
+        overflow: "auto",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <ListItem dense>
         <ListItemText sx={{ overflow: "hidden", whiteSpace: "nowrap" }}>
-          Tasks
+          Open Tasks
         </ListItemText>
+        <Chip size="small" label={selectTaskHooks.taskList.length} />
       </ListItem>
-      {selectTaskHooks.nowContestTaskList.map((value, index) => {
-        return (
-          <StyleListItem key={index} disablePadding>
-            <ListItemButton
-              role={undefined}
-              onClick={() => {
-                selectTaskHooks.custonValueChangeDefaltTask(index);
-              }}
-              dense
-            >
-              <ListItemText
-                id={value.taskScreenName}
-                primary={value.taskScreenName}
-              />
-            </ListItemButton>
-          </StyleListItem>
-        );
-      })}
       <Divider />
       {selectTaskHooks.taskList.map((value, index) => {
         return (
@@ -80,6 +56,49 @@ export function TaskSelectList() {
               role={undefined}
               onClick={() => {
                 selectTaskHooks.custonValueChange(index);
+              }}
+              dense
+            >
+              <ListItemText
+                id={value.taskScreenName}
+                primary={value.taskScreenName}
+              />
+            </ListItemButton>
+          </StyleListItem>
+        );
+      })}
+      <ListItem
+        sx={{ backgroundColor: "#a9c6de" }}
+        secondaryAction={
+          <IconButton
+            onClick={() => {
+              selectTaskHooks.updateTaskContList(false);
+            }}
+            edge="end"
+            aria-label="delete"
+            size="small"
+          >
+            <Refresh fontSize="inherit" />
+          </IconButton>
+        }
+        dense
+      >
+        <ListItemText
+          sx={{
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {selectTaskHooks.nowContestName}
+        </ListItemText>
+      </ListItem>
+      {selectTaskHooks.nowContestTaskList.map((value, index) => {
+        return (
+          <StyleListItem key={index} disablePadding>
+            <ListItemButton
+              role={undefined}
+              onClick={() => {
+                selectTaskHooks.custonValueChangeDefaltTask(index);
               }}
               dense
             >
