@@ -7,7 +7,12 @@ export const useSelectTask = () => {
   const [taskList, setTaskList] = useState<taskNowStatus[]>([]);
   const [value, setValue] = useState<number | false>(false);
   const [nowContestTaskList, setNowContestTaskList] = useState<taskList[]>([]);
+  const [nowContestName, setNowContestName] = useState<string>("");
 
+  const updateNowContestName = async () => {
+    const nowName = await ipcRendererManager.invoke("GET_SET_CONTESTID");
+    setNowContestName(nowName);
+  };
   const updateTaskContList = async (cache: boolean = true) => {
     // TaskContのListを取得
     const getlist: taskNowStatus[] = await ipcRendererManager.invoke(
@@ -30,9 +35,11 @@ export const useSelectTask = () => {
     console.log(nowRemoveData);
   };
   useEffect(() => {
+    updateNowContestName();
     updateTaskContList();
     ipcRendererManager.on("LISTENER_CHANGE_SET_CONTESTID", () => {
       updateTaskContList();
+      updateNowContestName();
     });
     ipcRendererManager.on("LISTENER_CONTEST_START", async (e, contestName) => {
       updateTaskContList();
@@ -79,6 +86,7 @@ export const useSelectTask = () => {
   return {
     taskList,
     nowContestTaskList,
+    nowContestName,
     value,
     updateTaskContList,
     custonValueChange,
