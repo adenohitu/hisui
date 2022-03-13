@@ -19,6 +19,7 @@ import {
 import { ipcRendererManager } from "../../ipc";
 import { SampleCase } from "../../../src_main/data/scraping/samplecase";
 import { focuscodeTest } from "../editor/window_editor/editorwindow";
+import { codeTestInfo } from "../../../src_main/data/casetester/runtest_atcoder";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -38,11 +39,27 @@ export function CustomTestWindow() {
   const runCodetest = (inputarg: string, ans: string | undefined) => {
     handleClose();
     focuscodeTest();
-    if (ans) {
-      ipcRendererManager.send("RUN_CODETEST_NOWTOP", inputarg, ans);
-    } else {
-      ipcRendererManager.send("RUN_CODETEST_NOWTOP", inputarg, null);
-    }
+    const infodata: codeTestInfo = {
+      input: inputarg,
+      answer: (ans && ans) || null,
+    };
+    ipcRendererManager.send("RUN_CODETEST_NOWTOP", infodata);
+  };
+  const runCodeTestID = (
+    inputarg: string,
+    ans: string | undefined,
+    name: string,
+    groupID: string
+  ) => {
+    handleClose();
+    focuscodeTest();
+    const infodata: codeTestInfo = {
+      input: inputarg,
+      answer: (ans && ans) || null,
+      caseName: name,
+      testGroupID: groupID,
+    };
+    ipcRendererManager.send("RUN_CODETEST_NOWTOP", infodata);
   };
   customTestWindowOpen = () => {
     (async () => {
@@ -90,7 +107,7 @@ export function CustomTestWindow() {
                 issetans={issetans}
                 setinputans={setinputans}
                 caseList={caseList}
-                runSample={runCodetest}
+                runSample={runCodeTestID}
               />
             </Grid>
             <Grid xs={4} item>

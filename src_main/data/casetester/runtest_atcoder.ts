@@ -37,6 +37,8 @@ export declare class CodeTestEmitter extends EventEmitter {
  */
 export interface atcoderCodeTestResult {
   TaskScreenName?: string;
+  caseName?: string;
+  testGroup?: string;
   ansStatus?: string;
   answer?: string | null;
   Interval?: number;
@@ -61,9 +63,14 @@ export interface atcoderCodeTestResult {
 export interface codeTestIn {
   languageId: string | number;
   code: string;
+  codeTestProps: codeTestInfo;
+}
+export interface codeTestInfo {
   input: string;
   answer: string | null;
   TaskScreenName?: string;
+  caseName?: string;
+  testGroupID?: string;
 }
 class atcoderCodeTest {
   CodeTestEmitter: CodeTestEmitter;
@@ -72,6 +79,8 @@ class atcoderCodeTest {
   nowAns: string | null;
   nowTaskScreenName: string | undefined;
   codeTestQueue: codeTestIn[];
+  NowCaseName?: string;
+  NowTestGroupID?: string;
 
   constructor() {
     this.CodeTestEmitter = new EventEmitter();
@@ -79,6 +88,8 @@ class atcoderCodeTest {
     this.nowInput = "";
     this.nowAns = null;
     this.nowTaskScreenName = undefined;
+    this.NowCaseName = "";
+    this.NowTestGroupID = "";
     this.codeTestQueue = [];
     this.LISTENER_sendCodeTestStatusFinish();
   }
@@ -89,9 +100,7 @@ class atcoderCodeTest {
   async runCodeTest(
     languageId: string | number,
     code: string,
-    input: string,
-    answer: string | null = null,
-    TaskScreenName?: string
+    codeTestProps: codeTestInfo
   ) {
     if (this.CodeTeststatus === "ready") {
       this.CodeTeststatus = "CodeTest";
@@ -104,7 +113,7 @@ class atcoderCodeTest {
       const params = new URLSearchParams();
       params.append("data.LanguageId", String(languageId));
       params.append("sourceCode", code);
-      params.append("input", input);
+      params.append("input", codeTestProps.input);
       params.append("csrf_token", csrf_token[0]);
       try {
         const res = await Atcoder.axiosInstance.post(
@@ -120,9 +129,11 @@ class atcoderCodeTest {
         if (res.status === 200) {
           // 結果待機
           this.CodeTestEmitter.emit("run");
-          this.nowInput = input;
-          this.nowAns = answer;
-          this.nowTaskScreenName = TaskScreenName;
+          this.nowInput = codeTestProps.input;
+          this.nowAns = codeTestProps.answer;
+          this.nowTaskScreenName = codeTestProps.TaskScreenName;
+          this.NowCaseName = codeTestProps.caseName;
+          this.NowTestGroupID = codeTestProps.testGroupID;
           this.CodeTestchecker();
           return "success";
         } else {
@@ -137,9 +148,7 @@ class atcoderCodeTest {
       this.codeTestQueue.push({
         languageId,
         code,
-        input,
-        answer,
-        TaskScreenName,
+        codeTestProps,
       });
       return "AddQueue";
     }
@@ -159,6 +168,8 @@ class atcoderCodeTest {
       if (Data.status === 200) {
         console.dir({ id: Result.Result.Id, Interval: Result.Interval });
         Result.TaskScreenName = this.nowTaskScreenName;
+        Result.caseName = this.NowCaseName;
+        Result.testGroup = this.NowTestGroupID;
         if (Result["Interval"] !== undefined) {
           Result.ansStatus = "WJ";
           Result.answer = this.nowAns;
@@ -192,13 +203,7 @@ class atcoderCodeTest {
   runNextTest() {
     const next = this.codeTestQueue.shift();
     if (next) {
-      this.runCodeTest(
-        next.languageId,
-        next.code,
-        next.input,
-        next.answer,
-        next.TaskScreenName
-      );
+      this.runCodeTest(next.languageId, next.code, next.codeTestProps);
     }
   }
   /**

@@ -69,7 +69,7 @@ function Row(props: { row: atcoderCodeTestResult }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.TaskScreenName}
+          {row.TaskScreenName}-case{row.caseName}
         </TableCell>
         <TableCell align="left">
           <ChipJudgeResult result={row.ansStatus} />
