@@ -1,4 +1,5 @@
 // taskcontを管理するApi
+import { codeTestInfo } from "../data/casetester/runtest_atcoder";
 import { contestDataApi } from "../data/contestdata";
 import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";
@@ -251,12 +252,9 @@ class taskControl {
     // コードテストを実行
     ipcMainManager.on(
       "RUN_CODETEST_NOWTOP",
-      async (event, samplecase: string, answer: string | null = null) => {
+      async (event, infoData: codeTestInfo) => {
         if (this.nowTop !== null) {
-          const result = await this.taskAll[this.nowTop].codeTest(
-            samplecase,
-            answer
-          );
+          const result = await this.taskAll[this.nowTop].codeTest(infoData);
           console.log(`codeTestStatus:${result}`);
         }
       }
