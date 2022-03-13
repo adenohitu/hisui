@@ -13762,10 +13762,9 @@ react-markdown@^8.0.0:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
-react-mosaic-component@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-mosaic-component/-/react-mosaic-component-5.0.0.tgz#ecc34f4aabddcfda5f6136ab85c1850d73bce41d"
-  integrity sha512-wpqvvjC7jMb/ZkoviHPkNLVDCCFofDKxTIJxFPIHDW2sxe5DsIf7GRYl/+DOPHHLj2MtJ8mDcMiSc/AihIaOVQ==
+"react-mosaic-component@https://github.com/adenohitu/react-mosaic-hisui.git":
+  version "5.0.1"
+  resolved "https://github.com/adenohitu/react-mosaic-hisui.git#a6d78daf1be21606e37c4ac928acbee579ac07f7"
   dependencies:
     classnames "^2.3.1"
     immutability-helper "^3.1.1"
