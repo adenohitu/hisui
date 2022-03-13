@@ -5,11 +5,48 @@ import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
 import { OpenSettingTool } from "../../setting/system-setting";
 import { monacoElement } from "../../mosaic/mosaic-hooks";
+import { IconButton } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import { ipcRendererManager } from "../../../ipc";
+import { focussubmission } from "./editorwindow";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import { customTestWindowOpen } from "../../codetest/run-window";
+const SendButton = () => {
+  return (
+    <IconButton
+      size="small"
+      aria-label={"Submit"}
+      onClick={() => {
+        ipcRendererManager.send("RUN_SUBMIT_NOWTOP");
+        focussubmission();
+      }}
+    >
+      <SendIcon />
+    </IconButton>
+  );
+};
+const CodeTestButton = () => {
+  return (
+    <IconButton
+      size="small"
+      aria-label={"Submit"}
+      onClick={() => {
+        if (customTestWindowOpen) customTestWindowOpen();
+      }}
+    >
+      <PlaylistAddCheckIcon />
+    </IconButton>
+  );
+};
 export const TITLE_ELEMENT: monacoElement = {
   editor: {
     name: "code",
     component: <MainEditor />,
-    toolbarControls: React.Children.toArray([<OpenSettingTool />]),
+    toolbarControls: React.Children.toArray([
+      <SendButton />,
+      <CodeTestButton />,
+      <OpenSettingTool />,
+    ]),
   },
   submission: {
     name: "提出一覧",
