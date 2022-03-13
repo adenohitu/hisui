@@ -24,13 +24,31 @@ export function TaskSelectList() {
     <List
       sx={{
         paddingTop: "0",
-        overflow: "auto",
+        overflowY: "auto",
+        overflowX: "hidden",
         height: "100%",
         width: "100%",
+        "&::-webkit-scrollbar": {
+          width: "8px",
+          backgroundColor: undefined,
+        },
+        "&::-webkit-scrollbar-track": {
+          borderRadius: "5px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          borderRadius: "10px",
+          border: "2px auto",
+          background: "gray",
+        },
       }}
     >
       <ListItem dense>
-        <ListItemText sx={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+        <ListItemText
+          sx={{
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
           Open Tasks
         </ListItemText>
         <Chip size="small" label={selectTaskHooks.taskList.length} />
