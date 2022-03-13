@@ -342,7 +342,6 @@ export function setMenu(develop: boolean = false) {
     ...getFileMenu(),
     ...getDevelopMenu(develop),
     ...getEditMenu(),
-    ...getEditMenu(),
     ...getHisuiControlMenu(),
     ...getViewMenu(),
     ...getWindowMenu(),
