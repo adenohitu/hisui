@@ -51,6 +51,8 @@ export const monitoringWebContents = () => {
             checkURLResult.taskScreenName
           );
         })();
+      } else {
+        urlOpen(url);
       }
       return { action: "deny" };
     });
