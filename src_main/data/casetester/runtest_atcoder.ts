@@ -6,7 +6,7 @@ import { ipcMainManager } from "../../ipc/ipc";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
 import { ansCheck } from "./judgetool";
-const sleepTime = 2000;
+const sleepTime = 15000;
 /**
  * コードテストが実行されたときに発生するイベント
  */
