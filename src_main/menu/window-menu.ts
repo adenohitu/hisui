@@ -90,6 +90,12 @@ function getDevelopMenu(
             },
           },
           {
+            label: "open ViewTop devtool",
+            click(item: any, focusedWindow: any, event: any) {
+              taskViewWindowApi.openTopDevTool();
+            },
+          },
+          {
             label: "open ploblems",
             click(item: any, focusedWindow: any, event: any) {
               taskViewWindowApi.changeViewTop("atcoder-ploblem");

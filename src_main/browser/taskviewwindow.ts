@@ -181,6 +181,12 @@ export class taskViewWindow {
       this.view[id].view.webContents.loadURL(`${this.view[id].initUrl}`);
     }
   }
+  /**
+   * TopのDevToolを開く
+   */
+  async openTopDevTool() {
+    if (this.nowTop) this.view[this.nowTop].view.webContents.openDevTools();
+  }
 
   /**
    * viewを閉じる
