@@ -49,7 +49,14 @@ module.exports = {
       template: path.resolve(__dirname, "../public/index.html"),
     }),
     new CopyPlugin({
-      patterns: [{ from: path.join(__dirname, "../public"), to: "" }],
+      patterns: [
+        { from: path.join(__dirname, "../public"), to: "" },
+        // monacoのソースをコピー
+        {
+          from: path.join(__dirname, "../node_modules/monaco-editor/min/vs"),
+          to: "vs",
+        },
+      ],
     }),
   ],
 };
