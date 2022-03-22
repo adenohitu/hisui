@@ -23,7 +23,7 @@ export function addSnippet(
     return Object.keys(snippetIn).map((key) => {
       return {
         label: snippetIn[key].prefix,
-        kind: monaco.languages.CompletionItemKind.Snippet,
+        kind: monaco.languages.CompletionItemKind.Function,
         documentation: snippetIn[key].documentation,
         detail: snippetIn[key].description,
         insertText: snippetIn[key].body.join("\n"),
@@ -33,7 +33,6 @@ export function addSnippet(
       };
     });
   }
-
   return monaco.languages.registerCompletionItemProvider(language, {
     provideCompletionItems: function (model, position) {
       var word = model.getWordUntilPosition(position);
@@ -43,25 +42,8 @@ export function addSnippet(
         startColumn: word.startColumn,
         endColumn: word.endColumn,
       };
-      // 頭文字にSnippetに登録されているものがなければから配列を返す
-      var textUntilPosition = model.getValueInRange({
-        startLineNumber: position.lineNumber,
-        startColumn: 1,
-        endLineNumber: position.lineNumber,
-        endColumn: position.column,
-      });
-      const match = Object.keys(snippetIn).find((arg) => {
-        if (arg.slice(0, 1) === textUntilPosition) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      const sugdata =
-        (match !== undefined && createDependencyProposals(range)) || [];
-
       return {
-        suggestions: sugdata,
+        suggestions: createDependencyProposals(range),
       };
     },
   });
