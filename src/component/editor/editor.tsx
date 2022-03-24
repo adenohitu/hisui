@@ -44,13 +44,28 @@ export function MainEditor() {
   }, [monaco]);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+      }}
+    >
       {/* <EditorToolbar /> */}
       <Editor
         onMount={handleEditorDidMount}
         beforeMount={handleEditorWillMount}
+        height="100%"
         // LSPの補完よりスニペットが上に来るように
-        options={{ snippetSuggestions: "top", contextmenu: false }}
+        options={{ snippetSuggestions: "top", contextmenu: true }}
+        // overrideServices={{
+        //   contextMenuService: {
+        //     showContextMenu: (b: any) => {
+        //       console.log(b.getActions());
+        //       console.log(b.getAnchor());
+        //       console.log(b);
+        //     },
+        //   },
+        // }}
       />
     </div>
   );
