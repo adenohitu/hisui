@@ -27,8 +27,13 @@ export async function LSPsetup(languageServers: languageServers) {
 
   function toSocket(webSocket: any): rpc.IWebSocket {
     return {
-      send: (content) => webSocket.send(content),
-      onMessage: (cb) => (webSocket.onmessage = (event: any) => cb(event.data)),
+      send: (content) => {
+        webSocket.send(content);
+      },
+      onMessage: (cb) =>
+        (webSocket.onmessage = (event: any) => {
+          cb(event.data);
+        }),
       onError: (cb) =>
         (webSocket.onerror = (event: any) => {
           if ("message" in event) {

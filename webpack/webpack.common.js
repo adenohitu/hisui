@@ -10,9 +10,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss", ".sass"],
     alias: {
-      vscode: require.resolve(
-        "@codingame/monaco-languageclient/lib/vscode-compatibility"
-      ),
+      vscode: require.resolve("monaco-languageclient/lib/vscode-compatibility"),
     },
   },
   module: {
