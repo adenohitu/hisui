@@ -11,7 +11,7 @@ import {
   ErrorAction,
   MonacoServices,
   createConnection,
-} from "@codingame/monaco-languageclient";
+} from "monaco-languageclient";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { hisuiEditorChangeModelContentObject } from "../../../src_main/interfaces";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
@@ -51,9 +51,9 @@ export class monacocontrol {
    */
   setuseMonaco(monacoapi: useMonaco | null) {
     this.monaco = monacoapi;
-    if (this.monaco) {
+    if (monacoapi) {
       ipcRendererManager.send("RUN_RELOAD_SNIPPET");
-      // this.setupLSP();
+      this.setupLSP(monacoapi);
     }
   }
   setupSnippet() {
@@ -243,7 +243,7 @@ export class monacocontrol {
       window.editor.getValue_replay(id, Value);
     });
   }
-  setupLSP() {
+  setupLSP(monacoapi: useMonaco) {
     function createLanguageClient(
       connection: MessageConnection
     ): MonacoLanguageClient {
@@ -280,28 +280,27 @@ export class monacocontrol {
       };
       return new ReconnectingWebSocket(url, [], socketOptions);
     }
-    if (this.monaco) {
-      this.monaco.languages.register({
-        id: "cpp",
-        extensions: [".cpp"],
-        aliases: ["c++", "cpp"],
-      });
-      MonacoServices.install(this.monaco);
 
-      // create the web socket
-      const url = "ws://localhost:49154/cpp";
-      const webSocket: any = createWebSocket(url);
-      // listen when the web socket is opened
-      listen({
-        webSocket,
-        onConnection: (connection) => {
-          // create and start the language client
-          const languageClient = createLanguageClient(connection);
-          const disposable = languageClient.start();
-          connection.onClose(() => disposable.dispose());
-        },
-      });
-    }
+    monacoapi.languages.register({
+      id: "cpp",
+      extensions: [".cpp"],
+      aliases: ["c++", "cpp"],
+    });
+    MonacoServices.install(monacoapi);
+
+    // create the web socket
+    const url = "ws://localhost:49154/cpp";
+    const webSocket: any = createWebSocket(url);
+    // listen when the web socket is opened
+    listen({
+      webSocket,
+      onConnection: (connection) => {
+        // create and start the language client
+        const languageClient = createLanguageClient(connection);
+        const disposable = languageClient.start();
+        connection.onClose(() => disposable.dispose());
+      },
+    });
   }
 }
 // export const monacoControlApi = new monacocontrol();
