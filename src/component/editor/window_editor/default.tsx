@@ -3,7 +3,7 @@ import { CodeTestWindow } from "../../codetest/codetest-status";
 import { MainEditor } from "../editor";
 import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
-import { OpenSettingTool } from "../../setting/system-setting";
+import { OpenSettingTool } from "../setting-window/system-setting";
 import { monacoElement } from "../../mosaic/mosaic-hooks";
 import { IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
