@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { SnippetDialog } from "./item/snippet";
-import { ipcRendererManager } from "../../ipc";
+import { ipcRendererManager } from "../../../ipc";
 import SettingsIcon from "@mui/icons-material/Settings";
 let handleClickOpen: () => void;
 const Transition = React.forwardRef(function Transition(
