@@ -26,18 +26,28 @@ export const Editorwindow = () => {
     <>
       <Mosaic<string>
         renderTile={(id, path) => (
-          <MosaicWindow<string>
-            path={path}
-            title={
-              (TITLE_ELEMENT[id].name === "code" &&
-                `${appstatusHooks.contestName}-${appstatusHooks.taskname}`) ||
-              String(TITLE_ELEMENT[id].name)
+          <div
+            style={
+              (TITLE_ELEMENT[id].name === "code" && {
+                position: "absolute",
+                zIndex: 7,
+              }) ||
+              {}
             }
-            toolbarControls={TITLE_ELEMENT[id].toolbarControls}
-            className="table-window"
           >
-            {TITLE_ELEMENT[id].component}
-          </MosaicWindow>
+            <MosaicWindow<string>
+              path={path}
+              title={
+                (TITLE_ELEMENT[id].name === "code" &&
+                  `${appstatusHooks.contestName}-${appstatusHooks.taskname}`) ||
+                String(TITLE_ELEMENT[id].name)
+              }
+              toolbarControls={TITLE_ELEMENT[id].toolbarControls}
+              className="table-window"
+            >
+              {TITLE_ELEMENT[id].component}
+            </MosaicWindow>
+          </div>
         )}
         resize={{ minimumPaneSizePercentage: 0 }}
         onChange={mosaicHook.onChange}
