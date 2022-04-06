@@ -87,6 +87,8 @@ export const IpcEvents = {
   SET_STORE: { mode: "handle" },
   // PluginIPC
   // LISTENER_ADD_VIEWOPEN_BUTTON: { mode: "send" },
+  LSP_SEND: { mode: "send" },
+  LSP_ON: { mode: "on" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);
