@@ -3,17 +3,26 @@ import { createEditorModelType } from "../../../src_main/editor/taskcont";
 import { languagetype } from "../../../src_main/file/extension";
 import { ipcRendererManager } from "../../ipc";
 import { addSnippet } from "./monaco/cppintellisense_test";
-import { listen } from "@codingame/monaco-jsonrpc";
+
 import {
   MonacoLanguageClient,
-  MessageConnection,
   CloseAction,
   ErrorAction,
   MonacoServices,
   createConnection,
 } from "monaco-languageclient";
-import ReconnectingWebSocket from "reconnecting-websocket";
+import {
+  createMessageConnection,
+  DataCallback,
+  Disposable,
+  Message,
+  MessageConnection,
+  MessageReader,
+  MessageWriter,
+  Trace,
+} from "vscode-jsonrpc";
 import { hisuiEditorChangeModelContentObject } from "../../../src_main/interfaces";
+import { IpcEventsKey } from "../../../src_main/ipc/events";
 type useMonaco = typeof import("monaco-editor/esm/vs/editor/editor.api");
 
 export class monacocontrol {
@@ -244,63 +253,93 @@ export class monacocontrol {
     });
   }
   setupLSP(monacoapi: useMonaco) {
-    function createLanguageClient(
-      connection: MessageConnection
-    ): MonacoLanguageClient {
-      return new MonacoLanguageClient({
-        name: "Sample Language Client",
-        clientOptions: {
-          // use a language id as a document selector
-          documentSelector: ["cpp"],
-          // disable the default error handler
-          errorHandler: {
-            error: () => ErrorAction.Continue,
-            closed: () => CloseAction.DoNotRestart,
-          },
-        },
-        // create a language client connection from the JSON RPC connection on demand
-        connectionProvider: {
-          get: (errorHandler, closeHandler) => {
-            return Promise.resolve(
-              createConnection(connection, errorHandler, closeHandler)
-            );
-          },
-        },
-      });
-    }
-
-    function createWebSocket(url: string) {
-      const socketOptions = {
-        maxReconnectionDelay: 10000,
-        minReconnectionDelay: 1000,
-        reconnectionDelayGrowFactor: 1.3,
-        connectionTimeout: 10000,
-        maxRetries: Infinity,
-        debug: false,
-      };
-      return new ReconnectingWebSocket(url, [], socketOptions);
-    }
-
     monacoapi.languages.register({
-      id: "cpp",
-      extensions: [".cpp"],
-      aliases: ["c++", "cpp"],
+      id: "python",
+      extensions: [".py"],
+      aliases: ["python", "py"],
     });
     MonacoServices.install(monacoapi);
+    // dummy disposable to satisfy interfaces
+    function dummyDisposable(): Disposable {
+      return {
+        dispose: () => void 0,
+      };
+    }
+    // custom implementations of the MessageReader and MessageWriter to plug into a MessageConnection
+    class RendererIpcMessageReader implements MessageReader {
+      private subscribers: DataCallback[] = [];
+      private handler = this.notifySubscribers.bind(this);
+      private disposer: () => void | undefined;
+      constructor(private channel: IpcEventsKey) {
+        // listen to incoming language server notifications and messages from the backend
+        this.disposer = ipcRendererManager.on(this.channel, this.handler);
+      }
 
-    // create the web socket
-    const url = "ws://localhost:49154/cpp";
-    const webSocket: any = createWebSocket(url);
-    // listen when the web socket is opened
-    listen({
-      webSocket,
-      onConnection: (connection) => {
-        // create and start the language client
-        const languageClient = createLanguageClient(connection);
-        const disposable = languageClient.start();
-        connection.onClose(() => disposable.dispose());
-      },
-    });
+      // events are not implemented for this example
+      public onError = () => dummyDisposable();
+      public onClose = () => dummyDisposable();
+      public onPartialMessage = () => dummyDisposable();
+
+      public listen(callback: DataCallback): any {
+        this.subscribers.push(callback);
+      }
+
+      public dispose(): void {
+        this.disposer();
+      }
+
+      private notifySubscribers(event: any, msg: Message) {
+        this.subscribers.forEach((s) => s(msg));
+      }
+    }
+
+    class RendererIpcMessageWriter implements MessageWriter {
+      constructor(private channel: IpcEventsKey) {}
+
+      // events are not implemented for this example
+      public onError = () => dummyDisposable();
+      public onClose = () => dummyDisposable();
+
+      public async write(msg: Message): Promise<void> {
+        // send all requests for the language server to the backend
+        ipcRendererManager.send(this.channel, msg);
+      }
+
+      public dispose(): void {
+        // nothing to dispose
+      }
+      end() {}
+    }
+    // wire up the IPC connection
+    const reader = new RendererIpcMessageReader("LSP_SEND");
+    const writer = new RendererIpcMessageWriter("LSP_ON");
+    const connection = createMessageConnection(reader, writer);
+
+    // create and start the language client
+    const client = createBaseLanguageClient(connection);
+    client.start();
+
+    function createBaseLanguageClient(connection: MessageConnection) {
+      const client = new MonacoLanguageClient({
+        clientOptions: {
+          documentSelector: ["python"],
+          errorHandler: {
+            closed: () => CloseAction.DoNotRestart,
+            error: () => ErrorAction.Continue,
+          },
+        },
+        connectionProvider: {
+          get: async (errorHandler, closeHandler) =>
+            createConnection(connection, errorHandler, closeHandler),
+        },
+        name: "python language server",
+      });
+
+      // for debugging
+      client.trace = Trace.Messages;
+
+      return client;
+    }
   }
 }
 // export const monacoControlApi = new monacocontrol();
