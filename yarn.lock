@@ -2181,17 +2181,6 @@
   dependencies:
     vscode-jsonrpc "^6.0.0"
 
-"@codingame/monaco-languageclient@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@codingame/monaco-languageclient/-/monaco-languageclient-0.14.0.tgz#d5cf712e5ee58159ec443f821503dbf8287badb8"
-  integrity sha512-4KBN/GmfXqALSORrCC6O1gKPpRHvA1pi2Psma/VniG1vPpAsUHQunfL1mGOw3OWd9W1v1yRZzt+wnHB1P14UuA==
-  dependencies:
-    glob-to-regexp "^0.4.1"
-    vscode-jsonrpc "6.0.0"
-    vscode-languageclient "7.0.0"
-    vscode-languageserver-textdocument "^1.0.1"
-    vscode-uri "^3.0.2"
-
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -4489,6 +4478,18 @@ asar@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/asar/-/asar-3.0.3.tgz#1fef03c2d6d2de0cbad138788e4f7ae03b129c7b"
   integrity sha512-k7zd+KoR+n8pl71PvgElcoKHrVNiSXtw7odKbyNpmgKe7EGRF9Pnu3uLOukD37EvavKwVFxOUpqXTIZC5B5Pmw==
+  dependencies:
+    chromium-pickle-js "^0.2.0"
+    commander "^5.0.0"
+    glob "^7.1.6"
+    minimatch "^3.0.4"
+  optionalDependencies:
+    "@types/glob" "^7.1.1"
+
+asar@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/asar/-/asar-3.1.0.tgz#70b0509449fe3daccc63beb4d3c7d2e24d3c6473"
+  integrity sha512-vyxPxP5arcAqN4F/ebHd/HhwnAiZtwhglvdmc7BR2f0ywbVNTOpSeyhLDbGXtE/y58hv1oC75TaNIXutnsOZsQ==
   dependencies:
     chromium-pickle-js "^0.2.0"
     commander "^5.0.0"
@@ -8422,6 +8423,15 @@ fs-extra@^10.0.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
+fs-extra@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.1.tgz#27de43b4320e833f6867cc044bfce29fdf0ef3b8"
+  integrity sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-extra@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.1.tgz#4f189c44aa123b895f722804f55ea23eadc348e9"
@@ -11646,6 +11656,17 @@ monaco-editor@0.33.0:
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.33.0.tgz#842e244f3750a2482f8a29c676b5684e75ff34af"
   integrity sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw==
 
+monaco-languageclient@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/monaco-languageclient/-/monaco-languageclient-0.18.1.tgz#e7a8d674d19524f159db39987367e47a25eb0c3a"
+  integrity sha512-8x5YbYhtnS5xZ6+Xkk6lJcuMxLdKmc8Y7flW/u5MmFm5/qbe+uUV5vsmqPjcbJy6gAJF4pjFd0PtfhTtOiaxnw==
+  dependencies:
+    glob-to-regexp "^0.4.1"
+    vscode-jsonrpc "6.0.0"
+    vscode-languageclient "7.0.0"
+    vscode-languageserver-textdocument "^1.0.4"
+    vscode-uri "^3.0.3"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -13514,6 +13535,11 @@ pupa@^2.1.1:
   integrity sha512-l1jNAspIBSFqbT+y+5FosojNpVpF94nlI+wDUpqP9enwOTfHx9f0gh5nB96vl+6yTpsJsypeNrwfzPrKuHB41A==
   dependencies:
     escape-goat "^2.0.0"
+
+pyright@^1.1.234:
+  version "1.1.234"
+  resolved "https://registry.yarnpkg.com/pyright/-/pyright-1.1.234.tgz#f304666fd9b0676b0e76e5971e4f61ce6c8fdc2d"
+  integrity sha512-09aeuMkxJj86Y2BPbAE1xkf6yKalIxq2hZHwBegiryBeLUsGOnpPmBWXD34luTZnQWeni9wllOdaD8xhl+Yh4A==
 
 q@^1.1.2:
   version "1.5.1"
@@ -16609,6 +16635,11 @@ vscode-languageserver-textdocument@^1.0.1:
   resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.2.tgz#2f9f6bd5b5eb3d8e21424c0c367009216f016236"
   integrity sha512-T7uPC18+f8mYE4lbVZwb3OSmvwTZm3cuFhrdx9Bn2l11lmp3SvSuSVjy2JtvrghzjAo4G6Trqny2m9XGnFnWVA==
 
+vscode-languageserver-textdocument@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.4.tgz#3cd56dd14cec1d09e86c4bb04b09a246cb3df157"
+  integrity sha512-/xhqXP/2A2RSs+J8JNXpiiNVvvNM0oTosNVmQnunlKvq9o4mupHOBAnnzH0lwIPKazXKvAKsVp1kr+H/K4lgoQ==
+
 vscode-languageserver-types@3.16.0, vscode-languageserver-types@^3.16.0:
   version "3.16.0"
   resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.16.0.tgz#ecf393fc121ec6974b2da3efb3155644c514e247"
@@ -16635,6 +16666,11 @@ vscode-uri@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-3.0.2.tgz#ecfd1d066cb8ef4c3a208decdbab9a8c23d055d0"
   integrity sha512-jkjy6pjU1fxUvI51P+gCsxg1u2n8LSt0W6KrCNQceaziKzff74GoWmjVG46KieVzybO1sttPQmYfrwSHey7GUA==
+
+vscode-uri@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-3.0.3.tgz#a95c1ce2e6f41b7549f86279d19f47951e4f4d84"
+  integrity sha512-EcswR2S8bpR7fD0YPeS7r2xXExrScVMxg4MedACaWHEtx9ftCF/qHG1xGkolzTPcEmjTavCQgbVzHUIdTMzFGA==
 
 vscode-ws-jsonrpc@^0.2.0:
   version "0.2.0"

@@ -3,7 +3,7 @@ import "react-mosaic-component/react-mosaic-component.css";
 import { Editorwindow } from "./window_editor/editorwindow";
 import SpeedDials from "./tool/floatingbutton";
 import { CustomTestWindow } from "../codetest/run-window";
-import { SettingAppDialog } from "../setting/system-setting";
+import { SettingAppDialog } from "./setting-window/system-setting";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "./mosaic-style.css";
 import { Box } from "@mui/system";

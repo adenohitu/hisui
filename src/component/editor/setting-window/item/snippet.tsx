@@ -10,9 +10,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { languagetype } from "../../../../src_main/file/extension";
 import { editor } from "monaco-editor";
-import { ipcRendererManager } from "../../../ipc";
+import { languagetype } from "../../../../../src_main/file/extension";
+import { ipcRendererManager } from "../../../../ipc";
 export function SnippetDialog() {
   const editorRef: any = React.useRef(null);
   const [open, setOpen] = React.useState(false);
