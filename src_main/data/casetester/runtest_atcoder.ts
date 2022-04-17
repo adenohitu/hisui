@@ -1,8 +1,10 @@
 // AtCoder custom_testを使ったコードのテスト
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import { EventEmitter } from "events";
+import path from "path";
 import { taskViewWindowApi } from "../../browser/taskviewwindow";
 import { ipcMainManager } from "../../ipc/ipc";
+import { runLocalTest } from "../../runner/local-tester";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
 import { ansCheck } from "./judgetool";
@@ -98,6 +100,29 @@ class atcoderCodeTest {
   /**
    * コードを実行する
    */
+  async runCodeTestLocal(
+    languageId: string | number,
+    code: string,
+    codeTestProps: codeTestInfo,
+    filepath: string,
+    rootpath: string
+  ) {
+    const outfilepath = path.join(
+      rootpath,
+      codeTestProps.TaskScreenName + ".out"
+    );
+    runLocalTest({
+      filepath: filepath,
+      outfilepath,
+      codeTestIn: {
+        languageId: languageId,
+        code: code,
+        codeTestProps: codeTestProps,
+      },
+    }).then((e) => {
+      this.CodeTestEmitter.emit("finish", e);
+    });
+  }
   async runCodeTest(
     languageId: string | number,
     code: string,
