@@ -86,7 +86,6 @@ export class taskcont {
   // advanced State
   // 提出状況を保持
   SubmitState: JudgeStatus = "unknown";
-  judgeMode: "online" | "local" = "online";
 
   constructor(
     contestName: string,
@@ -364,18 +363,18 @@ export class taskcont {
   /**
    * サンプルケースを使いコードをテストする
    */
-  async codeTest(infoData: codeTestInfo) {
+  async codeTest(infoData: codeTestInfo, judgeMode: string) {
     const addTaskScreenName = infoData;
     addTaskScreenName.TaskScreenName = this.taskScreenName;
     await this.save();
     if (this.Data !== null) {
-      if (this.judgeMode === "online") {
+      if (judgeMode === "online") {
         atcoderCodeTestApi.runCodeTest(
           this.submitLanguage.LanguageId,
           this.Data,
           addTaskScreenName
         );
-      } else if (this.judgeMode === "local") {
+      } else if (judgeMode === "local") {
         atcoderCodeTestApi.runCodeTestLocal(
           this.submitLanguage.LanguageId,
           this.Data,
