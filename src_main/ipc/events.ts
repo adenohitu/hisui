@@ -61,6 +61,8 @@ export const IpcEvents = {
   SET_DEFAULT_LANGUAGE: { mode: "on" },
   RUN_SUBMIT_NOWTOP: { mode: "on" },
   RUN_CODETEST_NOWTOP: { mode: "on" },
+  GET_CODETEST_MODE: { mode: "handle" },
+  SET_CODETEST_MODE: { mode: "on" },
   // CodeTestIPC
   LISTENER_UPDATE_DASHBOARD: { mode: "send" },
   // ListenerIPC
