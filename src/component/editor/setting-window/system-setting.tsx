@@ -12,7 +12,8 @@ import { TransitionProps } from "@mui/material/transitions";
 import { SnippetDialog } from "./item/snippet";
 import { ipcRendererManager } from "../../../ipc";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { JudgeSettingDialog } from "./item/judge";
+import { JudgeSettingDialog } from "./item/judge-mode";
+import { LocalJudgePathDialog } from "./item/judge-local-command";
 let handleClickOpen: () => void;
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -66,6 +67,7 @@ export function SettingAppDialog() {
           <SnippetDialog />
           <Divider />
           <JudgeSettingDialog />
+          <LocalJudgePathDialog />
         </List>
       </Dialog>
     </div>

@@ -112,7 +112,7 @@ class atcoderCodeTest {
       rootpath,
       codeTestProps.TaskScreenName + ".out"
     );
-    const compilerPath = store.get("compilerPath.cpp", "g++");
+    const compilerPath = store.get("compilerPath.cpp", "/usr/bin/g++");
     this.nowInput = codeTestProps.input;
     this.nowAns = codeTestProps.answer;
     this.nowTaskScreenName = codeTestProps.TaskScreenName;
