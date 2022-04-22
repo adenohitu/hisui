@@ -84,13 +84,13 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
 
 export function LocalJudgePathDialog() {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("/usr/bin/g++");
+  const [value, setValue] = React.useState("g++");
 
   const handleClickListItem = async () => {
     const getmode = await ipcRendererManager.invoke(
       "GET_STORE",
       "compilerPath.cpp",
-      "/usr/bin/g++"
+      "g++"
     );
     setValue(getmode);
     setOpen(true);
@@ -109,7 +109,7 @@ export function LocalJudgePathDialog() {
       const getmode = await ipcRendererManager.invoke(
         "GET_STORE",
         "compilerPath.cpp",
-        "/usr/bin/g++"
+        "g++"
       );
       setValue(getmode);
     })();
