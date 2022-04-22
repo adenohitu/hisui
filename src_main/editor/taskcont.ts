@@ -24,6 +24,7 @@ import { readFileData, writeFileData } from "../file/editor-fs";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { submitLanguage } from "../data/scraping/submitlang";
 import { logger } from "../tool/logger/logger";
+import path from "path";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -78,7 +79,7 @@ export class taskcont {
   // この問題に関する状態を管理
 
   // ファイルのフルパス
-  filePath: string | null = null;
+  filePath: string = "";
   // ファイルの内容がエディターで変更されているか
   change: boolean = false;
 
@@ -362,16 +363,26 @@ export class taskcont {
   /**
    * サンプルケースを使いコードをテストする
    */
-  async codeTest(infoData: codeTestInfo) {
+  async codeTest(infoData: codeTestInfo, judgeMode: string) {
     const addTaskScreenName = infoData;
     addTaskScreenName.TaskScreenName = this.taskScreenName;
     await this.save();
     if (this.Data !== null) {
-      atcoderCodeTestApi.runCodeTest(
-        this.submitLanguage.LanguageId,
-        this.Data,
-        addTaskScreenName
-      );
+      if (judgeMode === "online") {
+        atcoderCodeTestApi.runCodeTest(
+          this.submitLanguage.LanguageId,
+          this.Data,
+          addTaskScreenName
+        );
+      } else if (judgeMode === "local") {
+        atcoderCodeTestApi.runCodeTestLocal(
+          this.submitLanguage.LanguageId,
+          this.Data,
+          addTaskScreenName,
+          this.filePath,
+          path.join(this.filePath, "..")
+        );
+      }
       return "success";
     } else {
       return "codeIsNull";

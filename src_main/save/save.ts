@@ -20,6 +20,8 @@ type StoreType = {
   submitLanguage: submitLanguage;
   // mosaicの状態保持
   WindowState: any;
+  judgeMode: string;
+  "compilerPath.cpp": string;
 };
 
 export const store = new Store<StoreType>();
