@@ -32,3 +32,6 @@ archive/memo
 
 # licence check
 .licenses
+
+# Test用コンパイルファイル
+archive/test-data/abc164_b/b.out
