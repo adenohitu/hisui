@@ -1,8 +1,11 @@
 // AtCoder custom_testを使ったコードのテスト
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import { EventEmitter } from "events";
+import path from "path";
 import { taskViewWindowApi } from "../../browser/taskviewwindow";
 import { ipcMainManager } from "../../ipc/ipc";
+import { runLocalTest } from "../../runner/local-tester";
+import { store } from "../../save/save";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
 import { ansCheck } from "./judgetool";
@@ -98,6 +101,42 @@ class atcoderCodeTest {
   /**
    * コードを実行する
    */
+  async runCodeTestLocal(
+    languageId: string | number,
+    code: string,
+    codeTestProps: codeTestInfo,
+    filepath: string,
+    rootpath: string
+  ) {
+    const outfilepath = path.join(
+      rootpath,
+      codeTestProps.TaskScreenName + ".out"
+    );
+    const compilerPath = store.get("compilerPath.cpp", "g++");
+    this.nowInput = codeTestProps.input;
+    this.nowAns = codeTestProps.answer;
+    this.nowTaskScreenName = codeTestProps.TaskScreenName;
+    this.NowCaseName = codeTestProps.caseName;
+    this.NowTestGroupID = codeTestProps.testGroupID;
+    runLocalTest({
+      compilerPath,
+      filepath: filepath,
+      outfilepath,
+      codeTestIn: {
+        languageId: languageId,
+        code: code,
+        codeTestProps: codeTestProps,
+      },
+    }).then((e) => {
+      const anscheck_after = e;
+      if (this.nowAns) {
+        const ansstatus = ansCheck(this.nowAns, anscheck_after.Stdout);
+        anscheck_after.answer = this.nowAns;
+        anscheck_after.ansStatus = ansstatus;
+      }
+      this.CodeTestEmitter.emit("finish", anscheck_after);
+    });
+  }
   async runCodeTest(
     languageId: string | number,
     code: string,
