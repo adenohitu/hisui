@@ -368,19 +368,19 @@ export class taskcont {
     addTaskScreenName.TaskScreenName = this.taskScreenName;
     await this.save();
     if (this.Data !== null) {
-      if (judgeMode === "online") {
-        atcoderCodeTestApi.runCodeTest(
-          this.submitLanguage.LanguageId,
-          this.Data,
-          addTaskScreenName
-        );
-      } else if (judgeMode === "local") {
+      if (judgeMode === "local" && this.submitLanguage.LanguageId === "4003") {
         atcoderCodeTestApi.runCodeTestLocal(
           this.submitLanguage.LanguageId,
           this.Data,
           addTaskScreenName,
           this.filePath,
           path.join(this.filePath, "..")
+        );
+      } else {
+        atcoderCodeTestApi.runCodeTest(
+          this.submitLanguage.LanguageId,
+          this.Data,
+          addTaskScreenName
         );
       }
       return "success";
