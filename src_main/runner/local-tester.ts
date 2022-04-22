@@ -29,6 +29,11 @@ export function runLocalTest(args: LocalCodeRunArgs) {
         args.filepath,
         "-o",
         args.outfilepath,
+        "-std=gnu++17",
+        "-Wall",
+        "-Wextra",
+        "-O2",
+        "-DONLINE_JUDGE",
       ]);
       let conpileStdError = "";
       // compile.stdout.on("data", (data) => {
