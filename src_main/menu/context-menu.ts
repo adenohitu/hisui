@@ -1,6 +1,5 @@
 import { Menu } from "electron";
 import { ipcMainManager } from "../ipc/ipc";
-import { IAction } from "./monaco-context";
 const isMac = process.platform === "darwin";
 /**
  * 右クリックメニューのセットアップ
