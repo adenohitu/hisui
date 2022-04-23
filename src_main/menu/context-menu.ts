@@ -25,8 +25,44 @@ export const setupContextMenu = () => {
         ]
       : [{ role: "delete" }, { type: "separator" }, { role: "selectAll" }]),
   ];
-  const contextMenu = Menu.buildFromTemplate(contextTemplate);
-  ipcMainManager.on("OPEN_CONTEXT_MENU", () => {
-    contextMenu.popup();
+  ipcMainManager.on("OPEN_CONTEXT_MENU", (e, custom?: MenuElement[]) => {
+    if (custom) {
+      createContextFromIAction(custom);
+    } else {
+      const contextMenu = Menu.buildFromTemplate(contextTemplate);
+      contextMenu.popup();
+    }
   });
 };
+export interface MenuElement {
+  readonly id: string;
+  label: string;
+  tooltip: string;
+  class: string | undefined;
+  enabled: boolean;
+  checked?: boolean;
+  Keybinding?: string | null;
+}
+function createContextFromIAction(actions: MenuElement[]) {
+  const contextTemplate: Electron.MenuItemConstructorOptions[] = actions.map(
+    (element) => {
+      return {
+        label: element.label,
+        checked: element.checked,
+        enabled: element.enabled,
+        accelerator: element.Keybinding || "",
+        type: element.class as
+          | "normal"
+          | "separator"
+          | "submenu"
+          | "checkbox"
+          | "radio",
+        click: async () => {
+          ipcMainManager.send("EDITOR_CONTEXT_ACTION", element.id);
+        },
+      };
+    }
+  );
+  const contextMenu = Menu.buildFromTemplate(contextTemplate);
+  contextMenu.popup();
+}
