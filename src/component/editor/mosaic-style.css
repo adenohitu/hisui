@@ -20,9 +20,6 @@
   bottom: 1px;
   left: 1px;
 }
-.mosaic-split {
-  z-index: 6;
-}
 /* .mosaic.mosaic-blueprint-theme .mosaic-window,
 .mosaic.mosaic-blueprint-theme .mosaic-preview {
   box-shadow: none;
@@ -41,4 +38,4 @@
   background: #f5f8fa;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-} */ ;
+} */
