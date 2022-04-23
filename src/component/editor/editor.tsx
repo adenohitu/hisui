@@ -6,6 +6,9 @@ import Editor, { loader, Monaco, useMonaco } from "@monaco-editor/react";
 // import { EditorToolbar } from "./toolbar";
 import { editor } from "monaco-editor";
 import { monacocontrol } from "./monacoapi";
+import { IContextMenuDelegate } from "../../../src_main/menu/monaco-context";
+import { ipcRendererManager } from "../../ipc";
+import { MenuElement } from "../../../src_main/menu/context-menu";
 //cdnを使わずローカルファイルから読み込ませる
 loader.config({
   paths: { vs: "./vs" },
@@ -57,15 +60,34 @@ export function MainEditor() {
         height="100%"
         // LSPの補完よりスニペットが上に来るように
         options={{ snippetSuggestions: "top", contextmenu: true }}
-        // overrideServices={{
-        //   contextMenuService: {
-        //     showContextMenu: (b: any) => {
-        //       console.log(b.getActions());
-        //       console.log(b.getAnchor());
-        //       console.log(b);
-        //     },
-        //   },
-        // }}
+        overrideServices={{
+          contextMenuService: {
+            showContextMenu: (b: IContextMenuDelegate) => {
+              const getactions = b.getActions();
+              const menu: MenuElement[] = getactions.map((ele) => {
+                return {
+                  id: ele.id,
+                  label: ele.label,
+                  tooltip: ele.tooltip,
+                  class: ele.class,
+                  enabled: ele.enabled,
+                  checked: ele.checked,
+                  Keybinding:
+                    b.getKeyBinding &&
+                    b.getKeyBinding(ele)?.getElectronAccelerator(),
+                };
+              });
+              ipcRendererManager.send("OPEN_CONTEXT_MENU", menu);
+              ipcRendererManager.on(
+                "EDITOR_CONTEXT_ACTION",
+                (e, id) => {
+                  getactions.find((ele) => ele.id === id)?.run();
+                },
+                true
+              );
+            },
+          },
+        }}
       />
     </div>
   );
