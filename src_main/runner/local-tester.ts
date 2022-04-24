@@ -1,9 +1,6 @@
 import { spawn } from "child_process";
 import fse from "fs-extra";
-import {
-  atcoderCodeTestResult,
-  codeTestIn,
-} from "../data/casetester/runtest_atcoder";
+import { atcoderCodeTestResult, codeTestIn } from "../data/code-test/codetest";
 import { logger } from "../tool/logger/logger";
 let compileID = 0;
 // import { codeTestIn } from "../data/casetester/runtest_atcoder";

@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 import {
   atcoderCodeTestResult,
   codeTestInfo,
-} from "../../data/casetester/runtest_atcoder";
+} from "../../data/code-test/codetest";
 //分離されたプリロードスクリプト
 
 /**

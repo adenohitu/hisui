@@ -76,7 +76,7 @@ export interface codeTestInfo {
   caseName?: string;
   testGroupID?: string;
 }
-class atcoderCodeTest {
+class codeTest {
   CodeTestEmitter: CodeTestEmitter;
   CodeTeststatus: "CodeTest" | "ready";
   nowInput: string;
@@ -97,9 +97,29 @@ class atcoderCodeTest {
     this.codeTestQueue = [];
     this.LISTENER_sendCodeTestStatusFinish();
   }
-
+  async runCodeTest(
+    languageId: string | number,
+    code: string,
+    codeTestProps: codeTestInfo,
+    filepath: string,
+    rootpath: string
+  ) {
+    // Modeで振り分け
+    const getMode = store.get("judgeMode", "online");
+    if (getMode === "local" && languageId === "4003") {
+      this.runCodeTestLocal(
+        languageId,
+        code,
+        codeTestProps,
+        filepath,
+        rootpath
+      );
+    } else {
+      this.runCodeTestAtCoder(languageId, code, codeTestProps);
+    }
+  }
   /**
-   * コードを実行する
+   * コードを実行する Local
    */
   async runCodeTestLocal(
     languageId: string | number,
@@ -137,7 +157,11 @@ class atcoderCodeTest {
       this.CodeTestEmitter.emit("finish", anscheck_after);
     });
   }
-  async runCodeTest(
+
+  /**
+   * コードを実行する AtCoderCodeTest
+   */
+  async runCodeTestAtCoder(
     languageId: string | number,
     code: string,
     codeTestProps: codeTestInfo
@@ -193,6 +217,9 @@ class atcoderCodeTest {
       return "AddQueue";
     }
   }
+  async codeTestSetup() {
+    // MAIN.jsで呼び出される
+  }
   /**
    * 結果を待機
    */
@@ -243,7 +270,7 @@ class atcoderCodeTest {
   runNextTest() {
     const next = this.codeTestQueue.shift();
     if (next) {
-      this.runCodeTest(next.languageId, next.code, next.codeTestProps);
+      this.runCodeTestAtCoder(next.languageId, next.code, next.codeTestProps);
     }
   }
   /**
@@ -269,4 +296,4 @@ class atcoderCodeTest {
     });
   }
 }
-export const atcoderCodeTestApi = new atcoderCodeTest();
+export const codeTestApi = new codeTest();

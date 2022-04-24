@@ -37,6 +37,7 @@ import { SetIPCgetSubmitLangOption } from "./data/submit";
 import { setupKeyBind } from "./tool/keybind/setup-keybind";
 import { pluginloader } from "./plugin/loader";
 import { LSPsetup } from "./editor/lsp/lsp-server";
+import { codeTestApi } from "./data/code-test/codetest";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -214,3 +215,5 @@ setupProtocols();
 SetIPCgetSubmitLangOption();
 pluginloader();
 LSPsetup();
+// CodeTestAPIのセットアップ
+codeTestApi.codeTestSetup();
