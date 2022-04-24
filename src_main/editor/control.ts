@@ -242,7 +242,7 @@ class taskControl {
       }
     );
     // 提出言語を保存する
-    ipcMainManager.on("SET_SUBMIT_LANGUAGE", (e, arg) => {
+    ipcMainManager.on("SET_NOWCONT_SUBMIT_LANGUAGE", (e, arg) => {
       store.set("submitLanguage", arg);
       if (this.nowTop !== null) {
         this.taskAll[this.nowTop].submitLanguageChange(arg);
