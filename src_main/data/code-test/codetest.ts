@@ -4,7 +4,7 @@ import { EventEmitter } from "events";
 import path from "path";
 import { taskViewWindowApi } from "../../browser/taskviewwindow";
 import { ipcMainManager } from "../../ipc/ipc";
-import { runLocalTest } from "../../runner/local-tester";
+import { runLocalTest } from "../../runner/local-cpp/local-tester-cpp";
 import { store } from "../../save/save";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";

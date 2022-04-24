@@ -1,7 +1,10 @@
 import { spawn } from "child_process";
 import fse from "fs-extra";
-import { atcoderCodeTestResult, codeTestIn } from "../data/code-test/codetest";
-import { logger } from "../tool/logger/logger";
+import {
+  atcoderCodeTestResult,
+  codeTestIn,
+} from "../../data/code-test/codetest";
+import { logger } from "../../tool/logger/logger";
 let compileID = 0;
 // import { codeTestIn } from "../data/casetester/runtest_atcoder";
 // "cpp": "cd $dir && /usr/local/bin/g++ $fileName -D=__LOCAL -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
