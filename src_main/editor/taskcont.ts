@@ -25,6 +25,7 @@ import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { submitLanguage } from "../data/scraping/submitlang";
 import { logger } from "../tool/logger/logger";
 import path from "path";
+import { getDefaultLanguageinfo } from "./language-tool";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -40,14 +41,6 @@ export interface changeLanguageType {
   id: string;
   language: string;
 }
-/**
- * 問題のシステムジャッジ結果
- * AC:正解
- * WA:不正解（理由は含めずACではない場合）
- * judge:ジャッジの回答待ち
- * unknown:不明(初期値)
- */
-export type JudgeStatus = "AC" | "WA" | "judge" | "unknown";
 export interface editorStatus {
   contestName: string;
   TaskScreenName: string;
@@ -83,10 +76,6 @@ export class taskcont {
   // ファイルの内容がエディターで変更されているか
   change: boolean = false;
 
-  // advanced State
-  // 提出状況を保持
-  SubmitState: JudgeStatus = "unknown";
-
   constructor(
     contestName: string,
     TaskScreenName: string,
@@ -98,22 +87,8 @@ export class taskcont {
     this.taskScreenName = TaskScreenName;
     this.AssignmentName = "";
     this.language = language;
-    if (language === "cpp") {
-      this.submitLanguage = {
-        LanguageId: "4003",
-        Languagename: "C++ (GCC 9.2.1)",
-      };
-    } else if (language === "python") {
-      this.submitLanguage = {
-        LanguageId: "4006",
-        Languagename: "Python (3.8.2)",
-      };
-    } else {
-      this.submitLanguage = {
-        LanguageId: "4003",
-        Languagename: "C++ (GCC 9.2.1)",
-      };
-    }
+    // デフォルトの提出言語を設定
+    this.submitLanguage = getDefaultLanguageinfo(language);
     this.setup(contestName, TaskScreenName, language).then(() => {
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     });
@@ -194,10 +169,14 @@ export class taskcont {
   /**
    * 言語を変更
    * Load:言語変更の際EditorのValueをどうするか
-   * true=ファイルを読み込み直す
-   * false=EditorのValueを引き継ぐ
+   * true=現在のデータを引き継ぐ
+   * false=開き直す
    */
   async languageChange(language: languagetype, load: boolean) {
+    logger.info(
+      `Change editor language ${this.language} to ${this.language}`,
+      `taskcont:${this.taskScreenName}`
+    );
     await this.save();
     this.language = language;
     // ファイルを読み込むことで存在確認する
@@ -208,24 +187,12 @@ export class taskcont {
     );
     this.filePath = fileData.saveDir;
     this.changeLanguageEditor(language);
-    this.Data = fileData.data;
-    if (language === "cpp") {
-      this.submitLanguage = {
-        LanguageId: "4003",
-        Languagename: "C++ (GCC 9.2.1)",
-      };
-    } else if (language === "python") {
-      this.submitLanguage = {
-        LanguageId: "4006",
-        Languagename: "Python (3.8.2)",
-      };
-    } else {
-      this.submitLanguage = {
-        LanguageId: "4003",
-        Languagename: "C++ (GCC 9.2.1)",
-      };
+    if (!load) {
+      this.Data = fileData.data;
+      await this.syncEditorValue(this.Data);
     }
-    await this.syncEditorValue(fileData.data);
+    // デフォルトの提出言語を設定
+    this.submitLanguage = getDefaultLanguageinfo(language);
   }
 
   async submitLanguageChange(arg: submitLanguage) {
