@@ -48,6 +48,7 @@ export const IpcEvents = {
   CLOSE_TASKCONT: { mode: "on" },
   LISTENER_EDITOR_MODEL_REMOVE: { mode: "send" },
   SET_NOWCONT_SUBMIT_LANGUAGE: { mode: "on" },
+  SET_NOWTOP_EDITOR_LANGUAGE: { mode: "on" },
   GET_NOWTOP_EDITOR_LANGUAGE: { mode: "handle" },
   // MonacoIPC
   CREATE_EDITOR_MODEL: { mode: "send" },

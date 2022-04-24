@@ -11,6 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { monacoControlApi } from "../../editor";
 import { SetSubmitLang } from "./set-submitlang";
 import { ipcRendererManager } from "../../../../ipc";
+import { Checkbox } from "@mui/material";
 export let handleClickOpenSelectLanguageDialog: () => void;
 interface SelectLanguageDialogProps {
   open: boolean;
@@ -25,11 +26,12 @@ export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
     const langp = monacoControlApi?.getNowModelLang();
     if (langp) langState.setlang(langp);
   };
+
+  const langState = Uselanguage();
   const handleClose = () => {
+    langState.closeDefaultChange();
     props.setOpen(false);
   };
-  const langState = Uselanguage();
-
   return (
     <div>
       <Dialog
@@ -59,6 +61,15 @@ export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
           <SetSubmitLang />
         </DialogContent>
         <DialogActions>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={langState.defaultChange}
+                onChange={langState.handleChangeCheck}
+              />
+            }
+            label="デフォルトの値を変更しますか？"
+          />
           <Button onClick={handleClose} color="primary">
             閉じる
           </Button>
@@ -72,6 +83,7 @@ function Uselanguage() {
   const langOptions = ["cpp", "python"];
 
   const [lang, setlang] = useState<string>("");
+  const [defaultChange, setDefaultChange] = useState<boolean>(true);
   useEffect(() => {
     async function fetchData() {
       const defaultlang = await ipcRendererManager.invoke(
@@ -83,7 +95,27 @@ function Uselanguage() {
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setlang((event.target as HTMLInputElement).value);
-    ipcRendererManager.send("SET_DEFAULT_LANGUAGE", event.target.value, true);
+    ipcRendererManager.send(
+      "SET_NOWTOP_EDITOR_LANGUAGE",
+      (event.target as HTMLInputElement).value
+    );
   };
-  return { lang, setlang, handleChange, langOptions };
+  const closeDefaultChange = () => {
+    if (defaultChange) {
+      ipcRendererManager.send("SET_DEFAULT_LANGUAGE", lang);
+    }
+  };
+  const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDefaultChange(event.target.checked);
+  };
+  return {
+    lang,
+    setlang,
+    defaultChange,
+    setDefaultChange,
+    handleChange,
+    handleChangeCheck,
+    closeDefaultChange,
+    langOptions,
+  };
 }
