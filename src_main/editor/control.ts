@@ -226,17 +226,20 @@ class taskControl {
 
     // dafaultlangageに関するIPC
     // デフォルトの言語を変更
+    // 新規TaskCont作成時に適応される
     ipcMainManager.on(
       "SET_DEFAULT_LANGUAGE",
       (event, language: languagetype, load: boolean) => {
-        // storeに保存
-        console.log(language);
-
         store.set("defaultLanguage", language);
-        // ついでに今開いてるファイルの言語を変更
+      }
+    );
+    /**
+     * 選択されているTaskContの言語を更新する
+     */
+    ipcMainManager.on(
+      "SET_NOWTOP_EDITOR_LANGUAGE",
+      (e, language: languagetype, load: boolean) => {
         if (this.nowTop !== null) {
-          console.log(this.nowTop);
-
           this.taskAll[this.nowTop].languageChange(language, load);
         }
       }
