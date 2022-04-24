@@ -2,10 +2,7 @@
 // Editor、TaskViewの状態を管理する
 import { dialog } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
-import {
-  atcoderCodeTestApi,
-  codeTestInfo,
-} from "../data/casetester/runtest_atcoder";
+import { codeTestApi, codeTestInfo } from "../data/code-test/codetest";
 import { Atcoder } from "../data/atcoder";
 import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 
@@ -330,26 +327,18 @@ export class taskcont {
   /**
    * サンプルケースを使いコードをテストする
    */
-  async codeTest(infoData: codeTestInfo, judgeMode: string) {
+  async codeTest(infoData: codeTestInfo) {
     const addTaskScreenName = infoData;
     addTaskScreenName.TaskScreenName = this.taskScreenName;
     await this.save();
     if (this.Data !== null) {
-      if (judgeMode === "local" && this.submitLanguage.LanguageId === "4003") {
-        atcoderCodeTestApi.runCodeTestLocal(
-          this.submitLanguage.LanguageId,
-          this.Data,
-          addTaskScreenName,
-          this.filePath,
-          path.join(this.filePath, "..")
-        );
-      } else {
-        atcoderCodeTestApi.runCodeTest(
-          this.submitLanguage.LanguageId,
-          this.Data,
-          addTaskScreenName
-        );
-      }
+      codeTestApi.runCodeTest(
+        this.submitLanguage.LanguageId,
+        this.Data,
+        addTaskScreenName,
+        this.filePath,
+        path.join(this.filePath, "..")
+      );
       return "success";
     } else {
       return "codeIsNull";

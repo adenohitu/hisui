@@ -1,5 +1,5 @@
 // taskcontを管理するApi
-import { codeTestInfo } from "../data/casetester/runtest_atcoder";
+import { codeTestInfo } from "../data/code-test/codetest";
 import { contestDataApi } from "../data/contestdata";
 import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";
@@ -26,7 +26,6 @@ class taskControl {
   // id:TaskScreenName
   nowTop: string | null;
   DefaultContestID: string | null;
-  judgeMode: "online" | "local" | string = "online";
 
   constructor() {
     this.nowTop = null;
@@ -35,7 +34,6 @@ class taskControl {
     this.runDefaultContestID();
     this.eventSetup();
     this.setupIPCMain();
-    this.judgeMode = store.get("judgeMode", "online");
   }
   /**
    * DefaultContestIDのイベントを受け取るセットアップ
@@ -180,10 +178,7 @@ class taskControl {
     });
     return statusList;
   }
-  changeJudgeMode(mode: string) {
-    store.set("judgeMode", mode);
-    this.judgeMode = mode;
-  }
+
   /**
    * editor側からイベントを受け取る
    */
@@ -214,14 +209,6 @@ class taskControl {
     );
     ipcMainManager.on("RUN_NOWTASKVIEW_RELOAD", () => {
       this.nowTaskViewReload();
-    });
-    // ジャッジモードを取得
-    ipcMainManager.handle("GET_CODETEST_MODE", async () => {
-      return this.judgeMode;
-    });
-    // ジャッジモードを変更
-    ipcMainManager.on("SET_CODETEST_MODE", async (e, arg: string) => {
-      this.changeJudgeMode(arg);
     });
 
     // dafaultlangageに関するIPC
@@ -272,11 +259,7 @@ class taskControl {
       "RUN_CODETEST_NOWTOP",
       async (event, infoData: codeTestInfo) => {
         if (this.nowTop !== null) {
-          const result = await this.taskAll[this.nowTop].codeTest(
-            infoData,
-            this.judgeMode
-          );
-          console.log(`codeTestStatus:${result}`);
+          await this.taskAll[this.nowTop].codeTest(infoData);
         }
       }
     );

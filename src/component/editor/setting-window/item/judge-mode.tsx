@@ -91,7 +91,11 @@ export function JudgeSettingDialog() {
   const [value, setValue] = React.useState("online");
 
   const handleClickListItem = async () => {
-    const getmode = await ipcRendererManager.invoke("GET_CODETEST_MODE");
+    const getmode = await ipcRendererManager.invoke(
+      "GET_STORE",
+      "judgeMode",
+      "online"
+    );
     setValue(getmode);
     setOpen(true);
   };
@@ -100,13 +104,17 @@ export function JudgeSettingDialog() {
     setOpen(false);
 
     if (newValue) {
-      ipcRendererManager.send("SET_CODETEST_MODE", newValue);
+      ipcRendererManager.send("SET_STORE", "judgeMode", newValue);
       setValue(newValue);
     }
   };
   React.useEffect(() => {
     (async () => {
-      const getmode = await ipcRendererManager.invoke("GET_CODETEST_MODE");
+      const getmode = await ipcRendererManager.invoke(
+        "GET_STORE",
+        "judgeMode",
+        "online"
+      );
       setValue(getmode);
     })();
   }, []);
