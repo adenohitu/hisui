@@ -56,7 +56,7 @@ function Uselanguage() {
     // setSubmitLangState(submitLangList[Number(event.target.value as string)]);
     setSubmitLangState(event.target.value as string);
     ipcRendererManager.send(
-      "SET_SUBMIT_LANGUAGE",
+      "SET_NOWCONT_SUBMIT_LANGUAGE",
       submitLangList[Number(event.target.value as string)]
     );
   };
