@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { atcoderCodeTestResult } from "../../../src_main/data/casetester/runtest_atcoder";
+import { atcoderCodeTestResult } from "../../../src_main/data/code-test/codetest";
 import { makeStyles } from "@mui/styles";
 import { ChipJudgeResult } from "../chip/judge-result";
 import { ipcRendererManager } from "../../ipc";
