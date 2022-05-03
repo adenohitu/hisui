@@ -143,9 +143,8 @@ export async function setupLSP_Clangd() {
   }
   if (monacoSettingApi.isMonacoReady) {
     sendReadySignal();
-  } else {
-    ipcMainManager.on("MONACO_READY", () => {
-      sendReadySignal();
-    });
   }
+  ipcMainManager.on("MONACO_READY", () => {
+    sendReadySignal();
+  });
 }
