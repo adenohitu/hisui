@@ -183,11 +183,10 @@ export class taskcont {
       this.language
     );
     this.filePath = fileData.saveDir;
+    this.Data = fileData.data;
+
+    // Modelを再生成
     this.changeLanguageEditor(language);
-    if (!load) {
-      this.Data = fileData.data;
-      await this.syncEditorValue(this.Data);
-    }
     // デフォルトの提出言語を設定
     this.submitLanguage = getDefaultLanguageinfo(language);
   }
@@ -262,12 +261,15 @@ export class taskcont {
   /**
    * 言語変更をEditorに送信
    */
-  changeLanguageEditor(language: languagetype) {
-    const changeLanguage: changeLanguageType = {
-      id: this.taskScreenName,
-      language,
-    };
-    ipcMainManager.send("CHANGE_EDITOR_LANGUAGE", changeLanguage);
+  async changeLanguageEditor(language: languagetype) {
+    await this.save();
+    await this.closeModelEditor();
+    this.setupEditor(
+      this.taskScreenName,
+      this.Data || "",
+      this.language,
+      this.filePath
+    );
   }
   /**
    * モデルの削除
