@@ -4,7 +4,8 @@ import { EventEmitter } from "events";
 import path from "path";
 import { taskViewWindowApi } from "../../browser/taskviewwindow";
 import { ipcMainManager } from "../../ipc/ipc";
-import { runLocalTest } from "../../runner/local-tester";
+import { runLocalTest } from "../../runner/local-cpp/local-tester-cpp";
+import { runLocalTestPython } from "../../runner/local-python/local-tester-python";
 import { store } from "../../save/save";
 import { Atcoder } from "../atcoder";
 import { contestDataApi } from "../contestdata";
@@ -76,7 +77,7 @@ export interface codeTestInfo {
   caseName?: string;
   testGroupID?: string;
 }
-class atcoderCodeTest {
+class codeTest {
   CodeTestEmitter: CodeTestEmitter;
   CodeTeststatus: "CodeTest" | "ready";
   nowInput: string;
@@ -97,11 +98,39 @@ class atcoderCodeTest {
     this.codeTestQueue = [];
     this.LISTENER_sendCodeTestStatusFinish();
   }
-
+  async runCodeTest(
+    languageId: string | number,
+    code: string,
+    codeTestProps: codeTestInfo,
+    filepath: string,
+    rootpath: string
+  ) {
+    // Modeで振り分け
+    const getMode = store.get("judgeMode", "online");
+    if (getMode === "local" && languageId === "4003") {
+      this.runCodeTestLocalCpp(
+        languageId,
+        code,
+        codeTestProps,
+        filepath,
+        rootpath
+      );
+    } else if (getMode === "local" && languageId === "4006") {
+      this.runCodeTestLocalPython(
+        languageId,
+        code,
+        codeTestProps,
+        filepath,
+        rootpath
+      );
+    } else {
+      this.runCodeTestAtCoder(languageId, code, codeTestProps);
+    }
+  }
   /**
-   * コードを実行する
+   * コードを実行する Local C++
    */
-  async runCodeTestLocal(
+  async runCodeTestLocalCpp(
     languageId: string | number,
     code: string,
     codeTestProps: codeTestInfo,
@@ -137,7 +166,50 @@ class atcoderCodeTest {
       this.CodeTestEmitter.emit("finish", anscheck_after);
     });
   }
-  async runCodeTest(
+  /**
+   * コードを実行する Local Python
+   */
+  async runCodeTestLocalPython(
+    languageId: string | number,
+    code: string,
+    codeTestProps: codeTestInfo,
+    filepath: string,
+    rootpath: string
+  ) {
+    const outfilepath = path.join(
+      rootpath,
+      codeTestProps.TaskScreenName + ".out"
+    );
+    const compilerPath = store.get("compilerPath.python", "python3");
+    this.nowInput = codeTestProps.input;
+    this.nowAns = codeTestProps.answer;
+    this.nowTaskScreenName = codeTestProps.TaskScreenName;
+    this.NowCaseName = codeTestProps.caseName;
+    this.NowTestGroupID = codeTestProps.testGroupID;
+    runLocalTestPython({
+      compilerPath,
+      filepath: filepath,
+      outfilepath,
+      codeTestIn: {
+        languageId: languageId,
+        code: code,
+        codeTestProps: codeTestProps,
+      },
+    }).then((e) => {
+      const anscheck_after = e;
+      if (this.nowAns) {
+        const ansstatus = ansCheck(this.nowAns, anscheck_after.Stdout);
+        anscheck_after.answer = this.nowAns;
+        anscheck_after.ansStatus = ansstatus;
+      }
+      this.CodeTestEmitter.emit("finish", anscheck_after);
+    });
+  }
+
+  /**
+   * コードを実行する AtCoderCodeTest
+   */
+  async runCodeTestAtCoder(
     languageId: string | number,
     code: string,
     codeTestProps: codeTestInfo
@@ -193,6 +265,9 @@ class atcoderCodeTest {
       return "AddQueue";
     }
   }
+  async codeTestSetup() {
+    // MAIN.jsで呼び出される
+  }
   /**
    * 結果を待機
    */
@@ -243,7 +318,7 @@ class atcoderCodeTest {
   runNextTest() {
     const next = this.codeTestQueue.shift();
     if (next) {
-      this.runCodeTest(next.languageId, next.code, next.codeTestProps);
+      this.runCodeTestAtCoder(next.languageId, next.code, next.codeTestProps);
     }
   }
   /**
@@ -269,4 +344,4 @@ class atcoderCodeTest {
     });
   }
 }
-export const atcoderCodeTestApi = new atcoderCodeTest();
+export const codeTestApi = new codeTest();
