@@ -88,7 +88,7 @@ export async function setupClangd(): Promise<languageServers> {
   if (result.clangdPath === null) {
     await installLatest(ui);
     const installedpath = await prepare(ui, false);
-    await copyStdc(installedpath.clangdPath);
+
     if (installedpath.clangdPath) {
       return {
         cpp: { command: [installedpath.clangdPath, "--pretty"] },
@@ -114,7 +114,9 @@ export async function setupLSP_Clangd() {
 
   // choose a unique channel name, e.g. by using the PID
   const ipcChannel = "ls_" + lsProcess.pid;
-
+  lsProcess.stdout.on("error", (ms) => {
+    console.log(ms.toString());
+  });
   // create reader/writer for I/O streams
   const reader = new rpc.StreamMessageReader(lsProcess.stdout);
   const writer = new rpc.StreamMessageWriter(lsProcess.stdin);
