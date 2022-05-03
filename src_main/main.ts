@@ -17,7 +17,6 @@ import {
   startCheckServiceStatus,
   stopCheckServiceStatus,
 } from "./service/setvice";
-import { updateSetup } from "./update/update";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
@@ -197,8 +196,6 @@ setupStoreIPC();
 load_ipc();
 //メニューのセット
 setMenu();
-//オートアップデートのセットアップ
-updateSetup();
 // submissionのセットアップ
 submissionsApi.setup();
 // 保存ファイルの設定
