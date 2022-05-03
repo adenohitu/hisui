@@ -127,9 +127,8 @@ export async function setupLSP_Pyright() {
   }
   if (monacoSettingApi.isMonacoReady) {
     sendReadySignal();
-  } else {
-    ipcMainManager.on("MONACO_READY", () => {
-      sendReadySignal();
-    });
   }
+  ipcMainManager.on("MONACO_READY", () => {
+    sendReadySignal();
+  });
 }

@@ -186,7 +186,7 @@ export class taskcont {
     this.Data = fileData.data;
 
     // Modelを再生成
-    this.changeLanguageEditor(language);
+    this.changeLanguageEditor();
     // デフォルトの提出言語を設定
     this.submitLanguage = getDefaultLanguageinfo(language);
   }
@@ -261,7 +261,7 @@ export class taskcont {
   /**
    * 言語変更をEditorに送信
    */
-  async changeLanguageEditor(language: languagetype) {
+  async changeLanguageEditor() {
     await this.save();
     await this.closeModelEditor();
     this.setupEditor(
@@ -270,6 +270,7 @@ export class taskcont {
       this.language,
       this.filePath
     );
+    this.sendValueStatus();
   }
   /**
    * モデルの削除
