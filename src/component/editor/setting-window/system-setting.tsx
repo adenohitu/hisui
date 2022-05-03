@@ -67,7 +67,16 @@ export function SettingAppDialog() {
           <SnippetDialog />
           <Divider />
           <JudgeSettingDialog />
-          <LocalJudgePathDialog />
+          <LocalJudgePathDialog
+            languageID="cpp"
+            languageAlias="C++"
+            defaultCompilerPath="g++"
+          />
+          <LocalJudgePathDialog
+            languageID="python"
+            languageAlias="Python"
+            defaultCompilerPath="python3"
+          />
         </List>
       </Dialog>
     </div>
