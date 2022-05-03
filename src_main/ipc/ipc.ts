@@ -22,6 +22,15 @@ class IpcMainManager {
       ipcMain.removeListener(channel, listener);
     };
   }
+  public once(
+    channel: IpcEventsKey,
+    listener: (event: Electron.IpcMainEvent, ...args: any[]) => any
+  ): () => void {
+    ipcMain.once(channel, listener);
+    return () => {
+      ipcMain.removeListener(channel, listener);
+    };
+  }
   /**
    * win,mainPageapi,editorViewapi,dashboardapi
    * にsendする

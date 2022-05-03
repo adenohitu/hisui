@@ -91,7 +91,7 @@ class monacoSetting {
       });
   }
   async setup() {
-    ipcMainManager.on("RUN_RELOAD_SNIPPET", () => {
+    ipcMainManager.on("MONACO_READY", () => {
       this.loadSnippets();
     });
     ipcMainManager.handle("GET_LANG_SNIPPET", async (e, lang: languagetype) => {

@@ -104,12 +104,24 @@ export async function LSPsetup() {
 
   // forward everything from process's stdout to the mainWindow's renderer process
   reader.listen((msg) => {
-    ipcMainManager.send("LSP_SEND", msg);
+    ipcMainManager.send("LSP_SEND", ipcChannel, msg);
   });
   // listen to incoming messages and forward them to the language server process
 
-  ipcMainManager.on("LSP_ON", (event: any, msg: Message) => {
-    writer.write(msg);
+  ipcMainManager.on("LSP_ON", (event: any, pid: string, msg: Message) => {
+    if (pid === ipcChannel) {
+      writer.write(msg);
+    }
   });
-  return { ipcChannel };
+  ipcMainManager.on("MONACO_READY", () => {
+    ipcMainManager.send(
+      "LSP_READY",
+      {
+        id: "python",
+        extensions: [".py"],
+        aliases: ["python", "py"],
+      },
+      ipcChannel
+    );
+  });
 }
