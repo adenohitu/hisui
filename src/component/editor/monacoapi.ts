@@ -1,4 +1,4 @@
-import { editor, IDisposable } from "monaco-editor";
+import { editor, IDisposable, languages } from "monaco-editor";
 import { createEditorModelType } from "../../../src_main/editor/taskcont";
 import { languagetype } from "../../../src_main/file/extension";
 import { ipcRendererManager } from "../../ipc";
@@ -61,8 +61,8 @@ export class monacocontrol {
   setuseMonaco(monacoapi: useMonaco | null) {
     this.monaco = monacoapi;
     if (monacoapi) {
-      ipcRendererManager.send("RUN_RELOAD_SNIPPET");
-      this.setupLSP(monacoapi);
+      ipcRendererManager.send("MONACO_READY");
+      this.startLSP(monacoapi);
     }
   }
   setupSnippet() {
@@ -252,12 +252,21 @@ export class monacocontrol {
       window.editor.getValue_replay(id, Value);
     });
   }
-  setupLSP(monacoapi: useMonaco) {
-    monacoapi.languages.register({
-      id: "python",
-      extensions: [".py"],
-      aliases: ["python", "py"],
-    });
+  startLSP(monacoapi: useMonaco) {
+    ipcRendererManager.on(
+      "LSP_READY",
+      (e, arg: languages.ILanguageExtensionPoint, lspProcessPID) => {
+        this.setupLSP(monacoapi, arg, lspProcessPID);
+        console.log(arg, lspProcessPID);
+      }
+    );
+  }
+  setupLSP(
+    monacoapi: useMonaco,
+    languageExtention: languages.ILanguageExtensionPoint,
+    lspProcessPID: string
+  ) {
+    monacoapi.languages.register(languageExtention);
     MonacoServices.install(monacoapi);
     // dummy disposable to satisfy interfaces
     function dummyDisposable(): Disposable {
@@ -272,7 +281,11 @@ export class monacocontrol {
       private disposer: () => void | undefined;
       constructor(private channel: IpcEventsKey) {
         // listen to incoming language server notifications and messages from the backend
-        this.disposer = ipcRendererManager.on(this.channel, this.handler);
+        this.disposer = ipcRendererManager.on(this.channel, (e, id, msg) => {
+          if (id === lspProcessPID) {
+            this.handler(e, msg);
+          }
+        });
       }
 
       // events are not implemented for this example
@@ -302,7 +315,7 @@ export class monacocontrol {
 
       public async write(msg: Message): Promise<void> {
         // send all requests for the language server to the backend
-        ipcRendererManager.send(this.channel, msg);
+        ipcRendererManager.send(this.channel, lspProcessPID, msg);
       }
 
       public dispose(): void {
@@ -322,7 +335,7 @@ export class monacocontrol {
     function createBaseLanguageClient(connection: MessageConnection) {
       const client = new MonacoLanguageClient({
         clientOptions: {
-          documentSelector: ["python"],
+          documentSelector: [languageExtention.id],
           errorHandler: {
             closed: () => CloseAction.DoNotRestart,
             error: () => ErrorAction.Continue,
@@ -332,7 +345,7 @@ export class monacocontrol {
           get: async (errorHandler, closeHandler) =>
             createConnection(connection, errorHandler, closeHandler),
         },
-        name: "python language server",
+        name: `${languageExtention.id} language server`,
       });
 
       // for debugging
