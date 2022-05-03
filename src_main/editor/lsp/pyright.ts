@@ -8,6 +8,7 @@ import { ipcMainManager } from "../../ipc/ipc";
 import path from "path";
 import { app } from "electron";
 import { logger } from "../../tool/logger/logger";
+import { monacoSettingApi } from "../monaco";
 // import { getPortPromise } from "portfinder";
 
 export interface languageServer {
@@ -15,7 +16,7 @@ export interface languageServer {
 }
 export type languageServers = { [key: string]: languageServer };
 
-export async function LSPsetup() {
+export async function setupLSP_Pyright() {
   // pyrightを移動
   if (app.isPackaged) {
     const asar = await import("asar");
@@ -113,7 +114,7 @@ export async function LSPsetup() {
       writer.write(msg);
     }
   });
-  ipcMainManager.on("MONACO_READY", () => {
+  function sendReadySignal() {
     ipcMainManager.send(
       "LSP_READY",
       {
@@ -123,5 +124,12 @@ export async function LSPsetup() {
       },
       ipcChannel
     );
-  });
+  }
+  if (monacoSettingApi.isMonacoReady) {
+    sendReadySignal();
+  } else {
+    ipcMainManager.on("MONACO_READY", () => {
+      sendReadySignal();
+    });
+  }
 }

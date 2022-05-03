@@ -36,7 +36,6 @@ import { setWindowSplit } from "./browser/tool/monitorsize";
 import { SetIPCgetSubmitLangOption } from "./data/submit";
 import { setupKeyBind } from "./tool/keybind/setup-keybind";
 import { pluginloader } from "./plugin/loader";
-import { LSPsetup } from "./editor/lsp/lsp-server";
 import { codeTestApi } from "./data/code-test/codetest";
 
 // webcontentsの監視の開始
@@ -214,6 +213,5 @@ setupProtocols();
 // 提出可能言語を取得するIPC
 SetIPCgetSubmitLangOption();
 pluginloader();
-LSPsetup();
 // CodeTestAPIのセットアップ
 codeTestApi.codeTestSetup();

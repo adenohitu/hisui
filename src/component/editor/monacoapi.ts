@@ -235,6 +235,8 @@ export class monacocontrol {
     });
   }
   startLSP(monacoapi: useMonaco) {
+    MonacoServices.install(monacoapi);
+
     ipcRendererManager.on(
       "LSP_READY",
       (e, arg: languages.ILanguageExtensionPoint, lspProcessPID) => {
@@ -249,7 +251,6 @@ export class monacocontrol {
     lspProcessPID: string
   ) {
     monacoapi.languages.register(languageExtention);
-    MonacoServices.install(monacoapi);
     // dummy disposable to satisfy interfaces
     function dummyDisposable(): Disposable {
       return {
