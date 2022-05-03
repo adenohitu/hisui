@@ -5,7 +5,6 @@ import { languages, languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 import { parse } from "jsonc-parser";
 import { setupLSP_Pyright } from "./lsp/pyright";
-import { setupLSP_Clangd } from "./lsp/clangd";
 const snippetDataInit = `{
   "map": {
     "prefix": "map",
@@ -112,7 +111,7 @@ class monacoSetting {
     );
     this.setupSaveFolder();
     setupLSP_Pyright();
-    setupLSP_Clangd();
+    // setupLSP_Clangd();
   }
   getSettingfilepath() {
     return join(app.getPath("userData"), "setting", "snippet");
