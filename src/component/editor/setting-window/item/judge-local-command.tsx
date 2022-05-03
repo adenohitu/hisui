@@ -19,6 +19,7 @@ export interface ConfirmationDialogRawProps {
   value: string;
   open: boolean;
   onClose: (value?: string) => void;
+  memoResult: LocalJudgePathDialogProps;
 }
 
 function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
@@ -61,7 +62,8 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
       <DialogTitle>Subscribe</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          LocalJudgeで使用する、コンパイラー(c++)のPathを設定します
+          LocalJudgeで使用する、コンパイラー({props.memoResult.languageAlias}
+          )のPathを設定します
           <br />
           （この機能はプロトタイプ段階です）
         </DialogContentText>
@@ -81,16 +83,20 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
     </Dialog>
   );
 }
-
-export function LocalJudgePathDialog() {
+interface LocalJudgePathDialogProps {
+  readonly languageID: string;
+  readonly languageAlias: string;
+  readonly defaultCompilerPath: string;
+}
+export function LocalJudgePathDialog(props: LocalJudgePathDialogProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("g++");
-
+  const [value, setValue] = React.useState(props.defaultCompilerPath);
+  const memoResult = React.useMemo(() => props, [props]);
   const handleClickListItem = async () => {
     const getmode = await ipcRendererManager.invoke(
       "GET_STORE",
-      "compilerPath.cpp",
-      "g++"
+      `compilerPath.${memoResult.languageID}`,
+      memoResult.defaultCompilerPath
     );
     setValue(getmode);
     setOpen(true);
@@ -100,7 +106,11 @@ export function LocalJudgePathDialog() {
     setOpen(false);
 
     if (newValue) {
-      ipcRendererManager.send("SET_STORE", "compilerPath.cpp", newValue);
+      ipcRendererManager.send(
+        "SET_STORE",
+        `compilerPath.${memoResult.languageID}`,
+        newValue
+      );
       setValue(newValue);
     }
   };
@@ -108,12 +118,12 @@ export function LocalJudgePathDialog() {
     (async () => {
       const getmode = await ipcRendererManager.invoke(
         "GET_STORE",
-        "compilerPath.cpp",
-        "g++"
+        `compilerPath.${memoResult.languageID}`,
+        memoResult.defaultCompilerPath
       );
       setValue(getmode);
     })();
-  }, []);
+  }, [memoResult]);
 
   return (
     <>
@@ -136,6 +146,7 @@ export function LocalJudgePathDialog() {
         open={open}
         onClose={handleClose}
         value={value}
+        memoResult={memoResult}
       />
     </>
   );
