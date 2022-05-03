@@ -54,7 +54,6 @@ export const IpcEvents = {
   CREATE_EDITOR_MODEL: { mode: "send" },
   SET_EDITOR_MODEL: { mode: "send" },
   CHANGE_EDITOR_VALUE: { mode: "send" },
-  CHANGE_EDITOR_LANGUAGE: { mode: "send" },
   EDITOR_CONTEXT_ACTION: { mode: "send" },
   // GET_VALUE: { mode: "send" },
   // TaskContIPC

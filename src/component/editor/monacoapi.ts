@@ -194,18 +194,6 @@ export class monacocontrol {
   }
 
   /**
-   * 指定したモデルの言語を変更
-   */
-  changeLanguage(id: string, language: string) {
-    if (this.monaco) {
-      this.monaco.editor.setModelLanguage(
-        this.editorModels[id].model,
-        language
-      );
-    }
-  }
-
-  /**
    * エデイターのデータを保存する
    */
   saveNowValue() {
@@ -237,12 +225,6 @@ export class monacocontrol {
     ipcRendererManager.on("CHANGE_EDITOR_VALUE", (e, arg) => {
       console.log(arg);
       this.changeValue(arg.id, arg.value);
-    });
-    // language変更の受付
-    ipcRendererManager.on("CHANGE_EDITOR_LANGUAGE", (e, arg) => {
-      console.log(arg);
-
-      this.changeLanguage(arg.id, arg.language);
     });
     // ipc送受信
     // mainからValueを送信するように指示される
