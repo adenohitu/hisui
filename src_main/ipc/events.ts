@@ -33,7 +33,7 @@ export const IpcEvents = {
   OPEN_SELECT_CONTEST_DIALOG: { mode: "on" },
   RUN_UPDATE_SUBMISSIONS: { mode: "on" },
   GET_NOWTOP_TASK_SAMPLECASE: { mode: "handle" },
-  RUN_RELOAD_SNIPPET: { mode: "on" },
+  MONACO_READY: { mode: "on" },
   GET_LANG_SNIPPET: { mode: "handle" },
   SET_LANG_SNIPPET: { mode: "handle" },
   RUN_SET_WINDOW_SPLIT: { mode: "on" },
@@ -54,7 +54,6 @@ export const IpcEvents = {
   CREATE_EDITOR_MODEL: { mode: "send" },
   SET_EDITOR_MODEL: { mode: "send" },
   CHANGE_EDITOR_VALUE: { mode: "send" },
-  CHANGE_EDITOR_LANGUAGE: { mode: "send" },
   EDITOR_CONTEXT_ACTION: { mode: "send" },
   // GET_VALUE: { mode: "send" },
   // TaskContIPC
@@ -93,6 +92,7 @@ export const IpcEvents = {
   // LISTENER_ADD_VIEWOPEN_BUTTON: { mode: "send" },
   LSP_SEND: { mode: "send" },
   LSP_ON: { mode: "on" },
+  LSP_READY: { mode: "send" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

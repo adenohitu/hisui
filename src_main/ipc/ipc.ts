@@ -4,6 +4,12 @@ import { win } from "../main";
 import { IpcEventsKey } from "./events";
 
 class IpcMainManager {
+  constructor() {
+    this.setup();
+  }
+  setup() {
+    ipcMain.setMaxListeners(50);
+  }
   public handle(
     channel: IpcEventsKey,
     listener: (event: Electron.IpcMainInvokeEvent, ...args: any[]) => any
@@ -18,6 +24,15 @@ class IpcMainManager {
     listener: (event: Electron.IpcMainEvent, ...args: any[]) => any
   ): () => void {
     ipcMain.on(channel, listener);
+    return () => {
+      ipcMain.removeListener(channel, listener);
+    };
+  }
+  public once(
+    channel: IpcEventsKey,
+    listener: (event: Electron.IpcMainEvent, ...args: any[]) => any
+  ): () => void {
+    ipcMain.once(channel, listener);
     return () => {
       ipcMain.removeListener(channel, listener);
     };
