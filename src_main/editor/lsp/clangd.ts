@@ -1,9 +1,7 @@
 import { prepare, installLatest } from "@clangd/install";
 import { app } from "electron";
-import { mkdir, writeFile } from "fs/promises";
-import { join, basename } from "path";
+import { join } from "path";
 import { languageServers } from "./pyright";
-import { stdcTemp } from "./stdc";
 import * as rpc from "vscode-ws-jsonrpc";
 import { Message } from "vscode-jsonrpc";
 import { spawn } from "child_process";
@@ -66,21 +64,21 @@ const storagePath = join(
   "extensions",
   "clangd"
 );
-async function copyStdc(clangdPath: string | null) {
-  if (clangdPath) {
-    const versionName = basename(join(clangdPath, "../../../"));
-    const stdcSavepath = join(
-      clangdPath,
-      "../../lib/clang",
-      versionName,
-      "include",
-      "bits"
-    );
-    await mkdir(stdcSavepath, { recursive: true });
-    const stdcSaveFileName = join(stdcSavepath, "stdc++.h");
-    await writeFile(stdcSaveFileName, stdcTemp, "utf-8");
-  }
-}
+// async function copyStdc(clangdPath: string | null) {
+//   if (clangdPath) {
+//     const versionName = basename(join(clangdPath, "../../../"));
+//     const stdcSavepath = join(
+//       clangdPath,
+//       "../../lib/clang",
+//       versionName,
+//       "include",
+//       "bits"
+//     );
+//     await mkdir(stdcSavepath, { recursive: true });
+//     const stdcSaveFileName = join(stdcSavepath, "stdc++.h");
+//     await writeFile(stdcSaveFileName, stdcTemp, "utf-8");
+//   }
+// }
 
 export const ui = new clangdUI(storagePath);
 export async function setupClangd(): Promise<languageServers> {
