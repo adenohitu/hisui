@@ -4,6 +4,7 @@ import { join } from "path";
 import { languages, languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 import { parse } from "jsonc-parser";
+import { setupLSP_Pyright } from "./lsp/pyright";
 const snippetDataInit = `{
   "map": {
     "prefix": "map",
@@ -14,7 +15,9 @@ const snippetDataInit = `{
 `;
 class monacoSetting {
   savefilepath: string;
+  isMonacoReady: boolean;
   constructor() {
+    this.isMonacoReady = false;
     this.savefilepath = this.getSettingfilepath();
   }
   /**
@@ -91,8 +94,9 @@ class monacoSetting {
       });
   }
   async setup() {
-    ipcMainManager.on("RUN_RELOAD_SNIPPET", () => {
+    ipcMainManager.on("MONACO_READY", () => {
       this.loadSnippets();
+      this.isMonacoReady = true;
     });
     ipcMainManager.handle("GET_LANG_SNIPPET", async (e, lang: languagetype) => {
       const data = await this.getSnippetFileData(lang);
@@ -106,6 +110,8 @@ class monacoSetting {
       }
     );
     this.setupSaveFolder();
+    setupLSP_Pyright();
+    // setupLSP_Clangd();
   }
   getSettingfilepath() {
     return join(app.getPath("userData"), "setting", "snippet");

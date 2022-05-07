@@ -17,7 +17,6 @@ import {
   startCheckServiceStatus,
   stopCheckServiceStatus,
 } from "./service/setvice";
-import { updateSetup } from "./update/update";
 import { changeViewapi } from "./browserview/mgt/changeview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
@@ -36,7 +35,6 @@ import { setWindowSplit } from "./browser/tool/monitorsize";
 import { SetIPCgetSubmitLangOption } from "./data/submit";
 import { setupKeyBind } from "./tool/keybind/setup-keybind";
 import { pluginloader } from "./plugin/loader";
-import { LSPsetup } from "./editor/lsp/lsp-server";
 import { codeTestApi } from "./data/code-test/codetest";
 
 // webcontentsの監視の開始
@@ -198,8 +196,6 @@ setupStoreIPC();
 load_ipc();
 //メニューのセット
 setMenu();
-//オートアップデートのセットアップ
-updateSetup();
 // submissionのセットアップ
 submissionsApi.setup();
 // 保存ファイルの設定
@@ -214,6 +210,5 @@ setupProtocols();
 // 提出可能言語を取得するIPC
 SetIPCgetSubmitLangOption();
 pluginloader();
-LSPsetup();
 // CodeTestAPIのセットアップ
 codeTestApi.codeTestSetup();
