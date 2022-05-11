@@ -26,8 +26,12 @@ export async function setupLSP_Pyright() {
     );
     if (!alreadyCopy) {
       try {
+        const resourcesPath =
+          (process.platform === "darwin" &&
+            path.join(app.getPath("exe"), "../../Resources/app.asar")) ||
+          path.join(app.getPath("exe"), "../Resources/app.asar");
         asar.extractAll(
-          path.join(app.getPath("exe"), "../../Resources/app.asar"),
+          resourcesPath,
           path.join(
             app.getPath("userData"),
             "setting",
@@ -57,7 +61,9 @@ export async function setupLSP_Pyright() {
           )
         );
         logger.info("Copy successful", "lsp-server");
-      } catch {
+      } catch (e) {
+        console.log(e);
+
         logger.error("Copy error", "lsp-server");
       }
     } else {
