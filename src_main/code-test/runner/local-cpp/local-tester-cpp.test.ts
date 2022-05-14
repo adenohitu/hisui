@@ -37,7 +37,7 @@ test("Local Judge Test: pathError", async () => {
       },
     },
   };
-  const data = await runLocalTest(testArgs);
+  const data = await runLocalTest(testArgs, 1);
   expect(data.Stdout).toEqual(output);
 });
 
@@ -72,7 +72,7 @@ test("Local Judge Test", async () => {
       },
     },
   };
-  const data = await runLocalTest(testArgs);
+  const data = await runLocalTest(testArgs, 1);
   expect(data.Stderr).toEqual(
     "コンパイラーのパスが正しくしてされていない可能性があります。"
   );
