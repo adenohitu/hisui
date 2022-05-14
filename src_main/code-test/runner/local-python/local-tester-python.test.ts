@@ -37,7 +37,7 @@ test("Local Judge Test: command Error", async () => {
       },
     },
   };
-  const data = await runLocalTestPython(testArgs);
+  const data = await runLocalTestPython(testArgs, 1);
   expect(data.Stdout).toEqual(output);
 });
 
@@ -73,7 +73,7 @@ test("Local Judge Test", async () => {
       },
     },
   };
-  const data = await runLocalTestPython(testArgs);
+  const data = await runLocalTestPython(testArgs, 1);
   expect(data.Stderr).toEqual("ProcessError");
   expect(data.Result.ExitCode).toEqual(-1);
 });

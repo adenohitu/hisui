@@ -2,7 +2,6 @@ import { spawn } from "child_process";
 import fse from "fs-extra";
 import { atcoderCodeTestResult, codeTestIn } from "../../codetest";
 import { logger } from "../../../tool/logger/logger";
-let compileID = 0;
 // import { codeTestIn } from "../data/casetester/runtest_atcoder";
 // "cpp": "cd $dir && /usr/local/bin/g++ $fileName -D=__LOCAL -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
 // g++ -std=gnu++17 -Wall -Wextra -O2 -DONLINE_JUDGE -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -I/opt/ac-library -o {dirname}/a.out {dirname}/{basename}
@@ -16,10 +15,9 @@ export interface LocalCodeTest extends atcoderCodeTestResult {
   LocalCodeRunArgs: LocalCodeRunArgs;
 }
 
-export function runLocalTest(args: LocalCodeRunArgs) {
+export function runLocalTest(args: LocalCodeRunArgs, compileID: number) {
   return new Promise<LocalCodeTest>((resolve) => {
     const createdDate = new Date().toISOString();
-    compileID++;
     try {
       fse.remove(args.outfilepath);
       const compile = spawn(args.compilerPath, [

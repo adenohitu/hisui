@@ -10,7 +10,8 @@ import { store } from "../save/save";
 import { Atcoder } from "../data/atcoder";
 import { contestDataApi } from "../data/contestdata";
 import { ansCheck } from "./judgetool";
-const sleepTime = 15000;
+import { getDefaultLanguageinfo } from "../editor/language-tool";
+const onlineCodeTestInterval = 30000;
 /**
  * コードテストが実行されたときに発生するイベント
  */
@@ -83,9 +84,11 @@ class codeTest {
   nowInput: string;
   nowAns: string | null;
   nowTaskScreenName: string | undefined;
-  codeTestQueue: codeTestIn[];
   NowCaseName?: string;
   NowTestGroupID?: string;
+
+  compileID: number;
+  onlineCodeTestLastest: number | null;
 
   constructor() {
     this.CodeTestEmitter = new EventEmitter();
@@ -95,7 +98,8 @@ class codeTest {
     this.nowTaskScreenName = undefined;
     this.NowCaseName = "";
     this.NowTestGroupID = "";
-    this.codeTestQueue = [];
+    this.compileID = 0;
+    this.onlineCodeTestLastest = null;
     this.LISTENER_sendCodeTestStatusFinish();
   }
   async runCodeTest(
@@ -147,16 +151,20 @@ class codeTest {
     this.nowTaskScreenName = codeTestProps.TaskScreenName;
     this.NowCaseName = codeTestProps.caseName;
     this.NowTestGroupID = codeTestProps.testGroupID;
-    runLocalTest({
-      compilerPath,
-      filepath: filepath,
-      outfilepath,
-      codeTestIn: {
-        languageId: languageId,
-        code: code,
-        codeTestProps: codeTestProps,
+    this.compileID++;
+    runLocalTest(
+      {
+        compilerPath,
+        filepath: filepath,
+        outfilepath,
+        codeTestIn: {
+          languageId: languageId,
+          code: code,
+          codeTestProps: codeTestProps,
+        },
       },
-    }).then((e) => {
+      this.compileID
+    ).then((e) => {
       const anscheck_after = e;
       if (this.nowAns) {
         const ansstatus = ansCheck(this.nowAns, anscheck_after.Stdout);
@@ -186,16 +194,20 @@ class codeTest {
     this.nowTaskScreenName = codeTestProps.TaskScreenName;
     this.NowCaseName = codeTestProps.caseName;
     this.NowTestGroupID = codeTestProps.testGroupID;
-    runLocalTestPython({
-      compilerPath,
-      filepath: filepath,
-      outfilepath,
-      codeTestIn: {
-        languageId: languageId,
-        code: code,
-        codeTestProps: codeTestProps,
+    this.compileID++;
+    runLocalTestPython(
+      {
+        compilerPath,
+        filepath: filepath,
+        outfilepath,
+        codeTestIn: {
+          languageId: languageId,
+          code: code,
+          codeTestProps: codeTestProps,
+        },
       },
-    }).then((e) => {
+      this.compileID
+    ).then((e) => {
       const anscheck_after = e;
       if (this.nowAns) {
         const ansstatus = ansCheck(this.nowAns, anscheck_after.Stdout);
@@ -215,54 +227,113 @@ class codeTest {
     codeTestProps: codeTestInfo
   ) {
     if (this.CodeTeststatus === "ready") {
-      this.CodeTeststatus = "CodeTest";
-      const customTestPostURL = `${this.getcustomTestURL()}/submit/json`;
-      const csrf_token = await Atcoder.getCsrftoken(
-        true,
-        this.getcustomTestURL()
-      );
-
-      const params = new URLSearchParams();
-      params.append("data.LanguageId", String(languageId));
-      params.append("sourceCode", code);
-      params.append("input", codeTestProps.input);
-      params.append("csrf_token", csrf_token[0]);
-      try {
-        const res = await Atcoder.axiosInstance.post(
-          customTestPostURL,
-          params,
-          {
-            maxRedirects: 0,
-            validateStatus: (status) =>
-              (status >= 200 && status < 300) || status === 302,
-          }
+      if (
+        this.onlineCodeTestLastest === null ||
+        this.onlineCodeTestLastest + onlineCodeTestInterval < Date.now()
+      ) {
+        this.CodeTeststatus = "CodeTest";
+        const customTestPostURL = `${this.getcustomTestURL()}/submit/json`;
+        const csrf_token = await Atcoder.getCsrftoken(
+          true,
+          this.getcustomTestURL()
         );
 
-        if (res.status === 200) {
-          // 結果待機
-          this.CodeTestEmitter.emit("run");
-          this.nowInput = codeTestProps.input;
-          this.nowAns = codeTestProps.answer;
-          this.nowTaskScreenName = codeTestProps.TaskScreenName;
-          this.NowCaseName = codeTestProps.caseName;
-          this.NowTestGroupID = codeTestProps.testGroupID;
-          this.CodeTestchecker();
-          return "success";
-        } else {
-          this.CodeTeststatus = "ready";
-          return "error:statuscode";
+        const params = new URLSearchParams();
+        params.append("data.LanguageId", String(languageId));
+        params.append("sourceCode", code);
+        params.append("input", codeTestProps.input);
+        params.append("csrf_token", csrf_token[0]);
+        try {
+          const res = await Atcoder.axiosInstance.post(
+            customTestPostURL,
+            params,
+            {
+              maxRedirects: 0,
+              validateStatus: (status) =>
+                (status >= 200 && status < 300) || status === 302,
+            }
+          );
+
+          if (res.status === 200) {
+            // 結果待機
+            this.CodeTestEmitter.emit("run");
+            this.nowInput = codeTestProps.input;
+            this.nowAns = codeTestProps.answer;
+            this.nowTaskScreenName = codeTestProps.TaskScreenName;
+            this.NowCaseName = codeTestProps.caseName;
+            this.NowTestGroupID = codeTestProps.testGroupID;
+            this.CodeTestchecker();
+            return "success";
+          } else {
+            this.CodeTeststatus = "ready";
+            return "error:statuscode";
+          }
+        } catch (error) {
+          console.log(error);
+          return "error:axiosInstance";
         }
-      } catch (error) {
-        console.log(error);
-        return "error:axiosInstance";
+      } else {
+        this.compileID++;
+        const nowremainIntervalTime = Math.floor(
+          onlineCodeTestInterval / 1000 -
+            (Date.now() - this.onlineCodeTestLastest) / 1000
+        );
+        const createdDate = new Date().toISOString();
+        const Result: atcoderCodeTestResult = {
+          ansStatus: "Interval",
+          Result: {
+            Id: this.compileID,
+            SourceCode: "",
+            Input: codeTestProps.input,
+            Output: "",
+            Error: "",
+            TimeConsumption: -1,
+            MemoryConsumption: -1,
+            ExitCode: -1,
+            Status: -1,
+            Created: createdDate,
+            LanguageId: Number(languageId),
+            LanguageName: getDefaultLanguageinfo(String(languageId))
+              .Languagename,
+          },
+          Stderr: "コードテストのインターバル中です。",
+          Stdout: `コードテストのインターバル中です。${nowremainIntervalTime}秒`,
+          TaskScreenName: codeTestProps.TaskScreenName,
+          caseName: codeTestProps.caseName,
+          testGroup: codeTestProps.testGroupID,
+          answer: codeTestProps.answer,
+        };
+        this.CodeTestEmitter.emit("finish", Result);
+        return "NowInterval";
       }
     } else {
-      this.codeTestQueue.push({
-        languageId,
-        code,
-        codeTestProps,
-      });
-      return "AddQueue";
+      this.compileID++;
+      const createdDate = new Date().toISOString();
+      const Result: atcoderCodeTestResult = {
+        ansStatus: "BUSY",
+        Result: {
+          Id: this.compileID,
+          SourceCode: "",
+          Input: codeTestProps.input,
+          Output: "",
+          Error: "",
+          TimeConsumption: -1,
+          MemoryConsumption: -1,
+          ExitCode: -1,
+          Status: -1,
+          Created: createdDate,
+          LanguageId: Number(languageId),
+          LanguageName: getDefaultLanguageinfo(String(languageId)).Languagename,
+        },
+        Stderr: "他のコードテストが実行中です",
+        Stdout: "他のコードテストが実行中です",
+        TaskScreenName: codeTestProps.TaskScreenName,
+        caseName: codeTestProps.caseName,
+        testGroup: codeTestProps.testGroupID,
+        answer: codeTestProps.answer,
+      };
+      this.CodeTestEmitter.emit("finish", Result);
+      return "busy";
     }
   }
   async codeTestSetup() {
@@ -300,25 +371,11 @@ class codeTest {
             Result.answer = this.nowAns;
             Result["ansStatus"] = ansstatus;
           }
+          this.onlineCodeTestLastest = Date.now();
           this.CodeTestEmitter.emit("finish", Result);
           this.CodeTeststatus = "ready";
-          /**
-           * キューに待機があればSleep時間後実行
-           */
-          if (this.codeTestQueue.length !== 0) {
-            const serf = this;
-            setTimeout(() => {
-              serf.runNextTest();
-            }, sleepTime);
-          }
         }
       }
-    }
-  }
-  runNextTest() {
-    const next = this.codeTestQueue.shift();
-    if (next) {
-      this.runCodeTestAtCoder(next.languageId, next.code, next.codeTestProps);
     }
   }
   /**
