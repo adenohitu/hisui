@@ -8,7 +8,7 @@ class IpcMainManager {
     this.setup();
   }
   setup() {
-    ipcMain.setMaxListeners(50);
+    ipcMain.setMaxListeners(100);
   }
   public handle(
     channel: IpcEventsKey,
