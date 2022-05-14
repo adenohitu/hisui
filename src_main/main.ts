@@ -35,7 +35,7 @@ import { setWindowSplit } from "./browser/tool/monitorsize";
 import { SetIPCgetSubmitLangOption } from "./data/submit";
 import { setupKeyBind } from "./tool/keybind/setup-keybind";
 import { pluginloader } from "./plugin/loader";
-import { codeTestApi } from "./data/code-test/codetest";
+import { codeTestApi } from "./code-test/codetest";
 
 // webcontentsの監視の開始
 monitoringWebContents();

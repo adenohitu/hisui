@@ -1,5 +1,5 @@
 // taskcontを管理するApi
-import { codeTestInfo } from "../data/code-test/codetest";
+import { codeTestInfo } from "../code-test/codetest";
 import { contestDataApi } from "../data/contestdata";
 import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";
