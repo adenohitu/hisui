@@ -2,13 +2,13 @@
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import { EventEmitter } from "events";
 import path from "path";
-import { taskViewWindowApi } from "../../browser/taskviewwindow";
-import { ipcMainManager } from "../../ipc/ipc";
-import { runLocalTest } from "../../runner/local-cpp/local-tester-cpp";
-import { runLocalTestPython } from "../../runner/local-python/local-tester-python";
-import { store } from "../../save/save";
-import { Atcoder } from "../atcoder";
-import { contestDataApi } from "../contestdata";
+import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { ipcMainManager } from "../ipc/ipc";
+import { runLocalTest } from "./runner/local-cpp/local-tester-cpp";
+import { runLocalTestPython } from "./runner/local-python/local-tester-python";
+import { store } from "../save/save";
+import { Atcoder } from "../data/atcoder";
+import { contestDataApi } from "../data/contestdata";
 import { ansCheck } from "./judgetool";
 const sleepTime = 15000;
 /**

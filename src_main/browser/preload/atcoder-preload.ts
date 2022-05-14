@@ -1,8 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import {
-  atcoderCodeTestResult,
-  codeTestInfo,
-} from "../../data/code-test/codetest";
+import { atcoderCodeTestResult, codeTestInfo } from "../../code-test/codetest";
 //分離されたプリロードスクリプト
 
 /**
