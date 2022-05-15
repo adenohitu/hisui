@@ -19,7 +19,7 @@ import {
 import { ipcRendererManager } from "../../ipc";
 import { SampleCase } from "../../../src_main/data/scraping/samplecase";
 import { focuscodeTest } from "../editor/window_editor/editorwindow";
-import { codeTestInfo } from "../../../src_main/data/code-test/codetest";
+import { codeTestInfo } from "../../../src_main/code-test/codetest";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;

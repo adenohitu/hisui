@@ -2,7 +2,7 @@
 // Editor、TaskViewの状態を管理する
 import { dialog } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
-import { codeTestApi, codeTestInfo } from "../data/code-test/codetest";
+import { codeTestApi, codeTestInfo } from "../code-test/codetest";
 import { Atcoder } from "../data/atcoder";
 import { SampleCase, scrapingSampleCase } from "../data/scraping/samplecase";
 

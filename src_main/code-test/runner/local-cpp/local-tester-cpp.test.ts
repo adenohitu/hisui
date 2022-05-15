@@ -1,60 +1,59 @@
 import { readFile } from "fs/promises";
 import path from "path";
-import { LocalCodeRunArgs, runLocalTestPython } from "./local-tester-python";
+import { LocalCodeRunArgs, runLocalTest } from "./local-tester-cpp";
 
-test("Local Judge Test: command Error", async () => {
+test("Local Judge Test: pathError", async () => {
   const filepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_b/b.cpp"
   );
   const outfilepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_b/b.out"
   );
   const inputFiledir = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/sample/1.in"
+    "../../../../archive/test-data/abc164_b/sample/1.in"
   );
   const input = await readFile(inputFiledir, "utf-8");
   const outputFiledir = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/sample/1.out"
+    "../../../../archive/test-data/abc164_b/sample/1.out"
   );
   const output = await readFile(outputFiledir, "utf-8");
   const testArgs: LocalCodeRunArgs = {
-    compilerPath: "python3",
+    compilerPath: "g++",
     filepath: filepath,
     outfilepath: outfilepath,
     codeTestIn: {
-      languageId: "4006",
+      languageId: "4003",
       code: "",
       codeTestProps: {
         input: input,
         answer: null,
         caseName: "1",
         testGroupID: "view-button:/contests/abc164/tasks/abc164_b",
-        TaskScreenName: "abc164_a",
+        TaskScreenName: "abc164_b",
       },
     },
   };
-  const data = await runLocalTestPython(testArgs);
+  const data = await runLocalTest(testArgs, 1);
   expect(data.Stdout).toEqual(output);
 });
 
 test("Local Judge Test", async () => {
   const filepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_b/b.cpp"
   );
   const outfilepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_b/b.out"
   );
   const inputFiledir = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/sample/1.in"
+    "../../../../archive/test-data/abc164_b/sample/1.in"
   );
-
   const input = await readFile(inputFiledir, "utf-8");
 
   const testArgs: LocalCodeRunArgs = {
@@ -69,11 +68,13 @@ test("Local Judge Test", async () => {
         answer: null,
         caseName: "1",
         testGroupID: "view-button:/contests/abc164/tasks/abc164_b",
-        TaskScreenName: "abc164_a",
+        TaskScreenName: "abc164_b",
       },
     },
   };
-  const data = await runLocalTestPython(testArgs);
-  expect(data.Stderr).toEqual("ProcessError");
+  const data = await runLocalTest(testArgs, 1);
+  expect(data.Stderr).toEqual(
+    "コンパイラーのパスが正しくしてされていない可能性があります。"
+  );
   expect(data.Result.ExitCode).toEqual(-1);
 });

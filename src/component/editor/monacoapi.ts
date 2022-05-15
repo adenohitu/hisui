@@ -226,13 +226,6 @@ export class monacocontrol {
       console.log(arg);
       this.changeValue(arg.id, arg.value);
     });
-    // ipc送受信
-    // mainからValueを送信するように指示される
-    window.editor.getValue((id) => {
-      const Value = this.getValue(id);
-      // Valueを返す
-      window.editor.getValue_replay(id, Value);
-    });
   }
   startLSP(monacoapi: useMonaco) {
     MonacoServices.install(monacoapi);
