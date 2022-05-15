@@ -5,20 +5,20 @@ import { LocalCodeRunArgs, runLocalTestPython } from "./local-tester-python";
 test("Local Judge Test: command Error", async () => {
   const filepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_a/a.py"
   );
   const outfilepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_a/a.py"
   );
   const inputFiledir = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/sample/1.in"
+    "../../../../archive/test-data/abc164_a/sample/1.in"
   );
   const input = await readFile(inputFiledir, "utf-8");
   const outputFiledir = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/sample/1.out"
+    "../../../../archive/test-data/abc164_a/sample/1.out"
   );
   const output = await readFile(outputFiledir, "utf-8");
   const testArgs: LocalCodeRunArgs = {
@@ -44,15 +44,15 @@ test("Local Judge Test: command Error", async () => {
 test("Local Judge Test", async () => {
   const filepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_a/a.py"
   );
   const outfilepath = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/a.py"
+    "../../../../archive/test-data/abc164_a/a.py"
   );
   const inputFiledir = path.join(
     __dirname,
-    "../../../archive/test-data/abc164_a/sample/1.in"
+    "../../../../archive/test-data/abc164_a/sample/1.in"
   );
 
   const input = await readFile(inputFiledir, "utf-8");
