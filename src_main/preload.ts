@@ -1,32 +1,8 @@
 import { type } from "os"; // eslint-disable-line
-import { languagetype } from "./file/extension";
 import { EventsArrey } from "./ipc/events";
 import { contextBridge, ipcRenderer } from "electron";
 //分離されたプリロードスクリプト
-
-/**
- * editorに関するIPC
- */
-contextBridge.exposeInMainWorld("editor", {
-  // Mainからイベントを送ってデータを取得
-
-  getValue: async (func: any) => {
-    ipcRenderer.on("getValue", (event, arg: languagetype) => {
-      func(arg);
-    });
-  },
-  getValue_replay: (TaskScreenName: string, value: string) => {
-    const channel = `getValue_replay-${TaskScreenName}`;
-
-    ipcRenderer.send(channel, value);
-  },
-
-  // mainに送信
-  createTaskCont: (arg: any) => {
-    ipcRenderer.send("createTaskCont", arg);
-  },
-});
-
+ipcRenderer.setMaxListeners(100);
 const obj = EventsArrey.reduce((result: { [name: string]: any }, current) => {
   if (current[1].mode === "send") {
     result[current[0]] = (

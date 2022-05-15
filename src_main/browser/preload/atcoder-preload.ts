@@ -1,8 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import {
-  atcoderCodeTestResult,
-  codeTestInfo,
-} from "../../data/code-test/codetest";
+import { atcoderCodeTestResult, codeTestInfo } from "../../code-test/codetest";
 //分離されたプリロードスクリプト
 
 /**
@@ -88,24 +85,28 @@ if (
                 resultStdout.textContent = "Now Running...";
                 buttonObject.className =
                   "ml-1 btn btn-default btn-sm btn-copy btn-success px-2 disabled";
-
-                ipcRenderer.on(
-                  "LISTENER_CODETEST_STATUS_EVENT",
-                  (e, info: atcoderCodeTestResult) => {
-                    if (
-                      info.testGroup ===
-                      `view-button:${window.location.pathname}`
-                    ) {
-                      if (info.caseName === sampleID) {
+                // 目的の結果が返ってくるまで再帰する
+                function getStatus() {
+                  ipcRenderer.once(
+                    "LISTENER_CODETEST_STATUS_EVENT",
+                    (e, info: atcoderCodeTestResult) => {
+                      if (
+                        info.testGroup ===
+                          `view-button:${window.location.pathname}` &&
+                        info.caseName === sampleID
+                      ) {
                         resultStdout.textContent = String(info.Stdout);
                         resultTestInfo.className = "alert alert-success";
                         resultTestInfo.textContent = `終了コード: ${info.Result.ExitCode}, 実行時間:${info.Result.TimeConsumption}ms, メモリ: ${info.Result.MemoryConsumption}KB,`;
                         buttonObject.className =
                           "ml-1 btn btn-default btn-sm btn-copy btn-success px-2";
+                      } else {
+                        getStatus();
                       }
                     }
-                  }
-                );
+                  );
+                }
+                getStatus();
               };
               // DOMに追加
               ele.appendChild(buttonObject);
