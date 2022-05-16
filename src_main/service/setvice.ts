@@ -27,8 +27,10 @@ export async function runServiceStatus() {
     );
 
     if (statusData.useapp === false) {
-      win?.close();
-      taskViewWindowApi.close();
+      if (process.platform !== "win32") {
+        win?.close();
+        taskViewWindowApi.close();
+      }
       if (statusData.statusMessage !== null) {
         const selectStatus = await dialog.showMessageBox({
           type: "error",
