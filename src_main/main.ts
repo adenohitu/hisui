@@ -49,6 +49,8 @@ function createWindow() {
     height: store.get("window.main.height", 600),
     x: store.get("window.main.x"),
     y: store.get("window.main.y"),
+    minHeight: 360,
+    minWidth: 500,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
