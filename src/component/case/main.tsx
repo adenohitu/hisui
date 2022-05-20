@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 10,
     height: "100%",
     width: "100%",
+    overflowY: "scroll",
+    overflowX: "hidden",
   },
   padding: {
     padding: theme.spacing(3),

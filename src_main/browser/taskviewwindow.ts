@@ -41,6 +41,8 @@ export class taskViewWindow {
       height: store.get("window.taskView.height", 600),
       x: store.get("window.taskView.x"),
       y: store.get("window.taskView.y"),
+      minHeight: 360,
+      minWidth: 500,
       titleBarStyle: "hidden",
       trafficLightPosition: { x: 6, y: 6 },
       // opacity: 0.5,
