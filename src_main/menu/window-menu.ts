@@ -1,4 +1,4 @@
-import { app, Menu, MenuItemConstructorOptions } from "electron";
+import { app, dialog, Menu, MenuItemConstructorOptions } from "electron";
 import { setBrowserCoockie } from "../save/utility/session";
 import { Atcoder } from "../data/atcoder";
 import { taskControlApi } from "../editor/control";
@@ -11,6 +11,7 @@ import { submissionsApi } from "../data/submissions";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { win } from "../main";
 import { TaskListApi } from "../data/task";
+import path from "path";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -336,6 +337,35 @@ function getHelpMenu(): Array<MenuItemConstructorOptions> {
           label: "Learn More",
           click: async () => {
             urlOpen("https://adenohitu.github.io/Hisui-docs/");
+          },
+        },
+        {
+          label: "設定のリセット",
+          click: async () => {
+            const options: Electron.MessageBoxSyncOptions = {
+              type: "question",
+              title: "設定の初期化",
+              message: "設定を全て初期状態に戻します",
+              detail:
+                "設定をリセットします。この操作は元に戻すことができません。（アプリは再起動されます。）",
+              buttons: ["OK", "Cancel"],
+              cancelId: -1, // Esc で閉じられたときの戻り値
+            };
+
+            dialog.showMessageBox(options).then(async (buttonid) => {
+              if (buttonid.response === 0) {
+                const fsx = await import("fs-extra");
+                const appName = "hisui";
+
+                const getAppPath = path.join(app.getPath("appData"), appName);
+                console.log(getAppPath);
+
+                fsx.remove(getAppPath, () => {
+                  app.relaunch();
+                  app.exit();
+                });
+              }
+            });
           },
         },
       ],
