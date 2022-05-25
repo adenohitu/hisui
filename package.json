@@ -11,12 +11,12 @@
     "start": "run-p dev:*",
     "dev:tsc": "tsc -w -p ./src_main/tsconfig.main.json",
     "dev:react": "yarn react:start",
-    "predev:electron": "copyfiles -u 1 plugins/*.asar build/plugins",
     "dev:electron": "wait-on http://localhost:3000 && cross-env NODE_ENV=\"development\" electron .",
     "lint": "yarn react:lint && yarn electron:lint",
     "format": "run-s format:*",
     "test": "jest -c ./jest.config.js",
-    "build:mac": "yarn react:build && yarn electron:source_build && electron-builder --mac --universal",
+    "prebuild:mac": "copyfiles -u 1 tools/entitlements.mac.plist build",
+    "build:mac": "yarn react:build && yarn electron:source_build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac --universal",
     "build:win": "yarn react:build && yarn electron:source_build && electron-builder --win --x64",
     "electron:source_build": "tsc -p ./src_main/tsconfig.main.json --removeComments true",
     "electron:lint": "yarn eslint --max-warnings 0 src_main/",
@@ -29,6 +29,7 @@
     "docs": " ./node_modules/.bin/typedoc src_main --hideGenerator --tsconfig src_main/tsconfig.main.json --out ./apidocs"
   },
   "build": {
+    "afterSign": "tools/notarize.js",
     "publish": {
       "provider": "github",
       "owner": "adenohitu",
@@ -53,6 +54,7 @@
       "buildResources": "assets"
     },
     "dmg": {
+      "sign": false,
       "contents": [
         {
           "x": 410,
@@ -69,6 +71,10 @@
     },
     "mac": {
       "icon": "build/logo512.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
       "target": [
         "dmg"
       ]
@@ -136,8 +142,10 @@
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.7",
+    "dotenv": "^16.0.1",
     "electron": "^18.0.1",
     "electron-builder": "^23.0.4",
+    "electron-notarize": "^1.2.1",
     "eslint": "^8.8.0",
     "eslint-config-react-app": "^7.0.0",
     "extract-text-webpack-plugin": "3.0.2",
