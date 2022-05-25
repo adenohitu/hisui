@@ -16,7 +16,7 @@
     "format": "run-s format:*",
     "test": "jest -c ./jest.config.js",
     "prebuild:mac": "copyfiles -u 1 tools/entitlements.mac.plist build",
-    "build:mac": "yarn react:build && yarn electron:source_build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac --universal",
+    "build:mac": "yarn react:build && yarn electron:source_build && electron-builder --mac --universal",
     "build:win": "yarn react:build && yarn electron:source_build && electron-builder --win --x64",
     "electron:source_build": "tsc -p ./src_main/tsconfig.main.json --removeComments true",
     "electron:lint": "yarn eslint --max-warnings 0 src_main/",
