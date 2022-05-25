@@ -35,7 +35,7 @@ export function Home() {
     run();
   }, []);
   return (
-    <Container
+    <Box
       sx={{
         backgroundColor: "#ffffff",
         height: "100%",
@@ -43,62 +43,69 @@ export function Home() {
         overflowY: "scroll",
       }}
     >
-      <Box pb={3}>
-        <Box py={1}>
-          {(loginstatus === true && (
-            <div style={{ display: "flex" }}>
-              <Typography variant="h3">ようこそ</Typography>
-              <Typography
-                variant="h3"
-                style={{ color: colorRating(userdata.Rating) }}
-              >
-                {userdata.UserScreenName}
-              </Typography>
-              <Typography variant="h3">さん</Typography>
-            </div>
-          )) || <Typography variant="h2">ログインしてください</Typography>}
-        </Box>
+      <Container
+        sx={{
+          backgroundColor: "#ffffff",
+          height: "100%",
+        }}
+      >
+        <Box pb={3}>
+          <Box py={1}>
+            {(loginstatus === true && (
+              <div style={{ display: "flex" }}>
+                <Typography variant="h3">ようこそ</Typography>
+                <Typography
+                  variant="h3"
+                  style={{ color: colorRating(userdata.Rating) }}
+                >
+                  {userdata.UserScreenName}
+                </Typography>
+                <Typography variant="h3">さん</Typography>
+              </div>
+            )) || <Typography variant="h2">ログインしてください</Typography>}
+          </Box>
 
-        <Grid container spacing={3}>
-          {/* Chart */}
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper style={{ height: 240 }}>
-              <Chart />
-            </Paper>
-          </Grid>
-          {/* Recent Deposits */}
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper style={{ height: 240 }}>
-              <Container>
-                <Typography>ユーザー情報</Typography>
-                <div style={{ display: "flex" }}>
-                  <Typography>Atcoderレート:</Typography>
-                  <Typography style={{ color: colorRating(userdata.Rating) }}>
-                    {userdata.Rating}
-                  </Typography>
-                </div>
-                <Typography style={{ display: "flex" }}>
-                  ランキング:{userdata.AtCoderRank}
-                </Typography>
-                {userdata.Affiliation !== null && (
+          <Grid container spacing={3}>
+            {/* Chart */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper style={{ height: 240 }}>
+                <Chart />
+              </Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper style={{ height: 240 }}>
+                <Container>
+                  <Typography>ユーザー情報</Typography>
+                  <div style={{ display: "flex" }}>
+                    <Typography>Atcoderレート:</Typography>
+                    <Typography style={{ color: colorRating(userdata.Rating) }}>
+                      {userdata.Rating}
+                    </Typography>
+                  </div>
                   <Typography style={{ display: "flex" }}>
-                    所属: {userdata.Affiliation}
+                    ランキング:{userdata.AtCoderRank}
                   </Typography>
-                )}
-                <Typography style={{ display: "flex" }}>
-                  国: {userdata.Country}
-                </Typography>
-              </Container>
-            </Paper>
+                  {userdata.Affiliation !== null && (
+                    <Typography style={{ display: "flex" }}>
+                      所属: {userdata.Affiliation}
+                    </Typography>
+                  )}
+                  <Typography style={{ display: "flex" }}>
+                    国: {userdata.Country}
+                  </Typography>
+                </Container>
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <HomeMenu />
+            </Grid>
+            <Grid item xs={12}>
+              <SelectContest select={false} />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <HomeMenu />
-          </Grid>
-          <Grid item xs={12}>
-            <SelectContest select={false} />
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
 }
