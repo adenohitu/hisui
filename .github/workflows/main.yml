@@ -16,6 +16,7 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
+          touch .env
           echo "APPLE_ID=${{ secrets.APPLE_ID }}" >> .env
           echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> .env
           echo "ASC_PROVIDER=${{ secrets.ASC_PROVIDER }}" >> .env
