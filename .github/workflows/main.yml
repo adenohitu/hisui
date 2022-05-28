@@ -16,10 +16,6 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
-          touch .env
-          echo "APPLE_ID=${{ secrets.APPLE_ID }}" >> .env
-          echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> .env
-          echo "ASC_PROVIDER=${{ secrets.ASC_PROVIDER }}" >> .env
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -29,12 +25,7 @@ jobs:
         run: yarn install
       # ここでアプリをビルド
       - name: build application
-        run: |
-          touch .env
-          echo "APPLE_ID=${{ secrets.APPLE_ID }}" >> .env
-          echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> .env
-          echo "ASC_PROVIDER=${{ secrets.ASC_PROVIDER }}" >> .env
-        run: yarn build:mac
+        run: APPLE_ID=${{ secrets.APPLE_ID }} APPLEIDPASS=${{ secrets.APPLEIDPASS }} ASC_PROVIDER=${{ secrets.ASC_PROVIDER }} yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
