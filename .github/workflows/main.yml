@@ -29,6 +29,11 @@ jobs:
         run: yarn install
       # ここでアプリをビルド
       - name: build application
+        run: |
+          touch .env
+          echo "APPLE_ID=${{ secrets.APPLE_ID }}" >> .env
+          echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> .env
+          echo "ASC_PROVIDER=${{ secrets.ASC_PROVIDER }}" >> .env
         run: yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
