@@ -11,11 +11,11 @@ jobs:
     runs-on: macos-10.15
     steps:
       - name: setting-workflow
-        run: | 
-        echo "::add-mask::${{ secrets.APPLEID_INFO1 }}"
-        echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
-        echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
-        echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
+        run: |
+          echo "::add-mask::${{ secrets.APPLEID_INFO1 }}"
+          echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
+          echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
+          echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
