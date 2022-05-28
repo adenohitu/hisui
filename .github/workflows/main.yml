@@ -11,7 +11,7 @@ jobs:
     runs-on: macos-10.15
     steps:
       - name: setting-workflow
-        run: |
+        run: | 
         echo "::add-mask::${{ secrets.APPLEID_INFO1 }}"
         echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
         echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
