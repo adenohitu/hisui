@@ -16,6 +16,9 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
+          echo "APPLE_ID=${{ secrets.APPLE_ID }}" >> .env
+          echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> .env
+          echo "ASC_PROVIDER=${{ secrets.ASC_PROVIDER }}" >> .env
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
