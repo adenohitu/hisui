@@ -25,7 +25,7 @@ jobs:
         run: yarn install
       # ここでアプリをビルド
       - name: build application
-        run: APPLE_ID=${{ secrets.APPLE_ID }} APPLEIDPASS=${{ secrets.APPLEIDPASS }} ASC_PROVIDER=${{ secrets.ASC_PROVIDER }} yarn build:mac
+        run: yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}

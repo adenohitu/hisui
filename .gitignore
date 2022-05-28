@@ -23,6 +23,7 @@ apidocs
 .env.test.local
 .env.production.local
 .env
+private_keys/**
 
 npm-debug.log*
 yarn-debug.log*

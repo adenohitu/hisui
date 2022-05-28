@@ -13,6 +13,7 @@ exports.default = async function notarizing(context) {
   }
   const appName = context.packager.appInfo.productFilename;
   console.log("start Appcation notarize");
+  console.log(process.env.APPLEID);
   return await notarize({
     appBundleId: "com.adenohitu.hisui",
     appPath: `${appOutDir}/${appName}.app`,
