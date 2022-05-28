@@ -22,6 +22,8 @@ jobs:
         run: yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
       # ファイル名の被りを回避
       - name: rename log file
         run: mv dist/builder-debug.yml dist/builder-debug-mac.yml
@@ -38,9 +40,6 @@ jobs:
             dist/*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-
   # Windows 用の job 定義
   build_on_win:
     runs-on: windows-latest
