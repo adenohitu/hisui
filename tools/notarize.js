@@ -8,11 +8,11 @@ exports.default = async function notarizing(context) {
   }
   // eslint-disable-next-line eqeqeq
   if (process.env.CSC_IDENTITY_AUTO_DISCOVERY == "false") {
-    console.log("skip notarize");
+    console.log("skip Appcation notarize");
     return;
   }
   const appName = context.packager.appInfo.productFilename;
-  console.log("start notarize");
+  console.log("start Appcation notarize");
   return await notarize({
     appBundleId: "com.adenohitu.hisui",
     appPath: `${appOutDir}/${appName}.app`,
