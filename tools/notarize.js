@@ -18,7 +18,6 @@ exports.default = async function notarizing(context) {
 
   console.log("start Appcation notarize");
   return await notarize({
-    tool: "notarytool",
     appBundleId: "com.adenohitu.hisui",
     appPath: `${appOutDir}/${appName}.app`,
     appleId,
