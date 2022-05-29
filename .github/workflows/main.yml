@@ -25,6 +25,7 @@ jobs:
         run: yarn install
       # ここでアプリをビルド
       - name: build application
+        run: yarn build:mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
@@ -32,7 +33,6 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLEIDPASS: ${{ secrets.APPLEIDPASS }}
           ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
-        run: yarn build:mac
       # ファイル名の被りを回避
       - name: rename log file
         run: mv dist/builder-debug.yml dist/builder-debug-mac.yml
