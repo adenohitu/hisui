@@ -8,7 +8,7 @@ on:
 jobs:
   # macOS 用の job 定義
   build_on_mac:
-    runs-on: maxos-11
+    runs-on: macos-10.15
     steps:
       - name: setting-workflow
         run: |
@@ -16,6 +16,8 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO2 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
+          mkdir -p ~/private_keys/
+          echo '${{ "{{ secrets.APIKEY" }} }}' > ~/private_keys/AuthKey_${{ "{{ secrets.APIKEYID" }} }}.p8
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -30,8 +32,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLEIDPASS: ${{ secrets.APPLEIDPASS }}
           ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
       # ファイル名の被りを回避
       - name: rename log file
