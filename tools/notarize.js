@@ -12,11 +12,14 @@ exports.default = async function notarizing(context) {
     return;
   }
   const appName = context.packager.appInfo.productFilename;
+  const appleIdPassword = process.env.APPLEIDPASS;
+  const appleId = process.env.APPLEID;
+
   console.log("start Appcation notarize");
   return await notarize({
     appBundleId: "com.adenohitu.hisui",
     appPath: `${appOutDir}/${appName}.app`,
-    appleId: process.env.APPLEID,
-    appleIdPassword: process.env.APPLEIDPASS,
+    appleId,
+    appleIdPassword,
   });
 };
