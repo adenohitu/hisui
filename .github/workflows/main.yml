@@ -17,7 +17,7 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
           mkdir -p ~/private_keys/
-          echo ${{ secrets.APIKEY }} > ~/private_keys/AuthKey_${{ secrets.APIKEYID }}.p8
+          echo `${{ secrets.APIKEY }}` > ~/private_keys/AuthKey_${{ secrets.APIKEYID }}.p8
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
