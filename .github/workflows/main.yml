@@ -8,7 +8,7 @@ on:
 jobs:
   # macOS 用の job 定義
   build_on_mac:
-    runs-on: macos-10.15
+    runs-on: maxos-11
     steps:
       - name: setting-workflow
         run: |
@@ -17,10 +17,6 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO3 }}"
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
       - uses: actions/checkout@v2
-      - name: Select Xcode version
-        run: sudo xcode-select -s '/Applications/Xcode_13.2.1.app/Contents/Developer'
-      - name: Show Xcode version
-        run: xcodebuild -version
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
