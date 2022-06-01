@@ -12,6 +12,7 @@ import {
 } from "@mui/material/styles";
 import { ipcRendererManager } from "./ipc";
 import { LibManagement } from "./component/lib-management/main";
+import { SnackbarProvider } from "notistack";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -33,7 +34,9 @@ const App: React.FC = () => {
         <HashRouter>
           <Switch>
             <Route path="/mainwindow-root" exact>
-              <WindowRoot />
+              <SnackbarProvider>
+                <WindowRoot />
+              </SnackbarProvider>
             </Route>
             <Route path="/taskview" exact>
               <TaskViewToolbar />
