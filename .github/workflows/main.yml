@@ -49,6 +49,7 @@ jobs:
           files: |
             dist/*.dmg
             dist/*.yml
+            dist/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Windows 用の job 定義
