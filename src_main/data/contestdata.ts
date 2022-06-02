@@ -1,6 +1,5 @@
 //コンテスト情報に関するモジュール
 //Copyright © 2021-2022 adenohitu. All rights reserved.
-import contest_main from "./scraping/contest_main";
 import { scraping_contest_list, contest_list } from "./scraping/contest_list";
 // import { save_session } from "../save/save_session";
 import { store } from "../save/save";
@@ -87,6 +86,10 @@ export class contestData {
    * 認証による権限の関係でアクセスできない場合はfalse
    */
   async checkContestID(taskScreenName: string) {
+    // スラッシュが入っていても設定されてしまう問題をここで弾く
+    if (taskScreenName.includes("/")) {
+      return false;
+    }
     logger.info("run check_SetContestID", "ContestDataAPI");
     const url = `https://atcoder.jp/contests/${taskScreenName}`;
     const responce = await Atcoder.axiosInstance.get(url, {
@@ -117,7 +120,7 @@ export class contestData {
     logger.info(`get ContestDate:id=${contestID}`, "ContestDataAPI");
     const cache = myCache.get(`Date_${contestID}`);
     if (cache === undefined) {
-      const url = `https://atcoder.jp/contests/${contestID}`;
+      const url = `https://atcoder.jp/api/contests/${contestID}`;
       const responce = await Atcoder.axiosInstance.get(url, {
         maxRedirects: 0,
         validateStatus: (status) =>
@@ -125,7 +128,13 @@ export class contestData {
       });
       if (responce.status !== 302) {
         // console.log(responce.data);
-        const data: any = contest_main(responce.data);
+        const data: {
+          start_time: string;
+          end_time: string;
+        } = {
+          start_time: responce.data.StartTime,
+          end_time: responce.data.EndTime,
+        };
         myCache.set(
           `Date_${contestID}`,
           { data: data, time: Date.now() },
