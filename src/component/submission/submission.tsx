@@ -36,7 +36,7 @@ export function SubmissionTable() {
 
   const openurl = (url: string) => {
     const open = `https://atcoder.jp${url}`;
-    ipcRendererManager.invoke("OPEN_URL", open);
+    ipcRendererManager.invoke("OPEN_SUBMISSION_PAGE", open);
   };
   // //初回だけ実行
   useEffect(() => {
