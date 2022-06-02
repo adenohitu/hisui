@@ -170,6 +170,7 @@ export class taskViewWindow {
    */
   async changeViewTop(id: string) {
     if (this.win !== null) {
+      this.nowTop = id;
       this.win.setTopBrowserView(this.view[id].view);
     }
   }
