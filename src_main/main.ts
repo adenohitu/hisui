@@ -36,6 +36,7 @@ import { SetIPCgetSubmitLangOption } from "./data/submit";
 import { setupKeyBind } from "./tool/keybind/setup-keybind";
 import { pluginloader } from "./plugin/loader";
 import { codeTestApi } from "./code-test/codetest";
+import { setupAutoUpdater } from "./service/autoupdate";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -214,3 +215,4 @@ SetIPCgetSubmitLangOption();
 pluginloader();
 // CodeTestAPIのセットアップ
 codeTestApi.codeTestSetup();
+setupAutoUpdater();
