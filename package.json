@@ -76,7 +76,8 @@
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
       "target": [
-        "dmg"
+        "dmg",
+        "zip"
       ]
     },
     "win": {
