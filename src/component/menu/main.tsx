@@ -24,6 +24,9 @@ import DefaltContest from "../setting/dafalt_contest";
 import { StatusBar } from "../editor/tool/statusbar/status-bar";
 import { Home } from "../home/Home";
 import { TestCaseBoard } from "../case/main";
+import { SnackbarKey, useSnackbar } from "notistack";
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const drawerWidth = 240;
 // let nowItem = 0;
@@ -130,6 +133,26 @@ export const WindowRoot = () => {
       setlocation(viewName);
     });
   }, []);
+  // Notification EVENT
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    ipcRendererManager.on("SEND_NOTIFICARION", (e, arg: string) => {
+      const action = (key: SnackbarKey) => (
+        <IconButton
+          onClick={() => {
+            closeSnackbar(key);
+          }}
+          sx={{ color: "white" }}
+        >
+          <CloseIcon />
+        </IconButton>
+      );
+      enqueueSnackbar(arg, { action });
+    });
+  }, [enqueueSnackbar, closeSnackbar]);
+
   const pageChange = (viewName: string) => {
     setlocation(viewName);
     ipcRendererManager.send("CHANGE_VIEW_TOP", viewName);
