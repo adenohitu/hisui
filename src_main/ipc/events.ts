@@ -39,6 +39,7 @@ export const IpcEvents = {
   RUN_SET_WINDOW_SPLIT: { mode: "on" },
   OPEN_CONTEXT_MENU: { mode: "on" },
   SEND_NOTIFICARION: { mode: "send" },
+  OPEN_SUBMISSION_PAGE: { mode: "on" },
   // ContestDataIPC
   GET_SUBMIT_LANGUAGE_LIST: { mode: "handle" },
   // EditorIPC
