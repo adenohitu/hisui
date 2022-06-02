@@ -28,7 +28,7 @@ export class atcoderClass {
         const url = `${config.url}`;
         // console.log(`Start:Url=${url} Method=${config.method}`);
         logger.info(
-          `start request:Url=${url} Method=${config.method}`,
+          `${logger.colors.blue}start${logger.colors.reset} request:Url=${url} Method=${config.method}`,
           "axios"
         );
         return config;
@@ -39,12 +39,15 @@ export class atcoderClass {
       (response: AxiosResponse) => {
         const status = response.status;
         const url = response?.config.url;
-        logger.info(`request success:Url=${url} Status=${status}`, "axios");
+        logger.info(
+          `request ${logger.colors.green}success${logger.colors.reset}:Url=${url} Status=${status}`,
+          "axios"
+        );
         return response;
       },
       (error: AxiosError) => {
         logger.error(
-          `error:Url="${error.config.url}" message=${error.message}`,
+          `request ${logger.colors.red}error${logger.colors.reset}:Url="${error.config.url}" message=${error.message}`,
           "axios"
         );
       }
