@@ -1,10 +1,17 @@
 // import React from "react";
 // import { Counter } from "../counter/Counter";
-import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { ipcRendererManager } from "../../ipc";
 import SelectContest from "../setting/select_contestlist";
-import Chart from "./Chart";
 export function colorRating(rating: number | null) {
   if (rating == null) return "gray";
   else if (rating >= 2800) return "red";
@@ -49,7 +56,7 @@ export function Home() {
         }}
       >
         <Box pb={3}>
-          <Box py={1}>
+          <Box py={3}>
             {(loginstatus === true && (
               <div style={{ display: "flex" }}>
                 <Typography variant="h3">ようこそ</Typography>
@@ -65,36 +72,53 @@ export function Home() {
           </Box>
 
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper style={{ height: 240 }}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper style={{ height: 240 }}>
-                <Container>
-                  <Typography>ユーザー情報</Typography>
-                  <div style={{ display: "flex" }}>
-                    <Typography>Atcoderレート:</Typography>
-                    <Typography style={{ color: colorRating(userdata.Rating) }}>
-                      {userdata.Rating}
-                    </Typography>
-                  </div>
-                  <Typography style={{ display: "flex" }}>
-                    ランキング:{userdata.AtCoderRank}
-                  </Typography>
-                  {userdata.Affiliation !== null && (
-                    <Typography style={{ display: "flex" }}>
-                      所属: {userdata.Affiliation}
-                    </Typography>
-                  )}
-                  <Typography style={{ display: "flex" }}>
-                    国: {userdata.Country}
-                  </Typography>
-                </Container>
-              </Paper>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Card>
+                    <CardContent>
+                      <Typography
+                        sx={{ fontSize: 14 }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        ユーザー情報
+                      </Typography>
+                      <Typography variant="h5" component="div">
+                        {userdata.UserScreenName}
+                      </Typography>
+                      <Typography
+                        sx={{ mb: 1.5 }}
+                        style={{ color: colorRating(userdata.Rating) }}
+                      >
+                        Rating:{userdata.Rating}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={8}>
+                  <Card sx={{ minWidth: 275 }}>
+                    <CardContent>
+                      <Typography variant="h5" component="div">
+                        Hisuiについて
+                      </Typography>
+                      <Typography
+                        sx={{ mb: 1.5 }}
+                        style={{ color: colorRating(userdata.Rating) }}
+                      >
+                        使い方についてはドキュメントを確認してください
+                      </Typography>
+                    </CardContent>
+                    {/* <CardActions>
+                      <Button onClick={() => {
+                        
+                      }} size="small">
+                        ドキュメントを開く
+                      </Button>
+                    </CardActions> */}
+                  </Card>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               {loginstatus === false && (
