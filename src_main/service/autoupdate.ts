@@ -5,7 +5,7 @@ import { win } from "../main";
 import { logger } from "../tool/logger/logger";
 export function setupAutoUpdater() {
   app.on("ready", function () {
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdates();
   });
   autoUpdater.on("checking-for-update", () => {
     logger.info("Checking for update...", "autoUpdater");
