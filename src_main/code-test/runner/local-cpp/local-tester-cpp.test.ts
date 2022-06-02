@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
 import path from "path";
 import { LocalCodeRunArgs, runLocalTest } from "./local-tester-cpp";
-
+jest.setTimeout(20000);
 test("Local Judge Test: pathError", async () => {
   const filepath = path.join(
     __dirname,

@@ -1,6 +1,6 @@
 {
   "name": "hisui",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": "adenohitu",
   "description": "Useful tool for programming competition",
   "homepage": ".",
@@ -76,7 +76,8 @@
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
       "target": [
-        "dmg"
+        "dmg",
+        "zip"
       ]
     },
     "win": {
