@@ -1,6 +1,7 @@
-import { app } from "electron";
+import { app, dialog } from "electron";
 import { autoUpdater } from "electron-updater";
 import { ipcMainManager } from "../ipc/ipc";
+import { win } from "../main";
 import { logger } from "../tool/logger/logger";
 export function setupAutoUpdater() {
   app.on("ready", function () {
@@ -33,6 +34,21 @@ export function setupAutoUpdater() {
     logger.info(log_message, "autoUpdater");
   });
   autoUpdater.on("update-downloaded", (info) => {
-    ipcMainManager.send("SEND_NOTIFICARION", "Update downloaded");
+    const dialogOpts = {
+      type: "info",
+      buttons: ["更新して再起動", "あとで"],
+      message: "アップデート",
+      detail:
+        "新しいバージョンをダウンロードしました。再起動して更新を適用しますか？",
+    };
+
+    // ダイアログを表示しすぐに再起動するか確認
+    if (win) {
+      dialog.showMessageBox(win, dialogOpts).then((returnValue) => {
+        if (returnValue.response === 0) {
+          autoUpdater.quitAndInstall();
+        }
+      });
+    }
   });
 }
