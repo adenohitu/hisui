@@ -24,4 +24,5 @@ export class logger {
       }${messages}`
     );
   }
+  static colors = colors;
 }
