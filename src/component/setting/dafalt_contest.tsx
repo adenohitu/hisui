@@ -105,6 +105,8 @@ export default function DefaltContest() {
             <DialogContentText>
               参加するコンテストを選択してください
               （表示されてないときは直接入力してください）
+              <br />
+              ヒント:スラッシュ（/）が入っていないことを確認してください
             </DialogContentText>
             <TextField
               error={formerror}
