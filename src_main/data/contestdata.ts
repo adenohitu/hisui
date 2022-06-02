@@ -87,6 +87,10 @@ export class contestData {
    * 認証による権限の関係でアクセスできない場合はfalse
    */
   async checkContestID(taskScreenName: string) {
+    // スラッシュが入っていても設定されてしまう問題をここで弾く
+    if (taskScreenName.includes("/")) {
+      return false;
+    }
     logger.info("run check_SetContestID", "ContestDataAPI");
     const url = `https://atcoder.jp/contests/${taskScreenName}`;
     const responce = await Atcoder.axiosInstance.get(url, {
