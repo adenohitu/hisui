@@ -1,11 +1,10 @@
 // import React from "react";
 // import { Counter } from "../counter/Counter";
-import { Box, Container, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ipcRendererManager } from "../../ipc";
 import SelectContest from "../setting/select_contestlist";
 import Chart from "./Chart";
-import { HomeMenu } from "./menu";
 export function colorRating(rating: number | null) {
   if (rating == null) return "gray";
   else if (rating >= 2800) return "red";
@@ -98,7 +97,40 @@ export function Home() {
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              <HomeMenu />
+              {loginstatus === false && (
+                <Button
+                  sx={{ mx: 1 }}
+                  variant="contained"
+                  color="info"
+                  onClick={() => {
+                    ipcRendererManager.send("OPEN_LOGIN_DIALOG");
+                  }}
+                >
+                  ログインする
+                </Button>
+              )}
+              {loginstatus === true && (
+                <Button
+                  sx={{ mx: 1 }}
+                  variant="contained"
+                  color="info"
+                  onClick={() => {
+                    ipcRendererManager.send("OPEN_SELECT_CONTEST_DIALOG");
+                  }}
+                >
+                  コンテストを選択する
+                </Button>
+              )}
+              <Button
+                sx={{ mx: 1 }}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  ipcRendererManager.send("RUN_SET_WINDOW_SPLIT");
+                }}
+              >
+                Windowを左右分割してに並べる
+              </Button>
             </Grid>
             <Grid item xs={12}>
               <SelectContest select={false} />
