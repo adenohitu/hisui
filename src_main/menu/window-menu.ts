@@ -3,7 +3,6 @@ import { setBrowserCoockie } from "../save/utility/session";
 import { Atcoder } from "../data/atcoder";
 import { taskControlApi } from "../editor/control";
 import { urlOpen } from "../tool/openExternal";
-import openTaskAll from "../tool/open_taskAll";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
@@ -229,21 +228,23 @@ function getHisuiControlMenu(): Array<MenuItemConstructorOptions> {
         },
         { type: "separator" },
         {
-          label: "ブラウザで全ての問題を開く",
-          click(item: any, focusedWindow: any, event: any) {
-            openTaskAll();
-          },
-        },
-        {
           label: "提出一覧を更新",
           click(item: any, focusedWindow: any, event: any) {
             submissionsApi.updateSubmissions();
           },
         },
+        {
+          label: "提出する",
+          click(item: any, focusedWindow: any, event: any) {
+            taskControlApi.submitNowTop();
+          },
+          accelerator: "CommandOrControl+Shift+S",
+        },
       ],
     },
   ];
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getViewMenu(): Array<MenuItemConstructorOptions> {
   return [
     {
@@ -379,7 +380,7 @@ export function setMenu(develop: boolean = false) {
     ...getDevelopMenu(develop),
     ...getEditMenu(),
     ...getHisuiControlMenu(),
-    ...getViewMenu(),
+    // ...getViewMenu(),
     ...getWindowMenu(),
     ...getHelpMenu(),
   ];
