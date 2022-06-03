@@ -178,6 +178,14 @@ class taskControl {
     });
     return statusList;
   }
+  /**
+   * 現在表示されているEditorの内容を提出する
+   */
+  submitNowTop() {
+    if (this.nowTop !== null) {
+      this.taskAll[this.nowTop].submit();
+    }
+  }
 
   /**
    * editor側からイベントを受け取る
@@ -250,9 +258,7 @@ class taskControl {
     });
     // 提出する
     ipcMainManager.on("RUN_SUBMIT_NOWTOP", (event) => {
-      if (this.nowTop !== null) {
-        this.taskAll[this.nowTop].submit();
-      }
+      this.submitNowTop();
     });
     // コードテストを実行
     ipcMainManager.on(
