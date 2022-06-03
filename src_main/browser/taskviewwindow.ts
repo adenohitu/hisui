@@ -101,6 +101,12 @@ export class taskViewWindow {
     ipcMainManager.on("RUN_CHANGE_TASKVIEW", (e, id: string) => {
       this.changeViewTop(id);
     });
+    ipcMainManager.on("OPEN_SUBMISSION_PAGE", (e, url) => {
+      if (this.contestpageId) {
+        this.view[this.contestpageId].view.webContents.loadURL(url);
+        this.changeViewTop(this.contestpageId);
+      }
+    });
   }
   /**
    * Windowを閉じる
@@ -164,6 +170,7 @@ export class taskViewWindow {
    */
   async changeViewTop(id: string) {
     if (this.win !== null) {
+      this.nowTop = id;
       this.win.setTopBrowserView(this.view[id].view);
     }
   }
