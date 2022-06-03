@@ -18,13 +18,22 @@ jobs:
           echo "::add-mask::${{ secrets.APPLEID_INFO4 }}"
           mkdir -p ~/private_keys/
           echo ${{ secrets.APIKEY }} | base64 -d > ~/private_keys/AuthKey_${{ secrets.APIKEYID }}.p8
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.14.0
+          node-version: "16.14.0"
+          cache: "yarn"
+      # releaseを作成
+      - name: create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: yarn install
-        run: yarn install
+        run: yarn install --frozen-lockfile
       # ここでアプリをビルド
       - name: build application
         run: yarn build:mac
@@ -38,42 +47,27 @@ jobs:
       # ファイル名の被りを回避
       - name: rename log file
         run: mv dist/builder-debug.yml dist/builder-debug-mac.yml
-      # Release の作成とビルドしたパッケージのアップロード
-      - name: create release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          # 作成される Release は draft に留めておきたい
-          draft: true
-          # アップロード対象となるファイル名
-          files: |
-            dist/*.dmg
-            dist/*.yml
-            dist/*.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Windows 用の job 定義
   build_on_win:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.14.0
-      - name: yarn install
-        run: yarn install
-      - name: build application
-        run: npm run build:win
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: "16.14.0"
+          cache: "yarn"
+      # releaseを作成
       - name: create release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           draft: true
-          files: |
-            dist/*.exe
-            dist/*.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+      - name: build application
+        run: npm run build:win
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
