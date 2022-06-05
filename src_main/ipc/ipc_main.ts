@@ -143,4 +143,7 @@ export const load_ipc = () => {
   ipcMainManager.on("LISTENER_CHANGE_LIBMANAGEMENT_VIEW", () => {
     taskViewWindowApi.changeViewTop("lib-management");
   });
+  ipcMainManager.handle("GET_OS", async () => {
+    return process.platform;
+  });
 };
