@@ -21,7 +21,7 @@ import { useLibManagement } from "./lib-management-hooks";
 export function LibManagement() {
   const libManagimentState = useLibManagement();
   return (
-    <>
+    <Box sx={{ backgroundColor: "#ffffff", height: "100%" }}>
       <SnippetAssistantAppBar />
       <SetSnippetDialog libManagementHookProp={libManagimentState} />
       <Box pt={3}>
@@ -62,6 +62,6 @@ export function LibManagement() {
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   );
 }
