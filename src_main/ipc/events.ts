@@ -40,6 +40,7 @@ export const IpcEvents = {
   OPEN_CONTEXT_MENU: { mode: "on" },
   SEND_NOTIFICARION: { mode: "send" },
   OPEN_SUBMISSION_PAGE: { mode: "on" },
+  GET_OS: { mode: "handle" },
   // ContestDataIPC
   GET_SUBMIT_LANGUAGE_LIST: { mode: "handle" },
   // EditorIPC

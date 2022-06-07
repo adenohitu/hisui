@@ -10,7 +10,7 @@ import { logger } from "../tool/logger/logger";
 // atcoderのページを開くためのWindow
 // 問題やコンテストホームページを表示する
 // toolbarの分、viewの上にマージンを設定するための値
-const windowTopMargin = 28;
+const windowTopMargin = (process.platform === "darwin" && 28) || 31;
 export class taskViewWindow {
   win: null | BrowserWindow;
   // idはTaskScreenNameを入れる
@@ -45,6 +45,7 @@ export class taskViewWindow {
       minWidth: 500,
       titleBarStyle: "hidden",
       trafficLightPosition: { x: 6, y: 6 },
+      titleBarOverlay: { color: "#1E1E1E" },
       // opacity: 0.5,
       webPreferences: {
         nodeIntegration: false,
