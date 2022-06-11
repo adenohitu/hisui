@@ -50,6 +50,9 @@
     "files": [
       "build/**/*"
     ],
+    "asarUnpack": [
+      "./node_modules/pyright"
+    ],
     "directories": {
       "buildResources": "assets"
     },
