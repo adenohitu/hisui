@@ -11,31 +11,12 @@ class submissions {
    * デフォルトコンテストを保持
    */
   selectContestSubmissions: submissionData[];
-  timer: null | NodeJS.Timeout;
   constructor() {
     this.selectContestSubmissions = [];
-    this.timer = null;
     this.eventSetup();
     this.ipcSetup();
   }
-  /**
-   *  submissionを自動更新
-   */
-  startSubmissionsTimer() {
-    let serf = this;
-    this.timer = setInterval(() => {
-      serf.updateSubmissions();
-    }, 300000);
-  }
-  stopSubmissionsTimer() {
-    if (this.timer !== null) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
-  }
-  async setup() {
-    // this.nowDefaultContest = contestDataApi.getDefaultContestID();
-  }
+  async setup() {}
   /**
    * eventの設定
    */
@@ -46,6 +27,21 @@ class submissions {
     });
     hisuiEvent.on("submit", () => {
       this.updateSubmissions();
+    });
+    /**
+     * 提出を監視
+     */
+    hisuiEvent.on("submit-status", (m) => {
+      logger.info(
+        `SubmitStatusMessage:${JSON.stringify(m, null, 2)}`,
+        "submissionsAPI"
+      );
+    });
+    hisuiEvent.on("submit-status-finish", (m) => {
+      logger.info(
+        `SubmitStatusMessage_finishJudge:${JSON.stringify(m, null, 2)}`,
+        "submissionsAPI"
+      );
     });
   }
   /**
@@ -98,6 +94,7 @@ class submissions {
 
   /**
    * 自分の提出を取得
+   * 一回のみ Intervalについて何も動作なし
    */
   async getSubmissionMe(
     contestID: string = contestDataApi.getDefaultContestID()
@@ -144,6 +141,104 @@ class submissions {
       setTimeout(() => {
         serf.updateSubmissions();
       }, 3000);
+    }
+  }
+  /**
+   * 提出が完了した直後に呼び出され、提出したものの状態を監視する
+   */
+  async submitCheck(contestID: string) {
+    // --ここからチェックに必要な処理を定義--
+    async function getSubmitStatus(
+      contestID: string,
+      submit_id: string
+    ): Promise<{
+      Html?: string;
+      Interval?: number;
+    }> {
+      const submissionStatusUrl = `https://atcoder.jp/contests/${contestID}/submissions/${submit_id}/status/json`;
+      const responce = await Atcoder.axiosInstance.get(submissionStatusUrl, {
+        maxRedirects: 0,
+        validateStatus: function (status) {
+          return status < 500;
+        },
+      });
+      if (responce.status !== 302) {
+        //提出ページが公開されていない場合は"ready"を返す
+        if (responce.status !== 404) {
+          const data_after: {
+            Html: string;
+            Interval: number;
+          } = responce.data;
+          hisuiEvent.emit("submit-status", data_after);
+          logger.info("end get_SubmitStatus", "submissionsAPI");
+          return data_after;
+        } else {
+          logger.info("SubmitStatus is not ready", "submissionsAPI");
+          return {};
+        }
+      } else {
+        logger.info("Need to Login", "submissionsAPI");
+        return {};
+      }
+    }
+    /**
+     * Intervalがなくなるまで、結果を受信し続けて、Promiseで返す
+     */
+    const getSubmitStatus_WaitInterval = async (
+      contestID: string,
+      submit_id: string,
+      Interval?: number
+    ): Promise<{
+      Html?: string;
+      Interval?: number;
+    }> => {
+      if (Interval) {
+        // 非同期待機
+        await new Promise((resolve) => setTimeout(resolve, Interval));
+        // Status情報取得
+        const getData = await getSubmitStatus(contestID, submit_id);
+        // Intervalの有無をチェック
+        if (getData.Interval) {
+          return await getSubmitStatus_WaitInterval(
+            contestID,
+            submit_id,
+            getData.Interval
+          );
+        } else {
+          // Intervalがないので結果を返す
+          hisuiEvent.emit("submit-status-finish", getData);
+          return getData;
+        }
+      } else {
+        // 初回実行される
+        const getData = await getSubmitStatus(contestID, submit_id);
+        // Intervalの有無をチェック
+        if (getData.Interval) {
+          return await getSubmitStatus_WaitInterval(
+            contestID,
+            submit_id,
+            getData.Interval
+          );
+        } else {
+          hisuiEvent.emit("submit-status-finish", getData);
+          // Intervalがないので結果を返す
+          return getData;
+        }
+      }
+    };
+    // --ここからチェックに関する処理--
+    const submissionList = await this.getSubmissionMe(contestID);
+    if (submissionList[0]) {
+      // 多分１番目のものが直前に提出したもの
+      const preSubmitData = submissionList[0];
+      const waitdata = await getSubmitStatus_WaitInterval(
+        preSubmitData.contestName,
+        preSubmitData.submit_id
+      );
+      return waitdata;
+    } else {
+      logger.info("Couldnt FindSubmit-id", "submissionsAPI");
+      return {};
     }
   }
 }

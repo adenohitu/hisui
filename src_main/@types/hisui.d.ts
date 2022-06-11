@@ -69,6 +69,16 @@ export declare class hisuiEventtType extends EventEmitter {
    */
   on(event: "submit", listener: (taskScreenName: string) => void): this;
   emit(event: "submit", taskScreenName: string): boolean;
+  /**
+   * 提出後、ジャッジの状態を監視し、状態を取得するたびこのイベントを発行
+   */
+  on(event: "submit-status", listener: (status: any) => void): this;
+  emit(event: "submit-status", status: any): boolean;
+  /**
+   * Intervalがなくなり、ジャッジ情報が確定したときに実行される
+   */
+  on(event: "submit-status-finish", listener: (status: any) => void): this;
+  emit(event: "submit-status-finish", status: any): boolean;
 
   /**
    * Taskcontが作成されたときに
