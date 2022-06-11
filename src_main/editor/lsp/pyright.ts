@@ -7,7 +7,6 @@ import { fork } from "child_process";
 import { ipcMainManager } from "../../ipc/ipc";
 import path from "path";
 import { app } from "electron";
-import { logger } from "../../tool/logger/logger";
 import { monacoSettingApi } from "../monaco";
 // import { getPortPromise } from "portfinder";
 
@@ -17,83 +16,8 @@ export interface languageServer {
 export type languageServers = { [key: string]: languageServer };
 
 export async function setupLSP_Pyright() {
-  // pyrightを移動
-  if (app.isPackaged) {
-    const asar = await import("asar");
-    const fse = await import("fs-extra");
-    const alreadyCopy = await fse.pathExists(
-      path.join(app.getPath("userData"), "setting", "extensions", "pyright")
-    );
-    if (!alreadyCopy) {
-      try {
-        const resourcesPath =
-          (process.platform === "darwin" &&
-            path.join(app.getPath("exe"), "../../Resources/app.asar")) ||
-          path.join(app.getPath("exe"), "../Resources/app.asar");
-        asar.extractAll(
-          resourcesPath,
-          path.join(
-            app.getPath("userData"),
-            "setting",
-            "extensions",
-            "pyright",
-            "source"
-          )
-        );
-        await fse.copy(
-          path.join(
-            app.getPath("userData"),
-            "setting",
-            "extensions",
-            "pyright",
-            "source",
-            "node_modules/pyright"
-          ),
-          path.join(app.getPath("userData"), "setting", "extensions", "pyright")
-        );
-        await fse.remove(
-          path.join(
-            app.getPath("userData"),
-            "setting",
-            "extensions",
-            "pyright",
-            "source"
-          )
-        );
-        logger.info("Copy successful", "lsp-server");
-      } catch (e) {
-        console.log(e);
-
-        logger.error("Copy error", "lsp-server");
-      }
-    } else {
-      logger.info("Already Copyed", "lsp-server");
-    }
-  } else {
-    // Dev用コピー
-    const fse = await import("fs-extra");
-    const alreadyCopy = await fse.pathExists(
-      path.join(app.getPath("userData"), "setting", "extensions", "pyright")
-    );
-    if (!alreadyCopy) {
-      try {
-        await fse.copy(
-          path.join(__dirname, "../../../../node_modules/pyright"),
-          path.join(app.getPath("userData"), "setting", "extensions", "pyright")
-        );
-        logger.info("Copy successful", "lsp-server");
-      } catch {
-        logger.error("Copy error", "lsp-server");
-      }
-    } else {
-      logger.info("Already Copyed", "lsp-server");
-    }
-  }
   // LSP起動
-  const lsPath = path.join(
-    app.getPath("userData"),
-    "setting/extensions/pyright/langserver.index.js"
-  );
+  const lsPath = path.join(getPyrightPath(), "langserver.index.js");
   const lsArgs = ["--node-ipc"];
   console.log(
     `launching python language server process with ${lsPath} ${lsArgs.join(
@@ -137,4 +61,21 @@ export async function setupLSP_Pyright() {
   ipcMainManager.on("MONACO_READY", () => {
     sendReadySignal();
   });
+}
+function getPyrightPath() {
+  if (app.isPackaged) {
+    const resourcesPath =
+      (process.platform === "darwin" &&
+        path.join(
+          app.getPath("exe"),
+          "../../Resources/app.asar.unpacked/node_modules/pyright"
+        )) ||
+      path.join(
+        app.getPath("exe"),
+        "../Resources/app.asar.unpacked/node_modules/pyright"
+      );
+    return resourcesPath;
+  } else {
+    return path.join(__dirname, "../../../../node_modules/pyright");
+  }
 }
