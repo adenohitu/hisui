@@ -34,21 +34,21 @@ class submissions {
      */
     hisuiEvent.on("submit-status-start", (m: submitStatus) => {
       logger.info(
-        `SubmitStatusMessage-start:${JSON.stringify(m, null, 2)}`,
+        `SubmitStatusMessage-start:${JSON.stringify(m.status, null, 2)}`,
         "submissionsAPI"
       );
       ipcMainManager.send("SEND_SUBMIT_START_NOTIFICARION", m);
     });
     hisuiEvent.on("submit-status", (m: submitStatus) => {
       logger.info(
-        `SubmitStatusMessage:${JSON.stringify(m, null, 2)}`,
+        `SubmitStatusMessage:${JSON.stringify(m.status, null, 2)}`,
         "submissionsAPI"
       );
       ipcMainManager.send("SEND_SUBMIT_STATUS", m);
     });
     hisuiEvent.on("submit-status-finish", (m: submitStatus) => {
       logger.info(
-        `SubmitStatusMessage_finishJudge:${JSON.stringify(m, null, 2)}`,
+        `SubmitStatusMessage_finishJudge:${JSON.stringify(m.status, null, 2)}`,
         "submissionsAPI"
       );
       ipcMainManager.send("SEND_SUBMIT_STATUS", m);
