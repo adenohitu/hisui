@@ -5,6 +5,7 @@ import { languages, languagetype } from "../file/extension";
 import { ipcMainManager } from "../ipc/ipc";
 import { parse } from "jsonc-parser";
 import { setupLSP_Pyright } from "./lsp/pyright";
+import { logger } from "../tool/logger/logger";
 const snippetDataInit = `{
   "map": {
     "prefix": "map",
@@ -26,10 +27,10 @@ class monacoSetting {
   async setupSaveFolder() {
     return await mkdir(this.getSettingfilepath(), { recursive: true })
       .then((e) => {
-        console.log("設定保存ファイルを作成");
+        logger.info("createMonacoSettingDir", "monacoSettingApi");
       })
       .catch((e) => {
-        console.log(e);
+        logger.error(e, "monacoSettingApi");
       });
   }
 
@@ -43,7 +44,7 @@ class monacoSetting {
     ).catch((e) => {
       // もしファイルが存在しない場合初期値をセット
       this.updateSnippet(lang, snippetDataInit);
-      console.log(`ReadError:${e}`);
+      logger.error(e, "monacoSettingApi");
       return snippetDataInit;
     });
     return data;
@@ -63,7 +64,7 @@ class monacoSetting {
       return "Success";
     } catch (e) {
       // Error handling
-      console.log(e); // SyntaxError: Unexpected token o in JSON at position 1
+      logger.error(e, "monacoSettingApi");
       return "Error";
     }
   }
@@ -90,7 +91,7 @@ class monacoSetting {
         );
       })
       .catch((e) => {
-        console.log(`ReadError:${e}`);
+        logger.error(e, "monacoSettingApi");
       });
   }
   async setup() {
