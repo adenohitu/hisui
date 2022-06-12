@@ -61,7 +61,7 @@ export class atcoderClass {
    * セッションを使いログインされているかをチェック
    */
   async checkLogin(): Promise<boolean> {
-    const test_url = "https://atcoder.jp/contests/abc189/submit";
+    const test_url = "https://atcoder.jp/contests/abc189/score/json";
     const status = await saveSession.get("checkLastest", Date.now() + 86400001);
     const ID = await saveSession.get("ID");
     const now = Date.now();
