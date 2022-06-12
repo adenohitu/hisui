@@ -3,6 +3,7 @@
 import dayjs from "dayjs";
 import EventEmitter from "events";
 import { contestName, taskScreenName } from "../interfaces";
+import { logger } from "../tool/logger/logger";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { scrapingTaskList, taskList } from "./scraping/tasklist";
@@ -36,7 +37,12 @@ class TaskList {
         });
       });
       return promise;
-    } else if (this.tasklists[contestName].tasklists === undefined) {
+    } else if (
+      // 初回実行時
+      this.tasklists[contestName] === undefined ||
+      // 問題一覧ページが公開されてなく、taskListが空だった場合
+      this.tasklists[contestName].tasklists === undefined
+    ) {
       // TaskListが存在しないので、取得する
       // コンテスト前に取得失敗したとき、tasklistsがundefinedであるため、取得し直す
       this.tasklists[contestName] = { load: true };
@@ -64,10 +70,11 @@ class TaskList {
         return data;
       } else {
         // キャッシュ時間内であるため、キャッシュデータを返す
-        console.log(
-          `load_TaskList:updateLastest ${dayjs(
+        logger.info(
+          `load_TaskList updateLastest:${dayjs(
             this.tasklists[contestName].lastestUpdate
-          ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`
+          ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`,
+          "TaskListAPI"
         );
         const data = this.tasklists[contestName].tasklists;
         if (data) {
