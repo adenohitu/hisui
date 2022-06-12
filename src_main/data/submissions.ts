@@ -78,7 +78,7 @@ class submissions {
   async getContestScore(
     contestID: string = contestDataApi.getDefaultContestID()
   ): Promise<any> {
-    console.log("run get_Score");
+    logger.info("run getScore", "submissionsAPI");
     const standings_url = `https://atcoder.jp/contests/${contestID}/score/json`;
     const responce = await Atcoder.axiosInstance.get(standings_url, {
       maxRedirects: 0,

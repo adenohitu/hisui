@@ -1,7 +1,6 @@
 // taskcontを管理するApi
 import { codeTestInfo } from "../code-test/codetest";
 import { contestDataApi } from "../data/contestdata";
-import { TaskListApi } from "../data/task";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
@@ -93,6 +92,7 @@ class taskControl {
   /**
    * 新しいTaskインスタンスを開く
    * すでに作成されている場合、Topに設定する
+   * 問題の存在チェックは行わない
    */
   async createNewTask(
     contestName: string,
@@ -103,38 +103,28 @@ class taskControl {
     if (this.taskAll[taskScreenName] !== undefined) {
       this.changeTask(taskScreenName);
     } else {
-      // AssignmentNameで問題の存在を確認する
-      const assignmentName = await TaskListApi.getAssignmentName(
-        contestName,
-        taskScreenName
-      );
-      if (assignmentName !== "-") {
-        //taskcontを作成
-        if (language === undefined) {
-          const uselang = await store.get("defaultLanguage", "cpp");
-          // const uselang = "cpp";
-          this.taskAll[taskScreenName] = new taskcont(
-            contestName,
-            taskScreenName,
-            uselang
-          );
-        } else {
-          this.taskAll[taskScreenName] = new taskcont(
-            contestName,
-            taskScreenName,
-            language
-          );
-        }
-        /**
-         * 初回ロードはTopに自動的になる
-         * モデルが作られる前にchangeTaskを実行することができない
-         */
-        this.nowTop = taskScreenName;
-        ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
+      //taskcontを作成
+      if (language === undefined) {
+        const uselang = await store.get("defaultLanguage", "cpp");
+        // const uselang = "cpp";
+        this.taskAll[taskScreenName] = new taskcont(
+          contestName,
+          taskScreenName,
+          uselang
+        );
       } else {
-        // 問題の存在を確認できない
-        console.log(`CantFindTask:${taskScreenName}`);
+        this.taskAll[taskScreenName] = new taskcont(
+          contestName,
+          taskScreenName,
+          language
+        );
       }
+      /**
+       * 初回ロードはTopに自動的になる
+       * モデルが作られる前にchangeTaskを実行することができない
+       */
+      this.nowTop = taskScreenName;
+      ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     }
   }
   /**
