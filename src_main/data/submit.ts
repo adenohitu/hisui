@@ -60,6 +60,10 @@ export async function runSubmit(
           submissionsApi.submitCheck(contestid);
           return "success";
         } else {
+          ipcMainManager.send(
+            "SEND_NOTIFICARION",
+            "提出に失敗しました。（提出制限がかかっている可能性があります）"
+          );
           return "submit_error";
         }
       })
