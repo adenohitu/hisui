@@ -81,8 +81,6 @@ function createWindow() {
 
     //timerをリセット
     timerApi.clearTimer();
-    // submissionsの自動更新を停止
-    submissionsApi.stopSubmissionsTimer();
     // taskViewを閉じる
     taskControlApi.close();
     taskViewWindowApi.close();

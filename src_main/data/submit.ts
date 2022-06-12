@@ -4,6 +4,7 @@ import { scrapingSubmitlang } from "./scraping/submitlang";
 import { returnSubmit } from "../interfaces";
 import { hisuiEvent } from "../event/event";
 import { ipcMainManager } from "../ipc/ipc";
+import { submissionsApi } from "./submissions";
 const baseUrlAtCoderContest = "https://atcoder.jp/contests/";
 
 /**
@@ -56,8 +57,13 @@ export async function runSubmit(
         if (responce.status === 302) {
           // 提出イベントを発行
           hisuiEvent.emit("submit", taskScreenName);
+          submissionsApi.submitCheck(contestid);
           return "success";
         } else {
+          ipcMainManager.send(
+            "SEND_NOTIFICARION",
+            "提出に失敗しました。（提出制限がかかっている可能性があります）"
+          );
           return "submit_error";
         }
       })
