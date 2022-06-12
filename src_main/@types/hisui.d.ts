@@ -2,6 +2,7 @@
 // Copyright © 2021-2022 adenohitu. All rights reserved.
 /// <reference types="node" />
 import { EventEmitter } from "events";
+import { submitStatus } from "../data/scraping/submit-data";
 import { standingData } from "../data/standing";
 
 export declare class hisuiEventtType extends EventEmitter {
@@ -69,6 +70,27 @@ export declare class hisuiEventtType extends EventEmitter {
    */
   on(event: "submit", listener: (taskScreenName: string) => void): this;
   emit(event: "submit", taskScreenName: string): boolean;
+  /**
+   * 提出後直後SubmitIDを特定した直後実行
+   */
+  on(
+    event: "submit-status-start",
+    listener: (status: submitStatus) => void
+  ): this;
+  emit(event: "submit-status-start", status: submitStatus): boolean;
+  /**
+   * 提出後、ジャッジの状態を監視し、状態を取得するたびこのイベントを発行
+   */
+  on(event: "submit-status", listener: (status: submitStatus) => void): this;
+  emit(event: "submit-status", status: submitStatus): boolean;
+  /**
+   * Intervalがなくなり、ジャッジ情報が確定したときに実行される
+   */
+  on(
+    event: "submit-status-finish",
+    listener: (status: submitStatus) => void
+  ): this;
+  emit(event: "submit-status-finish", status: submitStatus): boolean;
 
   /**
    * Taskcontが作成されたときに

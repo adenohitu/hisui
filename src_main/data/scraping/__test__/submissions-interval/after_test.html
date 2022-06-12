@@ -1,0 +1,887 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>すべての提出 - AtCoder Beginner Contest 254</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Language" content="ja">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="google-site-verification" content="nXGC_JxO0yoP1qBzMnYD_xgufO6leSLw1kyNo2HZltM" />
+
+	
+	<meta name="description" content="プログラミング初級者から上級者まで楽しめる、競技プログラミングコンテストサイト「AtCoder」。オンラインで毎週開催プログラミングコンテストを開催しています。競技プログラミングを用いて、客観的に自分のスキルを計ることのできるサービスです。">
+	<meta name="author" content="AtCoder Inc.">
+
+	<meta property="og:site_name" content="AtCoder">
+	
+	<meta property="og:title" content="すべての提出 - AtCoder Beginner Contest 254" />
+	<meta property="og:description" content="プログラミング初級者から上級者まで楽しめる、競技プログラミングコンテストサイト「AtCoder」。オンラインで毎週開催プログラミングコンテストを開催しています。競技プログラミングを用いて、客観的に自分のスキルを計ることのできるサービスです。" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://atcoder.jp/contests/abc254/submissions" />
+	<meta property="og:image" content="https://img.atcoder.jp/assets/atcoder.png" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@atcoder" />
+	
+	<meta property="twitter:title" content="すべての提出 - AtCoder Beginner Contest 254" />
+
+	<link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//img.atcoder.jp/public/fe3106a/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="//img.atcoder.jp/public/fe3106a/css/base.css">
+	<link rel="shortcut icon" type="image/png" href="//img.atcoder.jp/assets/favicon.png">
+	<link rel="apple-touch-icon" href="//img.atcoder.jp/assets/atcoder.png">
+	<script src="//img.atcoder.jp/public/fe3106a/js/lib/jquery-1.9.1.min.js"></script>
+	<script src="//img.atcoder.jp/public/fe3106a/js/lib/bootstrap.min.js"></script>
+	<script src="//img.atcoder.jp/public/fe3106a/js/cdn/js.cookie.min.js"></script>
+	<script src="//img.atcoder.jp/public/fe3106a/js/cdn/moment.min.js"></script>
+	<script src="//img.atcoder.jp/public/fe3106a/js/cdn/moment_js-ja.js"></script>
+	<script>
+		var LANG = "ja";
+		var userScreenName = "compose";
+		var csrfToken = "qDWNgyQ1FOQHT18kB146TNpvdS02HCjfpQrLdjT/LaI="
+	</script>
+	<script src="//img.atcoder.jp/public/fe3106a/js/utils.js"></script>
+	
+	
+		<script src="//img.atcoder.jp/public/fe3106a/js/contest.js"></script>
+		<link href="//img.atcoder.jp/public/fe3106a/css/contest.css" rel="stylesheet" />
+		<script>
+			var contestScreenName = "abc254";
+			var remainingText = "残り時間";
+			var countDownText = "開始まであと";
+			var startTime = moment("2022-06-04T21:00:00+09:00");
+			var endTime = moment("2022-06-04T22:40:00+09:00");
+		</script>
+		<style></style>
+	
+	
+		<link href="//img.atcoder.jp/public/fe3106a/css/cdn/select2.min.css" rel="stylesheet" />
+		<link href="//img.atcoder.jp/public/fe3106a/css/cdn/select2-bootstrap.min.css" rel="stylesheet" />
+		<script src="//img.atcoder.jp/public/fe3106a/js/lib/select2.min.js"></script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<script src="//img.atcoder.jp/public/fe3106a/js/base.js"></script>
+	<script src="//img.atcoder.jp/public/fe3106a/js/ga.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+	var __pParams = __pParams || [];
+	__pParams.push({client_id: '468', c_1: 'atcodercontest', c_2: 'ClientSite'});
+</script>
+<script type="text/javascript" src="https://cdn.d2-apps.net/js/tr.js" async></script>
+
+
+<div id="modal-contest-start" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">コンテスト開始</h4>
+			</div>
+			<div class="modal-body">
+				<p>AtCoder Beginner Contest 254が開始されました。</p>
+			</div>
+			<div class="modal-footer">
+				
+					<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modal-contest-end" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">コンテスト終了</h4>
+			</div>
+			<div class="modal-body">
+				<p>AtCoder Beginner Contest 254は終了しました。</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="main-div" class="float-container">
+
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+					<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/home"></a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse">
+				<ul class="nav navbar-nav">
+				
+					<li><a class="contest-title" href="/contests/abc254">AtCoder Beginner Contest 254</a></li>
+				
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<img src='//img.atcoder.jp/assets/top/img/flag-lang/ja.png'> 日本語 <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/contests/abc254/submissions?lang=ja"><img src='//img.atcoder.jp/assets/top/img/flag-lang/ja.png'> 日本語</a></li>
+							<li><a href="/contests/abc254/submissions?lang=en"><img src='//img.atcoder.jp/assets/top/img/flag-lang/en.png'> English</a></li>
+						</ul>
+					</li>
+					
+					
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> compose (Guest) <span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="/users/compose"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> マイプロフィール</a></li>
+								<li class="divider"></li>
+								<li><a href="/settings"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 基本設定</a></li>
+								<li><a href="/settings/icon"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> アイコン設定</a></li>
+								<li><a href="/settings/password"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> パスワードの変更</a></li>
+								<li><a href="/settings/fav"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> お気に入り管理</a></li>
+								
+								
+								
+								<li class="divider"></li>
+								<li><a href="javascript:void(form_logout.submit())"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> ログアウト</a></li>
+							</ul>
+						</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<form method="POST" name="form_logout" action="/logout?continue=https%3A%2F%2Fatcoder.jp%2Fcontests%2Fabc254%2Fsubmissions">
+		<input type="hidden" name="csrf_token" value="qDWNgyQ1FOQHT18kB146TNpvdS02HCjfpQrLdjT/LaI=" />
+	</form>
+	<div id="main-container" class="container"
+		 	style="padding-top:50px;">
+		
+
+
+<div class="row">
+	<div id="contest-nav-tabs" class="col-sm-12 mb-2 cnvtb-fixed">
+	<div>
+		<small class="contest-duration">
+			
+				コンテスト時間:
+				<a href='http://www.timeanddate.com/worldclock/fixedtime.html?iso=20220604T2100&p1=248' target='blank'><time class='fixtime fixtime-full'>2022-06-04 21:00:00+0900</time></a> ~ <a href='http://www.timeanddate.com/worldclock/fixedtime.html?iso=20220604T2240&p1=248' target='blank'><time class='fixtime fixtime-full'>2022-06-04 22:40:00+0900</time></a> 
+				(100分)
+			
+		</small>
+		<small class="back-to-home pull-right"><a href="/home">AtCoderホームへ戻る</a></small>
+	</div>
+	<ul class="nav nav-tabs">
+		<li><a href="/contests/abc254"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> トップ</a></li>
+		
+			<li><a href="/contests/abc254/tasks"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> 問題</a></li>
+		
+
+		
+			<li><a href="/contests/abc254/clarifications"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> 質問 <span id="clar-badge" class="badge"></span></a></li>
+		
+
+		
+			<li><a href="/contests/abc254/submit"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> 提出</a></li>
+		
+
+		
+			<li class="active">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 提出結果<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="/contests/abc254/submissions"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> すべての提出</a></li>
+					
+						<li><a href="/contests/abc254/submissions/me"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 自分の提出</a></li>
+						<li class="divider"></li>
+						<li><a href="/contests/abc254/score"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> 自分の得点状況</a></li>
+					
+				</ul>
+			</li>
+		
+
+		
+			
+				
+					<li><a href="/contests/abc254/standings"><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> 順位表</a></li>
+				
+			
+				
+					<li><a href="/contests/abc254/standings/virtual"><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> バーチャル順位表</a></li>
+				
+			
+		
+
+		
+			<li><a href="/contests/abc254/custom_test"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> コードテスト</a></li>
+		
+
+		
+			<li><a href="/contests/abc254/editorial"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> 解説</a></li>
+		
+		
+
+		<li class="pull-right"><a id="fix-cnvtb" href="javascript:void(0)"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></a></li>
+	</ul>
+</div>
+	<div class="col-sm-12">
+	<ul class="nav nav-pills small">
+		
+			<li class="active"><a href="/contests/abc254/submissions">すべての提出</a></li>
+		
+		
+			<li ><a href="/contests/abc254/submissions/me">自分の提出</a></li>
+			<li ><a href="/contests/abc254/score">自分の得点状況</a></li>
+		
+	</ul>
+</div>
+
+	<div class="col-sm-12">
+		<h2>すべての提出</h2>
+		<hr>
+		<script>var submissionAPI = "/contests/abc254/submissions/status/json";</script>
+		<div class="text-center">
+	<ul class="pagination pagination-sm mt-0 mb-1">
+		
+			<li class="active"><a href='/contests/abc254/submissions?page=1'>1</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=2'>2</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=4'>4</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=8'>8</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=16'>16</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=32'>32</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=64'>64</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=128'>128</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=256'>256</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=512'>512</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=1024'>1024</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=2048'>2048</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=3413'>3413</a></li>
+		
+	</ul>
+</div>
+<div class="panel panel-default panel-submission">
+	<div class="panel-heading">
+		<form class="form-inline form-filter" action="/contests/abc254/submissions">
+			
+			<div class="form-group form-group-sm">
+				<label for="select-task">問題: </label>
+				<select id="select-task" class="form-control" style="width:240px" data-placeholder="-" data-allow-clear="true" name="f.Task">
+					<option></option>
+					
+						<option value="abc254_a">A - Last Two Digits</option>
+					
+						<option value="abc254_b">B - Practical Computing</option>
+					
+						<option value="abc254_c">C - K Swap</option>
+					
+						<option value="abc254_d">D - Together Square</option>
+					
+						<option value="abc254_e">E - Small d and k</option>
+					
+						<option value="abc254_f">F - Rectangle GCD</option>
+					
+						<option value="abc254_g">G - Elevators</option>
+					
+						<option value="abc254_h">Ex - Multiply or Divide by 2</option>
+					
+				</select>
+			</div>
+			
+			
+				
+				<div class="form-group form-group-sm">
+					<label for="select-language">言語: </label>
+					<select id="select-language" class="form-control" data-placeholder="-" data-allow-clear="true" name="f.LanguageName">
+						<option></option>
+						
+							<option value="Ada">Ada</option>
+						
+							<option value="Awk">Awk</option>
+						
+							<option value="Bash">Bash</option>
+						
+							<option value="Brainfuck">Brainfuck</option>
+						
+							<option value="C">C</option>
+						
+							<option value="C#">C#</option>
+						
+							<option value="C&#43;&#43;">C&#43;&#43;</option>
+						
+							<option value="COBOL">COBOL</option>
+						
+							<option value="Clojure">Clojure</option>
+						
+							<option value="Common Lisp">Common Lisp</option>
+						
+							<option value="Crystal">Crystal</option>
+						
+							<option value="Cython">Cython</option>
+						
+							<option value="D">D</option>
+						
+							<option value="Dart">Dart</option>
+						
+							<option value="Dash">Dash</option>
+						
+							<option value="Elixir">Elixir</option>
+						
+							<option value="Erlang">Erlang</option>
+						
+							<option value="F#">F#</option>
+						
+							<option value="Forth">Forth</option>
+						
+							<option value="Fortran">Fortran</option>
+						
+							<option value="Go">Go</option>
+						
+							<option value="Haskell">Haskell</option>
+						
+							<option value="Haxe">Haxe</option>
+						
+							<option value="Java">Java</option>
+						
+							<option value="JavaScript">JavaScript</option>
+						
+							<option value="Julia">Julia</option>
+						
+							<option value="Kotlin">Kotlin</option>
+						
+							<option value="Lua">Lua</option>
+						
+							<option value="Nim">Nim</option>
+						
+							<option value="OCaml">OCaml</option>
+						
+							<option value="Objective-C">Objective-C</option>
+						
+							<option value="Octave">Octave</option>
+						
+							<option value="PHP">PHP</option>
+						
+							<option value="Pascal">Pascal</option>
+						
+							<option value="Perl">Perl</option>
+						
+							<option value="Prolog">Prolog</option>
+						
+							<option value="Python2">Python2</option>
+						
+							<option value="Python3">Python3</option>
+						
+							<option value="Racket">Racket</option>
+						
+							<option value="Ruby">Ruby</option>
+						
+							<option value="Rust">Rust</option>
+						
+							<option value="Scala">Scala</option>
+						
+							<option value="Scheme">Scheme</option>
+						
+							<option value="Sed">Sed</option>
+						
+							<option value="Standard ML">Standard ML</option>
+						
+							<option value="Swift">Swift</option>
+						
+							<option value="Text">Text</option>
+						
+							<option value="TypeScript">TypeScript</option>
+						
+							<option value="Unlambda">Unlambda</option>
+						
+							<option value="Vim">Vim</option>
+						
+							<option value="Visual Basic">Visual Basic</option>
+						
+							<option value="Zsh">Zsh</option>
+						
+							<option value="bc">bc</option>
+						
+							<option value="dc">dc</option>
+						
+					</select>
+				</div>
+				
+			
+			
+			<div class="form-group form-group-sm">
+				<label for="select-status">結果: </label>
+				<select id="select-status" class="form-control" style="width:80px;" data-placeholder="-" data-allow-clear="true" name="f.Status">
+					<option></option>
+					
+						<option value="AC">AC</option>
+					
+						<option value="WA">WA</option>
+					
+						<option value="TLE">TLE</option>
+					
+						<option value="MLE">MLE</option>
+					
+						<option value="RE">RE</option>
+					
+						<option value="CE">CE</option>
+					
+						<option value="QLE">QLE</option>
+					
+						<option value="OLE">OLE</option>
+					
+						<option value="IE">IE</option>
+					
+						<option value="WJ">WJ</option>
+					
+						<option value="WR">WR</option>
+					
+						<option value="Judging">Judging</option>
+					
+				</select>
+			</div>
+			
+			
+			<div class="form-group form-group-sm">
+				<label for="input-user">ユーザ: </label>
+				<input type="text" id="input-user" class="form-control" name="f.User" value="">
+			</div>
+			
+			<div class="form-group">
+				<div>
+					<a class="btn btn-link btn-xs" href="/contests/abc254/submissions">リセット</a>
+					<button type="submit" class="btn btn-primary btn-sm">検索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped small th-center">
+				<thead>
+				<tr>
+					
+					<th width="12%"><a href="/contests/abc254/submissions?desc=true&amp;orderBy=created">提出日時</a></th>
+					<th>問題</th>
+					<th>ユーザ</th>
+					<th>言語</th>
+					<th width="5%"><a href="/contests/abc254/submissions?desc=true&amp;orderBy=score">得点</a></th>
+					<th width="9%"><a href="/contests/abc254/submissions?orderBy=source_length">コード長</a></th>
+					<th width="5%">結果</th>
+					<th width="7%"><a href="/contests/abc254/submissions?orderBy=time_consumption">実行時間</a></th>
+					<th width="8%"><a href="/contests/abc254/submissions?orderBy=memory_consumption">メモリ</a></th>
+					<th width="5%"></th>
+				</tr>
+				</thead>
+				<tbody>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:43:58+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_e">E - Small d and k</a></td>
+						<td><a href="/users/nihal712">nihal712</a> <a href='/contests/abc254/submissions?f.User=nihal712'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='nihal712さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351809">500</td>
+						<td class="text-right">13938 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>520 ms</td><td class='text-right'>14768 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351809">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:42:11+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/f20202358">f20202358</a> <a href='/contests/abc254/submissions?f.User=f20202358'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='f20202358さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4004">C&#43;&#43; (Clang 10.0.0)</a></td>
+						<td class="text-right submission-score" data-id="32351787">0</td>
+						<td class="text-right">661 Byte</td>
+						<td colspan='3' class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="コンパイルエラー">CE</span></td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351787">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:41:58+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/par4dox">par4dox</a> <a href='/contests/abc254/submissions?f.User=par4dox'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='par4doxさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351786">100</td>
+						<td class="text-right">1342 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>7 ms</td><td class='text-right'>3524 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351786">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:41:16+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/f20202358">f20202358</a> <a href='/contests/abc254/submissions?f.User=f20202358'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='f20202358さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4004">C&#43;&#43; (Clang 10.0.0)</a></td>
+						<td class="text-right submission-score" data-id="32351777">0</td>
+						<td class="text-right">661 Byte</td>
+						<td colspan='3' class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="コンパイルエラー">CE</span></td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351777">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:40:37+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_e">E - Small d and k</a></td>
+						<td><a href="/users/drinksun">drinksun</a> <a href='/contests/abc254/submissions?f.User=drinksun'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='drinksunさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351770">500</td>
+						<td class="text-right">1671 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>818 ms</td><td class='text-right'>14416 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351770">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:40:31+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/Beta_Orionis">Beta_Orionis</a> <a href='/contests/abc254/submissions?f.User=Beta_Orionis'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Beta_Orionisさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351768">100</td>
+						<td class="text-right">293 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>6 ms</td><td class='text-right'>3580 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351768">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:39:23+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/vjudge5">vjudge5</a> <a href='/contests/abc254/submissions?f.User=vjudge5'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='vjudge5さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351756">100</td>
+						<td class="text-right">216 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>5 ms</td><td class='text-right'>3624 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351756">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:36:49+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/mananlife">mananlife</a> <a href='/contests/abc254/submissions?f.User=mananlife'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='mananlifeさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4047">PyPy3 (7.3.0)</a></td>
+						<td class="text-right submission-score" data-id="32351722">0</td>
+						<td class="text-right">306 Byte</td>
+						<td class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="不正解">WA</span></td><td class='text-right'>2209 ms</td><td class='text-right'>126340 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351722">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:36:35+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Roaa">Roaa</a> <a href='/contests/abc254/submissions?f.User=Roaa'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Roaaさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351716">300</td>
+						<td class="text-right">456 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>90 ms</td><td class='text-right'>15960 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351716">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:35:17+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Roaa">Roaa</a> <a href='/contests/abc254/submissions?f.User=Roaa'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Roaaさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351698">300</td>
+						<td class="text-right">492 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>88 ms</td><td class='text-right'>15960 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351698">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:35:06+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_d">D - Together Square</a></td>
+						<td><a href="/users/arsh007">arsh007</a> <a href='/contests/abc254/submissions?f.User=arsh007'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='arsh007さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351695">400</td>
+						<td class="text-right">1737 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>554 ms</td><td class='text-right'>15596 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351695">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:35:00+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Javalian">Javalian</a> <a href='/contests/abc254/submissions?f.User=Javalian'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Javalianさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351693">0</td>
+						<td class="text-right">641 Byte</td>
+						<td class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="不正解">WA</span></td><td class='text-right'>77 ms</td><td class='text-right'>5864 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351693">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:34:58+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Arten0134">Arten0134</a> <a href='/contests/abc254/submissions?f.User=Arten0134'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Arten0134さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4006">Python (3.8.2)</a></td>
+						<td class="text-right submission-score" data-id="32351692">0</td>
+						<td class="text-right">560 Byte</td>
+						<td class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="不正解">WA</span></td><td class='text-right'>181 ms</td><td class='text-right'>37940 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351692">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:34:58+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/Jvaeyhcd">Jvaeyhcd</a> <a href='/contests/abc254/submissions?f.User=Jvaeyhcd'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Jvaeyhcdさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4006">Python (3.8.2)</a></td>
+						<td class="text-right submission-score" data-id="32351690">100</td>
+						<td class="text-right">91 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>20 ms</td><td class='text-right'>9104 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351690">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:34:22+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_e">E - Small d and k</a></td>
+						<td><a href="/users/rikukasa">rikukasa</a> <a href='/contests/abc254/submissions?f.User=rikukasa'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='rikukasaさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351682">500</td>
+						<td class="text-right">924 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>596 ms</td><td class='text-right'>16116 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351682">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:34:19+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Roaa">Roaa</a> <a href='/contests/abc254/submissions?f.User=Roaa'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Roaaさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4004">C&#43;&#43; (Clang 10.0.0)</a></td>
+						<td class="text-right submission-score" data-id="32351680">0</td>
+						<td class="text-right">459 Byte</td>
+						<td colspan='3' class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="コンパイルエラー">CE</span></td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351680">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:34:06+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Lin24">Lin24</a> <a href='/contests/abc254/submissions?f.User=Lin24'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Lin24さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351677">0</td>
+						<td class="text-right">1018 Byte</td>
+						<td class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="実行時間制限超過">TLE</span></td><td class='text-right'>2205 ms</td><td class='text-right'>4172 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351677">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:33:59+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_d">D - Together Square</a></td>
+						<td><a href="/users/arsh007">arsh007</a> <a href='/contests/abc254/submissions?f.User=arsh007'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='arsh007さんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351674">400</td>
+						<td class="text-right">1808 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>555 ms</td><td class='text-right'>15576 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351674">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:33:32+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_c">C - K Swap</a></td>
+						<td><a href="/users/Roaa">Roaa</a> <a href='/contests/abc254/submissions?f.User=Roaa'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='Roaaさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4003">C&#43;&#43; (GCC 9.2.1)</a></td>
+						<td class="text-right submission-score" data-id="32351663">0</td>
+						<td class="text-right">466 Byte</td>
+						<td colspan='3' class='text-center'><span class='label label-warning' data-toggle='tooltip' data-placement='top' title="コンパイルエラー">CE</span></td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351663">詳細</a>
+						</td>
+					</tr>
+				
+					<tr>
+						
+						<td class="no-break"><time class='fixtime fixtime-second'>2022-06-10 17:33:32+0900</time></td>
+						<td><a href="/contests/abc254/tasks/abc254_a">A - Last Two Digits</a></td>
+						<td><a href="/users/zhigeng">zhigeng</a> <a href='/contests/abc254/submissions?f.User=zhigeng'><span class='glyphicon glyphicon-search black' aria-hidden='true' data-toggle='tooltip' title='zhigengさんの提出を見る'></span></a></td>
+						<td><a href="/contests/abc254/submissions?f.Language=4005">Java (OpenJDK 11.0.6)</a></td>
+						<td class="text-right submission-score" data-id="32351662">100</td>
+						<td class="text-right">257 Byte</td>
+						<td class='text-center'><span class='label label-success' data-toggle='tooltip' data-placement='top' title="正解">AC</span></td><td class='text-right'>107 ms</td><td class='text-right'>35572 KB</td>
+						<td class="text-center">
+							<a href="/contests/abc254/submissions/32351662">詳細</a>
+						</td>
+					</tr>
+				
+				</tbody>
+			</table>
+		</div>
+	
+</div>
+<script>var reloadInterval =  5000 ;</script>
+
+<div class="text-center">
+	<ul class="pagination pagination-sm mt-0 mb-1">
+		
+			<li class="active"><a href='/contests/abc254/submissions?page=1'>1</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=2'>2</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=4'>4</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=8'>8</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=16'>16</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=32'>32</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=64'>64</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=128'>128</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=256'>256</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=512'>512</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=1024'>1024</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=2048'>2048</a></li>
+		
+			<li ><a href='/contests/abc254/submissions?page=3413'>3413</a></li>
+		
+	</ul>
+</div>
+	</div>
+</div>
+
+
+
+
+		
+			<hr>
+			
+			
+			
+<div class="a2a_kit a2a_kit_size_20 a2a_default_style pull-right" data-a2a-url="https://atcoder.jp/contests/abc254/submissions?lang=ja" data-a2a-title="すべての提出 - AtCoder Beginner Contest 254">
+	<a class="a2a_button_facebook"></a>
+	<a class="a2a_button_twitter"></a>
+	
+		<a class="a2a_button_hatena"></a>
+	
+	<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+</div>
+
+		
+		<script async src="//static.addtoany.com/menu/page.js"></script>
+		
+	</div> 
+	<hr>
+</div> 
+
+	<div class="container" style="margin-bottom: 80px;">
+			<footer class="footer">
+			
+				<ul>
+					<li><a href="/contests/abc254/rules">ルール</a></li>
+					<li><a href="/contests/abc254/glossary">用語集</a></li>
+					
+				</ul>
+			
+			<ul>
+				<li><a href="/tos">利用規約</a></li>
+				<li><a href="/privacy">プライバシーポリシー</a></li>
+				<li><a href="/personal">個人情報保護方針</a></li>
+				<li><a href="/company">企業情報</a></li>
+				<li><a href="/faq">よくある質問</a></li>
+				<li><a href="/contact">お問い合わせ</a></li>
+				<li><a href="/documents/request">資料請求</a></li>
+			</ul>
+			<div class="text-center">
+					<small id="copyright">Copyright Since 2012 &copy;<a href="http://atcoder.co.jp">AtCoder Inc.</a> All rights reserved.</small>
+			</div>
+			</footer>
+	</div>
+	<p id="fixed-server-timer" class="contest-timer"></p>
+	<div id="scroll-page-top" style="display:none;"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> ページトップ</div>
+
+</body>
+</html>
+
+
