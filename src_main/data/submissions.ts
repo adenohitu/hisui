@@ -6,6 +6,7 @@ import { contestDataApi } from "./contestdata";
 import scraping_submissions_list, {
   submissionData,
 } from "./scraping/submissions";
+import { scraping_submitData, submitStatus } from "./scraping/submit-data";
 class submissions {
   /**
    * デフォルトコンテストを保持
@@ -151,10 +152,7 @@ class submissions {
     async function getSubmitStatus(
       contestID: string,
       submit_id: string
-    ): Promise<{
-      Html?: string;
-      Interval?: number;
-    }> {
+    ): Promise<submitStatus> {
       const submissionStatusUrl = `https://atcoder.jp/contests/${contestID}/submissions/${submit_id}/status/json`;
       const responce = await Atcoder.axiosInstance.get(submissionStatusUrl, {
         maxRedirects: 0,
@@ -165,20 +163,17 @@ class submissions {
       if (responce.status !== 302) {
         //提出ページが公開されていない場合は"ready"を返す
         if (responce.status !== 404) {
-          const data_after: {
-            Html: string;
-            Interval: number;
-          } = responce.data;
+          const data_after = scraping_submitData(responce.data);
           hisuiEvent.emit("submit-status", data_after);
           logger.info("end get_SubmitStatus", "submissionsAPI");
           return data_after;
         } else {
           logger.info("SubmitStatus is not ready", "submissionsAPI");
-          return {};
+          return { status: "ER", labelColor: "default" };
         }
       } else {
         logger.info("Need to Login", "submissionsAPI");
-        return {};
+        return { status: "ER", labelColor: "default" };
       }
     }
     /**
@@ -188,10 +183,7 @@ class submissions {
       contestID: string,
       submit_id: string,
       Interval?: number
-    ): Promise<{
-      Html?: string;
-      Interval?: number;
-    }> => {
+    ): Promise<submitStatus> => {
       if (Interval) {
         // 非同期待機
         await new Promise((resolve) => setTimeout(resolve, Interval));
