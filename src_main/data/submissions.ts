@@ -32,17 +32,26 @@ class submissions {
     /**
      * 提出を監視
      */
-    hisuiEvent.on("submit-status", (m) => {
+    hisuiEvent.on("submit-status-start", (m: submitStatus) => {
+      logger.info(
+        `SubmitStatusMessage-start:${JSON.stringify(m, null, 2)}`,
+        "submissionsAPI"
+      );
+      ipcMainManager.send("SEND_SUBMIT_START_NOTIFICARION", m);
+    });
+    hisuiEvent.on("submit-status", (m: submitStatus) => {
       logger.info(
         `SubmitStatusMessage:${JSON.stringify(m, null, 2)}`,
         "submissionsAPI"
       );
+      ipcMainManager.send("SEND_SUBMIT_STATUS", m);
     });
-    hisuiEvent.on("submit-status-finish", (m) => {
+    hisuiEvent.on("submit-status-finish", (m: submitStatus) => {
       logger.info(
         `SubmitStatusMessage_finishJudge:${JSON.stringify(m, null, 2)}`,
         "submissionsAPI"
       );
+      ipcMainManager.send("SEND_SUBMIT_STATUS", m);
     });
   }
   /**
@@ -150,10 +159,9 @@ class submissions {
   async submitCheck(contestID: string) {
     // --ここからチェックに必要な処理を定義--
     async function getSubmitStatus(
-      contestID: string,
-      submit_id: string
+      submissionData: submissionData
     ): Promise<submitStatus> {
-      const submissionStatusUrl = `https://atcoder.jp/contests/${contestID}/submissions/${submit_id}/status/json`;
+      const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/${submissionData.submit_id}/status/json`;
       const responce = await Atcoder.axiosInstance.get(submissionStatusUrl, {
         maxRedirects: 0,
         validateStatus: function (status) {
@@ -163,37 +171,38 @@ class submissions {
       if (responce.status !== 302) {
         //提出ページが公開されていない場合は"ready"を返す
         if (responce.status !== 404) {
-          const data_after = scraping_submitData(responce.data);
+          const data_after = await scraping_submitData(
+            responce.data,
+            submissionData
+          );
           hisuiEvent.emit("submit-status", data_after);
           logger.info("end get_SubmitStatus", "submissionsAPI");
           return data_after;
         } else {
           logger.info("SubmitStatus is not ready", "submissionsAPI");
-          return { status: "ER", labelColor: "default" };
+          return { submissionData, status: "ER", labelColor: "default" };
         }
       } else {
         logger.info("Need to Login", "submissionsAPI");
-        return { status: "ER", labelColor: "default" };
+        return { submissionData, status: "ER", labelColor: "default" };
       }
     }
     /**
      * Intervalがなくなるまで、結果を受信し続けて、Promiseで返す
      */
     const getSubmitStatus_WaitInterval = async (
-      contestID: string,
-      submit_id: string,
+      submissionData: submissionData,
       Interval?: number
     ): Promise<submitStatus> => {
       if (Interval) {
         // 非同期待機
         await new Promise((resolve) => setTimeout(resolve, Interval));
         // Status情報取得
-        const getData = await getSubmitStatus(contestID, submit_id);
+        const getData = await getSubmitStatus(submissionData);
         // Intervalの有無をチェック
         if (getData.Interval) {
           return await getSubmitStatus_WaitInterval(
-            contestID,
-            submit_id,
+            submissionData,
             getData.Interval
           );
         } else {
@@ -203,12 +212,12 @@ class submissions {
         }
       } else {
         // 初回実行される
-        const getData = await getSubmitStatus(contestID, submit_id);
+        const getData = await getSubmitStatus(submissionData);
         // Intervalの有無をチェック
         if (getData.Interval) {
+          hisuiEvent.emit("submit-status-start", getData);
           return await getSubmitStatus_WaitInterval(
-            contestID,
-            submit_id,
+            submissionData,
             getData.Interval
           );
         } else {
@@ -223,10 +232,7 @@ class submissions {
     if (submissionList[0]) {
       // 多分１番目のものが直前に提出したもの
       const preSubmitData = submissionList[0];
-      const waitdata = await getSubmitStatus_WaitInterval(
-        preSubmitData.contestName,
-        preSubmitData.submit_id
-      );
+      const waitdata = await getSubmitStatus_WaitInterval(preSubmitData);
       return waitdata;
     } else {
       logger.info("Couldnt FindSubmit-id", "submissionsAPI");

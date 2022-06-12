@@ -27,6 +27,8 @@ import { TestCaseBoard } from "../case/main";
 import { SnackbarKey, useSnackbar } from "notistack";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { SnackMessage } from "../snackbar/snackbar";
+import { submitStatus } from "../../../src_main/data/scraping/submit-data";
 
 const drawerWidth = 240;
 // let nowItem = 0;
@@ -138,17 +140,33 @@ export const WindowRoot = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
+    ipcRendererManager.on(
+      "SEND_SUBMIT_START_NOTIFICARION",
+      (e, submitStatus: submitStatus) => {
+        enqueueSnackbar(submitStatus.submissionData.taskScreenName, {
+          content: (key, message) => (
+            <SnackMessage
+              id={key}
+              message={message}
+              submitStatus={submitStatus}
+            />
+          ),
+          autoHideDuration: 30000,
+        });
+      }
+    );
+
+    const action = (key: SnackbarKey) => (
+      <IconButton
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+        sx={{ color: "white" }}
+      >
+        <CloseIcon />
+      </IconButton>
+    );
     ipcRendererManager.on("SEND_NOTIFICARION", (e, arg: string) => {
-      const action = (key: SnackbarKey) => (
-        <IconButton
-          onClick={() => {
-            closeSnackbar(key);
-          }}
-          sx={{ color: "white" }}
-        >
-          <CloseIcon />
-        </IconButton>
-      );
       enqueueSnackbar(arg, { action });
     });
   }, [enqueueSnackbar, closeSnackbar]);
