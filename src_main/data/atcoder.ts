@@ -26,7 +26,6 @@ export class atcoderClass {
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
         const url = `${config.url}`;
-        // console.log(`Start:Url=${url} Method=${config.method}`);
         logger.info(
           `${logger.colors.blue}start${logger.colors.reset} request:Url=${url} Method=${config.method}`,
           "axios"
@@ -61,16 +60,16 @@ export class atcoderClass {
    * セッションを使いログインされているかをチェック
    */
   async checkLogin(): Promise<boolean> {
-    const test_url = "https://atcoder.jp/contests/abc189/submit";
+    const test_url = "https://atcoder.jp/contests/abc189/score/json";
     const status = await saveSession.get("checkLastest", Date.now() + 86400001);
     const ID = await saveSession.get("ID");
     const now = Date.now();
     //前回ログイン成功時の時間を使いリクエスト回数を減らす
     if (ID === undefined) {
-      console.log("checklogin-notsetID");
+      logger.info("checklogin-notsetID", "AtcoderAPI");
       return false;
     } else if (status > now + 86400000) {
-      console.log("checklogin-req");
+      logger.info("checklogin-req", "AtcoderAPI");
       return await this.axiosInstance
         .get(test_url, {
           maxRedirects: 0,
@@ -87,7 +86,7 @@ export class atcoderClass {
           }
         });
     } else {
-      console.log("checklogin-cache");
+      logger.info("checklogin-cache", "AtcoderAPI");
       return true;
     }
   }
@@ -160,7 +159,7 @@ export class atcoderClass {
             saveSession.set("checkLastest", Date.now());
             // ウィンドウのセッションを同期
             setBrowserCoockie();
-            console.log("loginSuccess");
+            logger.info("loginSuccess", "AtcoderAPI");
             // ログインイベントを発行
             hisuiEvent.emit("login");
             return "success";
@@ -169,7 +168,7 @@ export class atcoderClass {
           }
         })
         .catch((err: any) => {
-          console.log(err);
+          logger.info(`Failure_requestError:${err}`, "AtcoderAPI");
           return "Failure_requestError";
         });
       return await login_req;
@@ -208,7 +207,7 @@ export class atcoderClass {
         }
       })
       .catch((err: any) => {
-        console.log(err);
+        logger.info(`Failure_requestError:${err}`, "AtcoderAPI");
         return "Failure_requestError";
       });
     return await login_req;

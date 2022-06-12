@@ -19,7 +19,9 @@ export class contestData {
     this.setupDefaultContestID();
   }
   /**
+   * 起動時に実行される
    * 存在しないコンテストがデフォルトに登録されている場合に起動時に弾く
+   * 次回起動時、コンテストが消されているという場合にも対応するため
    */
   async setupDefaultContestID() {
     const getcheckdata = await this.checkContestID(this.DefaultContestID);
@@ -91,7 +93,7 @@ export class contestData {
       return false;
     }
     logger.info("run check_SetContestID", "ContestDataAPI");
-    const url = `https://atcoder.jp/contests/${taskScreenName}`;
+    const url = `https://atcoder.jp/api/contests/${taskScreenName}`;
     const responce = await Atcoder.axiosInstance.get(url, {
       maxRedirects: 0,
       validateStatus: function (status) {

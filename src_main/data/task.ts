@@ -3,6 +3,7 @@
 import dayjs from "dayjs";
 import EventEmitter from "events";
 import { contestName, taskScreenName } from "../interfaces";
+import { logger } from "../tool/logger/logger";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { scrapingTaskList, taskList } from "./scraping/tasklist";
@@ -25,6 +26,7 @@ class TaskList {
     contestName: contestName = contestDataApi.getDefaultContestID()
   ) {
     if (this.tasklists[contestName]?.load === true) {
+      // 現在TaskListを取得中なので、結果をPromiseで待つ
       var serf = this;
       const promise: Promise<taskList[]> = new Promise(function (
         resolve,
@@ -35,7 +37,14 @@ class TaskList {
         });
       });
       return promise;
-    } else if (this.tasklists[contestName] === undefined) {
+    } else if (
+      // 初回実行時
+      this.tasklists[contestName] === undefined ||
+      // 問題一覧ページが公開されてなく、taskListが空だった場合
+      this.tasklists[contestName].tasklists === undefined
+    ) {
+      // TaskListが存在しないので、取得する
+      // コンテスト前に取得失敗したとき、tasklistsがundefinedであるため、取得し直す
       this.tasklists[contestName] = { load: true };
       const data = await getTasklistPage(contestName);
       if (data.length !== 0) {
@@ -48,6 +57,7 @@ class TaskList {
     } else {
       const timeData = this.tasklists[contestName].lastestUpdate;
       if (timeData && (!cache || timeData + cacheTime <= Date.now())) {
+        // キャッシュ時間外または、強制取得(cache=false)が有効のため、取得する
         this.tasklists[contestName] = { load: true };
         const data = await getTasklistPage(contestName);
         if (data.length !== 0) {
@@ -55,18 +65,22 @@ class TaskList {
           this.tasklists[contestName].lastestUpdate = Date.now();
         }
         this.tasklists[contestName].load = false;
+        // 待機中のPromiseにデータを送信
         this.emitter.emit(contestName, data);
         return data;
       } else {
-        console.log(
-          `load_TaskList:updateLastest ${dayjs(
+        // キャッシュ時間内であるため、キャッシュデータを返す
+        logger.info(
+          `load_TaskList updateLastest:${dayjs(
             this.tasklists[contestName].lastestUpdate
-          ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`
+          ).format("YYYY-MM-DDTHH:mm:ssZ[Z]")}`,
+          "TaskListAPI"
         );
         const data = this.tasklists[contestName].tasklists;
         if (data) {
           return data;
         } else {
+          // キャッシュ時間内なので、必ず存在する。例外処理
           return [];
         }
       }

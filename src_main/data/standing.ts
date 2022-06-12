@@ -5,6 +5,7 @@ import { contestDataApi } from "./contestdata";
 import { totalfn } from "./logic/standingTotal";
 import { hisuiEvent } from "../event/event";
 import dayjs from "dayjs";
+import { logger } from "../tool/logger/logger";
 const cacheTime = 30000;
 export type standingData = any;
 /**
@@ -51,10 +52,11 @@ class standings {
       hisuiEvent.emit("standingsData-update", responce.data);
       return responce.data;
     } else {
-      console.log(
-        `load_StandingsData:updateLastest ${dayjs(this.lastestUpdate).format(
+      logger.info(
+        `load_StandingsData updateLastest:${dayjs(this.lastestUpdate).format(
           "YYYY-MM-DDTHH:mm:ssZ[Z]"
-        )}`
+        )}`,
+        "standingsAPI"
       );
       return this.standingData;
     }
