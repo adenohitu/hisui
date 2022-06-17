@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@mui/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,8 +10,8 @@ import Paper from "@mui/material/Paper";
 import grey from "@mui/material/colors/grey";
 
 import { Box } from "@mui/material";
-import { selectTotal, sendGetmyrank } from "../../app/Slice/standings";
-import { useDispatch, useSelector } from "react-redux";
+import { selectTotal } from "../../app/Slice/standings";
+import { useSelector } from "react-redux";
 const colorgreyboder = grey[300];
 const useStyles = makeStyles({
   root: { height: "100%" },
@@ -33,12 +33,7 @@ export function Totaltable() {
   // const [rows, setrows] = useState([]);
   // const [load, setload] = useState("ok");
   const rowdata = useSelector(selectTotal);
-  const dispatch = useDispatch();
-  //初回だけ実行
-  useEffect(() => {
-    //ipc送信関数
-    dispatch(sendGetmyrank());
-  }, [dispatch]);
+
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table className={classes.table}>
