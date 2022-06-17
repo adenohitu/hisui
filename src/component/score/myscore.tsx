@@ -7,13 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import lightGreen from "@mui/material/colors/lightGreen";
 import yellow from "@mui/material/colors/yellow";
 import { useSelector, useDispatch } from "react-redux";
 import { selectscoreData, requestScoreAsync } from "../../app/Slice/score";
 import { selectTotal } from "../../app/Slice/standings";
 import grey from "@mui/material/colors/grey";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 // import store from "../../app/store";
 const dayjs = require("dayjs");
@@ -175,3 +176,17 @@ export default function BasicTable() {
     </>
   );
 }
+export const ReloadButtonToolScore = () => {
+  const dispatch = useDispatch();
+  return (
+    <IconButton
+      size="small"
+      aria-label="Refresh submissions"
+      onClick={() => {
+        dispatch(requestScoreAsync());
+      }}
+    >
+      <RefreshIcon />
+    </IconButton>
+  );
+};
