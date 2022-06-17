@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { sendGetmyrank } from "../../app/Slice/standings";
 import { sendGetTasklist } from "../../app/Slice/taskdata";
 import { requestScoreAsync } from "../../app/Slice/score";
-import { sendGetmysubmission } from "../../app/Slice/submissions";
 import { ipcRendererManager } from "../../ipc";
 import { useMosaicState } from "../mosaic/mosaic-hooks";
 import { DashboaedSpeedDial } from "./reset-button";
@@ -29,8 +28,6 @@ export default function DefaltContest() {
       dispatch(sendGetTasklist());
       // スコアデータを更新
       dispatch(requestScoreAsync());
-      // 提出情報を更新
-      dispatch(sendGetmysubmission());
     };
     ipcRendererManager.on("LISTENER_UPDATE_DASHBOARD", updateStanding_event);
   }, [dispatch]);

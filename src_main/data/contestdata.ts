@@ -16,24 +16,6 @@ export class contestData {
   private DefaultContestID: contestName;
   constructor() {
     this.DefaultContestID = store.get("DefaultContestID", "abc127");
-    this.setupDefaultContestID();
-  }
-  /**
-   * 起動時に実行される
-   * 存在しないコンテストがデフォルトに登録されている場合に起動時に弾く
-   * 次回起動時、コンテストが消されているという場合にも対応するため
-   */
-  async setupDefaultContestID() {
-    const getcheckdata = await this.checkContestID(this.DefaultContestID);
-    if (!getcheckdata) {
-      this.DefaultContestID = "abc127";
-      store.set("DefaultContestID", "abc127");
-      // イベントを発行
-      hisuiEvent.emit("DefaultContestID-change", "abc127");
-      ipcMainManager.send("LISTENER_CHANGE_SET_CONTESTID", "abc127");
-      // dashboardを更新
-      ipcMainManager.send("LISTENER_UPDATE_DASHBOARD");
-    }
   }
   /**
    * デフォルトのコンテストIDを設定する

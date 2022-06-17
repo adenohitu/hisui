@@ -19,7 +19,7 @@ const initialState: initialStatetype = {
   cache: undefined,
   time: undefined,
   data: undefined,
-  myrank: undefined,
+  myrank: "リロードしてください",
   total: [],
   load: false,
 };

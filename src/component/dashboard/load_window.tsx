@@ -1,6 +1,6 @@
 import RankCard from "../rank/rank";
 import SimpleCard from "../clock/window_time_card";
-import CollapsibleTable from "../score/myscore";
+import CollapsibleTable, { ReloadButtonToolScore } from "../score/myscore";
 import { ReloadButtonTool, SubmissionTable } from "../submission/submission";
 import { Totaltable } from "../total/total";
 import React from "react";
@@ -22,7 +22,10 @@ export const TITLE_ELEMENT: {
   score: {
     name: "得点表",
     component: <CollapsibleTable />,
-    toolbarControls: React.Children.toArray([<RemoveButton />]),
+    toolbarControls: React.Children.toArray([
+      <ReloadButtonToolScore />,
+      <RemoveButton />,
+    ]),
   },
   rank: {
     name: "自分の順位",
