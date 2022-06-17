@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -84,15 +84,7 @@ function Uselanguage() {
 
   const [lang, setlang] = useState<string>("");
   const [defaultChange, setDefaultChange] = useState<boolean>(true);
-  useEffect(() => {
-    async function fetchData() {
-      const defaultlang = await ipcRendererManager.invoke(
-        "GET_NOWTOP_EDITOR_LANGUAGE"
-      );
-      setlang(defaultlang);
-    }
-    fetchData();
-  }, []);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setlang((event.target as HTMLInputElement).value);
     ipcRendererManager.send(
