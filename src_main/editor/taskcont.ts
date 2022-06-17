@@ -311,9 +311,10 @@ export class taskcont {
     const selectStatus = await dialog.showMessageBox({
       type: "info",
       title: "提出確認",
-      message: `${this.taskScreenName},${this.submitLanguage.Languagename}`,
-      buttons: ["提出", "キャンセル"],
+      message: `${this.contestName}-${this.AssignmentName} ${this.submitLanguage.Languagename}`,
+      buttons: ["Yes(提出)", "Cancel"],
     });
+
     if (selectStatus.response === 0) {
       await this.save();
       if (this.Data !== null) {
@@ -323,6 +324,7 @@ export class taskcont {
           this.Data,
           this.submitLanguage.LanguageId
         );
+        console.log("ok");
       }
     }
   }
