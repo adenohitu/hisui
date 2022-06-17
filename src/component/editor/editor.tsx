@@ -59,7 +59,7 @@ export function MainEditor() {
         beforeMount={handleEditorWillMount}
         height="100%"
         // LSPの補完よりスニペットが上に来るように
-        options={{ snippetSuggestions: "top", contextmenu: true }}
+        options={{ snippetSuggestions: "top", contextmenu: true, model: null }}
         overrideServices={{
           contextMenuService: {
             showContextMenu: (b: IContextMenuDelegate) => {
