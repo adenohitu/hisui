@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import Card from "@mui/material/Card";
 // import CardActions from "@mui/material/CardActions";
@@ -48,11 +48,6 @@ export default function Ranktable() {
   const UpdateTime = useSelector(selectUpdateTime);
   const dispatch = useDispatch();
 
-  //初回だけ実行
-  useEffect(() => {
-    //ipc送信関数
-    dispatch(sendGetmyrank());
-  }, [dispatch]);
   const updateStanding = async () => {
     dispatch(sendGetmyrank());
   };
