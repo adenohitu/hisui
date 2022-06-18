@@ -6,7 +6,8 @@ import { contestDataApi } from "./contestdata";
 import scraping_submissions_list, {
   submissionData,
 } from "./scraping/submissions";
-import { scraping_submitData, submitStatus } from "./scraping/submit-data";
+import { scrapingSubmissionStatusData } from "./scraping/submissions-status";
+import { submitStatus } from "./scraping/submit-data";
 class submissions {
   /**
    * デフォルトコンテストを保持
@@ -161,7 +162,8 @@ class submissions {
     async function getSubmitStatus(
       submissionData: submissionData
     ): Promise<submitStatus> {
-      const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/${submissionData.submit_id}/status/json`;
+      // const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/${submissionData.submit_id}/status/json`;
+      const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/status/json?reload=true&sids[]=${submissionData.submit_id}`;
       const responce = await Atcoder.axiosInstance.get(submissionStatusUrl, {
         maxRedirects: 0,
         validateStatus: function (status) {
@@ -171,7 +173,7 @@ class submissions {
       if (responce.status !== 302) {
         //提出ページが公開されていない場合は"ready"を返す
         if (responce.status !== 404) {
-          const data_after = await scraping_submitData(
+          const data_after = await scrapingSubmissionStatusData(
             responce.data,
             submissionData
           );
