@@ -102,18 +102,30 @@ export class taskcont {
     TaskScreenName: string,
     language: languagetype
   ) {
-    await this.openTaskView(contestName, TaskScreenName);
+    return await Promise.all([
+      await this.openTaskView(contestName, TaskScreenName),
+      this.fileloadAndSetupEditor(contestName, TaskScreenName, language),
+      this.setupAssignmentName(contestName, TaskScreenName),
+    ]);
+  }
+  async setupAssignmentName(contestName: string, TaskScreenName: string) {
     const AssignmentName = await TaskListApi.getAssignmentName(
       contestName,
       TaskScreenName
     );
     this.AssignmentName = AssignmentName;
-    const Data = await this.fileload(contestName, TaskScreenName, language);
-    this.Data = Data;
     this.sendValueStatus();
-    if (this.filePath) {
-      this.setupEditor(TaskScreenName, Data, language, this.filePath);
-    }
+    return;
+  }
+  async fileloadAndSetupEditor(
+    contestName: string,
+    TaskScreenName: string,
+    language: string
+  ) {
+    const Data = await this.fileload(contestName, TaskScreenName, language);
+    this.Data = Data.data;
+    await this.setupEditor(TaskScreenName, Data.data, language, Data.saveDir);
+    this.sendValueStatus();
   }
   /**
    * このクラスを破棄する直前に実行する
@@ -134,11 +146,14 @@ export class taskcont {
     contestName: string,
     TaskScreenName: string,
     language: languagetype
-  ) {
+  ): Promise<{
+    saveDir: string;
+    data: string;
+  }> {
     const Data = await readFileData(contestName, TaskScreenName, language);
     this.filePath = Data.saveDir;
     this.Data = Data.data;
-    return Data.data;
+    return Data;
   }
 
   /**
