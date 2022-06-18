@@ -163,7 +163,7 @@ class submissions {
       submissionData: submissionData
     ): Promise<submitStatus> {
       // const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/${submissionData.submit_id}/status/json`;
-      const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/status/json?reload=true&sids[]=${submissionData.submit_id}`;
+      const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/me/status/json?reload=true&sids[]=${submissionData.submit_id}`;
       const responce = await Atcoder.axiosInstance.get(submissionStatusUrl, {
         maxRedirects: 0,
         validateStatus: function (status) {

@@ -105,8 +105,12 @@ class taskControl {
     } else {
       //taskcontを作成
       if (language === undefined) {
-        const uselang = await store.get("defaultLanguage", "cpp");
+        let uselang = await store.get("defaultLanguage", "cpp");
         // const uselang = "cpp";
+        if (uselang === "") {
+          store.set("defaultLanguage", "cpp");
+          uselang = "cpp";
+        }
         this.taskAll[taskScreenName] = new taskcont(
           contestName,
           taskScreenName,
@@ -215,7 +219,7 @@ class taskControl {
     ipcMainManager.on(
       "SET_DEFAULT_LANGUAGE",
       (event, language: languagetype, load: boolean) => {
-        store.set("defaultLanguage", language);
+        store.set("defaultLanguage", (language !== "" && language) || "cpp");
       }
     );
     /**
@@ -243,7 +247,7 @@ class taskControl {
         return dafaultlanguage;
       } else {
         const dafaultlanguage = await store.get("defaultLanguage", "cpp");
-        return dafaultlanguage;
+        return (dafaultlanguage !== "" && dafaultlanguage) || "cpp";
       }
     });
     // 提出する
