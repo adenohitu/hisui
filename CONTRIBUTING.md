@@ -21,7 +21,7 @@ Please make a lot of suggestions.
 >![](static/hisuisystem-System.drawio.png)
 
 #### Running Hisui From Source
-Nodejs:v16.14.0が必要です。またYarnが使える必要があります。
+Nodejs:v16.15.1が必要です。またYarnが使える必要があります。
 
 1. Clone the Hisui repository locally.
 
