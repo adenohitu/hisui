@@ -39,8 +39,15 @@ export function runLocalTest(args: LocalCodeRunArgs, compileID: number) {
         console.log(data.toString());
       });
       compile.on("close", async (code) => {
-        console.log("Conpile CODE", code);
-        const ExitCode = code || -1;
+        logger.info(`Conpile CODE: ${code}`, "cpp Tester");
+        let ExitCode = -1;
+        if (code === 0) {
+          ExitCode = 0;
+        } else if (code === null) {
+          ExitCode = -1;
+        } else {
+          ExitCode = code;
+        }
         if (!(await fse.pathExists(args.outfilepath))) {
           resolve({
             LocalCodeRunArgs: args,
@@ -79,7 +86,16 @@ export function runLocalTest(args: LocalCodeRunArgs, compileID: number) {
             stdError = err.message;
           });
           runner.on("close", (code) => {
-            const ExitCode = code || -1;
+            logger.info(`Run CODE: ${code}`, "cpp Tester");
+
+            let ExitCode = -1;
+            if (code === 0) {
+              ExitCode = 0;
+            } else if (code === null) {
+              ExitCode = -1;
+            } else {
+              ExitCode = code;
+            }
             resolve({
               LocalCodeRunArgs: args,
               caseName: args.codeTestIn.codeTestProps.caseName,
