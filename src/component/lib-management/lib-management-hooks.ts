@@ -8,6 +8,12 @@ import { parse } from "jsonc-parser";
 export interface snippetInfomationinArrey extends snippetInfomation {
   title: string;
 }
+const initData = {
+  title: "",
+  prefix: "",
+  body: [],
+  description: "",
+};
 /**
  * LibManagimentを管理するHooks
  */
@@ -76,12 +82,7 @@ export const useLibManagement = () => {
    */
   const addNewValue = () => {
     const newArrey = values;
-    const initData = {
-      title: "",
-      prefix: "",
-      body: [],
-      description: "",
-    };
+
     const indexNum = newArrey.push(initData);
     setValue(newArrey);
     return { indexNum, data: initData };
@@ -165,6 +166,9 @@ export const useLibManagement = () => {
     // Dialogを開く
     setopenSettingDialogState(true);
   };
+  /**
+   * 選択したSnippetを削除する
+   */
   const removeSnippet = async () => {
     removeValue(indexNum);
     const valueObject: snippetObject = {};
@@ -191,7 +195,13 @@ export const useLibManagement = () => {
       body: bodyList,
       description: description,
     };
-    setNewData(indexNum, setNewDataObject);
+    if (setNewDataObject.title === "") {
+      console.log("空だった", setNewDataObject);
+
+      removeSnippet();
+    } else {
+      setNewData(indexNum, setNewDataObject);
+    }
     const valueObject: snippetObject = {};
     values.slice().forEach((arg) => {
       valueObject[arg.title] = {

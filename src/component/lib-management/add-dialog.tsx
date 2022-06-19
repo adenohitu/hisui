@@ -13,15 +13,11 @@ interface Props {
   libManagementHookProp: ReturnType<typeof useLibManagement>;
 }
 export const SetSnippetDialog = ({ libManagementHookProp }: Props) => {
-  // 保存せずに閉じる
-  const handleClose = () => {
-    libManagementHookProp.setopenSettingDialogState(false);
-  };
   return (
     <div>
       <Dialog
         open={libManagementHookProp.openSettingDialogState}
-        onClose={handleClose}
+        onClose={libManagementHookProp.updateSnippet}
       >
         <DialogTitle>編集ダイアログ</DialogTitle>
         <DialogContent>
@@ -67,7 +63,7 @@ export const SetSnippetDialog = ({ libManagementHookProp }: Props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>戻る</Button>
+          <Button onClick={libManagementHookProp.updateSnippet}>戻る</Button>
           <Button onClick={libManagementHookProp.removeSnippet}>
             削除する
           </Button>
