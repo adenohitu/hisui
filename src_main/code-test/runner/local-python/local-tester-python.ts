@@ -33,7 +33,16 @@ export function runLocalTestPython(args: LocalCodeRunArgs, compileID: number) {
         stdError = err.message;
       });
       runner.on("close", (code) => {
-        const ExitCode = code || -1;
+        logger.info(`Run CODE: ${code}`, "Python Tester");
+
+        let ExitCode = -1;
+        if (code === 0) {
+          ExitCode = 0;
+        } else if (code === null) {
+          ExitCode = -1;
+        } else {
+          ExitCode = code;
+        }
         resolve({
           LocalCodeRunArgs: args,
           caseName: args.codeTestIn.codeTestProps.caseName,
@@ -77,7 +86,7 @@ export function runLocalTestPython(args: LocalCodeRunArgs, compileID: number) {
           LanguageName: "Python (local)",
         },
         Stderr: "ProcessError",
-        Stdout: "",
+        Stdout: "ProcessError",
       });
       logger.error(errorMessage.message);
     }
