@@ -18,7 +18,7 @@
 競プロの万能ツールのようなものです。
 **[紹介サイト](https://adenohitu.github.io/Hisui-introduce/)**
 
-<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/hisui-screen-re1.png">
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/hisui-screen-re2.png">
 
 このアプリケーションは、Windows or MacOS で実行することができます。
 詳しい使い方は、[hisui-docs](https://adenohitu.github.io/Hisui-docs/docs/intro)（準備中）で知ることができます。
@@ -27,19 +27,19 @@
 
 VSCode のエディターコアとして使われている MonacoEditor を採用
 
-<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/editor-screen-1.png">
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/editor-screen-re1.png">
 
 ## 必要な情報だけをすぐに見れるダッシュボード
 
 コンテスト中に必要な情報だけを選択して素早く確認することができる
-<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/dashboard-screen-1.png">
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/dashboard-screen-re1.png">
 
 ## テストから提出まで
 
 書いたコードをすぐにテスト
 問題がなければアプリ内で提出できる
 
-<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/test-screen-1.png">
+<img width="1440" alt="スクリーンショット 2021-08-31 21 27 02" src="./static/test-screen-re1.png">
 
 ## Hisui の目標
 
