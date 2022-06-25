@@ -119,7 +119,7 @@ export class taskViewWindow {
   // Viewが存在する場合フォーカス(setTop)する
   async addView(id: string, url: string, preloadURI?: string) {
     if (!(id in this.view) && this.win !== null) {
-      logger.info(`CreateView:id=${id}`, "TaskViewWindowAPI");
+      logger.info(`CreateView id:${id} initURL:${url}`, "TaskViewWindowAPI");
 
       const createdView = new BrowserView({
         webPreferences: {
@@ -152,7 +152,7 @@ export class taskViewWindow {
         }
       });
       // ページをロード
-      logger.info(`ViewOpen:id=${id}`, "TaskViewWindowAPI");
+      logger.info(`ViewOpen id:${id}`, "TaskViewWindowAPI");
 
       // 最上部にセット
       this.win.setTopBrowserView(createdView);
@@ -161,7 +161,7 @@ export class taskViewWindow {
     } else {
       this.win?.setTopBrowserView(this.view[id].view);
       this.nowTop = id;
-      logger.info(`ViewOpen:id=${id}`, "TaskViewWindowAPI");
+      logger.info(`ViewOpen SetTop id:${id}`, "TaskViewWindowAPI");
       return "already";
     }
   }
@@ -187,6 +187,11 @@ export class taskViewWindow {
    * 開いた時のURLに戻す
    */
   async resetView(id: string) {
+    logger.info(
+      `ResetView id:${id} initURL:${this.view[id].initUrl}`,
+      "TaskViewWindowAPI"
+    );
+
     if (this.view[id].initUrl !== this.view[id].view.webContents.getURL()) {
       this.view[id].view.webContents.loadURL(`${this.view[id].initUrl}`);
     }
@@ -206,6 +211,7 @@ export class taskViewWindow {
       const view = this.view[id];
       if (view !== undefined) {
         this.win.removeBrowserView(view.view);
+        logger.info(`CloseView id:${id}`, "TaskViewWindowAPI");
         delete this.view[id];
       }
     }
