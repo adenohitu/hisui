@@ -151,14 +151,6 @@ class taskControl {
     ipcMainManager.send("SET_EDITOR_MODEL", TaskScreenName);
     this.taskAll[TaskScreenName].sendValueStatus();
   }
-  /**
-   * 今のページをリロード
-   */
-  nowTaskViewReload() {
-    if (this.nowTop) {
-      this.taskAll[this.nowTop].reloadTaskView();
-    }
-  }
   getTaskStatusList(): taskNowStatus[] {
     const statusList = Object.keys(this.taskAll).map((key) => {
       const topStatus = (this.nowTop === key && true) || false;
@@ -209,10 +201,6 @@ class taskControl {
         }
       }
     );
-    ipcMainManager.on("RUN_NOWTASKVIEW_RELOAD", () => {
-      this.nowTaskViewReload();
-    });
-
     // dafaultlangageに関するIPC
     // デフォルトの言語を変更
     // 新規TaskCont作成時に適応される
