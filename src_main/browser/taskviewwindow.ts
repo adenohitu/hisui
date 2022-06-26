@@ -113,6 +113,9 @@ export class taskViewWindow {
     ipcMainManager.on("RUN_CHANGE_PRIMARY_VIEW", (e) => {
       this.changePrimaryView();
     });
+    ipcMainManager.on("RUN_NOWTASKVIEW_RELOAD", () => {
+      this.reloadNowTopView();
+    });
   }
   /**
    * Windowを閉じる
@@ -208,6 +211,10 @@ export class taskViewWindow {
    */
   async reloadView(id: string) {
     this.view[id].view.webContents.reload();
+  }
+
+  async reloadNowTopView() {
+    if (this.nowTop) this.view[this.nowTop].view.webContents.reload();
   }
 
   /**
