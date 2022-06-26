@@ -21,12 +21,14 @@ export class taskViewWindow {
   view: { [id: string]: { initUrl: string; view: BrowserView } };
 
   nowTop: string | null;
+  nowPrimaryViewId: string | null;
   contestpageId: string | null;
 
   constructor() {
     this.view = {};
     this.win = null;
     this.nowTop = null;
+    this.nowPrimaryViewId = null;
     this.contestpageId = null;
     this.setupIPC();
   }
@@ -108,6 +110,9 @@ export class taskViewWindow {
         this.changeViewTop(this.contestpageId);
       }
     });
+    ipcMainManager.on("RUN_CHANGE_PRIMARY_VIEW", (e) => {
+      this.changePrimaryView();
+    });
   }
   /**
    * Windowを閉じる
@@ -117,9 +122,14 @@ export class taskViewWindow {
   }
 
   // Viewが存在する場合フォーカス(setTop)する
-  async addView(id: string, url: string, preloadURI?: string) {
+  async addView(
+    id: string,
+    url: string,
+    preloadURI?: string,
+    primary: boolean = false
+  ) {
     if (!(id in this.view) && this.win !== null) {
-      logger.info(`CreateView:id=${id}`, "TaskViewWindowAPI");
+      logger.info(`CreateView id:${id} initURL:${url}`, "TaskViewWindowAPI");
 
       const createdView = new BrowserView({
         webPreferences: {
@@ -129,6 +139,7 @@ export class taskViewWindow {
           nodeIntegration: false,
         },
       });
+      // TaskViewWindowにViewを登録
       this.win.addBrowserView(createdView);
       // listに登録
       this.view[id] = {
@@ -152,16 +163,16 @@ export class taskViewWindow {
         }
       });
       // ページをロード
-      logger.info(`ViewOpen:id=${id}`, "TaskViewWindowAPI");
+      logger.info(`ViewOpen id:${id}`, "TaskViewWindowAPI");
 
       // 最上部にセット
-      this.win.setTopBrowserView(createdView);
-      this.nowTop = id;
-      return createdView.webContents.loadURL(url);
+      this.changeViewTop(id, primary);
+      const loading = await createdView.webContents.loadURL(url);
+      return loading;
     } else {
-      this.win?.setTopBrowserView(this.view[id].view);
-      this.nowTop = id;
-      logger.info(`ViewOpen:id=${id}`, "TaskViewWindowAPI");
+      // 最上部にセット
+      this.changeViewTop(id, primary);
+      logger.info(`ViewOpen SetTop id:${id}`, "TaskViewWindowAPI");
       return "already";
     }
   }
@@ -169,13 +180,29 @@ export class taskViewWindow {
   /**
    * 指定したViewを一番上に持ってくる
    */
-  async changeViewTop(id: string) {
+  async changeViewTop(id: string, primary: boolean = false) {
     if (this.win !== null) {
       this.nowTop = id;
       this.win.setTopBrowserView(this.view[id].view);
+      // primaryIDを更新
+      if (primary) {
+        this.changePrimaryID(id);
+      }
     }
   }
-
+  async changePrimaryID(id: string | null) {
+    this.nowPrimaryViewId = id;
+    this.win?.webContents.send("LISTENER_NOW_PRIMARY_VIEW", id);
+  }
+  /**
+   * nowPrimaryViewIdのVIEWに戻す
+   */
+  async changePrimaryView() {
+    if (this.nowPrimaryViewId) {
+      this.changeViewTop(this.nowPrimaryViewId);
+      this.resetView(this.nowPrimaryViewId);
+    }
+  }
   /**
    * viewをリロード
    */
@@ -187,6 +214,11 @@ export class taskViewWindow {
    * 開いた時のURLに戻す
    */
   async resetView(id: string) {
+    logger.info(
+      `ResetView id:${id} initURL:${this.view[id].initUrl}`,
+      "TaskViewWindowAPI"
+    );
+
     if (this.view[id].initUrl !== this.view[id].view.webContents.getURL()) {
       this.view[id].view.webContents.loadURL(`${this.view[id].initUrl}`);
     }
@@ -206,7 +238,11 @@ export class taskViewWindow {
       const view = this.view[id];
       if (view !== undefined) {
         this.win.removeBrowserView(view.view);
+        logger.info(`CloseView id:${id}`, "TaskViewWindowAPI");
         delete this.view[id];
+        if (this.nowPrimaryViewId === id) {
+          this.changePrimaryID(null);
+        }
       }
     }
   }

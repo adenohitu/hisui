@@ -218,14 +218,14 @@ export class taskcont {
   async openTaskView(contestName: string, TaskScreenName: string) {
     const taskUrl = `${baseAtCoderUrl}${contestName}/tasks/${TaskScreenName}`;
     logger.info(`OpenViewRequest:URL=${taskUrl}`, "taskContClass");
-
-    await taskViewWindowApi.addView(TaskScreenName, taskUrl);
+    // 確定でNowTopに設定される
+    await taskViewWindowApi.addView(TaskScreenName, taskUrl, undefined, true);
   }
   /**
    * TaskViewを一番上に持ってくる
    */
   async settopTaskView() {
-    taskViewWindowApi.changeViewTop(this.taskScreenName);
+    taskViewWindowApi.changeViewTop(this.taskScreenName, true);
   }
   /**
    * TaskViewをリロードする
