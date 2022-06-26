@@ -6,6 +6,7 @@ import { ipcMainManager } from "../ipc/ipc";
 import { parse } from "jsonc-parser";
 import { setupLSP_Pyright } from "./lsp/pyright";
 import { logger } from "../tool/logger/logger";
+import { sampleCpp, snippetPython } from "./snippet/sample";
 const snippetDataInit = `{
   "map": {
     "prefix": "map",
@@ -42,10 +43,14 @@ class monacoSetting {
       join(this.savefilepath, lang + ".snippet"),
       "utf-8"
     ).catch((e) => {
+      const defaultsnippet: string =
+        (lang === "cpp" && sampleCpp) ||
+        (lang === "python" && snippetPython) ||
+        snippetDataInit;
       // もしファイルが存在しない場合初期値をセット
-      this.updateSnippet(lang, snippetDataInit);
+      this.updateSnippet(lang, defaultsnippet);
       logger.error(e, "monacoSettingApi");
-      return snippetDataInit;
+      return defaultsnippet;
     });
     return data;
   }
