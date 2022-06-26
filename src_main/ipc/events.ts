@@ -91,6 +91,8 @@ export const IpcEvents = {
   RUN_NOWTASKVIEW_RESET: { mode: "on" },
   RUN_NOWTASKVIEW_RELOAD: { mode: "on" },
   RUN_CHANGE_TASKVIEW: { mode: "on" },
+  LISTENER_NOW_PRIMARY_VIEW: { mode: "send" },
+  RUN_CHANGE_PRIMARY_VIEW: { mode: "on" },
   // StoreIPC
   GET_STORE: { mode: "handle" },
   SET_STORE: { mode: "handle" },
