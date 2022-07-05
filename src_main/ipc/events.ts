@@ -47,6 +47,7 @@ export const IpcEvents = {
   // ContestDataIPC
   GET_SUBMIT_LANGUAGE_LIST: { mode: "handle" },
   // EditorIPC
+  GET_EDITOR_LANGUAGES: { mode: "handle" },
   EDITOR_MODEL_CONTENTS_CHANGE: { mode: "on" },
   LISTENER_EDITOR_STATUS: { mode: "send" },
   GET_TASK_CONT_STATUS_ALL: { mode: "handle" },

@@ -19,7 +19,18 @@ export function SnippetDialog() {
   const [openAlert, setOpenAlert] = React.useState(false);
   const [language, setLanguage] = React.useState<languagetype>("cpp");
   const [value, setValue] = React.useState<string>("");
-
+  const [langOptions, setLangOptions] = React.useState<
+    { langName: string; langid: string }[]
+  >([{ langName: "C++", langid: "cpp" }]);
+  React.useEffect(() => {
+    (async () => {
+      const getlang = await ipcRendererManager.invoke("GET_EDITOR_LANGUAGES");
+      const newList = Object.keys(getlang).map((id) => {
+        return { langName: getlang[id].languagename, langid: id };
+      });
+      setLangOptions(newList);
+    })();
+  });
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       allowComments: true,
@@ -105,8 +116,9 @@ export function SnippetDialog() {
               label="language"
               onChange={handleChangeLang}
             >
-              <MenuItem value={"cpp"}>C++</MenuItem>
-              <MenuItem value={"python"}>Python</MenuItem>
+              {langOptions.map((lang) => {
+                return <MenuItem value={lang.langid}>{lang.langName}</MenuItem>;
+              })}
             </Select>
           </FormControl>
         </Box>

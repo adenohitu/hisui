@@ -115,6 +115,9 @@ class monacoSetting {
         return data;
       }
     );
+    ipcMainManager.handle("GET_EDITOR_LANGUAGES", async (e) => {
+      return languages;
+    });
     this.setupSaveFolder();
     setupLSP_Pyright();
     // setupLSP_Clangd();

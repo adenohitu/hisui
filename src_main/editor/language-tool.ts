@@ -17,6 +17,12 @@ export function getDefaultLanguageinfo(
       Languagename: "Python (3.8.2)",
     });
     return saveState;
+  } else if (languageid === "rust") {
+    const saveState = store.get(`defaultSubmitLanguage.${languageid}`, {
+      LanguageId: "4050",
+      Languagename: "Rust (1.42.0)",
+    });
+    return saveState;
   } else {
     const saveState = store.get(`defaultSubmitLanguage.${languageid}`, {
       LanguageId: "4003",
