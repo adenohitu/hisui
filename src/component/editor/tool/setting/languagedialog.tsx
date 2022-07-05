@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,6 +12,7 @@ import { monacoControlApi } from "../../editor";
 import { SetSubmitLang } from "./set-submitlang";
 import { ipcRendererManager } from "../../../../ipc";
 import { Checkbox } from "@mui/material";
+import { languagesInfo } from "../../../../../src_main/file/extension";
 export let handleClickOpenSelectLanguageDialog: () => void;
 interface SelectLanguageDialogProps {
   open: boolean;
@@ -51,10 +52,10 @@ export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
           >
             {langState.langOptions.map((lang) => (
               <FormControlLabel
-                key={lang}
+                key={lang.langid}
                 value={lang}
                 control={<Radio />}
-                label={lang}
+                label={lang.langName}
               />
             ))}
           </RadioGroup>
@@ -80,11 +81,22 @@ export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
 }
 
 function Uselanguage() {
-  const langOptions = ["cpp", "python"];
-
+  const [langOptions, setLangOptions] = useState<
+    { langName: string; langid: string }[]
+  >([{ langName: "C++", langid: "cpp" }]);
   const [lang, setlang] = useState<string>("");
   const [defaultChange, setDefaultChange] = useState<boolean>(true);
-
+  useEffect(() => {
+    (async () => {
+      const getlang: languagesInfo = await ipcRendererManager.invoke(
+        "GET_EDITOR_LANGUAGES"
+      );
+      const newList = Object.keys(getlang).map((id) => {
+        return { langName: getlang[id].languagename, langid: id };
+      });
+      setLangOptions(newList);
+    })();
+  });
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setlang((event.target as HTMLInputElement).value);
     ipcRendererManager.send(
