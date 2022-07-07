@@ -102,6 +102,12 @@ export const IpcEvents = {
   LSP_SEND: { mode: "send" },
   LSP_ON: { mode: "on" },
   LSP_READY: { mode: "send" },
+  // VmSettingIPC
+  GET_DOCKER_VERSION: { mode: "handle" },
+  GET_DOCKER_HISUIJUDGECONTAINER_STATUS: { mode: "handle" },
+  RUN_DOCKER_START_HISUIJUDGECONTAINER: { mode: "handle" },
+  RUN_DOCKER_STOP_HISUIJUDGECONTAINER: { mode: "handle" },
+  RUN_DOCKER_RESTART_HISUIJUDGECONTAINER: { mode: "handle" },
 };
 export type IpcEventsKey = keyof typeof IpcEvents;
 export const EventsArrey = Object.entries(IpcEvents);

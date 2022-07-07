@@ -53,7 +53,7 @@ export function SelectLanguageDialog(props: SelectLanguageDialogProps) {
             {langState.langOptions.map((lang) => (
               <FormControlLabel
                 key={lang.langid}
-                value={lang}
+                value={lang.langid}
                 control={<Radio />}
                 label={lang.langName}
               />

@@ -29,6 +29,8 @@ import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { SnackMessage } from "../snackbar/snackbar";
 import { submitStatus } from "../../../src_main/data/scraping/submit-data";
+import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import { VmSetup } from "../vm-setup/home";
 
 const drawerWidth = 240;
 // let nowItem = 0;
@@ -208,13 +210,19 @@ export const WindowRoot = () => {
       icon: <LiveTv />,
       component: <Window />,
     },
-
     {
       id: 4,
       viewName: "case",
       text: "テストケース",
       icon: <AssignmentTurnedInIcon />,
       component: <TestCaseBoard />,
+    },
+    {
+      id: 5,
+      viewName: "judgevm",
+      text: "仮想マシン",
+      icon: <PlayCircleFilledWhiteIcon />,
+      component: <VmSetup />,
     },
   ];
 

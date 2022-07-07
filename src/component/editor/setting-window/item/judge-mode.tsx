@@ -10,7 +10,7 @@ import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { ipcRendererManager } from "../../../../ipc";
 
-const options = ["online", "local"];
+const options = ["online", "local", "docker"];
 
 export interface ConfirmationDialogRawProps {
   id: string;
