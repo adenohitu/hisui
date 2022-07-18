@@ -11,7 +11,15 @@ import { Atcoder } from "../data/atcoder";
 import { contestDataApi } from "../data/contestdata";
 import { ansCheck } from "./judgetool";
 import { getDefaultLanguageinfo } from "../editor/language-tool";
+import { vmDockerApi } from "../vm-system/vm-docker";
+import {
+  runTestWithCommand,
+  runTestWithCommandArgs,
+} from "./runner/command-runner/command-runner";
+import { hisuiDockerJudgeCommand } from "./docker";
+import { logger } from "../tool/logger/logger";
 const onlineCodeTestInterval = 30000;
+export type judgeMode = "local" | "online" | "docker";
 /**
  * コードテストが実行されたときに発生するイベント
  */
@@ -81,23 +89,12 @@ export interface codeTestInfo {
 class codeTest {
   CodeTestEmitter: CodeTestEmitter;
   CodeTeststatus: "CodeTest" | "ready";
-  nowInput: string;
-  nowAns: string | null;
-  nowTaskScreenName: string | undefined;
-  NowCaseName?: string;
-  NowTestGroupID?: string;
-
   compileID: number;
   onlineCodeTestLastest: number | null;
 
   constructor() {
     this.CodeTestEmitter = new EventEmitter();
     this.CodeTeststatus = "ready";
-    this.nowInput = "";
-    this.nowAns = null;
-    this.nowTaskScreenName = undefined;
-    this.NowCaseName = "";
-    this.NowTestGroupID = "";
     this.compileID = 0;
     this.onlineCodeTestLastest = null;
     this.LISTENER_sendCodeTestStatusFinish();
@@ -107,10 +104,11 @@ class codeTest {
     code: string,
     codeTestProps: codeTestInfo,
     filepath: string,
-    rootpath: string
+    rootpath: string,
+    mode?: string
   ) {
     // Modeで振り分け
-    const getMode = store.get("judgeMode", "online");
+    const getMode = mode || (store.get("judgeMode", "online") as judgeMode);
     if (getMode === "local" && languageId === "4003") {
       this.runCodeTestLocalCpp(
         languageId,
@@ -127,8 +125,73 @@ class codeTest {
         filepath,
         rootpath
       );
+    } else if (
+      getMode === "docker" &&
+      this.checkdockerContainerLanguage(languageId)
+    ) {
+      this.runCodeTestDocker(
+        languageId,
+        code,
+        codeTestProps,
+        filepath,
+        rootpath
+      );
     } else {
+      // 指定のないものの場合、AtCoderCodeTestを使用する
       this.runCodeTestAtCoder(languageId, code, codeTestProps);
+    }
+  }
+  async runCodeTestDocker(
+    languageId: string | number,
+    code: string,
+    codeTestProps: codeTestInfo,
+    filepath: string,
+    rootpath: string
+  ) {
+    // コンテナが起動済みなのを確認
+    if (
+      (await vmDockerApi.getDockerHisuiJudgeContainerStatus()).status === "up"
+    ) {
+      // Dockerコンテナ内のパスを送信
+      const outfilepath = path.join(
+        rootpath,
+        codeTestProps.TaskScreenName + ".out"
+      );
+      const testArgs: runTestWithCommandArgs = {
+        preRunCommand:
+          hisuiDockerJudgeCommand[Number(languageId)].preRunCommand,
+        compilerCommand:
+          hisuiDockerJudgeCommand[Number(languageId)].compilerCommand,
+        runCommand: hisuiDockerJudgeCommand[Number(languageId)].runCommand,
+        filepath: filepath,
+        outfilepath: outfilepath,
+        codeTestIn: {
+          languageId: languageId,
+          code: code,
+          codeTestProps: codeTestProps,
+        },
+      };
+      this.compileID++;
+      return await runTestWithCommand(
+        testArgs,
+        this.compileID,
+        "HisuiDockerJudge"
+      ).then((e) => {
+        const anscheck_after = e;
+        if (e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer) {
+          const ansstatus = ansCheck(
+            e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer,
+            anscheck_after.Stdout
+          );
+          anscheck_after.answer =
+            e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer;
+          anscheck_after.ansStatus = ansstatus;
+        }
+        this.CodeTestEmitter.emit("finish", anscheck_after);
+      });
+    } else {
+      logger.info("Judge Container is not running", "codeTestApi");
+      return;
     }
   }
   /**
@@ -146,11 +209,6 @@ class codeTest {
       codeTestProps.TaskScreenName + ".out"
     );
     const compilerPath = store.get("compilerPath.cpp", "g++");
-    this.nowInput = codeTestProps.input;
-    this.nowAns = codeTestProps.answer;
-    this.nowTaskScreenName = codeTestProps.TaskScreenName;
-    this.NowCaseName = codeTestProps.caseName;
-    this.NowTestGroupID = codeTestProps.testGroupID;
     this.compileID++;
     runLocalTest(
       {
@@ -166,9 +224,13 @@ class codeTest {
       this.compileID
     ).then((e) => {
       const anscheck_after = e;
-      if (this.nowAns) {
-        const ansstatus = ansCheck(this.nowAns, anscheck_after.Stdout);
-        anscheck_after.answer = this.nowAns;
+      if (e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer) {
+        const ansstatus = ansCheck(
+          e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer,
+          anscheck_after.Stdout
+        );
+        anscheck_after.answer =
+          e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer;
         anscheck_after.ansStatus = ansstatus;
       }
       this.CodeTestEmitter.emit("finish", anscheck_after);
@@ -189,11 +251,6 @@ class codeTest {
       codeTestProps.TaskScreenName + ".out"
     );
     const compilerPath = store.get("compilerPath.python", "python3");
-    this.nowInput = codeTestProps.input;
-    this.nowAns = codeTestProps.answer;
-    this.nowTaskScreenName = codeTestProps.TaskScreenName;
-    this.NowCaseName = codeTestProps.caseName;
-    this.NowTestGroupID = codeTestProps.testGroupID;
     this.compileID++;
     runLocalTestPython(
       {
@@ -209,9 +266,13 @@ class codeTest {
       this.compileID
     ).then((e) => {
       const anscheck_after = e;
-      if (this.nowAns) {
-        const ansstatus = ansCheck(this.nowAns, anscheck_after.Stdout);
-        anscheck_after.answer = this.nowAns;
+      if (e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer) {
+        const ansstatus = ansCheck(
+          e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer,
+          anscheck_after.Stdout
+        );
+        anscheck_after.answer =
+          e.LocalCodeRunArgs.codeTestIn.codeTestProps.answer;
         anscheck_after.ansStatus = ansstatus;
       }
       this.CodeTestEmitter.emit("finish", anscheck_after);
@@ -257,19 +318,14 @@ class codeTest {
           if (res.status === 200) {
             // 結果待機
             this.CodeTestEmitter.emit("run");
-            this.nowInput = codeTestProps.input;
-            this.nowAns = codeTestProps.answer;
-            this.nowTaskScreenName = codeTestProps.TaskScreenName;
-            this.NowCaseName = codeTestProps.caseName;
-            this.NowTestGroupID = codeTestProps.testGroupID;
-            this.CodeTestchecker();
+            this.CodeTestchecker(codeTestProps);
             return "success";
           } else {
             this.CodeTeststatus = "ready";
             return "error:statuscode";
           }
         } catch (error) {
-          console.log(error);
+          logger.error("error:axiosInstance", "codeTestApi");
           return "error:axiosInstance";
         }
       } else {
@@ -342,33 +398,36 @@ class codeTest {
   /**
    * 結果を待機
    */
-  private async CodeTestchecker() {
+  private async CodeTestchecker(codeTestProps: codeTestInfo) {
     if (this.CodeTeststatus === "CodeTest") {
       const checkURL = `${this.getcustomTestURL()}/json?reload=true`;
       const Data = await Atcoder.axiosInstance.get(checkURL);
       // 結果に型をつける
       const Result: atcoderCodeTestResult = Data.data;
       // resultを加工
-      Result.Result.Input = this.nowInput;
+      Result.Result.Input = codeTestProps.input;
 
       if (Data.status === 200) {
-        console.dir({ id: Result.Result.Id, Interval: Result.Interval });
-        Result.TaskScreenName = this.nowTaskScreenName;
-        Result.caseName = this.NowCaseName;
-        Result.testGroup = this.NowTestGroupID;
+        logger.info(
+          JSON.stringify({ id: Result.Result.Id, Interval: Result.Interval }),
+          "codeTestApi"
+        );
+        Result.TaskScreenName = codeTestProps.TaskScreenName;
+        Result.caseName = codeTestProps.caseName;
+        Result.testGroup = codeTestProps.testGroupID;
         if (Result["Interval"] !== undefined) {
           Result.ansStatus = "WJ";
-          Result.answer = this.nowAns;
+          Result.answer = codeTestProps.answer;
           this.sendCodeTestStatus(Result);
           this.CodeTestEmitter.emit("checker", Result);
           const serf = this;
           setTimeout(() => {
-            serf.CodeTestchecker();
+            serf.CodeTestchecker(codeTestProps);
           }, Result["Interval"]);
         } else {
-          if (this.nowAns) {
-            const ansstatus = ansCheck(this.nowAns, Result.Stdout);
-            Result.answer = this.nowAns;
+          if (codeTestProps.answer) {
+            const ansstatus = ansCheck(codeTestProps.answer, Result.Stdout);
+            Result.answer = codeTestProps.answer;
             Result["ansStatus"] = ansstatus;
           }
           this.onlineCodeTestLastest = Date.now();
@@ -399,6 +458,14 @@ class codeTest {
         );
       });
     });
+  }
+  private checkdockerContainerLanguage(languageid: number | string) {
+    const PossibleLanguageIds = [4003, 4006];
+    if (PossibleLanguageIds.includes(Number(languageid))) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 export const codeTestApi = new codeTest();

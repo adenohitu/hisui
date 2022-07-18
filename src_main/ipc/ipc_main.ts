@@ -15,6 +15,7 @@ import { submissionsApi } from "../data/submissions";
 import { ipcMainManager } from "./ipc";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
+import { vmDockerApi } from "../vm-system/vm-docker";
 //ipc通信
 export const load_ipc = () => {
   //ブラウザでurlを開く
@@ -145,5 +146,25 @@ export const load_ipc = () => {
   });
   ipcMainManager.handle("GET_OS", async () => {
     return process.platform;
+  });
+  ipcMainManager.handle("GET_DOCKER_VERSION", async () => {
+    const data = await vmDockerApi.checkDockerInstalled();
+    return data;
+  });
+  ipcMainManager.handle("GET_DOCKER_HISUIJUDGECONTAINER_STATUS", async () => {
+    const data = await vmDockerApi.getDockerHisuiJudgeContainerStatus();
+    return data;
+  });
+  ipcMainManager.handle("RUN_DOCKER_START_HISUIJUDGECONTAINER", async () => {
+    const data = await vmDockerApi.startDockerHisuiJudge();
+    return data;
+  });
+  ipcMainManager.handle("RUN_DOCKER_STOP_HISUIJUDGECONTAINER", async () => {
+    const data = await vmDockerApi.stopDockerHisuiJudge();
+    return data;
+  });
+  ipcMainManager.handle("RUN_DOCKER_RESTART_HISUIJUDGECONTAINER", async () => {
+    const data = await vmDockerApi.restartDockerHisuiJudge();
+    return data;
   });
 };

@@ -186,7 +186,7 @@ export class taskcont {
    */
   async languageChange(language: languagetype, load: boolean) {
     logger.info(
-      `Change editor language ${this.language} to ${this.language}`,
+      `Change editor language ${language} to ${this.language}`,
       `taskcont:${this.taskScreenName}`
     );
     await this.save();
