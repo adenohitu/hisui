@@ -10,7 +10,7 @@ import * as path from "path";
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
-import { setupStoreIPC, store } from "./save/save";
+import { store } from "./save/save";
 import { load_ipc } from "./ipc/ipc_main";
 import {
   startCheckServiceStatus,
@@ -36,6 +36,8 @@ import { setupKeyBind } from "./tool/keybind/setup-keybind";
 import { pluginloader } from "./plugin/loader";
 import { codeTestApi } from "./code-test/codetest";
 import { setupAutoUpdater } from "./service/autoupdate";
+import { setupStoreIPC } from "./save/store-ipc";
+import { setupStoreDockerDefaultValue } from "./vm-system/docker-path";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -213,3 +215,5 @@ pluginloader();
 // CodeTestAPIのセットアップ
 codeTestApi.codeTestSetup();
 setupAutoUpdater();
+// Storeに初期値をセット
+setupStoreDockerDefaultValue();

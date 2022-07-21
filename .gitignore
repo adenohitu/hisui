@@ -37,3 +37,4 @@ archive/memo
 
 # Test用コンパイルファイル
 archive/test-data/abc164_b/b.out
+store/**

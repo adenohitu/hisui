@@ -18,6 +18,7 @@ import {
 } from "./runner/command-runner/command-runner";
 import { hisuiDockerJudgeCommand } from "./docker";
 import { logger } from "../tool/logger/logger";
+import { replaceCommanddockerExePath } from "../vm-system/docker-path";
 const onlineCodeTestInterval = 30000;
 export type judgeMode = "local" | "online" | "docker";
 /**
@@ -158,11 +159,16 @@ class codeTest {
         codeTestProps.TaskScreenName + ".out"
       );
       const testArgs: runTestWithCommandArgs = {
-        preRunCommand:
-          hisuiDockerJudgeCommand[Number(languageId)].preRunCommand,
-        compilerCommand:
-          hisuiDockerJudgeCommand[Number(languageId)].compilerCommand,
-        runCommand: hisuiDockerJudgeCommand[Number(languageId)].runCommand,
+        preRunCommand: replaceCommanddockerExePath(
+          hisuiDockerJudgeCommand[Number(languageId)].preRunCommand
+        ),
+        compilerCommand: replaceCommanddockerExePath(
+          hisuiDockerJudgeCommand[Number(languageId)].compilerCommand
+        ),
+        runCommand:
+          replaceCommanddockerExePath(
+            hisuiDockerJudgeCommand[Number(languageId)].runCommand
+          ) || "",
         filepath: filepath,
         outfilepath: outfilepath,
         codeTestIn: {

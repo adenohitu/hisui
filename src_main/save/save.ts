@@ -1,7 +1,8 @@
+import { app } from "electron";
 import Store from "electron-store";
+import path from "path";
 import { submitLanguage } from "../data/scraping/submitlang";
 import { languagetype } from "../file/extension";
-import { ipcMainManager } from "../ipc/ipc";
 type StoreType = {
   // mainwindowの状態
   "window.main.width": number | undefined;
@@ -22,16 +23,14 @@ type StoreType = {
   WindowState: any;
   judgeMode: string;
   "compilerPath.cpp": string;
+  // dockerPath
+  dockerPath: string;
 };
-
-export const store = new Store<StoreType>();
-
-export const setupStoreIPC = () => {
-  ipcMainManager.handle("GET_STORE", async (e, storeKey, defaultValue) => {
-    const storeData = await store.get(storeKey, defaultValue);
-    return storeData;
-  });
-  ipcMainManager.handle("SET_STORE", async (e, storeKey, value) => {
-    return store.set(storeKey, value);
-  });
-};
+function getStorecwd() {
+  if (app) {
+    return app.getPath("userData");
+  } else {
+    return path.join(__dirname, "../../store");
+  }
+}
+export const store = new Store<StoreType>({ cwd: getStorecwd() });
