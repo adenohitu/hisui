@@ -1,6 +1,7 @@
 import { execFile, spawn } from "child_process";
 import { promisify } from "util";
 import { logger } from "../tool/logger/logger";
+import { dockerExePath } from "./docker-path";
 export interface dockerPSReturn {
   Command: string;
   CreatedAt: string;
@@ -32,7 +33,7 @@ class vmDocker {
    */
   async checkDockerInstalled(): Promise<checkDockerInstalledReturn> {
     return new Promise((resolve) => {
-      execFile("docker", ["--version"], (error, stdout, stderr) => {
+      execFile(dockerExePath(), ["--version"], (error, stdout, stderr) => {
         if (error) {
           resolve({ status: "error", stdout: stderr });
         } else if (!stdout.includes("Docker version")) {
@@ -45,7 +46,7 @@ class vmDocker {
   async getDockerHisuiJudgeContainerStatus(): Promise<getDockerHisuiJudgeContainerStatusReturn> {
     return new Promise((resolve) => {
       execFile(
-        "docker",
+        dockerExePath(),
         ["ps", "-a", `--format={{json .}}`],
         (error, stdout, stderr) => {
           if (error) {
@@ -85,7 +86,7 @@ class vmDocker {
   async startDockerHisuiJudge(): Promise<"success" | "error"> {
     return new Promise((resolve) => {
       logger.info("docker Start event", "vmDockerApi");
-      const shellDockerRun = spawn("docker", [
+      const shellDockerRun = spawn(dockerExePath(), [
         "run",
         "-it",
         "-d",
@@ -112,7 +113,7 @@ class vmDocker {
     const nowContainerStatus = await this.getDockerHisuiJudgeContainerStatus();
     if (nowContainerStatus && nowContainerStatus.result) {
       try {
-        await promisify(execFile)("docker", [
+        await promisify(execFile)(dockerExePath(), [
           "rm",
           "-f",
           nowContainerStatus.result.ID,
