@@ -7,9 +7,6 @@
 
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import installExtension, {
-  REACT_DEVELOPER_TOOLS,
-} from "electron-devtools-installer";
 import { store } from "./save/save";
 import { load_ipc } from "./ipc/ipc_main";
 import {
@@ -62,9 +59,6 @@ function createWindow() {
 
   if (!app.isPackaged) {
     win.loadURL("http://localhost:3000#/mainwindow-root");
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then((name) => console.log(`Added Extension:  ${name}`))
-      .catch((err) => console.log("An error occurred: ", err));
   } else {
     // 'build/index.html'
     win.loadURL(`file://${__dirname}/../index.html#/mainwindow-root`);
