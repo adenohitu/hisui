@@ -96,7 +96,7 @@ function Uselanguage() {
       });
       setLangOptions(newList);
     })();
-  });
+  }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setlang((event.target as HTMLInputElement).value);
     ipcRendererManager.send(
