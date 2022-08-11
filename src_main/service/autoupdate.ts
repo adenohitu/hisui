@@ -12,7 +12,11 @@ export function setupAutoUpdater() {
     // sendStatusToWindow('Checking for update...');
   });
   autoUpdater.on("update-available", (info) => {
-    logger.info("Update available.", "autoUpdater");
+    logger.info(info, "autoUpdater");
+    ipcMainManager.send(
+      "SEND_NOTIFICARION",
+      "現在新しいバージョンをダウンロードしています。"
+    );
   });
   autoUpdater.on("update-not-available", (info) => {
     logger.info("Update not available.", "autoUpdater");

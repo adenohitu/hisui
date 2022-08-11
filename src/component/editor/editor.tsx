@@ -9,6 +9,7 @@ import { monacocontrol } from "./monacoapi";
 import { IContextMenuDelegate } from "../../../src_main/menu/monaco-context";
 import { ipcRendererManager } from "../../ipc";
 import { MenuElement } from "../../../src_main/menu/context-menu";
+import { Backgroundeditor } from "./editor-background";
 //cdnを使わずローカルファイルから読み込ませる
 loader.config({
   paths: { vs: "./vs" },
@@ -53,7 +54,7 @@ export function MainEditor() {
         width: "100%",
       }}
     >
-      {/* <EditorToolbar /> */}
+      <Backgroundeditor />
       <Editor
         onMount={handleEditorDidMount}
         beforeMount={handleEditorWillMount}
