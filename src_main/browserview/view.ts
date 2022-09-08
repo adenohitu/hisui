@@ -1,4 +1,5 @@
 import { app, BrowserView, BrowserWindow } from "electron";
+import path from "path";
 import { hisuiEvent } from "../event/event";
 import { IpcEventsKey } from "../ipc/events";
 import { menuSize } from "./default";
@@ -34,9 +35,10 @@ export class view {
       this.mainWindow = win;
       this.view = new BrowserView({
         webPreferences: {
+          sandbox: true,
           nodeIntegration: false,
           contextIsolation: true,
-          preload: __dirname + "/../preload.js",
+          preload: path.resolve(__dirname, "../../preload/preload.js"),
         },
       });
       win.addBrowserView(this.view);

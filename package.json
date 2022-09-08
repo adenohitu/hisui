@@ -10,6 +10,7 @@
     "prestart": "rimraf build",
     "start": "run-p dev:*",
     "dev:tsc": "tsc -w -p ./src_main/tsconfig.main.json",
+    "dev:preload_w": "webpack --config ./webpack/webpack.preload.js -w",
     "dev:react": "yarn react:start",
     "dev:electron": "wait-on http://localhost:3000 && cross-env NODE_ENV=\"development\" electron .",
     "lint": "yarn react:lint && yarn electron:lint",
@@ -19,7 +20,8 @@
     "build:mac": "yarn react:build && yarn electron:source_build && electron-builder --mac --universal",
     "build:mac64": "yarn react:build && yarn electron:source_build && electron-builder --mac --arm64",
     "build:win": "yarn react:build && yarn electron:source_build && electron-builder --win --x64",
-    "electron:source_build": "tsc -p ./src_main/tsconfig.main.json --removeComments true",
+    "electron:source_build": "tsc -p ./src_main/tsconfig.main.json --removeComments true ",
+    "electron:preload_pack": "webpack --config ./webpack/webpack.preload.js ",
     "electron:lint": "yarn eslint --max-warnings 0 src_main/",
     "format:electron": "prettier --write 'src_main/**/*.{js,ts,tsx}'",
     "react:start": "webpack-dev-server --config ./webpack/webpack.dev.js --port 3000",
@@ -74,7 +76,7 @@
       ]
     },
     "mac": {
-      "icon": "build/logo512.png",
+      "icon": "build/src/logo512.png",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
@@ -86,7 +88,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "build/logo512.png"
+      "icon": "build/src/logo512.png"
     },
     "nsis": {
       "oneClick": false,
@@ -107,7 +109,7 @@
     "electron-devtools-installer": "^3.1.1",
     "electron-reload": "^1.5.0",
     "electron-store": "^8.0.1",
-    "electron-updater": "^5.0.1",
+    "electron-updater": "^5.2.3",
     "fs-extra": "^10.0.1",
     "jsdom": "^18.0.0",
     "jsonc-parser": "^3.0.0",
@@ -148,8 +150,8 @@
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.7",
     "dotenv": "^16.0.1",
-    "electron": "^18.0.1",
-    "electron-builder": "^23.0.4",
+    "electron": "^20.1.1",
+    "electron-builder": "^23.3.3",
     "electron-notarize": "^1.2.1",
     "eslint": "^8.8.0",
     "eslint-config-react-app": "^7.0.0",
