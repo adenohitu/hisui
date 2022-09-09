@@ -1,5 +1,6 @@
 //Copyright © 2021-2022 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
+import path from "path";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { ipcMainManager } from "../ipc/ipc";
@@ -52,7 +53,8 @@ export class taskViewWindow {
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
-        preload: __dirname + "/../preload.js",
+        sandbox: true,
+        preload: path.resolve(__dirname, "../preload/preload.js"),
       },
     });
     this.win.once("ready-to-show", () => {
@@ -91,7 +93,9 @@ export class taskViewWindow {
       return this.win.loadURL("http://localhost:3000#/taskview");
     } else {
       // 'build/index.html'
-      return this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
+      return this.win.loadURL(
+        `file://${__dirname}/../src/index.html#/taskview`
+      );
     }
   }
   setupIPC() {
@@ -138,7 +142,7 @@ export class taskViewWindow {
         webPreferences: {
           preload:
             (preloadURI !== undefined && preloadURI) ||
-            __dirname + "/preload/atcoder-preload.js",
+            path.resolve(__dirname, "../preload/atcoder-preload.js"),
           nodeIntegration: false,
         },
       });

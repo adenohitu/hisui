@@ -19,7 +19,7 @@ import {
 import { hisuiDockerJudgeCommand } from "./docker";
 import { logger } from "../tool/logger/logger";
 import { replaceCommanddockerExePath } from "../vm-system/docker-path";
-const onlineCodeTestInterval = 30000;
+const onlineCodeTestInterval = 15000;
 export type judgeMode = "local" | "online" | "docker";
 /**
  * コードテストが実行されたときに発生するイベント

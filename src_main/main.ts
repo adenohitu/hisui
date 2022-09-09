@@ -53,7 +53,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: __dirname + "/preload.js",
+      sandbox: true,
+      preload: path.resolve(__dirname, "../preload/preload.js"),
     },
   });
 
@@ -61,7 +62,7 @@ function createWindow() {
     win.loadURL("http://localhost:3000#/mainwindow-root");
   } else {
     // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../index.html#/mainwindow-root`);
+    win.loadURL(`file://${__dirname}/../src/index.html#/mainwindow-root`);
   }
 
   win.on("closed", () => (win = null));
