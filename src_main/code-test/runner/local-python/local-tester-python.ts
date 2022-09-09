@@ -13,7 +13,10 @@ export interface LocalCodeRunArgs {
 export interface LocalCodeTest extends atcoderCodeTestResult {
   LocalCodeRunArgs: LocalCodeRunArgs;
 }
-
+// const startTime = performance.now(); // 開始時間
+// yourFunction(); // 計測する処理
+// const endTime = performance.now(); // 終了時間
+// console.log(performance.now(); - startTime);
 export function runLocalTestPython(args: LocalCodeRunArgs, compileID: number) {
   return new Promise<LocalCodeTest>((resolve) => {
     const createdDate = new Date().toISOString();
@@ -21,6 +24,8 @@ export function runLocalTestPython(args: LocalCodeRunArgs, compileID: number) {
       // 出力保持用
       let stdout = "";
       let stdError = "";
+      // 実行開始時間を記録
+      const startTime = performance.now();
       const runner = spawn(args.compilerPath, [args.filepath], {
         timeout: 5000,
       });
@@ -53,7 +58,7 @@ export function runLocalTestPython(args: LocalCodeRunArgs, compileID: number) {
             Input: args.codeTestIn.codeTestProps.input,
             Output: "",
             Error: "",
-            TimeConsumption: (code === null && 5000) || -1,
+            TimeConsumption: Math.floor(performance.now() - startTime),
             MemoryConsumption: -1,
             ExitCode,
             Status: 0,

@@ -76,6 +76,8 @@ export function runLocalTest(args: LocalCodeRunArgs, compileID: number) {
         let stdout = "";
         let stdError = "";
         if (await fse.pathExists(args.outfilepath)) {
+          // 実行開始時間を記録
+          const startTime = performance.now();
           const runner = spawn(args.outfilepath, { timeout: 5000 });
           runner.stdin.write(args.codeTestIn.codeTestProps.input);
           runner.stdout.on("data", (rawData) => {
@@ -106,7 +108,7 @@ export function runLocalTest(args: LocalCodeRunArgs, compileID: number) {
                 Input: args.codeTestIn.codeTestProps.input,
                 Output: "",
                 Error: "",
-                TimeConsumption: -1,
+                TimeConsumption: Math.floor(performance.now() - startTime),
                 MemoryConsumption: -1,
                 ExitCode,
                 Status: 0,
