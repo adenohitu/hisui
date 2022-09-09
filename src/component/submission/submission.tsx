@@ -51,6 +51,7 @@ export function SubmissionTable() {
             <TableCell size="small">提出日時</TableCell>
             <TableCell align="center">結果</TableCell>
             <TableCell align="left">問題</TableCell>
+            <TableCell align="left">提出言語</TableCell>
             <TableCell align="right">実行時間</TableCell>
             <TableCell align="right">メモリ</TableCell>
             <TableCell align="right"></TableCell>
@@ -79,6 +80,7 @@ export function SubmissionTable() {
                   {row.taskname_render}
                 </Typography>
               </TableCell>
+              <TableCell align="left">{row.language}</TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
               <TableCell align="right">{row.memory_consumption}</TableCell>
               <TableCell align="right">
