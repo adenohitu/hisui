@@ -54,7 +54,7 @@ export class taskViewWindow {
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: true,
-        preload: path.resolve(__dirname, "../../preload/preload.js"),
+        preload: path.resolve(__dirname, "../preload/preload.js"),
       },
     });
     this.win.once("ready-to-show", () => {
@@ -93,7 +93,9 @@ export class taskViewWindow {
       return this.win.loadURL("http://localhost:3000#/taskview");
     } else {
       // 'build/index.html'
-      return this.win.loadURL(`file://${__dirname}/../../index.html#/taskview`);
+      return this.win.loadURL(
+        `file://${__dirname}/../src/index.html#/taskview`
+      );
     }
   }
   setupIPC() {
@@ -140,7 +142,7 @@ export class taskViewWindow {
         webPreferences: {
           preload:
             (preloadURI !== undefined && preloadURI) ||
-            path.resolve(__dirname, "../../preload/atcoder-preload.js"),
+            path.resolve(__dirname, "../preload/atcoder-preload.js"),
           nodeIntegration: false,
         },
       });

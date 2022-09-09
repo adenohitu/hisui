@@ -38,7 +38,7 @@ export class view {
           sandbox: true,
           nodeIntegration: false,
           contextIsolation: true,
-          preload: path.resolve(__dirname, "../../preload/preload.js"),
+          preload: path.resolve(__dirname, "../preload/preload.js"),
         },
       });
       win.addBrowserView(this.view);

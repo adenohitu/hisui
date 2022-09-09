@@ -9,8 +9,7 @@
   "scripts": {
     "prestart": "rimraf build",
     "start": "run-p dev:*",
-    "dev:tsc": "tsc -w -p ./src_main/tsconfig.main.json",
-    "dev:preload_w": "webpack --config ./webpack/webpack.preload.js -w",
+    "dev:preload_w": "webpack --config ./webpack/webpack.main.js -w",
     "dev:react": "yarn react:start",
     "dev:electron": "wait-on http://localhost:3000 && cross-env NODE_ENV=\"development\" electron .",
     "lint": "yarn react:lint && yarn electron:lint",
@@ -18,10 +17,10 @@
     "test": "jest -c ./jest.config.js",
     "prebuild:mac": "copyfiles -u 1 tools/entitlements.mac.plist build",
     "build:mac": "yarn react:build && yarn electron:source_build && electron-builder --mac --universal",
-    "build:mac64": "yarn react:build && yarn electron:source_build && electron-builder --mac --arm64",
+    "prebuild:macarm": "copyfiles -u 1 tools/entitlements.mac.plist build",
+    "build:macarm": "yarn react:build && yarn electron:source_build && electron-builder --mac --arm64",
     "build:win": "yarn react:build && yarn electron:source_build && electron-builder --win --x64",
-    "electron:source_build": "tsc -p ./src_main/tsconfig.main.json --removeComments true ",
-    "electron:preload_pack": "webpack --config ./webpack/webpack.preload.js ",
+    "electron:source_build": "webpack --config ./webpack/webpack.main.js",
     "electron:lint": "yarn eslint --max-warnings 0 src_main/",
     "format:electron": "prettier --write 'src_main/**/*.{js,ts,tsx}'",
     "react:start": "webpack-dev-server --config ./webpack/webpack.dev.js --port 3000",
@@ -195,7 +194,8 @@
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "resolutions": {
     "vscode-languageserver-types": "3.16.0",

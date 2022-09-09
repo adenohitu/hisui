@@ -76,6 +76,6 @@ function getPyrightPath() {
       );
     return resourcesPath;
   } else {
-    return path.join(__dirname, "../../../../node_modules/pyright");
+    return path.join(__dirname, "../../node_modules/pyright");
   }
 }
