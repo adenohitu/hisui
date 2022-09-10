@@ -19,16 +19,17 @@ export class taskViewWindow {
   // contestNameを入れる
   // initUrlはview開くときに指定したURL
   // urlはAtcoder.jp/contests/の後のパスを入れる
-  view: { [id: string]: { initUrl: string; view: BrowserView } };
-
-  nowTop: string | null;
+  view: {
+    [id: string]: { initUrl: string; view: BrowserView; primary: boolean };
+  };
+  windowList: string[];
   nowPrimaryViewId: string | null;
   contestpageId: string | null;
 
   constructor() {
     this.view = {};
     this.win = null;
-    this.nowTop = null;
+    this.windowList = [];
     this.nowPrimaryViewId = null;
     this.contestpageId = null;
     this.setupIPC();
@@ -82,7 +83,7 @@ export class taskViewWindow {
     });
     // Close後の処理
     this.win.on("closed", () => {
-      this.nowTop = null;
+      this.windowList = [];
       this.win = null;
       // viewは閉じた時に全て消去される
       this.view = {};
@@ -101,8 +102,8 @@ export class taskViewWindow {
   setupIPC() {
     // taskViewのURLを初期値に戻す
     ipcMainManager.on("RUN_NOWTASKVIEW_RESET", () => {
-      if (this.nowTop) {
-        this.resetView(this.nowTop);
+      if (this.windowList.length !== 0) {
+        this.resetView(this.windowList[0]);
       }
     });
     ipcMainManager.on("RUN_CHANGE_TASKVIEW", (e, id: string) => {
@@ -152,6 +153,7 @@ export class taskViewWindow {
       this.view[id] = {
         initUrl: url,
         view: createdView,
+        primary,
       };
       // windowの初期設定
       const newBounds = this.win.getContentBounds();
@@ -173,12 +175,12 @@ export class taskViewWindow {
       logger.info(`ViewOpen id:${id}`, "TaskViewWindowAPI");
 
       // 最上部にセット
-      this.changeViewTop(id, primary);
+      this.changeViewTop(id);
       const loading = await createdView.webContents.loadURL(url);
       return loading;
     } else {
       // 最上部にセット
-      this.changeViewTop(id, primary);
+      this.changeViewTop(id);
       logger.info(`ViewOpen SetTop id:${id}`, "TaskViewWindowAPI");
       return "already";
     }
@@ -187,12 +189,13 @@ export class taskViewWindow {
   /**
    * 指定したViewを一番上に持ってくる
    */
-  async changeViewTop(id: string, primary: boolean = false) {
+  async changeViewTop(id: string) {
     if (this.win !== null) {
-      this.nowTop = id;
+      this.windowList = this.windowList.filter((ele) => ele !== id);
+      this.windowList.unshift(id);
       this.win.setTopBrowserView(this.view[id].view);
       // primaryIDを更新
-      if (primary) {
+      if (this.view[id].primary) {
         this.changePrimaryID(id);
       }
     }
@@ -218,7 +221,8 @@ export class taskViewWindow {
   }
 
   async reloadNowTopView() {
-    if (this.nowTop) this.view[this.nowTop].view.webContents.reload();
+    if (this.windowList[0])
+      this.view[this.windowList[0]].view.webContents.reload();
   }
 
   /**
@@ -238,7 +242,8 @@ export class taskViewWindow {
    * TopのDevToolを開く
    */
   async openTopDevTool() {
-    if (this.nowTop) this.view[this.nowTop].view.webContents.openDevTools();
+    if (this.windowList[0])
+      this.view[this.windowList[0]].view.webContents.openDevTools();
   }
 
   /**
