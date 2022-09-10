@@ -212,6 +212,8 @@ function runTest(
       args.outfilepath,
       args.filepath
     );
+    // 実行開始時間を記録
+    const startTime = performance.now();
     const runner = spawn(replacedCommand, {
       shell: true,
       timeout: 10000,
@@ -248,7 +250,7 @@ function runTest(
           Input: args.codeTestIn.codeTestProps.input,
           Output: "",
           Error: "",
-          TimeConsumption: -1,
+          TimeConsumption: Math.floor(performance.now() - startTime),
           MemoryConsumption: -1,
           ExitCode,
           Status: 0,
