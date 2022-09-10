@@ -225,7 +225,7 @@ export class taskcont {
    * TaskViewを一番上に持ってくる
    */
   async settopTaskView() {
-    taskViewWindowApi.changeViewTop(this.taskScreenName, true);
+    taskViewWindowApi.changeViewTop(this.taskScreenName);
   }
   /**
    * TaskViewをリロードする
