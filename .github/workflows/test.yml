@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: lint
