@@ -22,7 +22,6 @@ jobs:
       - uses: actions/setup-node@v3.3.0
         with:
           node-version: "16.15.1"
-          cache: "yarn"
       # releaseを作成
       - name: create release
         uses: softprops/action-gh-release@v1
@@ -31,7 +30,12 @@ jobs:
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: yarn install
+      - name: node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
       # ここでアプリをビルド
       - name: build application
@@ -54,7 +58,6 @@ jobs:
       - uses: actions/setup-node@v3.3.0
         with:
           node-version: "16.15.1"
-          cache: "yarn"
       # releaseを作成
       - name: create release
         uses: softprops/action-gh-release@v1
@@ -63,7 +66,12 @@ jobs:
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: yarn install
+      - name: node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: build application
         run: npm run build:win
