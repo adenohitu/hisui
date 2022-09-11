@@ -331,13 +331,13 @@ export class taskViewWindow {
       return this.addView(
         "lib-management",
         "http://localhost:3000#/lib-management",
-        __dirname + "/../preload.js"
+        path.resolve(__dirname, "../preload/preload.js")
       );
     } else {
       return this.addView(
         "lib-management",
         `file://${__dirname}/../../index.html#/lib-management`,
-        __dirname + "/../preload.js"
+        path.resolve(__dirname, "../preload/preload.js")
       );
     }
   }
