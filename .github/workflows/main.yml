@@ -53,9 +53,6 @@ jobs:
   # Windows 用の job 定義
   build_on_win:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.3.0
@@ -77,6 +74,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: build application
-        run: npm run build:win
+        run: yarn build:win
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
