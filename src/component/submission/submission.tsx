@@ -48,9 +48,13 @@ export function SubmissionTable() {
       <Table stickyHeader className={classes.table} size="small">
         <TableHead>
           <TableRow>
-            <TableCell size="small">提出日時</TableCell>
-            <TableCell align="center">結果</TableCell>
-            <TableCell align="left">問題</TableCell>
+            <TableCell align="left">提出日時</TableCell>
+            <TableCell size="small" align="center">
+              結果
+            </TableCell>
+            <TableCell size="medium" align="left">
+              問題
+            </TableCell>
             <TableCell align="left">提出言語</TableCell>
             <TableCell align="right">実行時間</TableCell>
             <TableCell align="right">メモリ</TableCell>
@@ -60,10 +64,12 @@ export function SubmissionTable() {
         <TableBody>
           {rows.map((row: submissionData) => (
             <TableRow key={row.created}>
-              <TableCell>
-                {dayjs(row.created).format("YY/MM/DD HH:mm:ss")}
+              <TableCell size="small">
+                {dayjs(row.created).format("YY/MM/DD")}
+                <br />
+                {dayjs(row.created).format("HH:mm:ss")}
               </TableCell>
-              <TableCell align="center">
+              <TableCell size="small" align="center">
                 <ChipJudgeResult result={row.result} />
               </TableCell>
               <TableCell align="left">
