@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelectTask } from "./taskhook";
 import { styled } from "@mui/material/styles";
-import { Chip, Divider } from "@mui/material";
+import { Chip, Divider, ListSubheader, Stack, Typography } from "@mui/material";
 import Refresh from "@mui/icons-material/Refresh";
 const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
   "& .MuiListItemSecondaryAction-root": {
@@ -85,9 +85,42 @@ export function TaskSelectList() {
           </StyleListItem>
         );
       })}
-      <ListItem
-        sx={{ backgroundColor: "#a9c6de" }}
-        secondaryAction={
+    </List>
+  );
+}
+export function NowSelectTaskSelectList() {
+  const selectTaskHooks = useSelectTask();
+
+  return (
+    <List
+      sx={{
+        paddingTop: "0",
+        overflowX: "hidden",
+        height: "100%",
+        width: "100%",
+        overflow: "hidden",
+        "&:hover": {
+          overflow: "scroll",
+          "&::-webkit-scrollbar": {
+            width: "6px",
+            height: 0,
+          },
+          "&::-webkit-scrollbar-track": {
+            borderRadius: "3px",
+            height: "100%",
+            backgroundColor: " #eeeeee",
+          },
+          " &::-webkit-scrollbar-thumb": {
+            borderRadius: "3px",
+            backgroundColor: "#867670",
+          },
+        },
+      }}
+    >
+      <ListSubheader
+        sx={{ backgroundColor: "#a9c6de", paddingY: 1, paddingLeft: 0 }}
+      >
+        <Stack direction="row" spacing={1} justifyContent="flex-start">
           <IconButton
             onClick={() => {
               selectTaskHooks.updateTaskContList(false);
@@ -98,18 +131,11 @@ export function TaskSelectList() {
           >
             <Refresh fontSize="inherit" />
           </IconButton>
-        }
-        dense
-      >
-        <ListItemText
-          sx={{
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {selectTaskHooks.nowContestName}
-        </ListItemText>
-      </ListItem>
+          <Typography variant="body1">
+            {selectTaskHooks.nowContestName}
+          </Typography>
+        </Stack>
+      </ListSubheader>
       {selectTaskHooks.nowContestTaskList.map((value, index) => {
         return (
           <StyleListItem key={index} disablePadding>
