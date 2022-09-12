@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BrowserWindow } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { win } from "../main";
 import { logger } from "../tool/logger/logger";
@@ -14,6 +15,13 @@ export async function startCheckServiceStatus() {
 }
 export async function stopCheckServiceStatus() {
   clearInterval(timer);
+}
+function checkFocus() {
+  if (BrowserWindow.getFocusedWindow()) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export async function runServiceStatus() {
@@ -46,8 +54,8 @@ export async function runServiceStatus() {
         const selectStatus = await dialog.showMessageBox({
           type: "error",
           title: "このアプリは現在使用できません",
-          message: "discordを確認してください",
-          detail: "discordを確認してください",
+          message: "discordコミュニティを確認してください",
+          detail: "discordコミュニティを確認してください",
           buttons: ["アプリを終了する"],
         });
         if (selectStatus.response === 0) {
@@ -76,18 +84,25 @@ export async function runServiceStatus() {
       runServiceStatus();
     } else {
       missCount = 0;
-      const selectStatus = await dialog.showMessageBox({
-        type: "error",
-        title: "認証サーバーにアクセスできません",
-        message: "認証サーバーにアクセスできません",
-        detail:
-          "このアプリケーションに問題があるか、インターネット接続に問題がある可能性があります。インターネット状況を確認して改善しない場合は、Discordで質問してください",
-        buttons: ["アプリを終了する", "そのまま使用する"],
-        cancelId: -1, // Esc で閉じられたときの戻り値
-      });
+      if (checkFocus()) {
+        const selectStatus = await dialog.showMessageBox({
+          type: "error",
+          title: "認証サーバーにアクセスできません",
+          message: "認証サーバーにアクセスできません",
+          detail:
+            "このアプリケーションに問題があるか、インターネット接続に問題がある可能性があります。インターネット状況を確認して改善しない場合は、Discordコミュニティで質問してください",
+          buttons: ["アプリを終了する", "そのまま使用する"],
+          cancelId: -1, // Esc で閉じられたときの戻り値
+        });
 
-      if (selectStatus.response === 0) {
-        app.quit();
+        if (selectStatus.response === 0) {
+          app.quit();
+        }
+      } else {
+        // 次回フォーカスが入った時に再実行する
+        app.once("browser-window-focus", () => {
+          runServiceStatus();
+        });
       }
     }
   }
