@@ -67,7 +67,7 @@ export const Editor = () => {
         <CustomTestWindow />
         <Mosaic<string>
           renderTile={(id) => ELEMENT_MAP[id].component}
-          resize={{ minimumPaneSizePercentage: 10 }}
+          resize={{ minimumPaneSizePercentage: 16 }}
           onChange={mosaicHook.onChange}
           onRelease={mosaicHook.onRelease}
           value={mosaicHook.windowState}

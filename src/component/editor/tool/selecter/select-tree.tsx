@@ -7,7 +7,14 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelectTask } from "./taskhook";
 import { styled } from "@mui/material/styles";
-import { Chip, Divider, ListSubheader, Stack, Typography } from "@mui/material";
+import {
+  Chip,
+  Divider,
+  ListSubheader,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Refresh from "@mui/icons-material/Refresh";
 const StyleListItem = styled(ListItem)<{ component?: React.ElementType }>({
   "& .MuiListItemSecondaryAction-root": {
@@ -42,15 +49,12 @@ export function TaskSelectList() {
         },
       }}
     >
-      <ListItem dense>
-        <ListItemText
-          sx={{
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
+      <ListItem dense sx={{ paddingX: "0px" }}>
+        <Typography
+          sx={{ whiteSpace: "nowrap", fontSize: "14px", paddingX: "10px" }}
         >
           Open Tasks
-        </ListItemText>
+        </Typography>
         <Chip size="small" label={selectTaskHooks.taskList.length} />
       </ListItem>
       <Divider />
@@ -95,45 +99,45 @@ export function NowSelectTaskSelectList() {
     <List
       sx={{
         paddingTop: "0",
-        overflowX: "hidden",
         height: "100%",
         width: "100%",
         overflow: "hidden",
         "&:hover": {
-          overflow: "scroll",
+          overflowY: "scroll",
           "&::-webkit-scrollbar": {
-            width: "6px",
-            height: 0,
+            width: "8px",
           },
           "&::-webkit-scrollbar-track": {
-            borderRadius: "3px",
-            height: "100%",
-            backgroundColor: " #eeeeee",
+            borderRadius: "5px",
           },
           " &::-webkit-scrollbar-thumb": {
-            borderRadius: "3px",
-            backgroundColor: "#867670",
+            borderRadius: "10px",
+            border: "2px auto",
+            background: "gray",
           },
         },
       }}
     >
-      <ListSubheader
-        sx={{ backgroundColor: "#a9c6de", paddingY: 1, paddingLeft: 0 }}
-      >
-        <Stack direction="row" spacing={1} justifyContent="flex-start">
-          <IconButton
-            onClick={() => {
-              selectTaskHooks.updateTaskContList(false);
-            }}
-            edge="end"
-            aria-label="delete"
-            size="small"
-          >
-            <Refresh fontSize="inherit" />
-          </IconButton>
-          <Typography variant="body1">
-            {selectTaskHooks.nowContestName}
+      <ListSubheader sx={{ backgroundColor: "#a9c6de", padding: 0 }}>
+        <Stack padding="10px" justifyContent="center" spacing={0}>
+          <Typography sx={{ overflow: "hidden", fontSize: "10px" }}>
+            selected ContestID
           </Typography>
+          <Stack direction="row" spacing={1} justifyContent="flex-start">
+            <ListItemText>{selectTaskHooks.nowContestName}</ListItemText>
+            <Tooltip title="問題一覧を最新にする">
+              <IconButton
+                onClick={() => {
+                  selectTaskHooks.updateTaskContList(false);
+                }}
+                edge="start"
+                aria-label="delete"
+                size="small"
+              >
+                <Refresh fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          </Stack>
         </Stack>
       </ListSubheader>
       {selectTaskHooks.nowContestTaskList.map((value, index) => {
