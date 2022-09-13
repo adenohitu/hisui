@@ -225,6 +225,7 @@ export const WindowRoot = () => {
           key: argnoti.id,
           action,
           style: { whiteSpace: "pre-line" },
+          preventDuplicate: true,
         });
       }
     );
