@@ -11,6 +11,7 @@ import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { win } from "../main";
 import { TaskListApi } from "../data/task";
 import path from "path";
+import { notificationManagerApi } from "../tool/notification";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -125,6 +126,30 @@ function getDevelopMenu(
                     ].getAllSamplecase()
                   );
               })();
+            },
+          },
+          {
+            label: "通知テスト",
+            click(item: any, focusedWindow: any, event: any) {
+              notificationManagerApi.runInteractiveNotification(
+                {
+                  id: "test",
+                  message: `通知テスト。\n改行テスト`,
+                  choices: [
+                    { text: "OK", color: "primary" },
+                    { text: "キャンセル", color: "error" },
+                  ],
+                },
+                (choiceIndex: number) => {
+                  if (choiceIndex === -1) {
+                    console.log("閉じられました");
+                  } else if (choiceIndex === 0) {
+                    console.log("OKが押された");
+                  } else {
+                    console.log("キャンセルが押された");
+                  }
+                }
+              );
             },
           },
           {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, createStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
+import { Button, Theme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -31,6 +31,7 @@ import { SnackMessage } from "../snackbar/snackbar";
 import { submitStatus } from "../../../src_main/data/scraping/submit-data";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import { VmSetup } from "../vm-setup/home";
+import { interactiveNotificationArgs } from "../../../src_main/tool/notification";
 
 const drawerWidth = 240;
 // let nowItem = 0;
@@ -171,6 +172,62 @@ export const WindowRoot = () => {
     ipcRendererManager.on("SEND_NOTIFICARION", (e, arg: string) => {
       enqueueSnackbar(arg, { action });
     });
+
+    ipcRendererManager.on(
+      "SEND_OPEN_INTERACTIVE_NOTIFICARION",
+      (e, argnoti: interactiveNotificationArgs) => {
+        const action = (snackbarId: SnackbarKey) => {
+          return (
+            <>
+              {argnoti.choices.map((ch, keyIndex) => {
+                return (
+                  <Button
+                    key={keyIndex}
+                    color={ch.color || "inherit"}
+                    size="small"
+                    onClick={() => {
+                      ipcRendererManager.send(
+                        "ON_RESULT_INTERACTIVE_NOTIFICARION",
+                        {
+                          id: snackbarId,
+                          choiceIndex: keyIndex,
+                        }
+                      );
+                      closeSnackbar(snackbarId);
+                    }}
+                  >
+                    {ch.text}
+                  </Button>
+                );
+              })}
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => {
+                  ipcRendererManager.send(
+                    "ON_RESULT_INTERACTIVE_NOTIFICARION",
+                    {
+                      id: snackbarId,
+                      choiceIndex: -1,
+                    }
+                  );
+                  closeSnackbar(snackbarId);
+                }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </>
+          );
+        };
+
+        enqueueSnackbar(argnoti.message, {
+          key: argnoti.id,
+          action,
+          style: { whiteSpace: "pre-line" },
+        });
+      }
+    );
   }, [enqueueSnackbar, closeSnackbar]);
 
   const pageChange = (viewName: string) => {
