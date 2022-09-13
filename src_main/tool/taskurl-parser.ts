@@ -60,3 +60,39 @@ export function createTaskcontFromOriginalURL_NoOrigin(urlNoOrigin: string) {
     taskScreenName: taskscNamerResult,
   };
 }
+
+/**
+ * https://atcoder.jp/contests/abc221/
+ * のようなURLから
+ * ContestNameを取得する
+ */
+export function getcontestIDFromOriginalURL(
+  url: string
+): null | { contestID: string; isContestMainPage: boolean } {
+  const urlclass = new URL(url);
+  if (urlclass.hostname === "atcoder.jp") {
+    if (url.includes("contests/")) {
+      const pathName = urlclass.pathname;
+      const contestnameLastindex = +pathName
+        .slice(pathName.indexOf("contests/") + 9)
+        .indexOf("/");
+
+      const name = pathName.slice(
+        pathName.indexOf("contests/") + 9,
+        (contestnameLastindex !== -1 &&
+          contestnameLastindex + pathName.indexOf("contests/") + 9) ||
+          undefined
+      );
+
+      if (name === "") {
+        return null;
+      }
+      const isContestMainPage = !url.includes("tasks");
+      return { contestID: name, isContestMainPage };
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+}

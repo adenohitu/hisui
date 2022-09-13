@@ -38,7 +38,11 @@ export const IpcEvents = {
   SET_LANG_SNIPPET: { mode: "handle" },
   RUN_SET_WINDOW_SPLIT: { mode: "on" },
   OPEN_CONTEXT_MENU: { mode: "on" },
+  // notificarion
   SEND_NOTIFICARION: { mode: "send" },
+  SEND_REMOVE_NOTIFICARION: { mode: "on" },
+  SEND_OPEN_INTERACTIVE_NOTIFICARION: { mode: "send" },
+  ON_RESULT_INTERACTIVE_NOTIFICARION: { mode: "on" },
   SEND_SUBMIT_NOTIFICARION: { mode: "send" },
   SEND_SUBMIT_START_NOTIFICARION: { mode: "send" },
   SEND_SUBMIT_STATUS: { mode: "send" },
