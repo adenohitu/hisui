@@ -8,12 +8,22 @@ import { SettingAppDialog } from "./setting-window/system-setting";
 import "./mosaic-style.css";
 import { Box } from "@mui/system";
 import { monacoElement, useMosaicState } from "../mosaic/mosaic-hooks";
-import { TaskSelectList } from "./tool/selecter/select-tree";
+import {
+  NowSelectTaskSelectList,
+  TaskSelectList,
+} from "./tool/selecter/select-tree";
 const ELEMENT_MAP: monacoElement = {
   TaskSelect: {
     component: (
       <Box>
         <TaskSelectList />
+      </Box>
+    ),
+  },
+  NowTaskSelect: {
+    component: (
+      <Box>
+        <NowSelectTaskSelectList />
       </Box>
     ),
   },
@@ -27,13 +37,22 @@ const ELEMENT_MAP: monacoElement = {
 };
 const defaultState: MosaicNode<string> = {
   direction: "row",
-  first: "TaskSelect",
+  first: {
+    direction: "column",
+    first: "TaskSelect",
+    second: "NowTaskSelect",
+    splitPercentage: 70,
+  },
   second: "EditorMain",
   splitPercentage: 15,
 };
 export const Editor = () => {
   // const classes = useStyles();
-  const mosaicHook = useMosaicState("editor_parent", ELEMENT_MAP, defaultState);
+  const mosaicHook = useMosaicState(
+    "editor_parent_new1",
+    ELEMENT_MAP,
+    defaultState
+  );
   return (
     <>
       <div
@@ -48,7 +67,7 @@ export const Editor = () => {
         <CustomTestWindow />
         <Mosaic<string>
           renderTile={(id) => ELEMENT_MAP[id].component}
-          resize={{ minimumPaneSizePercentage: 0 }}
+          resize={{ minimumPaneSizePercentage: 16 }}
           onChange={mosaicHook.onChange}
           onRelease={mosaicHook.onRelease}
           value={mosaicHook.windowState}

@@ -25,14 +25,6 @@ export const useSelectTask = () => {
       cache
     );
     setNowContestTaskList(data);
-    // TaskListで重複が出ないように更新時に毎回実行
-    const nowRemoveData = data.slice().filter((ele) => {
-      return !getlist.some((element) => {
-        return element.taskScreenName === ele.taskScreenName;
-      });
-    });
-    setNowContestTaskList(nowRemoveData);
-    console.log(nowRemoveData);
   };
   useEffect(() => {
     updateNowContestName();
