@@ -60,17 +60,15 @@ class submissions {
    */
   async updateSubmissions() {
     const nowDefaultContest = contestDataApi.getDefaultContestID();
-    if (this.getSubmissionMe) {
-      this.selectContestSubmissions = await this.getSubmissionMe(
-        nowDefaultContest
-      );
-      this.checkInterval(this.selectContestSubmissions);
-      // viewに取得したデータを送信
-      ipcMainManager.send(
-        "LISTENER_RETUEN_SUBMISSIONS",
-        this.selectContestSubmissions
-      );
-    }
+    this.selectContestSubmissions = await this.getSubmissionMe(
+      nowDefaultContest
+    );
+    this.checkInterval(this.selectContestSubmissions);
+    // viewに取得したデータを送信
+    ipcMainManager.send(
+      "LISTENER_RETUEN_SUBMISSIONS",
+      this.selectContestSubmissions
+    );
   }
 
   /**
