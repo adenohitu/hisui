@@ -16,6 +16,7 @@ import { ipcMainManager } from "./ipc";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { vmDockerApi } from "../vm-system/vm-docker";
+import { getContestScore } from "../data/score";
 //ipc通信
 export const load_ipc = () => {
   //ブラウザでurlを開く
@@ -84,7 +85,7 @@ export const load_ipc = () => {
   });
   //得点情報を取得
   ipcMainManager.handle("GET_MY_SCORE", async (event, contestID) => {
-    const get = await submissionsApi.getContestScore(contestID);
+    const get = await getContestScore(contestID);
     return get;
   });
   //自分の提出を取得

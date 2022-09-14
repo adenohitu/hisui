@@ -13,8 +13,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { submissionData } from "../../../src_main/data/scraping/submissions";
 import { ChipJudgeResult } from "../chip/judge-result";
+import { submissionData } from "../../../src_main/data/submissions-type";
 
 const dayjs = require("dayjs");
 const useStyles = makeStyles({

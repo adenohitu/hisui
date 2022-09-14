@@ -1,4 +1,4 @@
-import { submissionData } from "./submissions";
+import { submissionData } from "../submissions-type";
 
 export interface submitStatus {
   submissionData: submissionData;

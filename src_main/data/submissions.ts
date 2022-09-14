@@ -3,11 +3,10 @@ import { ipcMainManager } from "../ipc/ipc";
 import { logger } from "../tool/logger/logger";
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
-import scraping_submissions_list, {
-  submissionData,
-} from "./scraping/submissions";
+import scraping_submissions_list from "./scraping/submissions";
 import { scrapingSubmissionStatusData } from "./scraping/submissions-status";
 import { submitStatus } from "./scraping/submit-data";
+import { submissionData } from "./submissions-type";
 class submissions {
   /**
    * デフォルトコンテストを保持
@@ -72,36 +71,6 @@ class submissions {
   }
 
   /**
-   * 得点情報を取得
-   */
-  async getContestScore(
-    contestID: string = contestDataApi.getDefaultContestID()
-  ): Promise<any> {
-    logger.info("run getScore", "submissionsAPI");
-    const standings_url = `https://atcoder.jp/contests/${contestID}/score/json`;
-    const responce = await Atcoder.axiosInstance.get(standings_url, {
-      maxRedirects: 0,
-      validateStatus: function (status) {
-        return status < 500;
-      },
-    });
-    if (responce.status !== 302) {
-      //そもそも予定されていないコンテストをSetContestIDに設定することはできないので404対策は付けない
-      if (responce.data !== `"error"`) {
-        //atcoderの謎仕様に注意
-        //予定されているコンテストの場合302ではなく`"error"`（ダブルクォーテーションがいる）を返す
-        return responce.data;
-      } else {
-        console.log("ready");
-        return [];
-      }
-    } else {
-      console.log("must login");
-      return [];
-    }
-  }
-
-  /**
    * 自分の提出を取得
    * 一回のみ Intervalについて何も動作なし
    */
@@ -157,9 +126,9 @@ class submissions {
    */
   async submitCheck(contestID: string) {
     // --ここからチェックに必要な処理を定義--
-    async function getSubmitStatus(
+    const getSubmitStatus = async (
       submissionData: submissionData
-    ): Promise<submitStatus> {
+    ): Promise<submitStatus> => {
       // const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/${submissionData.submit_id}/status/json`;
       const submissionStatusUrl = `https://atcoder.jp/contests/${submissionData.contestName}/submissions/me/status/json?reload=true&sids[]=${submissionData.submit_id}`;
       const responce = await Atcoder.axiosInstance.get(submissionStatusUrl, {
@@ -186,8 +155,10 @@ class submissions {
         logger.info("Need to Login", "submissionsAPI");
         return { submissionData, status: "ER", labelColor: "default" };
       }
-    }
+    };
+
     /**
+     * 定義
      * Intervalがなくなるまで、結果を受信し続けて、Promiseで返す
      */
     const getSubmitStatus_WaitInterval = async (
@@ -227,7 +198,9 @@ class submissions {
         }
       }
     };
+
     // --ここからチェックに関する処理--
+    // getSubmitStatus_WaitIntervalを実際に実行
     const submissionList = await this.getSubmissionMe(contestID);
     if (submissionList[0]) {
       // 多分１番目のものが直前に提出したもの
