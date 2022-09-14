@@ -12,6 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { submitStatus } from "../../../src_main/data/scraping/submit-data";
 import { ipcRendererManager } from "../../ipc";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,7 +117,9 @@ export const SnackMessage = forwardRef<
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Paper className={classes.collapse}>
             <Typography gutterBottom>詳細</Typography>
-            {submitStatus.submissionData.created}
+            {dayjs(submitStatus.submissionData.created).format(
+              "YY/MM/DD HH:mm:ss"
+            )}
             <br />
             {submitStatus.status}:{submitStatus.submissionData.language}
           </Paper>
