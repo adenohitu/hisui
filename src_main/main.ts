@@ -35,6 +35,7 @@ import { codeTestApi } from "./code-test/codetest";
 import { setupAutoUpdater } from "./service/autoupdate";
 import { setupStoreIPC } from "./save/store-ipc";
 import { setupStoreDockerDefaultValue } from "./vm-system/docker-path";
+import { submissionDBApi } from "./data/submission-db";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -212,3 +213,4 @@ codeTestApi.codeTestSetup();
 setupAutoUpdater();
 // Storeに初期値をセット
 setupStoreDockerDefaultValue();
+submissionDBApi.setupEvent();

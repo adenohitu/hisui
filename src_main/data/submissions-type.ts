@@ -5,16 +5,16 @@ export interface submissionData {
   created: string;
   contestName: string;
   taskScreenName: string;
-  taskname_render: string;
+  taskname_render: string | null;
   task_url: string;
   user: string;
   language: string;
   score: string;
   source_length: string;
   result: string;
-  result_explanation: string;
-  time_consumption: string;
-  memory_consumption: string;
+  result_explanation: string | null;
+  time_consumption: string | null;
+  memory_consumption: string | null;
   submit_id: string;
   submit_url: string;
 }

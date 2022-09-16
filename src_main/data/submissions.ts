@@ -22,13 +22,6 @@ class submissions {
    * eventの設定
    */
   async eventSetup() {
-    hisuiEvent.on("DefaultContestID-change", (arg) => {
-      // this.nowDefaultContest = arg;
-      this.updateSubmissions();
-    });
-    hisuiEvent.on("submit", () => {
-      this.updateSubmissions();
-    });
     /**
      * 提出を監視
      */
@@ -73,12 +66,20 @@ class submissions {
   /**
    * 自分の提出を取得
    * 一回のみ Intervalについて何も動作なし
+   * contestIDを指定しない場合デフォルトのコンテストが使用される
+   * taskScreenNameを指定すると取得時に検索クエリを追加する
    */
   async getSubmissionMe(
-    contestID: string = contestDataApi.getDefaultContestID()
-  ) {
+    contestID: string = contestDataApi.getDefaultContestID(),
+    taskScreenName?: string
+  ): Promise<submissionData[]> {
     logger.info("run get_submissions_me", "submissionsAPI");
-    const standings_url = `https://atcoder.jp/contests/${contestID}/submissions/me`;
+    // taskScreenNameがある場合クエリ付きのURLにする
+    const standings_url =
+      (taskScreenName &&
+        `https://atcoder.jp/contests/${contestID}/submissions/me?f.Task=${taskScreenName}&f.LanguageName=&f.Status=&f.User=`) ||
+      `https://atcoder.jp/contests/${contestID}/submissions/me`;
+    //
     const responce = await Atcoder.axiosInstance.get(standings_url, {
       maxRedirects: 0,
       validateStatus: function (status) {
@@ -103,12 +104,7 @@ class submissions {
       return [];
     }
   }
-  ipcSetup() {
-    // submissionsを更新する
-    ipcMainManager.on("RUN_UPDATE_SUBMISSIONS", () => {
-      this.updateSubmissions();
-    });
-  }
+  ipcSetup() {}
   /**
    * ジャッジ中のものがある場合、Intervalを取った後もう一度リクエスト
    */
