@@ -57,7 +57,6 @@ export function SubmissionTable() {
             </TableCell>
             <TableCell align="left">提出言語</TableCell>
             <TableCell align="right">実行時間</TableCell>
-            <TableCell align="right">メモリ</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
@@ -88,7 +87,6 @@ export function SubmissionTable() {
               </TableCell>
               <TableCell align="left">{row.language}</TableCell>
               <TableCell align="right">{row.time_consumption}</TableCell>
-              <TableCell align="right">{row.memory_consumption}</TableCell>
               <TableCell align="right">
                 <IconButton
                   aria-label="delete"

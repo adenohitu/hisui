@@ -1,6 +1,7 @@
 // taskcontを管理するApi
 import { codeTestInfo } from "../code-test/codetest";
 import { contestDataApi } from "../data/contestdata";
+import { submissionDBApi } from "../data/submission-db";
 import { hisuiEvent } from "../event/event";
 import { languagetype } from "../file/extension";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
@@ -129,6 +130,8 @@ class taskControl {
        */
       this.nowTop = taskScreenName;
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
+      // 問題の提出一覧を更新
+      submissionDBApi.updateOneTaskSubmissionList(contestName, taskScreenName);
     }
   }
   /**
