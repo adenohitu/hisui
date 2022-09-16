@@ -255,6 +255,7 @@ export class taskViewWindow {
       if (view !== undefined) {
         this.win.removeBrowserView(view.view);
         logger.info(`CloseView id:${id}`, "TaskViewWindowAPI");
+        this.windowList.filter((ida) => ida !== id);
         delete this.view[id];
         if (this.nowPrimaryViewId === id) {
           this.changePrimaryID(null);
@@ -272,6 +273,8 @@ export class taskViewWindow {
         this.win?.removeBrowserView(this.view[key].view);
       });
       this.view = {};
+      this.windowList = [];
+      this.nowPrimaryViewId = null;
     }
   }
 

@@ -145,9 +145,10 @@ class submissionDB {
       if (this.cachePloblemSubmissionMeAllList.length < this.submissionsCount) {
         // キャッシュ数が取得した提出数よりも少なかったら実行
         if (this.cachePloblemSubmissionMeAllList.length === 0) {
+          // 古いものからキャッシュする
           const update = await this.updatePloblemSubmissionMeAll("0000000000");
           if (update?.length !== 1) {
-            await sleep(15000);
+            await sleep(5000);
             this.updatePloblemSubmissionMeAllFromLastestSubmission();
           }
         } else {
@@ -155,7 +156,7 @@ class submissionDB {
             `${dayjs(this.cachePloblemSubmissionMeAllList[0].created).unix()}`
           );
           if (update?.length !== 1) {
-            await sleep(15000);
+            await sleep(5000);
             this.updatePloblemSubmissionMeAllFromLastestSubmission();
           }
         }
