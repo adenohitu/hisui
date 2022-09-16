@@ -13,6 +13,7 @@ import {
   mergedProblemType,
   SubmissionAtCoderProblems,
 } from "./interface/atcoder-ploblems";
+import { submitStatus } from "./scraping/submit-data";
 import { submissionsApi } from "./submissions";
 import { submissionData } from "./submissions-type";
 const sleep = (msec: number) =>
@@ -251,6 +252,19 @@ class submissionDB {
     });
     hisuiEvent.on("DefaultContestID-change", (arg) => {
       this.updateDefaultContestSubmissionList();
+    });
+
+    /**
+     * 提出を監視
+     */
+    hisuiEvent.on("submit-status-start", (m: submitStatus) => {
+      this.updateAllList([m.submissionData]);
+    });
+    hisuiEvent.on("submit-status", (m: submitStatus) => {
+      this.updateAllList([m.submissionData]);
+    });
+    hisuiEvent.on("submit-status-finish", (m: submitStatus) => {
+      this.updateAllList([m.submissionData]);
     });
   }
 
