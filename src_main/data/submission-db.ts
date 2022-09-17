@@ -6,6 +6,12 @@ import axios, {
 } from "axios";
 import dayjs from "dayjs";
 import { hisuiEvent } from "../event/event";
+import {
+  loadCacheAtCoderSubmissions,
+  loadCachePloblemsSubmissions,
+  saveCacheAtCoderSubmissions,
+  saveCachePloblemsSubmissions,
+} from "../file/submission-fs";
 import { ipcMainManager } from "../ipc/ipc";
 import { logger } from "../tool/logger/logger";
 import { Atcoder } from "./atcoder";
@@ -92,6 +98,7 @@ class submissionDB {
     this.cacheAtCoderSubmissionsMeAllList = this.sortAllList(
       this.cacheAtCoderSubmissionsMeAllList
     );
+    this.saveCacheAtCoderSubmissions();
   }
 
   /**
@@ -122,6 +129,7 @@ class submissionDB {
     this.cacheAtCoderSubmissionsMeAllList = this.sortAllList(
       this.cacheAtCoderSubmissionsMeAllList
     );
+    this.saveCacheAtCoderSubmissions();
   }
   /**
    * PloblemのSubmissionListから取得する
@@ -235,6 +243,7 @@ class submissionDB {
         this.cachePloblemSubmissionMeAllList = this.sortAllList(
           this.cachePloblemSubmissionMeAllList
         );
+        this.saveCachePloblemsSubmissions();
         return list;
       }
     }
@@ -245,6 +254,9 @@ class submissionDB {
    * checkIntervalからのイベントを受け取り、リストを更新する
    */
   async setupEvent() {
+    // キャッシュの読み込み
+    this.loadCachePloblemsSubmissions();
+    this.loadCacheAtCoderSubmissions();
     // submissionsを更新する
     ipcMainManager.on("RUN_UPDATE_SUBMISSIONS", () => {
       this.updateDefaultContestSubmissionList();
@@ -290,10 +302,7 @@ class submissionDB {
     });
 
     this.submissionsMeAllList = this.sortAllList(this.submissionsMeAllList);
-    ipcMainManager.send(
-      "LISTENER_RETUEN_SUBMISSIONS",
-      this.submissionsMeAllList
-    );
+    this.sendSubmissionsList();
   }
 
   /**
@@ -306,6 +315,44 @@ class submissionDB {
         return dayjs(a.created).unix() > dayjs(b.created).unix() ? 1 : -1;
       })
       .reverse();
+  }
+  /**
+   * レンダーに提出リストを送信
+   */
+  private sendSubmissionsList() {
+    ipcMainManager.send(
+      "LISTENER_RETUEN_SUBMISSIONS",
+      this.submissionsMeAllList
+    );
+  }
+  /**
+   * キャッシュ保持を実行
+   */
+  private async saveCacheAtCoderSubmissions() {
+    const datatoJson = JSON.stringify(this.cacheAtCoderSubmissionsMeAllList);
+    saveCacheAtCoderSubmissions(datatoJson);
+  }
+  private async saveCachePloblemsSubmissions() {
+    const datatoJson = JSON.stringify(this.cachePloblemSubmissionMeAllList);
+    saveCachePloblemsSubmissions(datatoJson);
+  }
+  /**
+   * キャッシュデータを復元
+   */
+  private async loadCacheAtCoderSubmissions() {
+    const loadData = await loadCacheAtCoderSubmissions();
+    if (loadData.data !== "") {
+      const parseData = JSON.parse(loadData.data);
+      this.updateAllList(parseData);
+    }
+  }
+  private async loadCachePloblemsSubmissions() {
+    const loadData = await loadCachePloblemsSubmissions();
+    if (loadData.data !== "") {
+      const parseData = JSON.parse(loadData.data);
+      this.cachePloblemSubmissionMeAllList = parseData;
+      this.updateAllList(parseData);
+    }
   }
 }
 export const submissionDBApi = new submissionDB();
