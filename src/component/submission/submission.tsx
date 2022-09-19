@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,96 +8,72 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Box, Button, Typography } from "@mui/material";
 import { MosaicWindowContext } from "react-mosaic-component";
 import { ipcRendererManager } from "../../ipc";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { ChipJudgeResult } from "../chip/judge-result";
 import { submissionData } from "../../../src_main/data/submissions-type";
-
+import { useSubmisisons } from "./submissions-hooks";
 const dayjs = require("dayjs");
 const useStyles = makeStyles({
   root: { height: "100%", boxShadow: "none" },
   table: {
-    minWidth: 650,
+    minWidth: 500,
   },
 });
 
 export function SubmissionTable() {
   const classes = useStyles();
-  const [rows, setrows] = useState<submissionData[]>([]);
-  useEffect(() => {
-    ipcRendererManager.on("LISTENER_RETUEN_SUBMISSIONS", (event, arg) => {
-      setrows(arg);
-      console.log(arg);
-    });
-  }, []);
-
+  const submissionhooks = useSubmisisons();
   const openurl = (url: string) => {
     const open = `https://atcoder.jp${url}`;
     ipcRendererManager.invoke("OPEN_SUBMISSION_PAGE", open);
   };
-  // //初回だけ実行
-  useEffect(() => {
-    //ipc送信関数
-    ipcRendererManager.send("RUN_UPDATE_SUBMISSIONS");
-  }, []);
+
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table stickyHeader className={classes.table} size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="left">提出日時</TableCell>
-            <TableCell size="small" align="center">
+            <TableCell sx={{ width: "80px" }} align="left">
+              提出日時
+            </TableCell>
+            <TableCell sx={{ width: "80px" }} size="small" align="center">
               結果
             </TableCell>
             <TableCell size="medium" align="left">
               問題
             </TableCell>
-            <TableCell align="left">提出言語</TableCell>
-            <TableCell align="right">実行時間</TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell sx={{ width: "130px" }} align="left">
+              提出言語
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: submissionData) => (
-            <TableRow key={row.created}>
+          {submissionhooks.rows.map((row: submissionData, index) => (
+            <TableRow key={index}>
               <TableCell size="small">
                 {dayjs(row.created).format("YY/MM/DD")}
                 <br />
                 {dayjs(row.created).format("HH:mm:ss")}
               </TableCell>
-              <TableCell size="small" align="center">
+              <TableCell align="center">
                 <ChipJudgeResult result={row.result} />
               </TableCell>
-              <TableCell align="left">
-                <Typography
-                  variant="body2"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => {
-                    ipcRendererManager.send("CREATE_TASKCONT", {
-                      contestName: row.contestName,
-                      taskScreenName: row.taskScreenName,
-                    });
-                  }}
-                >
-                  {row.taskname_render}
-                </Typography>
+              <TableCell
+                sx={{ cursor: "pointer" }}
+                onClick={() => {
+                  openurl(row.submit_url);
+                }}
+                align="left"
+              >
+                <Typography variant="body2"></Typography>
+                {row.contestName}
+                <br />
+                <Typography variant="body1">{row.taskname_render}</Typography>
               </TableCell>
               <TableCell align="left">{row.language}</TableCell>
-              <TableCell align="right">{row.time_consumption}</TableCell>
-              <TableCell align="right">
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  onClick={() => {
-                    openurl(row.submit_url);
-                  }}
-                >
-                  <OpenInNewIcon fontSize="inherit" />
-                </IconButton>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -142,6 +118,7 @@ export class ReloadButtonAddtionals extends React.PureComponent {
     );
   }
 }
+
 /**
  * mosaicのtoolbarControlsに入れる
  */
