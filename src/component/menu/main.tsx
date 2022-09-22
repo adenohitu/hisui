@@ -170,7 +170,7 @@ export const WindowRoot = () => {
       </IconButton>
     );
     ipcRendererManager.on("SEND_NOTIFICARION", (e, arg: string) => {
-      enqueueSnackbar(arg, { action });
+      enqueueSnackbar(arg, { action, style: { whiteSpace: "pre-line" } });
     });
 
     ipcRendererManager.on(

@@ -138,6 +138,12 @@ class submissionDB {
    * 古いものから新しいものに向かって取得する
    */
   async updatePloblemSubmissionMeAllFromLastestSubmission() {
+    if (this.cachePloblemSubmissionMeAllList.length === 0) {
+      ipcMainManager.send(
+        "SEND_NOTIFICARION",
+        "過去の提出を取得しています。\nこれには時間がかかる可能性があります"
+      );
+    }
     const userID = Atcoder.getUsername();
     if (this.submissionsCount === null) {
       // AtCoderPloblemsで取得できるSubmissionStatusの数を取得
