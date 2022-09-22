@@ -36,6 +36,9 @@ import { setupAutoUpdater } from "./service/autoupdate";
 import { setupStoreIPC } from "./save/store-ipc";
 import { setupStoreDockerDefaultValue } from "./vm-system/docker-path";
 import { submissionDBApi } from "./data/submission-db";
+// import installExtension, {
+//   REACT_DEVELOPER_TOOLS,
+// } from "electron-devtools-installer";
 
 // webcontentsの監視の開始
 monitoringWebContents();
@@ -112,11 +115,10 @@ function createWindow() {
   if (store.get("window.main.isMax")) {
     win.maximize();
   }
-  // // DevTools
-
-  // installExtension(REDUX_DEVTOOLS)
-  //   .then((name) => console.log(`Added Extension:  ${name}`))
-  //   .catch((err) => console.log("An error occurred: ", err));
+  // DevTools
+  // installExtension([REACT_DEVELOPER_TOOLS])
+  //   .then((name) => console.log(name))
+  //   .catch((err) => console.log(err));
   async function initView() {
     Promise.all([
       // taskViewWindowをセットアップ

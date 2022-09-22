@@ -1,7 +1,6 @@
 import React from "react";
 import { CodeTestWindow } from "../../codetest/codetest-status";
 import { MainEditor } from "../editor";
-import { ReloadButtonTool, SubmissionTable } from "../../submission/submission";
 import { MosaicNode } from "react-mosaic-component";
 import { OpenSettingTool } from "../setting-window/system-setting";
 import { monacoElement } from "../../mosaic/mosaic-hooks";
@@ -11,6 +10,10 @@ import { ipcRendererManager } from "../../../ipc";
 import { focussubmission } from "./editorwindow";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import { customTestWindowOpen } from "../../codetest/run-window";
+import {
+  ReloadButtonTool,
+  SubmissionsTable,
+} from "../../submission/submissions";
 const SendButton = () => {
   return (
     <IconButton
@@ -50,7 +53,7 @@ export const TITLE_ELEMENT: monacoElement = {
   },
   submission: {
     name: "提出一覧",
-    component: <SubmissionTable />,
+    component: <SubmissionsTable />,
     toolbarControls: React.Children.toArray([<ReloadButtonTool />]),
   },
   codeTest: {

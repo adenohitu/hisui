@@ -1,7 +1,6 @@
 import RankCard from "../rank/rank";
 import SimpleCard from "../clock/window_time_card";
 import CollapsibleTable, { ReloadButtonToolScore } from "../score/myscore";
-import { ReloadButtonTool, SubmissionTable } from "../submission/submission";
 import { Totaltable } from "../total/total";
 import React from "react";
 import { RemoveButton } from "../mosaic/buttons/RemoveButton";
@@ -36,14 +35,6 @@ export const TITLE_ELEMENT: {
     name: "提出状況",
     component: <Totaltable />,
     toolbarControls: React.Children.toArray([<RemoveButton />]),
-  },
-  submission: {
-    name: "提出一覧",
-    component: <SubmissionTable />,
-    toolbarControls: React.Children.toArray([
-      <ReloadButtonTool />,
-      <RemoveButton />,
-    ]),
   },
   // editor: { name: "Editor", component: <MainEditor /> },
 };

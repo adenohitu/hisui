@@ -1,30 +1,27 @@
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { submissionData } from "../../../src_main/data/submissions-type";
 import { ipcRendererManager } from "../../ipc";
-
+export interface submissionDataMarge extends submissionData {
+  createDateRender: string;
+}
 export const useSubmisisons = () => {
-  const [rows, setrows] = useState<submissionData[]>([]);
-  const [selectedData, setDelectedData] = useState<submissionData[]>([]);
-  const [selectedContestName, setSelectedContestName] = useState<string | null>(
-    null
-  );
+  const [rows, setrows] = useState<submissionDataMarge[]>([]);
 
   useEffect(() => {
-    const filterContestName = (contestName: string) => {
-      return rows.filter((ele) => ele.contestName === contestName);
-    };
-    if (selectedContestName !== null) {
-      setDelectedData(filterContestName(selectedContestName));
-    } else {
-      setDelectedData(rows);
-    }
-  }, [rows, selectedContestName]);
-
-  useEffect(() => {
-    ipcRendererManager.on("LISTENER_RETUEN_SUBMISSIONS", (event, arg) => {
-      // 一時的に200件に制限
-      setrows(arg.slice(0, 200));
-    });
+    ipcRendererManager.on(
+      "LISTENER_RETUEN_SUBMISSIONS",
+      (event, arg: submissionData[]) => {
+        setrows(
+          arg.slice().map((ele) => {
+            return {
+              createDateRender: dayjs(ele.created).format("YY/MM/DD HH:mm:ss"),
+              ...ele,
+            };
+          })
+        );
+      }
+    );
   }, []);
   // //初回だけ実行
   useEffect(() => {
@@ -35,9 +32,5 @@ export const useSubmisisons = () => {
   return {
     rows,
     setrows,
-    selectedData,
-    setDelectedData,
-    selectedContestName,
-    setSelectedContestName,
   };
 };
