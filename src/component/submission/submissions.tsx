@@ -4,7 +4,6 @@ import MaterialReactTable, {
   Virtualizer,
 } from "material-react-table";
 import { MRT_Localization_JA } from "material-react-table/locales/ja";
-import type { ColumnFiltersState } from "@tanstack/react-table";
 import { SortingState } from "@tanstack/react-table";
 import { submissionDataMarge, useSubmisisons } from "./submissions-hooks";
 import { ipcRendererManager } from "../../ipc";
@@ -22,10 +21,12 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { ChipJudgeResult } from "../chip/judge-result";
 import dayjs from "dayjs";
-// import { useAppStatus } from "../editor/tool/statusbar/status-hooks";
-// import { defaultContestIDState } from "../../recoil/atom";
-// import { useRecoilValue } from "recoil";
+import { useAppStatus } from "../editor/tool/statusbar/status-hooks";
+import { defaultContestIDState } from "../../recoil/atom";
+import { useRecoilValue } from "recoil";
 import Check from "@mui/icons-material/Check";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { submissionsListColumnFiltersState } from "./submission-atom";
 
 export const SubmissionsTable: FC = () => {
   const columns = useMemo<MRT_ColumnDef<submissionDataMarge>[]>(
@@ -78,6 +79,17 @@ export const SubmissionsTable: FC = () => {
         },
       },
       {
+        accessorKey: "taskScreenName",
+        header: "taskScreenName",
+        size: 80,
+        muiTableBodyCellProps: {
+          align: "center",
+        },
+        muiTableHeadCellProps: {
+          align: "center",
+        },
+      },
+      {
         accessorKey: "taskname_render",
         header: "問題",
         muiTableBodyCellProps: {
@@ -116,7 +128,9 @@ export const SubmissionsTable: FC = () => {
   //   const [data, setData] = useState<submissionData[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const submissionhooks = useSubmisisons();
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useRecoilState(
+    submissionsListColumnFiltersState
+  );
   useEffect(() => {
     console.log([columnFilters]);
   }, [columnFilters]);
@@ -145,7 +159,7 @@ export const SubmissionsTable: FC = () => {
       enableRowVirtualization
       initialState={{
         density: "compact",
-        columnVisibility: { contestName: false },
+        columnVisibility: { contestName: false, taskScreenName: false },
       }}
       muiTableContainerProps={() => ({
         sx: {
@@ -210,17 +224,60 @@ export const SubmissionFilterStatus = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [selected, setSelected] = useState(2);
+  const setColumnFilters = useSetRecoilState(submissionsListColumnFiltersState);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  // const editorStatus = useAppStatus();
-  // const defaultContestID = useRecoilValue(defaultContestIDState);
+  const editorStatus = useAppStatus();
+  const defaultContestID = useRecoilValue(defaultContestIDState);
   const handleClose = (selectindex: number | null) => {
     if (selectindex !== null) {
       setSelected(selectindex);
+      if (selectindex === 0) {
+        setColumnFilters([
+          {
+            id: "taskScreenName",
+            value: editorStatus.taskScreenName,
+          },
+        ]);
+      } else if (selectindex === 1) {
+        setColumnFilters([
+          {
+            id: "contestName",
+            value: defaultContestID,
+          },
+        ]);
+      } else {
+        setColumnFilters([]);
+      }
     }
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (selected === 0) {
+      setColumnFilters([
+        {
+          id: "taskScreenName",
+          value: editorStatus.taskScreenName,
+        },
+      ]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editorStatus.taskScreenName]);
+
+  useEffect(() => {
+    if (selected === 1) {
+      setColumnFilters([
+        {
+          id: "contestName",
+          value: defaultContestID,
+        },
+      ]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultContestID]);
+
   return (
     <>
       <IconButton
