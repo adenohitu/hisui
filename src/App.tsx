@@ -14,6 +14,7 @@ import {
 import { ipcRendererManager } from "./ipc";
 import { LibManagement } from "./component/lib-management/main";
 import { SnackbarProvider } from "notistack";
+import { RecoilInitEffect } from "./component/recoil/init";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -36,6 +37,7 @@ const App: React.FC = () => {
           <Switch>
             <Route path="/mainwindow-root" exact>
               <RecoilRoot>
+                <RecoilInitEffect />
                 <SnackbarProvider>
                   <WindowRoot />
                 </SnackbarProvider>

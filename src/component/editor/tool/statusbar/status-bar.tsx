@@ -9,7 +9,8 @@ export function StatusBar() {
   useEffect(() => {
     ipcRendererManager.on("LISTENER_EDITOR_STATUS", (e, arg: editorStatus) => {
       appStatus.setContestName(arg.contestName);
-      appStatus.setTaskname(String(arg.AssignmentName));
+      appStatus.setTaskScreenName(arg.TaskScreenName);
+      appStatus.setAssignmentName(String(arg.AssignmentName));
       appStatus.setLanguage(arg.language);
       appStatus.setCodeSize(String(arg.taskcodeByte));
       appStatus.setSubmitLanguagename(
@@ -39,7 +40,7 @@ export function StatusBar() {
       >
         {appStatus.contestName}
       </StatusTextButton>
-      <StatusTextButton>{appStatus.taskname}</StatusTextButton>
+      <StatusTextButton>{appStatus.taskScreenName}</StatusTextButton>
       <StatusTextButton float="right">{`${appStatus.codeSize} Byte`}</StatusTextButton>
       <StatusTextButton
         onClick={() => {

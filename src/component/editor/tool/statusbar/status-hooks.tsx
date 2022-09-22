@@ -1,16 +1,17 @@
 import { useRecoilState } from "recoil";
 import {
   contestNameState,
-  TaskScreenNameState,
+  taskScreenNameState,
   languageState,
   taskcodeByteState,
   submitLanguageState,
   AssignmentNameState,
-} from "../../../../recoil/atom";
+} from "./status-atom";
 
 export const useAppStatus = () => {
   const [contestName, setContestName] = useRecoilState(contestNameState);
-  const [taskname, setTaskname] = useRecoilState(TaskScreenNameState);
+  const [taskScreenName, setTaskScreenName] =
+    useRecoilState(taskScreenNameState);
   const [assignmentName, setAssignmentName] =
     useRecoilState(AssignmentNameState);
   const [language, setLanguage] = useRecoilState(languageState);
@@ -20,7 +21,7 @@ export const useAppStatus = () => {
 
   return {
     contestName,
-    taskname,
+    taskScreenName,
     assignmentName,
     language,
     codeSize,
@@ -30,6 +31,6 @@ export const useAppStatus = () => {
     setLanguage,
     setAssignmentName,
     setSubmitLanguagename,
-    setTaskname,
+    setTaskScreenName,
   };
 };

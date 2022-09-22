@@ -8,13 +8,24 @@ import type { ColumnFiltersState } from "@tanstack/react-table";
 import { SortingState } from "@tanstack/react-table";
 import { submissionDataMarge, useSubmisisons } from "./submissions-hooks";
 import { ipcRendererManager } from "../../ipc";
-import { IconButton, Typography, Tooltip, Menu, MenuItem } from "@mui/material";
+import {
+  IconButton,
+  Typography,
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { ChipJudgeResult } from "../chip/judge-result";
 import dayjs from "dayjs";
-import { useAppStatus } from "../editor/tool/statusbar/status-hooks";
+// import { useAppStatus } from "../editor/tool/statusbar/status-hooks";
+// import { defaultContestIDState } from "../../recoil/atom";
+// import { useRecoilValue } from "recoil";
+import Check from "@mui/icons-material/Check";
 
 export const SubmissionsTable: FC = () => {
   const columns = useMemo<MRT_ColumnDef<submissionDataMarge>[]>(
@@ -198,13 +209,18 @@ export const ReloadButtonTool = () => {
 export const SubmissionFilterStatus = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [selected, setSelected] = useState(2);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  // const editorStatus = useAppStatus();
+  // const defaultContestID = useRecoilValue(defaultContestIDState);
+  const handleClose = (selectindex: number | null) => {
+    if (selectindex !== null) {
+      setSelected(selectindex);
+    }
     setAnchorEl(null);
   };
-  const names = useAppStatus();
   return (
     <>
       <IconButton
@@ -221,14 +237,49 @@ export const SubmissionFilterStatus = () => {
         id="submissions-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose(null);
+        }}
         MenuListProps={{
           "aria-labelledby": "submissions-button",
         }}
       >
-        <MenuItem onClick={handleClose}>{names.taskname}</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose(0);
+          }}
+        >
+          {selected === 0 && (
+            <ListItemIcon>
+              <Check />
+            </ListItemIcon>
+          )}
+          <ListItemText>選択された問題の提出だけを表示</ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose(1);
+          }}
+        >
+          {selected === 1 && (
+            <ListItemIcon>
+              <Check />
+            </ListItemIcon>
+          )}
+          <ListItemText>デフォルトコンテストの提出だけを表示</ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose(2);
+          }}
+        >
+          {selected === 2 && (
+            <ListItemIcon>
+              <Check />
+            </ListItemIcon>
+          )}
+          <ListItemText>全ての提出を表示</ListItemText>
+        </MenuItem>
       </Menu>
     </>
   );
