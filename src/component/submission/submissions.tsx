@@ -8,11 +8,13 @@ import type { ColumnFiltersState } from "@tanstack/react-table";
 import { SortingState } from "@tanstack/react-table";
 import { submissionDataMarge, useSubmisisons } from "./submissions-hooks";
 import { ipcRendererManager } from "../../ipc";
-import { IconButton, Typography, Tooltip } from "@mui/material";
+import { IconButton, Typography, Tooltip, Menu, MenuItem } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { ChipJudgeResult } from "../chip/judge-result";
 import dayjs from "dayjs";
+import { useAppStatus } from "../editor/tool/statusbar/status-hooks";
 
 export const SubmissionsTable: FC = () => {
   const columns = useMemo<MRT_ColumnDef<submissionDataMarge>[]>(
@@ -191,5 +193,43 @@ export const ReloadButtonTool = () => {
     >
       <RefreshIcon />
     </IconButton>
+  );
+};
+export const SubmissionFilterStatus = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const names = useAppStatus();
+  return (
+    <>
+      <IconButton
+        size="small"
+        id="submissions-button"
+        aria-controls={open ? "submissions-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
+        <ManageSearchIcon />
+      </IconButton>
+      <Menu
+        id="submissions-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "submissions-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>{names.taskname}</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
+    </>
   );
 };

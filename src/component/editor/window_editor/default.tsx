@@ -12,6 +12,7 @@ import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import { customTestWindowOpen } from "../../codetest/run-window";
 import {
   ReloadButtonTool,
+  SubmissionFilterStatus,
   SubmissionsTable,
 } from "../../submission/submissions";
 const SendButton = () => {
@@ -54,7 +55,10 @@ export const TITLE_ELEMENT: monacoElement = {
   submission: {
     name: "提出一覧",
     component: <SubmissionsTable />,
-    toolbarControls: React.Children.toArray([<ReloadButtonTool />]),
+    toolbarControls: React.Children.toArray([
+      <SubmissionFilterStatus />,
+      <ReloadButtonTool />,
+    ]),
   },
   codeTest: {
     name: "テスト結果:AtCoderCustomTest",

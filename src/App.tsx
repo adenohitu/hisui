@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import { WindowRoot } from "./component/menu/main";
 import { TaskViewToolbar } from "./component/taskview/toolbar";
 import "@fontsource/roboto";
@@ -34,9 +35,11 @@ const App: React.FC = () => {
         <HashRouter>
           <Switch>
             <Route path="/mainwindow-root" exact>
-              <SnackbarProvider>
-                <WindowRoot />
-              </SnackbarProvider>
+              <RecoilRoot>
+                <SnackbarProvider>
+                  <WindowRoot />
+                </SnackbarProvider>
+              </RecoilRoot>
             </Route>
             <Route path="/taskview" exact>
               <TaskViewToolbar />
