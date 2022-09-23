@@ -339,7 +339,7 @@ export class taskViewWindow {
     } else {
       return this.addView(
         "lib-management",
-        `file://${__dirname}/../../index.html#/lib-management`,
+        `file://${__dirname}/../src/index.html#/lib-management`,
         path.resolve(__dirname, "../preload/preload.js")
       );
     }
