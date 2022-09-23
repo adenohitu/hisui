@@ -22,14 +22,6 @@ jobs:
       - uses: actions/setup-node@v3.3.0
         with:
           node-version: "16.15.1"
-      # releaseを作成
-      - name: create release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          draft: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: node_modules cache
         uses: actions/cache@v2
         with:
@@ -47,9 +39,18 @@ jobs:
           ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
           APIKEYID: ${{ secrets.APIKEYID }}
           APIISSUER: ${{ secrets.APIISSUER }}
-      # ファイル名の被りを回避
       - name: rename log file
         run: mv dist/builder-debug.yml dist/builder-debug-mac.yml
+      - name: create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+          files: |
+            dist/*.dmg
+            dist/*.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Windows 用の job 定義
   build_on_win:
     runs-on: windows-latest
@@ -58,14 +59,6 @@ jobs:
       - uses: actions/setup-node@v3.3.0
         with:
           node-version: "16.15.1"
-      # releaseを作成
-      - name: create release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          draft: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: node_modules cache
         uses: actions/cache@v2
         with:
@@ -76,5 +69,15 @@ jobs:
       - name: build application
         run: yarn build:win
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+          files: |
+            dist/*.exe
+            dist/*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
