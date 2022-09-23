@@ -1,9 +1,26 @@
 import { makeStyles } from "@mui/styles";
+import { useEffect } from "react";
+import { editorStatus } from "../../../../../src_main/editor/taskcont";
 import { ipcRendererManager } from "../../../../ipc";
 import { handleClickOpenSelectLanguageDialog } from "../setting/languagedialog";
 import { useAppStatus } from "./status-hooks";
 export function StatusBar() {
   const appStatus = useAppStatus();
+  useEffect(() => {
+    ipcRendererManager.on("LISTENER_EDITOR_STATUS", (e, arg: editorStatus) => {
+      appStatus.setContestName(arg.contestName);
+      appStatus.setTaskScreenName(arg.TaskScreenName);
+      appStatus.setAssignmentName(String(arg.AssignmentName));
+      appStatus.setLanguage(arg.language);
+      appStatus.setCodeSize(String(arg.taskcodeByte));
+      appStatus.setSubmitLanguagename(
+        (arg.submitLanguage?.Languagename &&
+          arg.submitLanguage?.Languagename) ||
+          ""
+      );
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div
       style={{
@@ -23,7 +40,7 @@ export function StatusBar() {
       >
         {appStatus.contestName}
       </StatusTextButton>
-      <StatusTextButton>{appStatus.taskname}</StatusTextButton>
+      <StatusTextButton>{appStatus.taskScreenName}</StatusTextButton>
       <StatusTextButton float="right">{`${appStatus.codeSize} Byte`}</StatusTextButton>
       <StatusTextButton
         onClick={() => {

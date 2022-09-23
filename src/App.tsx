@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import { WindowRoot } from "./component/menu/main";
 import { TaskViewToolbar } from "./component/taskview/toolbar";
 import "@fontsource/roboto";
@@ -13,6 +14,7 @@ import {
 import { ipcRendererManager } from "./ipc";
 import { LibManagement } from "./component/lib-management/main";
 import { SnackbarProvider } from "notistack";
+import { RecoilInitEffect } from "./component/recoil/init";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -34,9 +36,12 @@ const App: React.FC = () => {
         <HashRouter>
           <Switch>
             <Route path="/mainwindow-root" exact>
-              <SnackbarProvider>
-                <WindowRoot />
-              </SnackbarProvider>
+              <RecoilRoot>
+                <RecoilInitEffect />
+                <SnackbarProvider>
+                  <WindowRoot />
+                </SnackbarProvider>
+              </RecoilRoot>
             </Route>
             <Route path="/taskview" exact>
               <TaskViewToolbar />

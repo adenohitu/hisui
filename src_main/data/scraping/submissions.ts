@@ -1,26 +1,9 @@
 import { createTaskcontFromOriginalURL_NoOrigin } from "../../tool/taskurl-parser";
+import { submissionData } from "../submissions-type";
 
 //atcoder.jp/contests/*/submissions/meをスクレイピングする
 const { JSDOM } = require("jsdom");
 const dayjs = require("dayjs");
-export interface submissionData {
-  waiting_judge: boolean;
-  created: any;
-  contestName: string;
-  taskScreenName: string;
-  taskname_render: string;
-  task_url: string;
-  user: string;
-  language: any;
-  score: any;
-  source_length: any;
-  result: any;
-  result_explanation: any;
-  time_consumption: any;
-  memory_consumption: any;
-  submit_id: any;
-  submit_url: any;
-}
 /**
  * submission ページをスクレイピング
  */

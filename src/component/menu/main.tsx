@@ -170,7 +170,7 @@ export const WindowRoot = () => {
       </IconButton>
     );
     ipcRendererManager.on("SEND_NOTIFICARION", (e, arg: string) => {
-      enqueueSnackbar(arg, { action });
+      enqueueSnackbar(arg, { action, style: { whiteSpace: "pre-line" } });
     });
 
     ipcRendererManager.on(
@@ -220,12 +220,19 @@ export const WindowRoot = () => {
             </>
           );
         };
-
         enqueueSnackbar(argnoti.message, {
           key: argnoti.id,
           action,
           style: { whiteSpace: "pre-line" },
           preventDuplicate: true,
+          onClose: (e, reason, key) => {
+            if (reason === "timeout") {
+              ipcRendererManager.send("ON_RESULT_INTERACTIVE_NOTIFICARION", {
+                id: key,
+                choiceIndex: -2,
+              });
+            }
+          },
         });
       }
     );
