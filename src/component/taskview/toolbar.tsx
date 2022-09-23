@@ -14,15 +14,28 @@ export function TaskViewToolbar() {
   const [nowTopTaskScreenName, setnowTopTaskScreenName] = React.useState<
     string | null
   >(null);
-  const usememo = React.useMemo(() => {
-    const data: DOMRect = (
-      window.navigator as any
-    ).windowControlsOverlay.getTitlebarAreaRect();
-    console.log(data);
-    return data;
+  const [rectData, setRectData] = React.useState<DOMRect>({
+    x: 0,
+    y: 0,
+    width: 688,
+    height: 31,
+    top: 0,
+    right: 688,
+    bottom: 31,
+    left: 0,
+    toJSON: () => {},
+  });
+  React.useEffect(() => {
+    window.addEventListener("load", function () {
+      // 早すぎると読み込めない可能性あり
+      const data: DOMRect = (
+        window.navigator as any
+      ).windowControlsOverlay.getTitlebarAreaRect();
+      setRectData(data);
+    });
   }, []);
   const buttonStyle: SxProps = {
-    height: usememo.height,
+    height: rectData.height,
     width: "120px",
     minWidth: 0,
     borderRadius: "0px",
@@ -32,7 +45,7 @@ export function TaskViewToolbar() {
   const iconButtonStyle: SxProps = {
     color: "#fff",
     paddingY: 0,
-    height: usememo.height,
+    height: rectData.height,
   };
 
   React.useEffect(() => {
@@ -48,7 +61,7 @@ export function TaskViewToolbar() {
     <div
       style={{
         width: "100%",
-        height: usememo.height,
+        height: rectData.height,
         backgroundColor: "#282828",
       }}
       className="titlebar"
@@ -60,7 +73,7 @@ export function TaskViewToolbar() {
         }}
       >
         {platform === "darwin" && (
-          <Box my={usememo.height} ml={`${usememo.x}px`}></Box>
+          <Box my={rectData.height} ml={`${rectData.x}px`}></Box>
         )}
         <Box sx={{ overflow: "hidden" }}>
           <Box
