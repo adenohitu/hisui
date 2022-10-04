@@ -84,21 +84,8 @@ export async function runServiceStatus() {
       runServiceStatus();
     } else {
       missCount = 0;
-      if (checkFocus()) {
-        const selectStatus = await dialog.showMessageBox({
-          type: "error",
-          title: "認証サーバーにアクセスできません",
-          message: "認証サーバーにアクセスできません",
-          detail:
-            "このアプリケーションに問題があるか、インターネット接続に問題がある可能性があります。インターネット状況を確認して改善しない場合は、Discordコミュニティで質問してください",
-          buttons: ["アプリを終了する", "そのまま使用する"],
-          cancelId: -1, // Esc で閉じられたときの戻り値
-        });
-
-        if (selectStatus.response === 0) {
-          app.quit();
-        }
-      } else {
+      if (!checkFocus()) {
+        app.removeAllListeners("browser-window-focus");
         // 次回フォーカスが入った時に再実行する
         app.once("browser-window-focus", () => {
           runServiceStatus();
