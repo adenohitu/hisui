@@ -243,7 +243,7 @@ class submissionDB {
             this.cachePloblemSubmissionMeAllList =
               this.cachePloblemSubmissionMeAllList.concat(ele);
           } else {
-            this.submissionsMeAllList[datafindIndex] = ele;
+            this.cachePloblemSubmissionMeAllList[datafindIndex] = ele;
           }
         });
         this.cachePloblemSubmissionMeAllList = this.sortAllList(
