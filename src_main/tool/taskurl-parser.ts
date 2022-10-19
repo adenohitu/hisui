@@ -87,7 +87,9 @@ export function getcontestIDFromOriginalURL(
       if (name === "") {
         return null;
       }
-      const isContestMainPage = !url.includes("tasks");
+      const isContestMainPage = !(
+        url.includes("tasks") || url.includes("editorial")
+      );
       return { contestID: name, isContestMainPage };
     } else {
       return null;
