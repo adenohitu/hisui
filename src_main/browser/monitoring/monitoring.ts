@@ -47,6 +47,10 @@ export const monitoringWebContents = () => {
       const check = checkURLEvent(url);
       if (check === null) {
         urlOpen(url);
+      } else {
+        if (url.includes("editorial")) {
+          urlOpen(url);
+        }
       }
       return { action: "deny" };
     });
