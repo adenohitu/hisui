@@ -12,9 +12,8 @@ export const useDockerSetup = () => {
   const [nextOk, setNextOk] = useState<boolean>(false);
   // Dockerのインストールチェックに関するState
   const [dockerVersionLog, setDockerVersionLog] = useState<string>("");
-  const [dockerVersionStatus, setDockerVersionStatus] = useState<
-    boolean | "ready"
-  >("ready");
+  const [dockerVersionStatus, setDockerVersionStatus] =
+    useState<checkDockerInstalledReturn | null>(null);
   // コンテナ起動に関するState
   const [dockerVmStatusObject, setDockerVmStatusObject] =
     useState<dockerPSReturn | null>(null);
@@ -32,12 +31,13 @@ export const useDockerSetup = () => {
   const checkDocker = async () => {
     const getStatus: checkDockerInstalledReturn =
       await ipcRendererManager.invoke("GET_DOCKER_VERSION");
-    setDockerVersionLog(getStatus.stdout);
+    setDockerVersionLog(`clientVersion:${getStatus.clientVersion}
+    serverVersion:${getStatus.serverVersion}`);
     if (getStatus.status !== "error") {
-      setDockerVersionStatus(true);
+      setDockerVersionStatus(getStatus);
       setNextOk(true);
     } else {
-      setDockerVersionStatus(false);
+      setDockerVersionStatus(getStatus);
     }
   };
   /**
@@ -105,7 +105,7 @@ export const useDockerSetup = () => {
     setActiveStep(0);
     setNextOk(false);
     setDockerVersionLog("");
-    setDockerVersionStatus("ready");
+    setDockerVersionStatus(null);
     setDockerVmStatus(null);
     setDockerRunStatus(null);
   };
