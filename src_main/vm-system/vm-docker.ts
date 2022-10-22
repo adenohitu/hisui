@@ -25,7 +25,9 @@ export interface getDockerHisuiJudgeContainerStatusReturn {
 }
 export interface checkDockerInstalledReturn {
   status: "success" | "error";
-  stdout: string;
+  stderr?: string;
+  clientVersion?: string | null;
+  serverVersion?: string | null;
 }
 class vmDocker {
   /**
@@ -33,14 +35,40 @@ class vmDocker {
    */
   async checkDockerInstalled(): Promise<checkDockerInstalledReturn> {
     return new Promise((resolve) => {
-      execFile(dockerExePath(), ["--version"], (error, stdout, stderr) => {
-        if (error) {
-          resolve({ status: "error", stdout: stderr });
-        } else if (!stdout.includes("Docker version")) {
-          resolve({ status: "error", stdout: stdout });
+      execFile(
+        dockerExePath(),
+        ["version", "--format", "{{json .}}"],
+        (error, stdout, stderr) => {
+          const parseMessage = JSON.parse(stdout);
+
+          if (error) {
+            if (parseMessage) {
+              resolve({
+                status: "error",
+                stderr,
+                clientVersion: parseMessage?.Client?.Version,
+                serverVersion: parseMessage?.Server?.Version,
+              });
+            } else {
+              resolve({ status: "error", stderr });
+            }
+          } else if (
+            parseMessage.Client === null ||
+            parseMessage.server === null
+          ) {
+            resolve({
+              status: "error",
+              clientVersion: parseMessage?.Client?.Version,
+              serverVersion: parseMessage?.Server?.Version,
+            });
+          }
+          resolve({
+            status: "success",
+            clientVersion: parseMessage?.Client?.Version,
+            serverVersion: parseMessage?.Server?.Version,
+          });
         }
-        resolve({ status: "success", stdout: stdout });
-      });
+      );
     });
   }
   async getDockerHisuiJudgeContainerStatus(): Promise<getDockerHisuiJudgeContainerStatusReturn> {
