@@ -92,7 +92,7 @@ class submissionDB {
         this.cacheAtCoderSubmissionsMeAllList =
           this.cacheAtCoderSubmissionsMeAllList.concat(ele);
       } else {
-        this.submissionsMeAllList[datafindIndex] = ele;
+        this.cacheAtCoderSubmissionsMeAllList[datafindIndex] = ele;
       }
     });
     this.cacheAtCoderSubmissionsMeAllList = this.sortAllList(
@@ -123,7 +123,7 @@ class submissionDB {
         this.cacheAtCoderSubmissionsMeAllList =
           this.cacheAtCoderSubmissionsMeAllList.concat(ele);
       } else {
-        this.submissionsMeAllList[datafindIndex] = ele;
+        this.cacheAtCoderSubmissionsMeAllList[datafindIndex] = ele;
       }
     });
     this.cacheAtCoderSubmissionsMeAllList = this.sortAllList(
