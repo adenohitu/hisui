@@ -18,6 +18,7 @@ const url_login: string = "https://atcoder.jp/login";
  * atcoderにアクセスする
  */
 export class atcoderClass {
+  userID: string | undefined;
   //AxiosInstanceを作成
   axiosInstance: AxiosInstance = axios.create({
     headers: { Cookie: saveSession.get("session", "") },
@@ -53,40 +54,18 @@ export class atcoderClass {
     );
   }
   constructor() {
+    // キャッシュにあるデータを取得
+    this.userID = saveSession.get("ID");
     this.setup();
   }
 
   /**
    * セッションを使いログインされているかをチェック
    */
-  async checkLogin(): Promise<boolean> {
-    const test_url = "https://atcoder.jp/contests/abc189/score/json";
-    const status = await saveSession.get("checkLastest", Date.now() + 86400001);
-    const ID = await saveSession.get("ID");
-    const now = Date.now();
-    //前回ログイン成功時の時間を使いリクエスト回数を減らす
-    if (ID === undefined) {
-      logger.info("checklogin-notsetID", "AtcoderAPI");
+  checkLogin(): boolean {
+    if (this.userID === undefined) {
       return false;
-    } else if (status > now + 86400000) {
-      logger.info("checklogin-req", "AtcoderAPI");
-      return await this.axiosInstance
-        .get(test_url, {
-          maxRedirects: 0,
-          validateStatus: (status) =>
-            (status >= 200 && status < 300) || status === 302,
-        })
-        .then((responce) => {
-          if (responce.status !== 302) {
-            // You have already login.
-            saveSession.set("checkLastest", Date.now());
-            return true;
-          } else {
-            return false;
-          }
-        });
     } else {
-      logger.info("checklogin-cache", "AtcoderAPI");
       return true;
     }
   }
@@ -157,6 +136,7 @@ export class atcoderClass {
             saveSession.set("session", Cookie);
             saveSession.set("ID", uesrname);
             saveSession.set("checkLastest", Date.now());
+            this.userID = uesrname;
             // ウィンドウのセッションを同期
             setBrowserCoockie();
             logger.info("loginSuccess", "AtcoderAPI");
@@ -197,6 +177,7 @@ export class atcoderClass {
           const Cookie = response.headers["set-cookie"];
           saveSession.delete("session");
           saveSession.delete("ID");
+          this.userID = undefined;
           this.axiosInstance.defaults.headers.Cookie = Cookie;
           // browserwindowのセッションを削除
           sessionRemove();

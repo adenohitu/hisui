@@ -73,30 +73,35 @@ class submissions {
     contestID: string = contestDataApi.getDefaultContestID(),
     taskScreenName?: string
   ): Promise<submissionData[]> {
-    logger.info("run get_submissions_me", "submissionsAPI");
-    // taskScreenNameがある場合クエリ付きのURLにする
-    const standings_url =
-      (taskScreenName &&
-        `https://atcoder.jp/contests/${contestID}/submissions/me?f.Task=${taskScreenName}&f.LanguageName=&f.Status=&f.User=`) ||
-      `https://atcoder.jp/contests/${contestID}/submissions/me`;
-    //
-    const responce = await Atcoder.axiosInstance.get(standings_url, {
-      maxRedirects: 0,
-      validateStatus: function (status) {
-        return status < 500;
-      },
-    });
-    if (responce.status !== 302) {
-      //提出ページが公開されていない場合は"ready"を返す
-      if (responce.status !== 404) {
-        const data_after = await scraping_submissions_list(
-          responce.data,
-          contestID
-        );
-        logger.info("end get_submissions_me", "submissionsAPI");
-        return data_after;
+    if (Atcoder.checkLogin()) {
+      logger.info("run get_submissions_me", "submissionsAPI");
+      // taskScreenNameがある場合クエリ付きのURLにする
+      const standings_url =
+        (taskScreenName &&
+          `https://atcoder.jp/contests/${contestID}/submissions/me?f.Task=${taskScreenName}&f.LanguageName=&f.Status=&f.User=`) ||
+        `https://atcoder.jp/contests/${contestID}/submissions/me`;
+      //
+      const responce = await Atcoder.axiosInstance.get(standings_url, {
+        maxRedirects: 0,
+        validateStatus: function (status) {
+          return status < 500;
+        },
+      });
+      if (responce.status !== 302) {
+        //提出ページが公開されていない場合は"ready"を返す
+        if (responce.status !== 404) {
+          const data_after = await scraping_submissions_list(
+            responce.data,
+            contestID
+          );
+          logger.info("end get_submissions_me", "submissionsAPI");
+          return data_after;
+        } else {
+          logger.info("SubmissionsPage is not ready", "submissionsAPI");
+          return [];
+        }
       } else {
-        logger.info("SubmissionsPage is not ready", "submissionsAPI");
+        logger.info("Need to Login", "submissionsAPI");
         return [];
       }
     } else {
