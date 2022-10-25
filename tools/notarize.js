@@ -11,15 +11,18 @@ exports.default = async function notarizing(context) {
     return;
   }
   const appName = context.packager.appInfo.productFilename;
-  const appleApiKey = process.env.APIKEYID;
-  if (!appleApiKey) throw new Error("no appleApiKey found");
+  const appleApiKeyId = process.env.APIKEYID;
+  const appleApiKey = `~/private_keys/AuthKey_${appleApiKeyId}.p8`;
+  if (!appleApiKeyId) throw new Error("no appleApiKey found");
   const appleApiIssuer = process.env.APIISSUER;
   if (!appleApiIssuer) throw new Error("no appleApiIssuer found");
   console.log("start Appcation notarize");
   return await notarize({
+    tool: "notarytool",
     appBundleId: "com.adenohitu.hisui",
     appPath: `${appOutDir}/${appName}.app`,
     appleApiKey,
+    appleApiKeyId,
     appleApiIssuer,
   });
 };
