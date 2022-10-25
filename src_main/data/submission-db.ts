@@ -138,49 +138,57 @@ class submissionDB {
    * 古いものから新しいものに向かって取得する
    */
   async updatePloblemSubmissionMeAllFromLastestSubmission() {
-    if (this.cachePloblemSubmissionMeAllList.length === 0) {
-      ipcMainManager.send(
-        "SEND_NOTIFICARION",
-        "過去の提出を取得しています。\nこれには時間がかかる可能性があります"
-      );
-    }
-    const userID = Atcoder.getUsername();
-    if (this.submissionsCount === null) {
-      // AtCoderPloblemsで取得できるSubmissionStatusの数を取得
-      const getSubmissionsCount = await ploblemAxiosInstance.get(
-        `https://kenkoooo.com/atcoder/atcoder-api/v3/user/submission_count?user=${userID}&from_second=0&to_second=${dayjs(
-          Date.now()
-        ).unix()}`
-      );
-      if (getSubmissionsCount.status === 200) {
-        this.submissionsCount = getSubmissionsCount.data.count;
-      }
-    }
-    if (this.submissionsCount !== null) {
-      if (this.cachePloblemSubmissionMeAllList.length < this.submissionsCount) {
-        // キャッシュ数が取得した提出数よりも少なかったら実行
-        if (this.cachePloblemSubmissionMeAllList.length === 0) {
-          // 古いものからキャッシュする
-          const update = await this.updatePloblemSubmissionMeAll("0000000000");
-          if (update?.length !== 1) {
-            await sleep(5000);
-            this.updatePloblemSubmissionMeAllFromLastestSubmission();
-          }
-        } else {
-          const update = await this.updatePloblemSubmissionMeAll(
-            `${dayjs(this.cachePloblemSubmissionMeAllList[0].created).unix()}`
-          );
-          if (update?.length !== 1) {
-            await sleep(5000);
-            this.updatePloblemSubmissionMeAllFromLastestSubmission();
-          }
-        }
-      } else {
-        logger.info(
-          `AtCoderPloblemCache is sucessesful count=${this.submissionsCount}`,
-          "submissionDBAPI"
+    if (Atcoder.checkLogin()) {
+      if (this.cachePloblemSubmissionMeAllList.length === 0) {
+        ipcMainManager.send(
+          "SEND_NOTIFICARION",
+          "過去の提出を取得しています。\nこれには時間がかかる可能性があります"
         );
       }
+      const userID = Atcoder.getUsername();
+      if (this.submissionsCount === null) {
+        // AtCoderPloblemsで取得できるSubmissionStatusの数を取得
+        const getSubmissionsCount = await ploblemAxiosInstance.get(
+          `https://kenkoooo.com/atcoder/atcoder-api/v3/user/submission_count?user=${userID}&from_second=0&to_second=${dayjs(
+            Date.now()
+          ).unix()}`
+        );
+        if (getSubmissionsCount.status === 200) {
+          this.submissionsCount = getSubmissionsCount.data.count;
+        }
+      }
+      if (this.submissionsCount !== null) {
+        if (
+          this.cachePloblemSubmissionMeAllList.length < this.submissionsCount
+        ) {
+          // キャッシュ数が取得した提出数よりも少なかったら実行
+          if (this.cachePloblemSubmissionMeAllList.length === 0) {
+            // 古いものからキャッシュする
+            const update = await this.updatePloblemSubmissionMeAll(
+              "0000000000"
+            );
+            if (update?.length !== 1) {
+              await sleep(5000);
+              this.updatePloblemSubmissionMeAllFromLastestSubmission();
+            }
+          } else {
+            const update = await this.updatePloblemSubmissionMeAll(
+              `${dayjs(this.cachePloblemSubmissionMeAllList[0].created).unix()}`
+            );
+            if (update?.length !== 1) {
+              await sleep(5000);
+              this.updatePloblemSubmissionMeAllFromLastestSubmission();
+            }
+          }
+        } else {
+          logger.info(
+            `AtCoderPloblemCache is sucessesful count=${this.submissionsCount}`,
+            "submissionDBAPI"
+          );
+        }
+      }
+    } else {
+      logger.info(`need to login`, "submissionDBAPI");
     }
   }
 
@@ -188,70 +196,75 @@ class submissionDB {
    * PloblemのSubmissionListから取得する
    */
   private async updatePloblemSubmissionMeAll(from_second: string) {
-    if (this.cacheMergedProblem === null) {
-      const mergedProblemReq = await ploblemAxiosInstance.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
-      );
-      if (mergedProblemReq.status === 200) {
-        this.cacheMergedProblem = mergedProblemReq.data;
-      }
-    }
-    const userID = Atcoder.getUsername();
-
-    if (userID && this.cacheMergedProblem !== null) {
-      const mergedProblem = this.cacheMergedProblem;
-      const url = `https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user=${userID}&from_second=${from_second}`;
-      // 連続リクエストを回避
-      await sleep(1000);
-      const reqdata = await ploblemAxiosInstance.get(url);
-
-      if (reqdata.status === 200) {
-        const listAtProblem: SubmissionAtCoderProblems[] = reqdata.data;
-
-        const list: submissionData[] = listAtProblem.map<submissionData>(
-          (ele) => {
-            const plobleminfo = mergedProblem.find(
-              (arg) => arg.id === ele.problem_id
-            );
-            return {
-              waiting_judge: false,
-              created: dayjs.unix(ele.epoch_second).toISOString(),
-              contestName: ele.contest_id,
-              taskScreenName: ele.problem_id,
-              taskname_render: (plobleminfo && plobleminfo.title) || null,
-              task_url: `/contests/${ele.contest_id}/tasks/${ele.problem_id}`,
-              user: ele.user_id,
-              language: ele.language,
-              score: String(ele.point),
-              source_length: `${ele.length} Byte`,
-              result: ele.result,
-              result_explanation: null,
-              time_consumption: `${ele.execution_time} ms`,
-              memory_consumption: "",
-              submit_id: String(ele.id),
-              submit_url: `/contests/${ele.contest_id}/submissions/${ele.id}`,
-            };
-          }
+    if (Atcoder.checkLogin()) {
+      if (this.cacheMergedProblem === null) {
+        const mergedProblemReq = await ploblemAxiosInstance.get(
+          "https://kenkoooo.com/atcoder/resources/merged-problems.json"
         );
-        this.updateAllList(list, false);
-        // キャッシュにデータを保持
-        list.forEach((ele) => {
-          const datafindIndex = this.cachePloblemSubmissionMeAllList.findIndex(
-            (a) => a.submit_id === ele.submit_id
+        if (mergedProblemReq.status === 200) {
+          this.cacheMergedProblem = mergedProblemReq.data;
+        }
+      }
+      const userID = Atcoder.getUsername();
+
+      if (userID && this.cacheMergedProblem !== null) {
+        const mergedProblem = this.cacheMergedProblem;
+        const url = `https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user=${userID}&from_second=${from_second}`;
+        // 連続リクエストを回避
+        await sleep(1000);
+        const reqdata = await ploblemAxiosInstance.get(url);
+
+        if (reqdata.status === 200) {
+          const listAtProblem: SubmissionAtCoderProblems[] = reqdata.data;
+
+          const list: submissionData[] = listAtProblem.map<submissionData>(
+            (ele) => {
+              const plobleminfo = mergedProblem.find(
+                (arg) => arg.id === ele.problem_id
+              );
+              return {
+                waiting_judge: false,
+                created: dayjs.unix(ele.epoch_second).toISOString(),
+                contestName: ele.contest_id,
+                taskScreenName: ele.problem_id,
+                taskname_render: (plobleminfo && plobleminfo.title) || null,
+                task_url: `/contests/${ele.contest_id}/tasks/${ele.problem_id}`,
+                user: ele.user_id,
+                language: ele.language,
+                score: String(ele.point),
+                source_length: `${ele.length} Byte`,
+                result: ele.result,
+                result_explanation: null,
+                time_consumption: `${ele.execution_time} ms`,
+                memory_consumption: "",
+                submit_id: String(ele.id),
+                submit_url: `/contests/${ele.contest_id}/submissions/${ele.id}`,
+              };
+            }
           );
-          if (datafindIndex === -1) {
-            this.cachePloblemSubmissionMeAllList =
-              this.cachePloblemSubmissionMeAllList.concat(ele);
-          } else {
-            this.cachePloblemSubmissionMeAllList[datafindIndex] = ele;
-          }
-        });
-        this.cachePloblemSubmissionMeAllList = this.sortAllList(
-          this.cachePloblemSubmissionMeAllList
-        );
-        this.saveCachePloblemsSubmissions();
-        return list;
+          this.updateAllList(list, false);
+          // キャッシュにデータを保持
+          list.forEach((ele) => {
+            const datafindIndex =
+              this.cachePloblemSubmissionMeAllList.findIndex(
+                (a) => a.submit_id === ele.submit_id
+              );
+            if (datafindIndex === -1) {
+              this.cachePloblemSubmissionMeAllList =
+                this.cachePloblemSubmissionMeAllList.concat(ele);
+            } else {
+              this.cachePloblemSubmissionMeAllList[datafindIndex] = ele;
+            }
+          });
+          this.cachePloblemSubmissionMeAllList = this.sortAllList(
+            this.cachePloblemSubmissionMeAllList
+          );
+          this.saveCachePloblemsSubmissions();
+          return list;
+        }
       }
+    } else {
+      logger.info(`need to login`, "submissionDBAPI");
     }
   }
 

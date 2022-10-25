@@ -1,5 +1,6 @@
 // electronに保存されているCookieを操作
 import { session } from "electron";
+import { logger } from "../../tool/logger/logger";
 import { saveSession } from "../save_session";
 
 /**
@@ -12,7 +13,6 @@ export const logSession = () => {
   session.defaultSession.cookies
     .get({ url: "https://atcoder.jp" })
     .then((cookies) => {
-      //   console.log(cookies.find((element) => element.name === "REVEL_SESSION"));
       console.log(cookies);
     })
     .catch((error) => {
@@ -25,32 +25,38 @@ export const logSession = () => {
  */
 export const setBrowserCoockie = async () => {
   const sessiondata = saveSession.get("session");
-  //セッションが保存されている文字列からセッションのvalueを無理矢理取り出す
-  const valuestartindex = sessiondata[1].indexOf("=") + 1;
-  const valueendindex = sessiondata[1].indexOf(";");
-  // console.log(sessiondata[1].indexOf("="));
+  if (sessiondata) {
+    //セッションが保存されている文字列からセッションのvalueを無理矢理取り出す
+    const valuestartindex = sessiondata[1].indexOf("=") + 1;
+    const valueendindex = sessiondata[1].indexOf(";");
 
-  const sessionvalue = sessiondata[1].substring(valuestartindex, valueendindex);
+    const sessionvalue = sessiondata[1].substring(
+      valuestartindex,
+      valueendindex
+    );
 
-  const cookieAtcoderSession: any = {
-    url: "https://atcoder.jp",
-    name: "REVEL_SESSION",
-    value: sessionvalue,
-    hostOnly: true,
-    path: "/",
-    secure: true,
-    httpOnly: true,
-    session: false,
-    sameSite: "unspecified",
-  };
-  session.defaultSession.cookies.set(cookieAtcoderSession).then(
-    () => {
-      // 成功
-    },
-    (error) => {
-      console.error(error);
-    }
-  );
+    const cookieAtcoderSession: any = {
+      url: "https://atcoder.jp",
+      name: "REVEL_SESSION",
+      value: sessionvalue,
+      hostOnly: true,
+      path: "/",
+      secure: true,
+      httpOnly: true,
+      session: false,
+      sameSite: "unspecified",
+    };
+    session.defaultSession.cookies.set(cookieAtcoderSession).then(
+      () => {
+        // 成功
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  } else {
+    logger.error("session is not saved", "setBrowserCoockie");
+  }
 };
 
 /**
