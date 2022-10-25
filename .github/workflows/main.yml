@@ -19,7 +19,7 @@ jobs:
           mkdir -p ~/private_keys/
           echo ${{ secrets.APIKEY }} | base64 -d > ~/private_keys/AuthKey_${{ secrets.APIKEYID }}.p8
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.3.0
+      - uses: actions/setup-node@v3
         with:
           node-version: "16.15.1"
       - name: node_modules cache
@@ -56,7 +56,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.3.0
+      - uses: actions/setup-node@v3
         with:
           node-version: "16.15.1"
       - name: node_modules cache
