@@ -21,6 +21,9 @@ class TaskList {
     this.tasklists = {};
     this.emitter = new EventEmitter();
   }
+  /**
+   * 指定したコンテストの問題一覧を取得
+   */
   async getTaskList(
     cache: boolean = true,
     contestName: contestName = contestDataApi.getDefaultContestID()

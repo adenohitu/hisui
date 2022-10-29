@@ -7,15 +7,16 @@ import scraping_submissions_list from "./scraping/submissions";
 import { scrapingSubmissionStatusData } from "./scraping/submissions-status";
 import { submitStatus } from "./scraping/submit-data";
 import { submissionData } from "./submissions-type";
+/**
+ * AtCoderのSubmissionsからデータを取得
+ * Submit後のStatusを取得
+ */
 class submissions {
   /**
    * デフォルトコンテストを保持
    */
-  selectContestSubmissions: submissionData[];
   constructor() {
-    this.selectContestSubmissions = [];
     this.eventSetup();
-    this.ipcSetup();
   }
   async setup() {}
   /**
@@ -46,21 +47,6 @@ class submissions {
       );
       ipcMainManager.send("SEND_SUBMIT_STATUS", m);
     });
-  }
-  /**
-   * submissionsページに問い合わせて提出一覧を更新する
-   */
-  async updateSubmissions() {
-    const nowDefaultContest = contestDataApi.getDefaultContestID();
-    this.selectContestSubmissions = await this.getSubmissionMe(
-      nowDefaultContest
-    );
-    this.checkInterval(this.selectContestSubmissions);
-    // viewに取得したデータを送信
-    ipcMainManager.send(
-      "LISTENER_RETUEN_SUBMISSIONS",
-      this.selectContestSubmissions
-    );
   }
 
   /**
@@ -107,19 +93,6 @@ class submissions {
     } else {
       logger.info("Need to Login", "submissionsAPI");
       return [];
-    }
-  }
-  ipcSetup() {}
-  /**
-   * ジャッジ中のものがある場合、Intervalを取った後もう一度リクエスト
-   */
-  private async checkInterval(data: submissionData[]) {
-    const getindex = data.find((element) => element.waiting_judge === true);
-    if (getindex !== undefined) {
-      var serf = this;
-      setTimeout(() => {
-        serf.updateSubmissions();
-      }, 3000);
     }
   }
   /**
