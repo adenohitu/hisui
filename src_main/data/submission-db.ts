@@ -57,7 +57,7 @@ ploblemAxiosInstance.interceptors.response.use(
   }
 );
 /**
- * 提出詳細データを管理するクラス
+ * 提出データを管理するクラス
  */
 class submissionDB {
   // アプリ終了時に保持する
