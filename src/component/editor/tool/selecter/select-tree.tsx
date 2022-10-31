@@ -65,7 +65,7 @@ export function TaskSelectList() {
             secondaryAction={
               <IconButton
                 onClick={() => {
-                  selectTaskHooks.closeTaskCont(value.taskScreenName);
+                  selectTaskHooks.closeTaskCont(value.margeid);
                 }}
                 size="small"
               >
@@ -81,10 +81,7 @@ export function TaskSelectList() {
               }}
               dense
             >
-              <ListItemText
-                id={value.taskScreenName}
-                primary={value.taskScreenName}
-              />
+              <ListItemText id={value.taskID} primary={value.taskID} />
             </ListItemButton>
           </StyleListItem>
         );

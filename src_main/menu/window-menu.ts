@@ -6,12 +6,12 @@ import { urlOpen } from "../tool/openExternal";
 import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
-import { submissionsApi } from "../data/submissions";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { win } from "../main";
 import { TaskListApi } from "../data/task";
 import path from "path";
 import { notificationManagerApi } from "../tool/notification";
+import { submissionDBApi } from "../data/submission-db";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -253,9 +253,9 @@ function getHisuiControlMenu(): Array<MenuItemConstructorOptions> {
         },
         { type: "separator" },
         {
-          label: "提出一覧を更新",
+          label: "デフォルトコンテストの提出一覧を更新",
           click(item: any, focusedWindow: any, event: any) {
-            submissionsApi.updateSubmissions();
+            submissionDBApi.updateDefaultContestSubmissionList();
           },
         },
         {

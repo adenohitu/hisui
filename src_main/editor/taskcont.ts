@@ -14,15 +14,17 @@ import {
   saveSanplecase,
 } from "../file/sample-fs";
 import { ipcMainManager } from "../ipc/ipc";
-import { hisuiEvent } from "../event/event";
-import { TaskListApi } from "../data/task";
-import { baseAtCoderUrl } from "../static";
-import { readFileData, writeFileData } from "../file/editor-fs";
+import {
+  readCodeFileData,
+  writeCodeFileData,
+  writeTaskinfo,
+} from "../file/editor-fs";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { submitLanguage } from "../data/scraping/submitlang";
 import { logger } from "../tool/logger/logger";
 import path from "path";
 import { getDefaultLanguageinfo } from "./language-tool";
+import { taskCodeInfo } from "../file/taskinfo";
 export interface createEditorModelType {
   id: string;
   value: string;
@@ -52,41 +54,42 @@ export interface editorStatus {
  */
 export class taskcont {
   // 問題の基本データに関する変数
-  // ex:ABC001
-  contestName: string;
-  // ex:abc206_a
-  taskScreenName: string;
+  taskCodeInfo: taskCodeInfo;
+
+  margeTaskId: string;
   // ex:A
   AssignmentName: string | null;
 
-  // コード管理に関する変数
-  language: languagetype;
   // 提出する言語 コンパイラー別などに対応
   submitLanguage: submitLanguage;
   // ファイルから読み込みされるデータ
-  Data: string | null = null;
+  Data: string = "";
 
   // この問題に関する状態を管理
 
   // ファイルのフルパス
   filePath: string = "";
+  fileName: string = "";
   // ファイルの内容がエディターで変更されているか
   change: boolean = false;
 
   constructor(
-    contestName: string,
-    TaskScreenName: string,
-    language: languagetype
+    taskCodeInfoProps: taskCodeInfo,
+    filePath: string,
+    fileName: string
   ) {
     // TaskContイベントを発行
-    hisuiEvent.emit("create-taskcont", TaskScreenName);
-    this.contestName = contestName;
-    this.taskScreenName = TaskScreenName;
+    this.taskCodeInfo = taskCodeInfoProps;
+    const margeId = `${taskCodeInfoProps.service}-${taskCodeInfoProps.taskGroup}-${taskCodeInfoProps.taskID}`;
+    this.margeTaskId = margeId;
     this.AssignmentName = "";
-    this.language = language;
+    this.filePath = filePath;
+    this.fileName = fileName;
     // デフォルトの提出言語を設定
-    this.submitLanguage = getDefaultLanguageinfo(language);
-    this.setup(contestName, TaskScreenName, language).then(() => {
+    this.submitLanguage = getDefaultLanguageinfo(
+      this.taskCodeInfo.editorInfo.languagetype
+    );
+    this.setup(taskCodeInfoProps, margeId, filePath, fileName).then(() => {
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
     });
   }
@@ -98,33 +101,36 @@ export class taskcont {
    * Editorに反映
    */
   async setup(
-    contestName: string,
-    TaskScreenName: string,
-    language: languagetype
+    taskCodeInfoProps: taskCodeInfo,
+    margeId: string,
+    filePath: string,
+    fileName: string
   ) {
     return await Promise.all([
-      await this.openTaskView(contestName, TaskScreenName),
-      this.fileloadAndSetupEditor(contestName, TaskScreenName, language),
-      this.setupAssignmentName(contestName, TaskScreenName),
+      await this.openTaskView(margeId, taskCodeInfoProps.taskURL),
+      this.fileloadAndSetupEditor(
+        margeId,
+        taskCodeInfoProps,
+        filePath,
+        fileName
+      ),
     ]);
   }
-  async setupAssignmentName(contestName: string, TaskScreenName: string) {
-    const AssignmentName = await TaskListApi.getAssignmentName(
-      contestName,
-      TaskScreenName
-    );
-    this.AssignmentName = AssignmentName;
-    this.sendValueStatus();
-    return;
-  }
+
   async fileloadAndSetupEditor(
-    contestName: string,
-    TaskScreenName: string,
-    language: string
+    margeId: string,
+    taskCodeInfoProps: taskCodeInfo,
+    filePath: string,
+    fileName: string
   ) {
-    const Data = await this.fileload(contestName, TaskScreenName, language);
-    this.Data = Data.data;
-    await this.setupEditor(TaskScreenName, Data.data, language, Data.saveDir);
+    const data = await readCodeFileData(filePath);
+    this.Data = data;
+    await this.setupEditor(
+      margeId,
+      data,
+      taskCodeInfoProps.editorInfo.languagetype,
+      taskCodeInfoProps.taskURL
+    );
     this.sendValueStatus();
   }
   /**
@@ -133,77 +139,25 @@ export class taskcont {
    * TaskViewを閉じる
    */
   async close() {
-    taskViewWindowApi.removeView(this.taskScreenName);
+    taskViewWindowApi.removeView(this.margeTaskId);
     this.save();
     this.closeModelEditor();
   }
 
   // ファイル
-  /**
-   * ファイルを読み込む（初期設定）
-   */
-  async fileload(
-    contestName: string,
-    TaskScreenName: string,
-    language: languagetype
-  ): Promise<{
-    saveDir: string;
-    data: string;
-  }> {
-    const Data = await readFileData(contestName, TaskScreenName, language);
-    this.filePath = Data.saveDir;
-    this.Data = Data.data;
-    return Data;
-  }
 
   /**
    * データをファイルに保存
    */
   async save() {
-    logger.info(
-      `saveEvent:taskScreenName=${this.taskScreenName}`,
-      "taskContClass"
+    logger.info(`saveEvent:margeId=${this.margeTaskId}`, "taskContClass");
+    writeTaskinfo(this.filePath, this.fileName, this.taskCodeInfo);
+    return await writeCodeFileData(
+      this.filePath,
+      this.fileName,
+      this.Data,
+      this.taskCodeInfo
     );
-    if (this.Data !== null) {
-      const status = await writeFileData(
-        this.Data,
-        this.contestName,
-        this.taskScreenName,
-        this.language
-      );
-      this.change = false;
-      return status;
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * 言語を変更
-   * Load:言語変更の際EditorのValueをどうするか
-   * true=現在のデータを引き継ぐ
-   * false=開き直す
-   */
-  async languageChange(language: languagetype, load: boolean) {
-    logger.info(
-      `Change editor language ${language} to ${this.language}`,
-      `taskcont:${this.taskScreenName}`
-    );
-    await this.save();
-    this.language = language;
-    // ファイルを読み込むことで存在確認する
-    const fileData = await readFileData(
-      this.contestName,
-      this.taskScreenName,
-      this.language
-    );
-    this.filePath = fileData.saveDir;
-    this.Data = fileData.data;
-
-    // Modelを再生成
-    this.changeLanguageEditor();
-    // デフォルトの提出言語を設定
-    this.submitLanguage = getDefaultLanguageinfo(language);
   }
 
   async submitLanguageChange(arg: submitLanguage) {
@@ -215,29 +169,28 @@ export class taskcont {
   /**
    * TaskViewを開く(初期設定)
    */
-  async openTaskView(contestName: string, TaskScreenName: string) {
-    const taskUrl = `${baseAtCoderUrl}${contestName}/tasks/${TaskScreenName}`;
-    logger.info(`OpenViewRequest:URL=${taskUrl}`, "taskContClass");
+  async openTaskView(margeId: string, taskURL: string) {
+    logger.info(`OpenViewRequest:URL=${taskURL}`, "taskContClass");
     // 確定でNowTopに設定される
-    await taskViewWindowApi.addView(TaskScreenName, taskUrl, undefined, true);
+    await taskViewWindowApi.addView(margeId, taskURL, undefined, true);
   }
   /**
    * TaskViewを一番上に持ってくる
    */
   async settopTaskView() {
-    taskViewWindowApi.changeViewTop(this.taskScreenName);
+    taskViewWindowApi.changeViewTop(this.margeTaskId);
   }
   /**
    * TaskViewをリロードする
    */
   async reloadTaskView() {
-    taskViewWindowApi.reloadView(this.taskScreenName);
+    taskViewWindowApi.reloadView(this.margeTaskId);
   }
   /**
    * TaskViewを元のURLに戻す
    */
   async resetTaskView() {
-    taskViewWindowApi.resetView(this.taskScreenName);
+    taskViewWindowApi.resetView(this.margeTaskId);
   }
 
   // editor
@@ -250,7 +203,7 @@ export class taskcont {
   }
   private async sendValueEditor(data: string) {
     const syncEditor: syncEditorType = {
-      id: this.taskScreenName,
+      id: this.margeTaskId,
       value: data,
     };
     ipcMainManager.send("CHANGE_EDITOR_VALUE", syncEditor);
@@ -274,24 +227,10 @@ export class taskcont {
     ipcMainManager.send("CREATE_EDITOR_MODEL", createEditorModel);
   }
   /**
-   * 言語変更をEditorに送信
-   */
-  async changeLanguageEditor() {
-    await this.save();
-    await this.closeModelEditor();
-    this.setupEditor(
-      this.taskScreenName,
-      this.Data || "",
-      this.language,
-      this.filePath
-    );
-    this.sendValueStatus();
-  }
-  /**
    * モデルの削除
    */
   closeModelEditor() {
-    ipcMainManager.send("LISTENER_EDITOR_MODEL_REMOVE", this.taskScreenName);
+    ipcMainManager.send("LISTENER_EDITOR_MODEL_REMOVE", this.margeTaskId);
   }
   /**
    * Editorのモデル更新イベントを受け取りValueを取得
@@ -307,10 +246,10 @@ export class taskcont {
   async sendValueStatus() {
     const byteLength = Buffer.byteLength(String(this.Data), "utf8");
     const result: editorStatus = {
-      contestName: this.contestName,
-      TaskScreenName: this.taskScreenName,
+      contestName: this.taskCodeInfo.taskGroup,
+      TaskScreenName: this.taskCodeInfo.taskID,
       AssignmentName: this.AssignmentName,
-      language: this.language,
+      language: this.taskCodeInfo.editorInfo.languagetype,
       submitLanguage: this.submitLanguage,
       taskcodeByte: byteLength,
     };
@@ -326,7 +265,7 @@ export class taskcont {
     const selectStatus = await dialog.showMessageBox({
       type: "info",
       title: "提出確認",
-      message: `${this.contestName}-${this.AssignmentName} ${this.submitLanguage.Languagename}`,
+      message: `${this.taskCodeInfo.taskGroup}-${this.AssignmentName} ${this.submitLanguage.Languagename}`,
       buttons: ["Yes(提出)", "Cancel"],
     });
 
@@ -334,8 +273,8 @@ export class taskcont {
       await this.save();
       if (this.Data !== null) {
         runSubmit(
-          this.contestName,
-          this.taskScreenName,
+          this.taskCodeInfo.taskGroup,
+          this.taskCodeInfo.taskID,
           this.Data,
           this.submitLanguage.LanguageId
         );
@@ -349,7 +288,7 @@ export class taskcont {
    */
   async codeTest(infoData: codeTestInfo) {
     const addTaskScreenName = infoData;
-    addTaskScreenName.TaskScreenName = this.taskScreenName;
+    addTaskScreenName.TaskScreenName = this.taskCodeInfo.taskID;
     await this.save();
     if (this.Data !== null) {
       codeTestApi.runCodeTest(
@@ -373,16 +312,16 @@ export class taskcont {
     cache: boolean = true
   ): Promise<SampleCase[] | "load_Error" | "request_Error"> {
     const existsamplecase = await existSamplecases(
-      this.contestName,
-      this.taskScreenName
+      this.taskCodeInfo.taskGroup,
+      this.taskCodeInfo.taskID
     );
     if (existsamplecase === false || cache === false) {
       logger.info(
-        `getAllSampleCase:URL=${this.taskScreenName}`,
+        `getAllSampleCase:URL=${this.taskCodeInfo.taskID}`,
         "taskContClass"
       );
       // サンプルケースを問題ページからダウンロード
-      const url = `https://atcoder.jp/contests/${this.contestName}/tasks/${this.taskScreenName}`;
+      const url = `https://atcoder.jp/contests/${this.taskCodeInfo.taskGroup}/tasks/${this.taskCodeInfo.taskID}`;
       const getTaskPage = await Atcoder.axiosInstance.get(url);
       if (getTaskPage.status === 200) {
         // サンプルケースをスクレイピングする
@@ -390,8 +329,8 @@ export class taskcont {
         // スクレイピングしたものをキャッシュとしてファイルに保存
         scrapingReturn.forEach((element) => {
           saveSanplecase(
-            this.contestName,
-            this.taskScreenName,
+            this.taskCodeInfo.taskGroup,
+            this.taskCodeInfo.taskID,
             element.name,
             element.case,
             element.answer
@@ -403,14 +342,14 @@ export class taskcont {
       }
     } else {
       logger.info(
-        `LoadCache AllSampleCase:URL=${this.taskScreenName}`,
+        `LoadCache AllSampleCase:URL=${this.taskCodeInfo.taskID}`,
         "taskContClass"
       );
 
       // ファイルからキャッシュされたサンプルケースを読み込む
       const returnData = await loadAllSamplecase(
-        this.contestName,
-        this.taskScreenName
+        this.taskCodeInfo.taskGroup,
+        this.taskCodeInfo.taskID
       );
       if (returnData === "not_saved") {
         return "load_Error";

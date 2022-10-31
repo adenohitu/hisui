@@ -92,15 +92,6 @@ export declare class hisuiEventtType extends EventEmitter {
   ): this;
   emit(event: "submit-status-finish", status: submitStatus): boolean;
 
-  /**
-   * Taskcontが作成されたときに
-   */
-  on(
-    event: "create-taskcont",
-    listener: (taskScreenName: string) => void
-  ): this;
-  emit(event: "create-taskcont", taskScreenName: string): boolean;
-
   // Pluginに関するEvent
 
   /**
