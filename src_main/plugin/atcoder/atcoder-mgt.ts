@@ -1,4 +1,3 @@
-import { submissionDBApi } from "../../data/submission-db";
 import { taskControlApi, taskContStatusType } from "../../editor/control";
 import { serviceMgtTaskInfo } from "../../file/taskinfo";
 import { ipcMainManager } from "../../ipc/ipc";
@@ -19,7 +18,6 @@ class atcoderMgt {
       taskURL: `https://atcoder.jp/contests/${contestName}/tasks/${taskScreenName}`,
     };
     taskControlApi.createNewTask(taskinfo);
-    submissionDBApi.updateOneTaskSubmissionList(contestName, taskScreenName);
 
     // return taskinfo;
   }

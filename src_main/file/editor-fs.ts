@@ -60,8 +60,8 @@ export async function writeCodeFileData(
   data: string,
   taskCodeInfoProps: taskCodeInfo
 ) {
-  const contestDir = path.resolve(filePath, "../");
-  await mkdir(contestDir, { recursive: true }).catch(() => {
+  const saveDir = path.resolve(filePath, "../");
+  await mkdir(saveDir, { recursive: true }).catch(() => {
     console.log("既に保存ファイルがあります");
   });
 
@@ -111,22 +111,32 @@ export async function writeTaskinfo(
   taskinfoIn: taskCodeInfo
 ): Promise<void> {
   try {
+    // ファイルがない場合に備えて作成
+    const saveDir = path.resolve(CodeFilepath, "../");
+    await mkdir(saveDir, { recursive: true }).catch(() => {
+      console.log("既に保存ファイルがあります");
+    });
+    // taskinfo.jsonに関する処理
     const codeInfoPath = path.resolve(CodeFilepath, "../taskinfo.json");
     const istaskinfo = await fileExists(codeInfoPath);
 
-    let taskinfos: taskinfos = {};
-
     if (istaskinfo) {
-      const getinfo = await readFile(codeInfoPath, "utf-8");
-      taskinfos = JSON.parse(getinfo);
+      // すでにファイルがある場合上書きする
+      readFile(codeInfoPath, "utf-8").then((getinfo) => {
+        const taskinfos = JSON.parse(getinfo);
+        taskinfos[filename] = taskinfoIn;
+        const datatojson = JSON.stringify(taskinfos, null, "\t");
+        return writeFile(codeInfoPath, datatojson, "utf-8");
+      });
+    } else {
+      // ファイルが存在しないため新たに作る
+      const taskinfos: taskinfos = {};
+      taskinfos[filename] = taskinfoIn;
+      const datatojson = JSON.stringify(taskinfos, null, "\t");
+      return writeFile(codeInfoPath, datatojson, "utf-8");
     }
 
     // データ追記又は更新
-    taskinfos[filename] = taskinfoIn;
-
-    const datatojson = JSON.stringify(taskinfos, null, "\t");
-
-    return writeFile(codeInfoPath, datatojson, "utf-8");
   } catch (error) {
     console.log(error);
 

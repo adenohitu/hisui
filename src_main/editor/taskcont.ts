@@ -14,11 +14,7 @@ import {
   saveSanplecase,
 } from "../file/sample-fs";
 import { ipcMainManager } from "../ipc/ipc";
-import {
-  readCodeFileData,
-  writeCodeFileData,
-  writeTaskinfo,
-} from "../file/editor-fs";
+import { readCodeFileData, writeCodeFileData } from "../file/editor-fs";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { submitLanguage } from "../data/scraping/submitlang";
 import { logger } from "../tool/logger/logger";
@@ -87,7 +83,7 @@ export class taskcont {
     this.fileName = fileName;
     // デフォルトの提出言語を設定
     this.submitLanguage = getDefaultLanguageinfo(
-      this.taskCodeInfo.editorInfo.languagetype
+      taskCodeInfoProps.editorInfo.languagetype
     );
     this.setup(taskCodeInfoProps, margeId, filePath, fileName).then(() => {
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
@@ -151,7 +147,6 @@ export class taskcont {
    */
   async save() {
     logger.info(`saveEvent:margeId=${this.margeTaskId}`, "taskContClass");
-    writeTaskinfo(this.filePath, this.fileName, this.taskCodeInfo);
     return await writeCodeFileData(
       this.filePath,
       this.fileName,

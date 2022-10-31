@@ -1,6 +1,15 @@
 import { languagetype } from "./extension";
 type serviceId = "atcoder";
 /**
+ * serviceMGTがCreateTaskContに渡す情報
+ */
+export interface serviceMgtTaskInfo {
+  service: serviceId;
+  taskGroup: string;
+  taskID: string;
+  taskURL: string;
+}
+/**
  * コードが保存されているファイルと同じ階層の "taskinfo.json"
  * に記載される情報
  */
@@ -30,13 +39,4 @@ export interface taskCodeInfo {
 
 export interface taskinfos {
   [filename: string]: taskCodeInfo;
-}
-/**
- * serviceMGTがCreateTaskContに渡す情報
- */
-export interface serviceMgtTaskInfo {
-  service: serviceId;
-  taskGroup: string;
-  taskID: string;
-  taskURL: string;
 }
