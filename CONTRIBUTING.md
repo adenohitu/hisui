@@ -9,7 +9,7 @@ Please make a lot of suggestions.
 
 - [adenohitu/hisui(this repository)](https://github.com/adenohitu/hisui)
 アプリケーションのソースコードが管理されています。  
-またreleasesによってアプリケーションが配信されています。  
+またGithub Releasesによってアプリケーションが配信されています。  
 - [adenohitu/Hisui-docs](https://github.com/adenohitu/Hisui-docs)
 ここではドキュメントが管理されています。  
 [Docusaurus](https://docusaurus.io/)で作成されていて、GitHubPageにデプロイされ公開されています。
