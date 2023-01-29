@@ -30,7 +30,10 @@ export const Editorwindow = () => {
             path={path}
             title={
               (TITLE_ELEMENT[id].name === "code" &&
-                `${appstatusHooks.contestName}-${appstatusHooks.assignmentName}`) ||
+                `${appstatusHooks.taskScreenName
+                  .toUpperCase()
+                  .replaceAll("_", "-")}`) ||
+              "" ||
               String(TITLE_ELEMENT[id].name)
             }
             toolbarControls={TITLE_ELEMENT[id].toolbarControls}
