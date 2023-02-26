@@ -3,8 +3,10 @@
  */
 import { lstat, mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
-import { languages, languagetype } from "./extension";
+import { logger } from "../tool/logger/logger";
+import { languages } from "./extension";
 import { getDefaultdir } from "./file";
+import { taskCodeInfo, taskinfos } from "./taskinfo";
 
 export interface readDileDataProps {
   contestName: string;
@@ -12,55 +14,63 @@ export interface readDileDataProps {
   language: string;
 }
 /**
+ * taskCodeInfoからデフォルトの保存場所を取得
+ */
+export function defaultCodeSaveFilepath(taskCodeInfoProps: taskCodeInfo) {
+  const defalutdir = getDefaultdir();
+  // ex:abc200_a.cpp
+  const fileName =
+    taskCodeInfoProps.taskID +
+    languages[taskCodeInfoProps.editorInfo.languagetype].extension;
+  const filePath = path.join(
+    defalutdir,
+    "mycode",
+    taskCodeInfoProps.service,
+    taskCodeInfoProps.taskGroup,
+    fileName
+  );
+  return { filePath, fileName };
+}
+
+/**
  * 保存されたデータを取得する
  */
-export async function readFileData(
-  contestName: string,
-  taskScreenName: string,
-  language: languagetype
-): Promise<{
-  saveDir: string;
-  data: string;
-}> {
-  const defalutdir = getDefaultdir();
-  const contestDir = path.join(defalutdir, "codeData", contestName);
+export async function readCodeFileData(taskPath: string): Promise<string> {
+  const contestDir = path.resolve(taskPath, "../");
   await mkdir(contestDir, { recursive: true }).catch(() => {
     console.log("既に保存ファイルがあります");
   });
 
-  // ex:abc200_a.cpp
-  const fileName = taskScreenName + languages[language].extension;
-  const loadFileDir = path.join(defalutdir, "codeData", contestName, fileName);
-  const fileStatus = await fileExists(loadFileDir);
+  const fileStatus = await fileExists(taskPath);
   if (fileStatus) {
-    const data = await readFile(loadFileDir, "utf-8");
-    return { saveDir: loadFileDir, data: data };
+    const data = await readFile(taskPath, "utf-8");
+    return data;
   } else {
-    return { saveDir: loadFileDir, data: "" };
+    return "";
   }
 }
+
 /**
  * データをファイルに保存する
- * readTaskDataがこれ以前に実行されていないと、
+ * また、TaskInfoにデータを書き込む
  */
-export async function writeFileData(
+export async function writeCodeFileData(
+  filePath: string,
+  fileName: string,
   data: string,
-  contestName: string,
-  taskScreenName: string,
-  language: languagetype
+  taskCodeInfoProps: taskCodeInfo
 ) {
-  const defalutdir = getDefaultdir();
-  // contestDirを作成
-  const contestDir = path.join(defalutdir, "codeData", contestName);
-  await mkdir(contestDir, { recursive: true }).catch(() => {
+  const saveDir = path.resolve(filePath, "../");
+  await mkdir(saveDir, { recursive: true }).catch(() => {
     console.log("既に保存ファイルがあります");
   });
+
   // ファイルに書き込み
-  const fileName = taskScreenName + languages[language].extension;
-  const loadFileDir = path.join(defalutdir, "codeData", contestName, fileName);
-  console.log(`Write:${loadFileDir}`);
-  return writeFile(loadFileDir, data, "utf-8");
+  logger.info(`Write:${filePath}`, "editor-fs");
+  await writeTaskinfo(filePath, fileName, taskCodeInfoProps);
+  return await writeFile(filePath, data, "utf-8");
 }
+
 /**
  * ファイルの存在を調べる
  */
@@ -69,5 +79,67 @@ async function fileExists(filepath: string) {
     return !!(await lstat(filepath));
   } catch (e) {
     return false;
+  }
+}
+
+/**
+ * 指定したコードファイルのTaskInfoの情報を取得
+ */
+export async function loadTaskinfo(filepathData: {
+  filePath: string;
+  fileName: string;
+}): Promise<taskCodeInfo | null> {
+  try {
+    const codeInfoPath = path.resolve(
+      filepathData.filePath,
+      "../taskinfo.json"
+    );
+    const getinfo = await readFile(codeInfoPath, "utf-8");
+    const jsonParse: taskinfos = JSON.parse(getinfo);
+    return jsonParse[filepathData.fileName];
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * 指定したファイルの情報をTaskInfoファイルに書き込む
+ */
+export async function writeTaskinfo(
+  CodeFilepath: string,
+  filename: string,
+  taskinfoIn: taskCodeInfo
+): Promise<void> {
+  try {
+    // ファイルがない場合に備えて作成
+    const saveDir = path.resolve(CodeFilepath, "../");
+    await mkdir(saveDir, { recursive: true }).catch(() => {
+      console.log("既に保存ファイルがあります");
+    });
+    // taskinfo.jsonに関する処理
+    const codeInfoPath = path.resolve(CodeFilepath, "../taskinfo.json");
+    const istaskinfo = await fileExists(codeInfoPath);
+
+    if (istaskinfo) {
+      // すでにファイルがある場合上書きする
+      readFile(codeInfoPath, "utf-8").then((getinfo) => {
+        const taskinfos = JSON.parse(getinfo);
+        taskinfos[filename] = taskinfoIn;
+        const datatojson = JSON.stringify(taskinfos, null, "\t");
+        return writeFile(codeInfoPath, datatojson, "utf-8");
+      });
+    } else {
+      // ファイルが存在しないため新たに作る
+      const taskinfos: taskinfos = {};
+      taskinfos[filename] = taskinfoIn;
+      const datatojson = JSON.stringify(taskinfos, null, "\t");
+      return writeFile(codeInfoPath, datatojson, "utf-8");
+    }
+
+    // データ追記又は更新
+  } catch (error) {
+    console.log(error);
+
+    logger.error("TaskInfoを書き込めませんでした", "editor-fs");
   }
 }

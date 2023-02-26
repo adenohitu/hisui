@@ -1,6 +1,6 @@
 import { app } from "electron";
 import { contestDataApi } from "../../data/contestdata";
-import { taskControlApi } from "../../editor/control";
+import { atcoderMgtApi } from "../../plugin/atcoder/atcoder-mgt";
 import { notificationManagerApi } from "../../tool/notification";
 import { urlOpen } from "../../tool/openExternal";
 import {
@@ -75,7 +75,7 @@ function checkURLEvent(url: string): {
 
   if (checkURLResult) {
     (async () => {
-      taskControlApi.createNewTask(
+      atcoderMgtApi.openTaskCont(
         checkURLResult.contestName,
         checkURLResult.taskScreenName
       );

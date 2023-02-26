@@ -1,22 +1,24 @@
 // taskcontを管理するApi
 import { codeTestInfo } from "../code-test/codetest";
 import { contestDataApi } from "../data/contestdata";
-import { submissionDBApi } from "../data/submission-db";
 import { hisuiEvent } from "../event/event";
+import { defaultCodeSaveFilepath, loadTaskinfo } from "../file/editor-fs";
 import { languagetype } from "../file/extension";
+import { serviceMgtTaskInfo } from "../file/taskinfo";
 import { hisuiEditorChangeModelContentObject } from "../interfaces";
 import { ipcMainManager } from "../ipc/ipc";
 import { store } from "../save/save";
 import { editorStatus, taskcont } from "./taskcont";
 export interface taskContStatusType {
-  contestName: string;
-  taskScreenName: string;
-  AssignmentName: string | null;
-  // 指定がない場合、デフォルトの言語を使用
-  language?: languagetype;
+  service: string;
+  // contestName
+  taskGroup: string;
+  // taskScreenName
+  taskID: string;
 }
 export interface taskNowStatus extends taskContStatusType {
   nowtop?: boolean;
+  margeid: string;
 }
 /**
  * 全てのtaskcontを管理するAPI
@@ -96,42 +98,51 @@ class taskControl {
    * 問題の存在チェックは行わない
    */
   async createNewTask(
-    contestName: string,
-    taskScreenName: string,
-    // 指定がない場合、デフォルトの言語を使用
-    language?: languagetype
+    serviceProps: serviceMgtTaskInfo,
+    editorLanguage?: string
   ) {
-    if (this.taskAll[taskScreenName] !== undefined) {
-      this.changeTask(taskScreenName);
+    const margeId = `${serviceProps.service}-${serviceProps.taskGroup}-${serviceProps.taskID}`;
+    if (this.taskAll[margeId] !== undefined) {
+      this.changeTask(margeId);
     } else {
-      //taskcontを作成
-      if (language === undefined) {
-        let uselang = await store.get("defaultLanguage", "cpp");
-        // const uselang = "cpp";
-        if (uselang === "") {
-          store.set("defaultLanguage", "cpp");
-          uselang = "cpp";
-        }
-        this.taskAll[taskScreenName] = new taskcont(
-          contestName,
-          taskScreenName,
-          uselang
-        );
-      } else {
-        this.taskAll[taskScreenName] = new taskcont(
-          contestName,
-          taskScreenName,
-          language
-        );
+      // デフォルトのEditorLangを設定
+      let uselang = await store.get("defaultLanguage", "cpp");
+      // const uselang = "cpp";
+      if (uselang === "") {
+        store.set("defaultLanguage", "cpp");
+        uselang = "cpp";
       }
+      if (editorLanguage) {
+        uselang = editorLanguage;
+      }
+      let taskInfo = {
+        ...serviceProps,
+        editorInfo: {
+          languagetype: uselang,
+        },
+      };
+      // デフォルトのディレクトリを取得
+      const filepathData = defaultCodeSaveFilepath(taskInfo);
+
+      // ディレクトリーにあるTaskInfoを読み込む
+      // ロードしたものを優先する
+      const loadTaskInfo = await loadTaskinfo(filepathData);
+      if (loadTaskInfo) {
+        taskInfo = loadTaskInfo;
+      }
+      this.taskAll[margeId] = new taskcont(
+        taskInfo,
+        filepathData.filePath,
+        filepathData.fileName
+      );
+
       /**
        * 初回ロードはTopに自動的になる
        * モデルが作られる前にchangeTaskを実行することができない
        */
-      this.nowTop = taskScreenName;
+      this.nowTop = margeId;
       ipcMainManager.send("LISTENER_CHANGE_TASK_CONT_STATUS");
       // 問題の提出一覧を更新
-      submissionDBApi.updateOneTaskSubmissionList(contestName, taskScreenName);
     }
   }
   /**
@@ -143,27 +154,28 @@ class taskControl {
     }
   }
 
-  async changeTask(TaskScreenName: string) {
+  async changeTask(margeId: string) {
     // ViewのTopの変更
-    this.taskAll[TaskScreenName].settopTaskView();
-    this.taskAll[TaskScreenName].resetTaskView();
-    this.nowTop = TaskScreenName;
+    this.taskAll[margeId].settopTaskView();
+    this.taskAll[margeId].resetTaskView();
+    this.nowTop = margeId;
     // editorEvent
     // editorの更新をチェック
     // editorのモデルをチェンジ
-    ipcMainManager.send("SET_EDITOR_MODEL", TaskScreenName);
-    this.taskAll[TaskScreenName].sendValueStatus();
+    ipcMainManager.send("SET_EDITOR_MODEL", margeId);
+    this.taskAll[margeId].sendValueStatus();
   }
   getTaskStatusList(): taskNowStatus[] {
     const statusList = Object.keys(this.taskAll).map((key) => {
       const topStatus = (this.nowTop === key && true) || false;
-      return {
-        contestName: this.taskAll[key].contestName,
-        taskScreenName: this.taskAll[key].taskScreenName,
-        AssignmentName: this.taskAll[key].AssignmentName,
-        language: this.taskAll[key].language,
+      const returnData: taskNowStatus = {
+        service: this.taskAll[key].taskCodeInfo.service,
+        taskGroup: this.taskAll[key].taskCodeInfo.taskGroup,
+        taskID: this.taskAll[key].taskCodeInfo.taskID,
+        margeid: `${this.taskAll[key].taskCodeInfo.service}-${this.taskAll[key].taskCodeInfo.taskGroup}-${this.taskAll[key].taskCodeInfo.taskID}`,
         nowtop: topStatus,
       };
+      return returnData;
     });
     return statusList;
   }
@@ -181,14 +193,7 @@ class taskControl {
    */
   setupIPCMain() {
     // taskcontを作成する
-    ipcMainManager.on("CREATE_TASKCONT", (event, arg: taskContStatusType) => {
-      this.createNewTask(
-        arg.contestName,
-        arg.taskScreenName,
-        // 基本undefined
-        arg.language
-      );
-    });
+
     ipcMainManager.on("CLOSE_TASKCONT", (e, taskScreenName: string) => {
       this.closeTaskCont(taskScreenName);
     });
@@ -215,12 +220,16 @@ class taskControl {
     );
     /**
      * 選択されているTaskContの言語を更新する
+     * TaskContを再生成する
      */
     ipcMainManager.on(
       "SET_NOWTOP_EDITOR_LANGUAGE",
       (e, language: languagetype, load: boolean) => {
         if (this.nowTop !== null) {
-          this.taskAll[this.nowTop].languageChange(language, load);
+          const nowtopTaskInfo = this.taskAll[this.nowTop].taskCodeInfo;
+          this.closeTaskCont(this.nowTop).then(() => {
+            this.createNewTask(nowtopTaskInfo, language);
+          });
         }
       }
     );
@@ -234,7 +243,8 @@ class taskControl {
     // 現在一番上のTaskContの言語を取得
     ipcMainManager.handle("GET_NOWTOP_EDITOR_LANGUAGE", async () => {
       if (this.nowTop !== null) {
-        const dafaultlanguage = await this.taskAll[this.nowTop].language;
+        const dafaultlanguage = await this.taskAll[this.nowTop].taskCodeInfo
+          .editorInfo.languagetype;
         return dafaultlanguage;
       } else {
         const dafaultlanguage = await store.get("defaultLanguage", "cpp");

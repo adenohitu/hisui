@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { taskList } from "../../../../../src_main/data/scraping/tasklist";
-import { taskNowStatus } from "../../../../../src_main/editor/control";
+import {
+  taskContStatusType,
+  taskNowStatus,
+} from "../../../../../src_main/editor/control";
 import { ipcRendererManager } from "../../../../ipc";
 
 export const useSelectTask = () => {
@@ -45,14 +48,12 @@ export const useSelectTask = () => {
     // taskContを作成
     // 存在する場合フォーカスする
     const data = nowContestTaskList[newValue];
-    console.log({
-      contestName: data.contestName,
-      taskScreenName: data.taskScreenName,
-    });
-    ipcRendererManager.send("CREATE_TASKCONT", {
-      contestName: data.contestName,
-      taskScreenName: data.taskScreenName,
-    });
+    const createTaskcontArg: taskContStatusType = {
+      service: "atcoder",
+      taskGroup: data.contestName,
+      taskID: data.taskScreenName,
+    };
+    ipcRendererManager.send("CREATE_TASKCONT", createTaskcontArg);
   };
 
   const custonValueChange = (newValue: number) => {
@@ -60,14 +61,14 @@ export const useSelectTask = () => {
     // taskContを作成
     // 存在する場合フォーカスする
     const data = taskList[newValue];
-    console.log({
-      contestName: data.contestName,
-      taskScreenName: data.taskScreenName,
-    });
-    ipcRendererManager.send("CREATE_TASKCONT", {
-      contestName: data.contestName,
-      taskScreenName: data.taskScreenName,
-    });
+    const createTaskcontArg: taskContStatusType = {
+      service: "atcoder",
+      taskGroup: data.taskGroup,
+      taskID: data.taskID,
+    };
+    console.log(createTaskcontArg);
+
+    ipcRendererManager.send("CREATE_TASKCONT", createTaskcontArg);
   };
   /**
    * 	TaskContを閉じる

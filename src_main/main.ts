@@ -36,6 +36,7 @@ import { setupAutoUpdater } from "./service/autoupdate";
 import { setupStoreIPC } from "./save/store-ipc";
 import { setupStoreDockerDefaultValue } from "./vm-system/docker-path";
 import { submissionDBApi } from "./data/submission-db";
+import { atcoderMgtApi } from "./plugin/atcoder/atcoder-mgt";
 // import installExtension, {
 //   REACT_DEVELOPER_TOOLS,
 // } from "electron-devtools-installer";
@@ -216,3 +217,5 @@ setupAutoUpdater();
 // Storeに初期値をセット
 setupStoreDockerDefaultValue();
 submissionDBApi.setupEvent();
+
+atcoderMgtApi.setupIPCMain();
