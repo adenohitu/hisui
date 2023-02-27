@@ -267,6 +267,36 @@ class submissionDB {
       logger.info(`need to login`, "submissionDBAPI");
     }
   }
+  /**
+   * 提出一覧に、問題名がうまく取得できていないものがあったとき、
+   * 更新するための関数
+   * 起動時に一度実行する
+   * cachePloblemSubmissionMeAllListで発生する可能性がある問題
+   * cacheAtCoderSubmissionsMeAllListでは、問題名だけ取得できないことはない。
+   */
+  async submissionsTaskName() {
+    const mergedProblemReq = await ploblemAxiosInstance.get(
+      "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+    );
+    if (mergedProblemReq.status === 200) {
+      this.cacheMergedProblem = mergedProblemReq.data;
+      const newListData = this.cachePloblemSubmissionMeAllList.map((ele) => {
+        const taskData = this.cacheMergedProblem?.find(
+          (data) => data.id === ele.taskScreenName
+        );
+        if (taskData) {
+          ele.taskname_render = taskData.title;
+        }
+        return ele;
+      });
+      this.cachePloblemSubmissionMeAllList = newListData;
+      this.cachePloblemSubmissionMeAllList = this.sortAllList(
+        this.cachePloblemSubmissionMeAllList
+      );
+      this.updateAllList(newListData, true);
+      this.saveCachePloblemsSubmissions();
+    }
+  }
 
   /**
    * submitCheckで発生するイベントから、リストを更新する
@@ -275,7 +305,10 @@ class submissionDB {
   async setupEvent() {
     // キャッシュの読み込み
     this.loadCachePloblemsSubmissions();
-    this.loadCacheAtCoderSubmissions();
+    this.loadCacheAtCoderSubmissions().then(() => {
+      // キャッシュデータの不具合を修正
+      this.submissionsTaskName();
+    });
     // submissionsを更新する
     ipcMainManager.on("RUN_UPDATE_SUBMISSIONS", () => {
       this.updateDefaultContestSubmissionList();
