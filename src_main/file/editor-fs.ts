@@ -123,10 +123,18 @@ export async function writeTaskinfo(
     if (istaskinfo) {
       // すでにファイルがある場合上書きする
       readFile(codeInfoPath, "utf-8").then((getinfo) => {
-        const taskinfos = JSON.parse(getinfo);
-        taskinfos[filename] = taskinfoIn;
-        const datatojson = JSON.stringify(taskinfos, null, "\t");
-        return writeFile(codeInfoPath, datatojson, "utf-8");
+        try {
+          const taskinfos = JSON.parse(getinfo);
+          taskinfos[filename] = taskinfoIn;
+          const datatojson = JSON.stringify(taskinfos, null, "\t");
+          return writeFile(codeInfoPath, datatojson, "utf-8");
+        } catch (error) {
+          // Json parseでエラーが生じたため、新規作成
+          const taskinfos: taskinfos = {};
+          taskinfos[filename] = taskinfoIn;
+          const datatojson = JSON.stringify(taskinfos, null, "\t");
+          return writeFile(codeInfoPath, datatojson, "utf-8");
+        }
       });
     } else {
       // ファイルが存在しないため新たに作る
