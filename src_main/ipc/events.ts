@@ -26,7 +26,6 @@ export const IpcEvents = {
   GET_TASK_LIST: { mode: "handle" },
   GET_MOSAIC_WINDOW_STATE: { mode: "handle" },
   SAVE_MOSAIC_WINDOW_STATE: { mode: "on" },
-  CHANGE_VIEW_TOP: { mode: "on" },
   RUN_COPY_CLIPBOARD: { mode: "on" },
   RUN_GET_CLIPBOARD: { mode: "handle" },
   OPEN_LOGIN_DIALOG: { mode: "on" },

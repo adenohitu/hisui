@@ -13,7 +13,6 @@ import {
   startCheckServiceStatus,
   stopCheckServiceStatus,
 } from "./service/setvice";
-import { changeViewapi } from "./browserview/mgt/changeview";
 import { timerApi } from "./clock/timer";
 import { hisuiEvent } from "./event/event";
 import { taskViewWindowApi } from "./browser/taskviewwindow";
@@ -23,7 +22,7 @@ import { setBrowserCoockie } from "./save/utility/session";
 import { setupDefaultFolder } from "./file/file";
 import { monitoringWebContents } from "./browser/monitoring/monitoring";
 import { monacoSettingApi } from "./editor/monaco";
-import { reloadAllWebContents } from "./browserview/mgt/reload-all";
+import { reloadAllWebContents } from "./browser/tool/reload-all";
 import { setupContextMenu } from "./menu/context-menu";
 import { setupProtocols } from "./tool/protocols";
 import { setMenu } from "./menu/window-menu";
@@ -134,7 +133,6 @@ function createWindow() {
   }
   //初期Viewを指定
   initView().then(() => {
-    changeViewapi.change("main");
     // createsampleViewapi.openDevTool();
     // timerをセットアップ
     timerApi.startTimer();
@@ -189,7 +187,6 @@ hisuiEvent.on("login", async () => {
 hisuiEvent.on("logout", async () => {
   reloadAllWebContents();
 });
-changeViewapi.setup();
 monacoSettingApi.setup();
 // StoreにアクセスするIPCの初期化
 setupStoreIPC();

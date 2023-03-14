@@ -240,7 +240,6 @@ export const WindowRoot = () => {
 
   const pageChange = (viewName: string) => {
     setlocation(viewName);
-    ipcRendererManager.send("CHANGE_VIEW_TOP", viewName);
   };
   const classes = useStyles();
   const [open, setOpen] = useState(false);

@@ -9,7 +9,6 @@ import { contestDataApi } from "../data/contestdata";
 import { getRank, getTotal, standingsApi } from "../data/standing";
 import { TaskListApi } from "../data/task";
 import { getUserData } from "../data/userdata";
-import { changeViewapi } from "../browserview/mgt/changeview";
 import { copyClipboard, readClipboard } from "../tool/clipboard";
 import { submissionsApi } from "../data/submissions";
 import { ipcMainManager } from "./ipc";
@@ -109,10 +108,6 @@ export const load_ipc = () => {
   ipcMainManager.handle("GET_TASK_LIST", async (event, cache) => {
     const get = await TaskListApi.getTaskList(cache);
     return get;
-  });
-  //表示するViewを変更
-  ipcMainManager.on("CHANGE_VIEW_TOP", (event, viewName) => {
-    changeViewapi.change(viewName);
   });
 
   //クリップボードに書き込む
