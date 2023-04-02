@@ -2,7 +2,7 @@
  *======================================================================
  *Project Name    : Hisui
  *File Name       : sample.ts
- *Copyright © 2021-2022 adenohitu. All rights reserved.
+ *Copyright © 2020-2023 adenohitu. All rights reserved.
  *======================================================================
  */
 

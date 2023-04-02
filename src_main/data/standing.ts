@@ -1,5 +1,5 @@
 //順位表に関するモジュール
-//Copyright © 2021-2022 adenohitu. All rights reserved.
+//Copyright © 2020-2023 adenohitu. All rights reserved.
 import { Atcoder } from "./atcoder";
 import { contestDataApi } from "./contestdata";
 import { totalfn } from "./logic/standingTotal";
