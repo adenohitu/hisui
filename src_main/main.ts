@@ -48,6 +48,8 @@ class AppMain {
     setupAutoUpdater();
     // Windowの起動
     this.appStart();
+    this.checkSingleInstance();
+    this.loginReload();
   }
   /**
    * 起動のメイン処理
