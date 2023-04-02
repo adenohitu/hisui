@@ -7,11 +7,11 @@ import { setWindowSplit } from "../browser/tool/monitorsize";
 import { ipcMainManager } from "../ipc/ipc";
 import { resetMosaicState } from "../save/utility/mosaic-state";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
-import { win } from "../main";
 import { TaskListApi } from "../data/task";
 import path from "path";
 import { notificationManagerApi } from "../tool/notification";
 import { submissionDBApi } from "../data/submission-db";
+import { appMain } from "../main";
 const isMac = process.platform === "darwin";
 const packd = app.isPackaged;
 
@@ -155,7 +155,7 @@ function getDevelopMenu(
           {
             label: "DevToolsOnMainwindow",
             click(item: any, focusedWindow: any, event: any) {
-              win?.webContents.openDevTools({ mode: "detach" });
+              appMain.win?.webContents.openDevTools({ mode: "detach" });
             },
           },
           {

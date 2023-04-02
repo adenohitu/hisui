@@ -1,7 +1,7 @@
 import { app, dialog } from "electron";
 import { autoUpdater } from "electron-updater";
 import { ipcMainManager } from "../ipc/ipc";
-import { win } from "../main";
+import { appMain } from "../main";
 import { logger } from "../tool/logger/logger";
 export function setupAutoUpdater() {
   app.on("ready", function () {
@@ -47,8 +47,8 @@ export function setupAutoUpdater() {
     };
 
     // ダイアログを表示しすぐに再起動するか確認
-    if (win) {
-      dialog.showMessageBox(win, dialogOpts).then((returnValue) => {
+    if (appMain.win) {
+      dialog.showMessageBox(appMain.win, dialogOpts).then((returnValue) => {
         if (returnValue.response === 0) {
           autoUpdater.quitAndInstall();
         }

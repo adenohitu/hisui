@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BrowserWindow } from "electron";
 import { taskViewWindowApi } from "../browser/taskviewwindow";
-import { win } from "../main";
+import { appMain } from "../main";
 import { logger } from "../tool/logger/logger";
 import { servicestatus } from "./status";
 const { app, dialog } = require("electron");
@@ -36,7 +36,7 @@ export async function runServiceStatus() {
 
     if (statusData.useapp === false) {
       if (process.platform !== "win32") {
-        win?.close();
+        appMain.win?.close();
         taskViewWindowApi.close();
       }
       if (statusData.statusMessage !== null) {

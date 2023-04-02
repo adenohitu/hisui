@@ -1,5 +1,5 @@
 import { app, screen } from "electron";
-import { win } from "../../main";
+import { appMain } from "../../main";
 import { logger } from "../../tool/logger/logger";
 import { taskViewWindowApi } from "../taskviewwindow";
 
@@ -8,7 +8,7 @@ import { taskViewWindowApi } from "../taskviewwindow";
  */
 export const setWindowSplit = () => {
   if (app.isReady()) {
-    if (win !== null) {
+    if (appMain.win !== null) {
       // 中間を計算、Windowの位置を作成
       const displayStatus = screen.getPrimaryDisplay();
       const centerwidth = Math.floor(displayStatus.workArea.width / 2);
@@ -25,7 +25,7 @@ export const setWindowSplit = () => {
         height: displayStatus.workArea.height,
       };
       // windowにセット
-      win.setBounds(leftWindowSize);
+      appMain.win.setBounds(leftWindowSize);
       taskViewWindowApi.win?.setBounds(rightWindowSize);
       logger.info("windowSetSplit", "WindowManager");
     } else {
@@ -39,6 +39,6 @@ export const setWindowSplit = () => {
 export const logMonitorSize = () => {
   //   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   console.log(screen.getPrimaryDisplay());
-  console.log(win?.getBounds());
+  console.log(appMain.win?.getBounds());
   console.log(taskViewWindowApi.win?.getBounds());
 };

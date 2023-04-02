@@ -4,7 +4,7 @@ import path from "path";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { ipcMainManager } from "../ipc/ipc";
-import { win } from "../main";
+import { appMain } from "../main";
 import { store } from "../save/save";
 import { baseAtCoderUrl } from "../static";
 import { logger } from "../tool/logger/logger";
@@ -87,7 +87,7 @@ export class taskViewWindow {
       this.win = null;
       // viewは閉じた時に全て消去される
       this.view = {};
-      win?.close();
+      appMain.win?.close();
     });
     // ロード
     if (!app.isPackaged) {
