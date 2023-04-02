@@ -202,7 +202,6 @@ export class taskViewWindow {
   }
   async changePrimaryID(id: string | null) {
     this.nowPrimaryViewId = id;
-    this.win?.webContents.send("LISTENER_NOW_PRIMARY_VIEW", id);
   }
   /**
    * nowPrimaryViewIdのVIEWに戻す
