@@ -1,4 +1,4 @@
-import { taskViewWindowApi } from "../../browser/taskviewwindow";
+import { taskViewWindowApi } from "../taskviewwindow";
 import { win } from "../../main";
 
 /**
