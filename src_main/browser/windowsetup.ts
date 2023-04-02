@@ -1,4 +1,4 @@
-import { win } from "../main";
+import { appMain } from "../main";
 import { taskViewWindowApi } from "./taskviewwindow";
 type windowmode = "opacity" | "normal";
 /**
@@ -10,15 +10,15 @@ export function setWindowMode(mode: windowmode) {
       if (checkfullscreen() === false) {
         if (focus === "main") {
           taskViewWindowApi.win?.moveTop();
-          win?.moveTop();
+          appMain.win?.moveTop();
         } else if (focus === "task") {
-          win?.moveTop();
+          appMain.win?.moveTop();
           taskViewWindowApi.win?.moveTop();
         }
       }
     };
     // eventの設定
-    win?.on("focus", () => {
+    appMain.win?.on("focus", () => {
       allwindowTop("main");
     });
     taskViewWindowApi.win?.on("focus", () => {
@@ -33,7 +33,7 @@ export function setWindowMode(mode: windowmode) {
  * あればtrue,なければfalse
  */
 export function checkfullscreen() {
-  if (win?.isFullScreen() === true) {
+  if (appMain.win?.isFullScreen() === true) {
     return true;
   } else if (taskViewWindowApi.win?.isFullScreen() === true) {
     return true;

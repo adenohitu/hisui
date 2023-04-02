@@ -64,6 +64,6 @@ Bata 版段階では、Pull Request に対応できないかもしれません�
 [CONTRIBUTING.md](https://github.com/adenohitu/hisui/blob/main/CONTRIBUTING.md)(作成中)
 ## License
 
-Copyright (C) 2020-2022 Adenohitu  
+Copyright (C) 2020-2023 Adenohitu  
 このソフトウェアは GNU Affero General Public License v3.0 (AGPLv3)のライセンスのもとで公開されています。  
 [LICENSE.md](https://github.com/adenohitu/hisui/blob/main/LICENSE)

@@ -1,6 +1,6 @@
 import { app, dialog } from "electron";
 import path from "path";
-import { win } from "../main";
+import { appMain } from "../main";
 
 export const setupProtocols = () => {
   if (process.defaultApp) {
@@ -14,8 +14,8 @@ export const setupProtocols = () => {
   }
   // プロトコルのハンドリング。 今回は、エラーボックスを表示することにします。
   app.on("open-url", (event, url) => {
-    if (win)
-      dialog.showMessageBox(win, {
+    if (appMain.win)
+      dialog.showMessageBox(appMain.win, {
         message: url,
       });
   });

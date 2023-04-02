@@ -2,7 +2,7 @@
  *======================================================================
  *Project Name    : Hisui
  *File Name       : samplecreate.ts
- *Copyright © 2021-2022 adenohitu. All rights reserved.
+ *Copyright © 2020-2023 adenohitu. All rights reserved.
  *contributors    : @altair_kyopro
  *======================================================================
  */

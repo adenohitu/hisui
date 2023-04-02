@@ -1,4 +1,5 @@
 // taskcontを管理するApi
+import { taskViewWindowApi } from "../browser/taskviewwindow";
 import { codeTestInfo } from "../code-test/codetest";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
@@ -83,6 +84,7 @@ class taskControl {
         taskcodeByte: "-",
       };
       ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
+      taskViewWindowApi.win?.webContents.send("LISTENER_NOW_PRIMARY_VIEW", "");
     }
   }
   /**

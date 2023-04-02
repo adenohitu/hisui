@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { win } from "../main";
+import { appMain } from "../main";
 
 import { IpcEventsKey } from "./events";
 
@@ -42,7 +42,7 @@ class IpcMainManager {
    * にsendする
    */
   public send(channel: IpcEventsKey, ...args: any[]) {
-    win?.webContents.send(channel, ...args);
+    appMain.win?.webContents.send(channel, ...args);
     // mainPageapi.send(channel, ...args);
     // editorViewapi.send(channel, ...args);
     // dashboardapi.send(channel, ...args);

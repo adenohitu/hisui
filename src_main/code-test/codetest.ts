@@ -1,5 +1,5 @@
 // AtCoder custom_testを使ったコードのテスト
-//Copyright © 2021-2022 adenohitu. All rights reserved.
+//Copyright © 2020-2023 adenohitu. All rights reserved.
 import { EventEmitter } from "events";
 import path from "path";
 import { taskViewWindowApi } from "../browser/taskviewwindow";

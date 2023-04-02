@@ -1,5 +1,5 @@
 // HisuiEventのType
-// Copyright © 2021-2022 adenohitu. All rights reserved.
+// Copyright © 2020-2023 adenohitu. All rights reserved.
 /// <reference types="node" />
 import { EventEmitter } from "events";
 import { submitStatus } from "../data/scraping/submit-data";

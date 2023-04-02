@@ -249,6 +249,11 @@ export class taskcont {
       taskcodeByte: byteLength,
     };
     ipcMainManager.send("LISTENER_EDITOR_STATUS", result);
+
+    taskViewWindowApi.win?.webContents.send(
+      "LISTENER_NOW_PRIMARY_VIEW",
+      this.taskCodeInfo.taskID
+    );
   }
 
   // 提出

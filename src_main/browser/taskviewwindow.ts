@@ -1,10 +1,10 @@
-//Copyright © 2021-2022 adenohitu. All rights reserved.
+//Copyright © 2020-2023 adenohitu. All rights reserved.
 import { app, BrowserView, BrowserWindow } from "electron";
 import path from "path";
 import { contestDataApi } from "../data/contestdata";
 import { hisuiEvent } from "../event/event";
 import { ipcMainManager } from "../ipc/ipc";
-import { win } from "../main";
+import { appMain } from "../main";
 import { store } from "../save/save";
 import { baseAtCoderUrl } from "../static";
 import { logger } from "../tool/logger/logger";
@@ -87,7 +87,7 @@ export class taskViewWindow {
       this.win = null;
       // viewは閉じた時に全て消去される
       this.view = {};
-      win?.close();
+      appMain.win?.close();
     });
     // ロード
     if (!app.isPackaged) {
@@ -202,7 +202,6 @@ export class taskViewWindow {
   }
   async changePrimaryID(id: string | null) {
     this.nowPrimaryViewId = id;
-    this.win?.webContents.send("LISTENER_NOW_PRIMARY_VIEW", id);
   }
   /**
    * nowPrimaryViewIdのVIEWに戻す
