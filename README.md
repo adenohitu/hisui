@@ -1,6 +1,6 @@
 # Hisui--競技プログラミングサポートツール--
 
-現在 [Github Sponsor](https://github.com/sponsors/adenohitu)にて支援を募っています。 よろしくお願いします！
+This project is archived.
 
 * * *
 
